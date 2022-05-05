@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:meddly/blocs.dart';
-import 'package:meddly/login/view/view.dart';
 import 'package:meddly/sign_up/view/view.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -54,32 +53,31 @@ void main() {
       });
     });
 
-    group('navigates', () {
-      Widget createSignUpPage() {
-        return RepositoryProvider.value(
-          value: authenticationRepository,
-          child: MultiBlocProvider(
-            providers: [
-              BlocProvider(create: (_) => authBloc),
-              BlocProvider(create: (_) => signUpCubit),
-            ],
-            child: MaterialApp(
-                routes: {'/login': (_) => LoginPage()},
-                home: const SignUpPage()),
-          ),
-        );
-      }
+    // group('navigates', () {
+    //   Widget createSignUpPage() {
+    //     return RepositoryProvider.value(
+    //       value: authenticationRepository,
+    //       child: MultiBlocProvider(
+    //         providers: [
+    //           BlocProvider(create: (_) => authBloc),
+    //           BlocProvider(create: (_) => signUpCubit),
+    //         ],
+    //         child: MaterialApp(
+    //             routes: {'/login': (_) => LoginPage()},
+    //             home: const SignUpPage()),
+    //       ),
+    //     );
+    //   }
 
-      testWidgets('to LoginPage when Log In is pressed', (tester) async {
-        when(() => authBloc.state)
-            .thenReturn(const AuthState.unauthenticated());
-        await tester.pumpWidget(createSignUpPage());
-        await tester.ensureVisible(find.byKey(loginButtonKey));
-        await tester.tap(find.byKey(loginButtonKey));
-        await tester.pumpAndSettle();
+    // testWidgets('to LoginPage when Log In is pressed', (tester) async {
+    //   when(() => authBloc.state)
+    //       .thenReturn(const AuthState.unauthenticated());
+    //   await tester.pumpWidget(createSignUpPage());
+    //   await tester.ensureVisible(find.byKey(loginButtonKey));
+    //   await tester.tap(find.byKey(loginButtonKey));
+    //   await tester.pumpAndSettle();
 
-        expect(find.byType(LoginPage), findsOneWidget);
-      });
-    });
+    //   expect(find.byType(LoginPage), findsOneWidget);
+    // });
   });
 }
