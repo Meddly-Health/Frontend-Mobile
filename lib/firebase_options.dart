@@ -59,7 +59,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '238329653617',
     projectId: 'meddly-fbcf7',
     storageBucket: 'meddly-fbcf7.appspot.com',
-    iosClientId: '238329653617-4kh9u60strvlrhbp56ncsjup4uhh068p.apps.googleusercontent.com',
+    iosClientId:
+        '238329653617-4kh9u60strvlrhbp56ncsjup4uhh068p.apps.googleusercontent.com',
     iosBundleId: 'com.example.meddly',
   );
 }
