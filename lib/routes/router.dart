@@ -6,7 +6,11 @@ import '../login/view/view.dart';
 
 part 'router.gr.dart';
 
-@MaterialAutoRouter(routes: routes, replaceInRouteName: 'Page,Route')
+@CustomAutoRouter(
+    routes: routes,
+    replaceInRouteName: 'Page,Route',
+    transitionsBuilder: TransitionsBuilders.noTransition,
+    durationInMilliseconds: 200)
 class AppRouter extends _$AppRouter {}
 
 const List<AutoRoute> routes = [
