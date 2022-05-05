@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "238329653617-utlm1603lrsphunmgkr0t5cjjfuej55p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.meddly",
+            "certificate_hash": "17f657cbad5368c23dd949184f6df154523257a9"
+          }
+        },
+        {
           "client_id": "238329653617-ut6ga92b5eb2v2c20l4pnh7u4omm5lh4.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,6 +37,13 @@
             {
               "client_id": "238329653617-ut6ga92b5eb2v2c20l4pnh7u4omm5lh4.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "238329653617-4kh9u60strvlrhbp56ncsjup4uhh068p.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.meddly"
+              }
             }
           ]
         }
