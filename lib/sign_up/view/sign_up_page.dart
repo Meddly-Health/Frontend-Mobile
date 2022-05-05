@@ -6,21 +6,20 @@ import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
 import 'package:meddly/helpers/assets_provider.dart';
 import 'package:meddly/helpers/constants.dart';
-import 'package:meddly/login/cubit/login_cubit.dart';
 import 'package:meddly/routes/router.dart';
+import 'package:meddly/sign_up/cubit/sign_up_cubit.dart';
+import 'package:meddly/sign_up/view/sign_up_form.dart';
 
-import 'login_form.dart';
-
-class LoginPage extends StatelessWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          LoginCubit(RepositoryProvider.of<AuthenticationRepository>(context)),
+          SignUpCubit(RepositoryProvider.of<AuthenticationRepository>(context)),
       child: Scaffold(
-        body: BlocListener<LoginCubit, LoginState>(
+        body: BlocListener<SignUpCubit, SignUpState>(
           listener: (context, state) {
             if (state.status.isSubmissionFailure) {
               AutoRouter.of(context).pop();
@@ -38,6 +37,9 @@ class LoginPage extends StatelessWidget {
                   builder: (context) =>
                       const Center(child: CircularProgressIndicator()));
             }
+            if (state.status.isSubmissionSuccess) {
+              ///
+            }
           },
           child: Container(
             padding: defaultPadding,
@@ -51,9 +53,9 @@ class LoginPage extends StatelessWidget {
                       const Spacer(flex: 1),
                       SvgPicture.asset(AssetsProvider.meddly_logo),
                       const Spacer(flex: 1),
-                      const LoginForm(),
+                      const SignUpForm(),
                       const Spacer(flex: 3),
-                      const _DontHaveAnAccountText(),
+                      const _AlreadyHaveAnAccountText(),
                     ],
                   ),
                 ),
@@ -66,26 +68,23 @@ class LoginPage extends StatelessWidget {
   }
 }
 
-class _DontHaveAnAccountText extends StatelessWidget {
-  const _DontHaveAnAccountText({
+class _AlreadyHaveAnAccountText extends StatelessWidget {
+  const _AlreadyHaveAnAccountText({
     Key? key,
   }) : super(key: key);
-
-  @visibleForTesting
-  static const testingKey = Key('go_to_signup');
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      key: testingKey,
+      key: const Key('signUpTextButton'),
       onTap: () => AutoRouter.of(context)
-          .pushAndPopUntil(const SignUpRoute(), predicate: (route) => false),
+          .pushAndPopUntil(const LoginRoute(), predicate: (route) => false),
       child: Text.rich(TextSpan(children: [
         TextSpan(
-            text: '¿No tienes cuenta? ',
+            text: '¿Ya tienes cuenta? ',
             style: Theme.of(context).textTheme.bodyMedium),
         TextSpan(
-            text: 'Registrate',
+            text: 'Inicia Sesión',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.bold)),
