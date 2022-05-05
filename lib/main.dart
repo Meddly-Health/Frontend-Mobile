@@ -1,9 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meddly/theme/theme.dart';
 
+import 'bloc_observer.dart';
 import 'routes/router.dart';
 import 'firebase_options.dart';
 
@@ -13,9 +16,15 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   var authenticationRespository = AuthenticationRepository();
-  runApp(MyApp(
-    authenticationRepository: authenticationRespository,
-  ));
+
+  BlocOverrides.runZoned(
+    () {
+      runApp(MyApp(
+        authenticationRepository: authenticationRespository,
+      ));
+    },
+    blocObserver: MyBlocObserver(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -36,6 +45,8 @@ class MyApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp.router(
+        theme: ThemeManager.lightTheme,
+        debugShowCheckedModeBanner: false,
         routeInformationParser: _router.defaultRouteParser(),
         routerDelegate: _router.delegate(initialRoutes: [const LoginRoute()]),
       ),
