@@ -34,13 +34,23 @@ class _$AppRouter extends RootStackRouter {
           durationInMilliseconds: 200,
           opaque: true,
           barrierDismissible: false);
+    },
+    HomeRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const HomePage(),
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 200,
+          opaque: true,
+          barrierDismissible: false);
     }
   };
 
   @override
   List<RouteConfig> get routes => [
         RouteConfig(LoginRoute.name, path: 'login'),
-        RouteConfig(SignUpRoute.name, path: 'signup')
+        RouteConfig(SignUpRoute.name, path: 'signup'),
+        RouteConfig(HomeRoute.name, path: '')
       ];
 }
 
@@ -58,4 +68,12 @@ class SignUpRoute extends PageRouteInfo<void> {
   const SignUpRoute() : super(SignUpRoute.name, path: 'signup');
 
   static const String name = 'SignUpRoute';
+}
+
+/// generated route for
+/// [HomePage]
+class HomeRoute extends PageRouteInfo<void> {
+  const HomeRoute() : super(HomeRoute.name, path: '');
+
+  static const String name = 'HomeRoute';
 }

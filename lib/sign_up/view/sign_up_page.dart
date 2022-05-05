@@ -7,8 +7,9 @@ import 'package:formz/formz.dart';
 import 'package:meddly/helpers/assets_provider.dart';
 import 'package:meddly/helpers/constants.dart';
 import 'package:meddly/routes/router.dart';
-import 'package:meddly/sign_up/cubit/sign_up_cubit.dart';
 import 'package:meddly/sign_up/view/sign_up_form.dart';
+
+import '../../blocs.dart';
 
 class SignUpPage extends StatelessWidget {
   const SignUpPage({Key? key}) : super(key: key);
@@ -18,45 +19,54 @@ class SignUpPage extends StatelessWidget {
     return BlocProvider(
       create: (context) =>
           SignUpCubit(RepositoryProvider.of<AuthenticationRepository>(context)),
-      child: Scaffold(
-        body: BlocListener<SignUpCubit, SignUpState>(
-          listener: (context, state) {
-            if (state.status.isSubmissionFailure) {
-              AutoRouter.of(context).pop();
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.errorMessage ?? 'Error'),
-                  backgroundColor: Colors.red,
-                ),
-              );
-            }
-            if (state.status.isSubmissionInProgress) {
-              showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (context) =>
-                      const Center(child: CircularProgressIndicator()));
-            }
-            if (state.status.isSubmissionSuccess) {
-              ///
-            }
-          },
-          child: Container(
-            padding: defaultPadding,
-            child: SafeArea(
-              child: SingleChildScrollView(
-                child: SizedBox(
-                  height: MediaQuery.of(context).size.height -
-                      kBottomNavigationBarHeight,
-                  child: Column(
-                    children: [
-                      const Spacer(flex: 1),
-                      SvgPicture.asset(AssetsProvider.meddly_logo),
-                      const Spacer(flex: 1),
-                      const SignUpForm(),
-                      const Spacer(flex: 3),
-                      const _AlreadyHaveAnAccountText(),
-                    ],
+      child: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state.user.isNotEmpty) {
+            AutoRouter.of(context).pushAndPopUntil(const HomeRoute(),
+                predicate: ((route) => false));
+          }
+        },
+        child: Scaffold(
+          body: BlocListener<SignUpCubit, SignUpState>(
+            listener: (context, state) {
+              if (state.status.isSubmissionFailure) {
+                AutoRouter.of(context).pop();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.errorMessage ?? 'Error'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+              if (state.status.isSubmissionInProgress) {
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) =>
+                        const Center(child: CircularProgressIndicator()));
+              }
+              if (state.status.isSubmissionSuccess) {
+                ///
+              }
+            },
+            child: Container(
+              padding: defaultPadding,
+              child: SafeArea(
+                child: SingleChildScrollView(
+                  child: SizedBox(
+                    height: MediaQuery.of(context).size.height -
+                        kBottomNavigationBarHeight -
+                        kToolbarHeight,
+                    child: Column(
+                      children: [
+                        const Spacer(flex: 1),
+                        SvgPicture.asset(AssetsProvider.meddly_logo),
+                        const Spacer(flex: 1),
+                        const SignUpForm(),
+                        const Spacer(flex: 3),
+                        const _AlreadyHaveAnAccountText(),
+                      ],
+                    ),
                   ),
                 ),
               ),
