@@ -235,7 +235,7 @@ class _PasswordField extends StatelessWidget {
               errorStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).colorScheme.error,
                   overflow: TextOverflow.visible),
-              errorMaxLines: 2,
+              errorMaxLines: 3,
               labelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
