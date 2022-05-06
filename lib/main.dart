@@ -14,7 +14,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  var authenticationRespository = AuthenticationRepository();
+  var authenticationRespository =
+      AuthenticationRepository(languageCode: LanguageCode.es);
   var authBloc = AuthBloc(authenticationRepository: authenticationRespository);
 
   BlocOverrides.runZoned(

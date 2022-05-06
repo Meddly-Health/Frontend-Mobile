@@ -78,14 +78,17 @@ class _LogginButton extends StatelessWidget {
           key: const Key('login_button'),
           onTap: () async {
             FocusManager.instance.primaryFocus?.unfocus();
-            if (state.status.isValid) {
+
+            if (state.email.value.isNotEmpty &&
+                state.password.value.isNotEmpty) {
               context.read<LoginCubit>().logInWithCredentials();
             }
           },
           child: AnimatedContainer(
               height: 55,
               decoration: BoxDecoration(
-                color: state.status.isValid
+                color: state.email.value.isNotEmpty &&
+                        state.password.value.isNotEmpty
                     ? Theme.of(context).colorScheme.primary
                     : Theme.of(context).colorScheme.secondaryContainer,
                 borderRadius: BorderRadius.circular(10),
@@ -110,8 +113,7 @@ class _EmailField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
-        bool showErrorText =
-            state.status.isSubmissionFailure && state.email.invalid;
+        bool showErrorText = state.status.isSubmissionFailure;
 
         return TextFormField(
             key: const Key('login_email'),
@@ -154,7 +156,7 @@ class _EmailField extends StatelessWidget {
                 borderSide:
                     BorderSide(color: Theme.of(context).colorScheme.error),
               ),
-              errorText: !showErrorText ? null : 'El email es incorrecto.',
+              errorText: !showErrorText ? null : '',
               errorStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context).colorScheme.error,
                   ),
@@ -182,8 +184,7 @@ class _PasswordField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
-        bool showErrorText =
-            state.status.isSubmissionFailure && state.password.invalid;
+        bool showErrorText = state.status.isSubmissionFailure;
 
         return TextFormField(
             key: const Key('login_password'),
@@ -193,7 +194,9 @@ class _PasswordField extends StatelessWidget {
             },
             onFieldSubmitted: (String? value) {
               FocusManager.instance.primaryFocus?.unfocus();
-              if (state.status.isValid) {
+
+              if (state.email.value.isNotEmpty &&
+                  state.password.value.isNotEmpty) {
                 context.read<LoginCubit>().logInWithCredentials();
               }
             },
@@ -233,7 +236,7 @@ class _PasswordField extends StatelessWidget {
                 borderSide:
                     BorderSide(color: Theme.of(context).colorScheme.error),
               ),
-              errorText: !showErrorText ? null : 'La contraseña es incorrecta.',
+              errorText: !showErrorText ? null : '',
               errorStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).colorScheme.error,
                   overflow: TextOverflow.visible),
