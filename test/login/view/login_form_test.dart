@@ -24,7 +24,7 @@ class MockPassword extends Mock implements Password {}
 void main() {
   const emailInputKey = Key('login_email');
   const passwordInputKey = Key('login_password');
-  // const signInWithGoogleButtonKey = Key('signInWithGoogle_button');
+  const signInWithGoogleButtonKey = Key('google_login_button');
 
   const testEmail = 'test@gmail.com';
   const testPassword = 'testP@ssw0rd1';
@@ -77,81 +77,21 @@ void main() {
         verify(() => loginCubit.passwordChanged(testPassword)).called(1);
       });
 
-      // testWidgets('logInWithGoogle when sign in with google button is pressed',
-      //     (tester) async {
-      //   await tester.pumpWidget(
-      //     MaterialApp(
-      //       home: Scaffold(
-      //         body: BlocProvider.value(
-      //           value: loginCubit,
-      //           child: const LoginForm(),
-      //         ),
-      //       ),
-      //     ),
-      //   );
-      //   await tester.tap(find.byKey(signInWithGoogleButtonKey));
-      //   verify(() => loginCubit.logInWithGoogle()).called(1);
-      // });
-
-      // group('render', () {
-      //   testWidgets('Email inválido error text when email is invalid',
-      //       (tester) async {
-      //     final email = MockEmail();
-      //     when(() => email.valid).thenReturn(false);
-      //     when(() => email.invalid).thenReturn(true);
-      //     when(() => email.value).thenReturn(testEmailInvalid);
-      //     when(() => loginCubit.state).thenReturn(LoginState(email: email));
-      //     await tester.pumpWidget(createLoginFormWidget());
-      //     await tester.pumpAndSettle();
-      //     expect(find.text('Email inválido'), findsOneWidget);
-      //   });
-
-      //   testWidgets('Contraseña inválida error text when password is invalid',
-      //       (tester) async {
-      //     final password = MockPassword();
-      //     when(() => password.valid).thenReturn(false);
-      //     when(() => password.invalid).thenReturn(true);
-      //     when(() => password.value).thenReturn(testPasswordInvalid);
-      //     when(() => loginCubit.state)
-      //         .thenReturn(LoginState(password: password));
-      //     await tester.pumpWidget(createLoginFormWidget());
-      //     await tester.pumpAndSettle();
-      //     expect(find.text('Contraseña inválida'), findsOneWidget);
-      //   });
-      // });
-
-      // group('navigates', () {
-      //   Widget createLoginFormWidget() {
-      //     return MaterialApp(
-      //       initialRoute: '/login',
-      //       routes: {
-      //         '/login': (context) => Scaffold(
-      //               body: MultiBlocProvider(
-      //                 providers: [
-      //                   BlocProvider.value(value: loginCubit),
-      //                   BlocProvider.value(value: authBloc)
-      //                 ],
-      //                 child: const LoginForm(),
-      //               ),
-      //             ),
-      //       },
-      //       home: BlocProvider.value(
-      //         value: authBloc,
-      //         child: const MainPage(),
-      //       ),
-      //     );
-      //   }
-
-      //   testWidgets('to HomePage when login button is pressed', (tester) async {
-      //     await tester.pumpWidget(createLoginFormWidget());
-      //     when(() => authBloc.state).thenReturn(AuthState.authenticated(user));
-      //     when(() => user.email).thenReturn('test@gmail.com');
-      //     when(() => user.id).thenReturn('usXgsa56721ihd');
-      //     when(() => user.name).thenReturn('Lorenzo');
-      //     when(() => user.isEmpty).thenReturn(true);
-
-      //     expect(find.byType(MainPage), findsOneWidget);
-      //   });
+      testWidgets('logInWithGoogle when sign in with google button is pressed',
+          (tester) async {
+        await tester.pumpWidget(
+          MaterialApp(
+            home: Scaffold(
+              body: BlocProvider.value(
+                value: loginCubit,
+                child: const LoginForm(),
+              ),
+            ),
+          ),
+        );
+        await tester.tap(find.byKey(signInWithGoogleButtonKey));
+        verify(() => loginCubit.logInWithGoogle()).called(1);
+      });
     });
   });
 }
