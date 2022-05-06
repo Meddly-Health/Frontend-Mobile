@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
-import 'package:meddly/helpers/assets_provider.dart';
+import '../../helpers/assets_provider.dart';
 
 import '../cubit/login_cubit.dart';
 
@@ -52,7 +52,7 @@ class _GoogleLogginButton extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SvgPicture.asset(AssetsProvider.google_icon),
+                    SvgPicture.asset(AssetsProvider.googleIcon),
                     const SizedBox(width: 16),
                     Text('Iniciar Sesión con Google',
                         style: Theme.of(context).textTheme.bodyMedium),
@@ -166,9 +166,6 @@ class _EmailField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              // suffixIcon: _showCheckIcon(),
-              // suffixIconConstraints: const BoxConstraints(
-              //     maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
             ));
       },
     );
@@ -200,7 +197,7 @@ class _PasswordField extends StatelessWidget {
                 context.read<LoginCubit>().logInWithCredentials();
               }
             },
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.text,
             style: Theme.of(context).textTheme.bodyMedium,
             obscureText: true,
             decoration: InputDecoration(
@@ -247,39 +244,8 @@ class _PasswordField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              // suffixIcon: _showCheckIcon(),
-              // suffixIconConstraints: const BoxConstraints(
-              //     maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
             ));
       },
     );
   }
 }
-
-// Widget? _showCheckIcon() {
-//     if (isValid && errorText == null) {
-//       return Padding(
-//         padding: const EdgeInsets.only(right: 10),
-//         child: ZoomIn(
-//             duration: const Duration(milliseconds: 200),
-//             child: SvgPicture.asset(
-//               'assets/circle-check.svg',
-//               color: theme.circleCheckColor,
-//               package: 'bloc_form_field',
-//             )),
-//       );
-//     }
-//     if (errorText != null) {
-//       return Padding(
-//         padding: const EdgeInsets.only(right: 10),
-//         child: ZoomIn(
-//             duration: const Duration(milliseconds: 200),
-//             child: SvgPicture.asset(
-//               'assets/error.svg',
-//               color: theme.errorColor,
-//               package: 'bloc_form_field',
-//             )),
-//       );
-//     }
-//     return null;
-//   }

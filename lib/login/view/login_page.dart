@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
-import 'package:meddly/helpers/assets_provider.dart';
-import 'package:meddly/helpers/constants.dart';
-import 'package:meddly/routes/router.dart';
+import '../../helpers/assets_provider.dart';
+import '../../helpers/constants.dart';
+import '../../routes/router.dart';
 
 import '../../blocs.dart';
 import 'login_form.dart';
@@ -57,7 +57,7 @@ class LoginPage extends StatelessWidget {
                     child: Column(
                       children: [
                         const Spacer(flex: 1),
-                        SvgPicture.asset(AssetsProvider.meddly_logo),
+                        SvgPicture.asset(AssetsProvider.meddlyLogo),
                         const Spacer(flex: 1),
                         const LoginForm(),
                         const Spacer(flex: 3),

@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:meddly/home/view/home_page.dart';
-import 'package:meddly/sign_up/view/view.dart';
+import '../home/view/home_page.dart';
+import '../sign_up/view/view.dart';
 
 import '../login/view/view.dart';
 
