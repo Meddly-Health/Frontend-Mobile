@@ -98,10 +98,12 @@ void main() {
 
     group('logInWithCredentials', () {
       blocTest<LoginCubit, LoginState>(
-        'does nothing when status is not validated',
+        'submissionFailure when status is not validated',
         build: () => LoginCubit(authenticationRepository),
         act: (cubit) => cubit.logInWithCredentials(),
-        expect: () => const <LoginState>[],
+        expect: () => const <LoginState>[
+          LoginState(status: FormzStatus.submissionFailure)
+        ],
       );
 
       blocTest<LoginCubit, LoginState>(
@@ -180,42 +182,42 @@ void main() {
       );
     });
 
-    // group('logInWithGoogle', () {
-    //   blocTest<LoginCubit, LoginState>(
-    //     'calls logInWithGoogle',
-    //     build: () => LoginCubit(authenticationRepository),
-    //     act: (cubit) => cubit.logInWithGoogle(),
-    //     verify: (_) {
-    //       verify(() => authenticationRepository.logInWithGoogle()).called(1);
-    //     },
-    //   );
+    group('logInWithGoogle', () {
+      blocTest<LoginCubit, LoginState>(
+        'calls logInWithGoogle',
+        build: () => LoginCubit(authenticationRepository),
+        act: (cubit) => cubit.logInWithGoogle(),
+        verify: (_) {
+          verify(() => authenticationRepository.logInWithGoogle()).called(1);
+        },
+      );
 
-    //   blocTest<LoginCubit, LoginState>(
-    //     'emits [submissionInProgress, submissionSuccess] '
-    //     'when logInWithGoogle succeeds',
-    //     build: () => LoginCubit(authenticationRepository),
-    //     act: (cubit) => cubit.logInWithGoogle(),
-    //     expect: () => const <LoginState>[
-    //       LoginState(status: FormzStatus.submissionInProgress),
-    //       LoginState(status: FormzStatus.submissionSuccess)
-    //     ],
-    //   );
+      blocTest<LoginCubit, LoginState>(
+        'emits [submissionInProgress, submissionSuccess] '
+        'when logInWithGoogle succeeds',
+        build: () => LoginCubit(authenticationRepository),
+        act: (cubit) => cubit.logInWithGoogle(),
+        expect: () => const <LoginState>[
+          LoginState(status: FormzStatus.submissionInProgress),
+          LoginState(status: FormzStatus.submissionSuccess)
+        ],
+      );
 
-    //   blocTest<LoginCubit, LoginState>(
-    //     'emits [submissionInProgress, submissionFailure] '
-    //     'when logInWithGoogle fails',
-    //     setUp: () {
-    //       when(
-    //         () => authenticationRepository.logInWithGoogle(),
-    //       ).thenThrow(Exception('oops'));
-    //     },
-    //     build: () => LoginCubit(authenticationRepository),
-    //     act: (cubit) => cubit.logInWithGoogle(),
-    //     expect: () => const <LoginState>[
-    //       LoginState(status: FormzStatus.submissionInProgress),
-    //       LoginState(status: FormzStatus.submissionFailure)
-    //     ],
-    //   );
-    // });
+      blocTest<LoginCubit, LoginState>(
+        'emits [submissionInProgress, submissionFailure] '
+        'when logInWithGoogle fails',
+        setUp: () {
+          when(
+            () => authenticationRepository.logInWithGoogle(),
+          ).thenThrow(Exception('oops'));
+        },
+        build: () => LoginCubit(authenticationRepository),
+        act: (cubit) => cubit.logInWithGoogle(),
+        expect: () => const <LoginState>[
+          LoginState(status: FormzStatus.submissionInProgress),
+          LoginState(status: FormzStatus.submissionFailure)
+        ],
+      );
+    });
   });
 }

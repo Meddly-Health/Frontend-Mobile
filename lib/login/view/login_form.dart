@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
-import 'package:meddly/helpers/assets_provider.dart';
+import '../../helpers/assets_provider.dart';
 
 import '../cubit/login_cubit.dart';
 
@@ -52,7 +52,7 @@ class _GoogleLogginButton extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SvgPicture.asset(AssetsProvider.google_icon),
+                    SvgPicture.asset(AssetsProvider.googleIcon),
                     const SizedBox(width: 16),
                     Text('Iniciar Sesión con Google',
                         style: Theme.of(context).textTheme.bodyMedium),
@@ -78,14 +78,17 @@ class _LogginButton extends StatelessWidget {
           key: const Key('login_button'),
           onTap: () async {
             FocusManager.instance.primaryFocus?.unfocus();
-            if (state.status.isValid) {
+
+            if (state.email.value.isNotEmpty &&
+                state.password.value.isNotEmpty) {
               context.read<LoginCubit>().logInWithCredentials();
             }
           },
           child: AnimatedContainer(
               height: 55,
               decoration: BoxDecoration(
-                color: state.status.isValid
+                color: state.email.value.isNotEmpty &&
+                        state.password.value.isNotEmpty
                     ? Theme.of(context).colorScheme.primary
                     : Theme.of(context).colorScheme.secondaryContainer,
                 borderRadius: BorderRadius.circular(10),
@@ -110,8 +113,7 @@ class _EmailField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
-        bool showErrorText =
-            state.status.isSubmissionFailure && state.email.invalid;
+        bool showErrorText = state.status.isSubmissionFailure;
 
         return TextFormField(
             key: const Key('login_email'),
@@ -154,7 +156,7 @@ class _EmailField extends StatelessWidget {
                 borderSide:
                     BorderSide(color: Theme.of(context).colorScheme.error),
               ),
-              errorText: !showErrorText ? null : 'El email es incorrecto.',
+              errorText: !showErrorText ? null : '',
               errorStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context).colorScheme.error,
                   ),
@@ -164,9 +166,6 @@ class _EmailField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              // suffixIcon: _showCheckIcon(),
-              // suffixIconConstraints: const BoxConstraints(
-              //     maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
             ));
       },
     );
@@ -182,8 +181,7 @@ class _PasswordField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
-        bool showErrorText =
-            state.status.isSubmissionFailure && state.password.invalid;
+        bool showErrorText = state.status.isSubmissionFailure;
 
         return TextFormField(
             key: const Key('login_password'),
@@ -193,11 +191,13 @@ class _PasswordField extends StatelessWidget {
             },
             onFieldSubmitted: (String? value) {
               FocusManager.instance.primaryFocus?.unfocus();
-              if (state.status.isValid) {
+
+              if (state.email.value.isNotEmpty &&
+                  state.password.value.isNotEmpty) {
                 context.read<LoginCubit>().logInWithCredentials();
               }
             },
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.text,
             style: Theme.of(context).textTheme.bodyMedium,
             obscureText: true,
             decoration: InputDecoration(
@@ -233,7 +233,7 @@ class _PasswordField extends StatelessWidget {
                 borderSide:
                     BorderSide(color: Theme.of(context).colorScheme.error),
               ),
-              errorText: !showErrorText ? null : 'La contraseña es incorrecta.',
+              errorText: !showErrorText ? null : '',
               errorStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).colorScheme.error,
                   overflow: TextOverflow.visible),
@@ -244,39 +244,8 @@ class _PasswordField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              // suffixIcon: _showCheckIcon(),
-              // suffixIconConstraints: const BoxConstraints(
-              //     maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
             ));
       },
     );
   }
 }
-
-// Widget? _showCheckIcon() {
-//     if (isValid && errorText == null) {
-//       return Padding(
-//         padding: const EdgeInsets.only(right: 10),
-//         child: ZoomIn(
-//             duration: const Duration(milliseconds: 200),
-//             child: SvgPicture.asset(
-//               'assets/circle-check.svg',
-//               color: theme.circleCheckColor,
-//               package: 'bloc_form_field',
-//             )),
-//       );
-//     }
-//     if (errorText != null) {
-//       return Padding(
-//         padding: const EdgeInsets.only(right: 10),
-//         child: ZoomIn(
-//             duration: const Duration(milliseconds: 200),
-//             child: SvgPicture.asset(
-//               'assets/error.svg',
-//               color: theme.errorColor,
-//               package: 'bloc_form_field',
-//             )),
-//       );
-//     }
-//     return null;
-//   }

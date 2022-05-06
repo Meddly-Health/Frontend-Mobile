@@ -2,8 +2,8 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meddly/auth/bloc/auth_bloc.dart';
-import 'package:meddly/theme/theme.dart';
+import 'auth/bloc/auth_bloc.dart';
+import 'theme/theme.dart';
 
 import 'bloc_observer.dart';
 import 'routes/router.dart';
@@ -14,7 +14,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  var authenticationRespository = AuthenticationRepository();
+  var authenticationRespository =
+      AuthenticationRepository(languageCode: LanguageCode.es);
   var authBloc = AuthBloc(authenticationRepository: authenticationRespository);
 
   BlocOverrides.runZoned(

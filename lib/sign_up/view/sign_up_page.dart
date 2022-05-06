@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
-import 'package:meddly/helpers/assets_provider.dart';
-import 'package:meddly/helpers/constants.dart';
-import 'package:meddly/routes/router.dart';
-import 'package:meddly/sign_up/view/sign_up_form.dart';
+import '../../helpers/assets_provider.dart';
+import '../../helpers/constants.dart';
+import '../../routes/router.dart';
+import 'sign_up_form.dart';
 
 import '../../blocs.dart';
 
@@ -60,7 +60,7 @@ class SignUpPage extends StatelessWidget {
                     child: Column(
                       children: [
                         const Spacer(flex: 1),
-                        SvgPicture.asset(AssetsProvider.meddly_logo),
+                        SvgPicture.asset(AssetsProvider.meddlyLogo),
                         const Spacer(flex: 1),
                         const SignUpForm(),
                         const Spacer(flex: 3),

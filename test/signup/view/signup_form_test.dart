@@ -27,7 +27,7 @@ void main() {
 
   const signUpButtonKey = Key('sign_up_button');
 
-  const signInWithGoogleButtonKey = Key('sign_up_button');
+  const signInWithGoogleButtonKey = Key('google_login_button');
 
   const testEmail = 'test@gmail.com';
   const testPassword = 'testP@ssw0rd!';
@@ -109,21 +109,21 @@ void main() {
       });
     });
 
-    // testWidgets('logInWithGoogle when sign in with google button is pressed',
-    //     (tester) async {
-    //   await tester.pumpWidget(
-    //     MaterialApp(
-    //       home: Scaffold(
-    //         body: BlocProvider.value(
-    //           value: signUpCubit,
-    //           child: const SignUpForm(),
-    //         ),
-    //       ),
-    //     ),
-    //   );
-    //   await tester.tap(find.byKey(signInWithGoogleButtonKey));
-    //   verify(() => signUpCubit.logInWithGoogle()).called(1);
-    // });
+    testWidgets('logInWithGoogle when sign in with google button is pressed',
+        (tester) async {
+      await tester.pumpWidget(
+        MaterialApp(
+          home: Scaffold(
+            body: BlocProvider.value(
+              value: signUpCubit,
+              child: const SignUpForm(),
+            ),
+          ),
+        ),
+      );
+      await tester.tap(find.byKey(signInWithGoogleButtonKey));
+      verify(() => signUpCubit.logInWithGoogle()).called(1);
+    });
 
     group('render', () {
       testWidgets('Email inválido error text when email is invalid',
@@ -150,7 +150,7 @@ void main() {
         await tester.pumpAndSettle();
         expect(
             find.text(
-                'La contraseña debe contener al menos 8 caracteres, un caractér especial y un número.'),
+                'La contraseña debe poseer al menos 8 caracteres e incluir al menos un número y al menos un carácter especial.'),
             findsOneWidget);
       });
 
