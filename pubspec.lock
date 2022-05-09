@@ -41,7 +41,7 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: cc8f6f03c9d87806c059d71cd638e1350ff1b74a
+      resolved-ref: fecc386d36e9284ed146a423662bdca46fa46d11
       url: "https://github.com/lorensala/authentication_repository.git"
     source: git
     version: "1.0.0"
@@ -789,7 +789,7 @@ packages:
       name: webkit_inspection_protocol
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   xml:
     dependency: transitive
     description:
