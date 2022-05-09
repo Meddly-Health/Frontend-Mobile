@@ -55,20 +55,17 @@ class LoginPage extends StatelessWidget {
                     height: MediaQuery.of(context).size.height -
                         kBottomNavigationBarHeight -
                         kToolbarHeight,
-                    child: FadeIn(
-                      child: Column(
-                        children: [
-                          const Spacer(flex: 1),
-                          Hero(
-                              tag: 'logo',
-                              child:
-                                  SvgPicture.asset(AssetsProvider.meddlyLogo)),
-                          const Spacer(flex: 1),
-                          const LoginForm(),
-                          const Spacer(flex: 3),
-                          const _DontHaveAnAccountText(),
-                        ],
-                      ),
+                    child: Column(
+                      children: [
+                        const Spacer(flex: 1),
+                        Hero(
+                            tag: 'logo',
+                            child: SvgPicture.asset(AssetsProvider.meddlyLogo)),
+                        const Spacer(flex: 1),
+                        FadeIn(child: const LoginForm()),
+                        const Spacer(flex: 3),
+                        const _DontHaveAnAccountText(),
+                      ],
                     ),
                   ),
                 ),

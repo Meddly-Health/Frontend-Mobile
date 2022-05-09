@@ -58,20 +58,17 @@ class SignUpPage extends StatelessWidget {
                     height: MediaQuery.of(context).size.height -
                         kBottomNavigationBarHeight -
                         kToolbarHeight,
-                    child: FadeIn(
-                      child: Column(
-                        children: [
-                          const Spacer(flex: 1),
-                          Hero(
-                              tag: 'logo',
-                              child:
-                                  SvgPicture.asset(AssetsProvider.meddlyLogo)),
-                          const Spacer(flex: 1),
-                          const SignUpForm(),
-                          const Spacer(flex: 3),
-                          const _AlreadyHaveAnAccountText(),
-                        ],
-                      ),
+                    child: Column(
+                      children: [
+                        const Spacer(flex: 1),
+                        Hero(
+                            tag: 'logo',
+                            child: SvgPicture.asset(AssetsProvider.meddlyLogo)),
+                        const Spacer(flex: 1),
+                        FadeIn(child: const SignUpForm()),
+                        const Spacer(flex: 3),
+                        const _AlreadyHaveAnAccountText(),
+                      ],
                     ),
                   ),
                 ),
