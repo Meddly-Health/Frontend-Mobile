@@ -11,6 +11,9 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   final AuthenticationRepository _authenticationRepository;
 
+  void termsAcceptedChanged(bool value) =>
+      emit(state.copyWith(termsAccepted: value));
+
   void emailChanged(String value) {
     final email = Email.dirty(value);
     emit(state.copyWith(
@@ -72,7 +75,7 @@ class SignUpCubit extends Cubit<SignUpState> {
   }
 
   Future<void> signUpFormSubmitted() async {
-    if (!state.status.isValidated) return;
+    if (!state.status.isValidated && !state.termsAccepted) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
       await _authenticationRepository.signUp(

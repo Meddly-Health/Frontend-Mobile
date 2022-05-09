@@ -23,11 +23,46 @@ class SignUpForm extends StatelessWidget {
         SizedBox(height: 16),
         _ConfirmedPasswordField(),
         SizedBox(height: 20),
+        _TermsAndConditions(),
+        SizedBox(height: 20),
         _SignUpButton(),
         SizedBox(height: 16),
         _GoogleLogginButton()
       ],
     );
+  }
+}
+
+class _TermsAndConditions extends StatelessWidget {
+  const _TermsAndConditions({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+      BlocBuilder<SignUpCubit, SignUpState>(
+        builder: (context, state) {
+          return Checkbox(
+              activeColor: Theme.of(context).colorScheme.primary,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(3)),
+              value: state.termsAccepted,
+              onChanged: (bool? value) {
+                context.read<SignUpCubit>().termsAcceptedChanged(value!);
+              });
+        },
+      ),
+      Text.rich(TextSpan(children: [
+        TextSpan(
+            text: 'Acepto los ', style: Theme.of(context).textTheme.bodyMedium),
+        TextSpan(
+            text: 'términos y condiciones',
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.bold)),
+      ]))
+    ]);
   }
 }
 
@@ -81,14 +116,14 @@ class _SignUpButton extends StatelessWidget {
           key: const Key('sign_up_button'),
           onTap: () async {
             FocusManager.instance.primaryFocus?.unfocus();
-            if (state.status.isValid) {
+            if (state.status.isValid && state.termsAccepted) {
               context.read<SignUpCubit>().signUpFormSubmitted();
             }
           },
           child: AnimatedContainer(
               height: 55,
               decoration: BoxDecoration(
-                color: state.status.isValid
+                color: state.status.isValid && state.termsAccepted
                     ? Theme.of(context).colorScheme.primary
                     : Theme.of(context).colorScheme.secondaryContainer,
                 borderRadius: BorderRadius.circular(10),
