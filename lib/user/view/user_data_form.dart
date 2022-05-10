@@ -99,30 +99,34 @@ class _DatePicker extends StatelessWidget {
           context.read<UserFormCubit>().birthDateChanged(_dateTime);
         }
       },
-      child: Container(
-        height: 60,
-        padding: defaultPadding,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondary,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          children: [
-            BlocBuilder<UserFormCubit, UserFormState>(
-              builder: (context, state) {
-                return Text(
+      child: BlocBuilder<UserFormCubit, UserFormState>(
+        builder: (context, state) {
+          return AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            height: 60,
+            padding: defaultPadding,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              border: state.birthDate.valid || state.birthDate.value == null
+                  ? null
+                  : Border.all(color: Theme.of(context).colorScheme.error),
+              color: Theme.of(context).colorScheme.secondary,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              children: [
+                Text(
                   state.birthDate.value == null
-                      ? 'Seleccione una fecha'
+                      ? 'Fecha de Nacimiento'
                       : formatDate(state.birthDate.value!),
                   style: Theme.of(context).textTheme.bodyMedium,
-                );
-              },
+                ),
+                const Spacer(),
+                const Icon(Icons.calendar_month_rounded)
+              ],
             ),
-            const Spacer(),
-            const Icon(Icons.calendar_month_rounded)
-          ],
-        ),
+          );
+        },
       ),
     );
   }

@@ -1,10 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:form_helper/form_helper.dart';
 import 'package:formz/formz.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
-
-import '../../helpers/validators.dart';
 
 part 'user_form_state.dart';
 

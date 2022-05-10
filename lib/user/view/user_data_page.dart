@@ -1,6 +1,9 @@
+import 'package:animate_do/animate_do.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meddly/helpers/constants.dart';
+import 'package:meddly/routes/router.dart';
 import 'package:meddly/user/cubit/user_form_cubit.dart';
 import 'package:meddly/user/view/user_data_form.dart';
 
@@ -16,19 +19,15 @@ class UserDataPage extends StatelessWidget {
           padding: defaultPadding,
           child: SafeArea(
             child: SingleChildScrollView(
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height -
-                    kToolbarHeight -
-                    kBottomNavigationBarHeight,
-                child: Column(children: [
+              child: FadeIn(
+                child: Column(mainAxisSize: MainAxisSize.min, children: [
                   Text(
                     'Por favor, completa tus datos personales',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 20),
                   const UserDataForm(),
-                  const SizedBox(height: 20),
-                  const Spacer(),
+                  const SizedBox(height: 40),
                   const _OmitOrSave()
                 ]),
               ),
@@ -49,22 +48,35 @@ class _OmitOrSave extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Container(
-          width: 150,
-          height: 60,
-          decoration: BoxDecoration(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Center(
-            child: Text('Omitir', style: Theme.of(context).textTheme.bodyLarge),
+        GestureDetector(
+          onTap: () {
+            AutoRouter.of(context).pushAndPopUntil(const HomeRoute(),
+                predicate: ((route) => false));
+          },
+          child: Container(
+            width: 150,
+            height: 60,
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Center(
+              child:
+                  Text('Omitir', style: Theme.of(context).textTheme.bodyLarge),
+            ),
           ),
         ),
         const Spacer(),
         BlocBuilder<UserFormCubit, UserFormState>(
           builder: (context, state) {
             return GestureDetector(
-              onTap: () {},
+              onTap: () async {
+                if (state.isValid) {
+                  // context.read<UserFormCubit>().saveUserData();
+                  AutoRouter.of(context).pushAndPopUntil(const HomeRoute(),
+                      predicate: ((route) => false));
+                }
+              },
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 width: 150,
