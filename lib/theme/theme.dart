@@ -22,8 +22,9 @@ extension ColorSchemeExtension on ColorScheme {
 }
 
 TextTheme textTheme = Typography.whiteMountainView.copyWith(
+  titleLarge: const TextStyle(fontSize: 28, color: Colors.black),
+  labelMedium: const TextStyle(fontSize: 16, color: Colors.white),
   bodySmall: const TextStyle(fontSize: 14, color: Colors.black),
   bodyMedium: const TextStyle(fontSize: 16, color: Colors.black),
   bodyLarge: const TextStyle(fontSize: 18, color: Colors.black),
-  labelMedium: const TextStyle(fontSize: 16, color: Colors.white),
 );
