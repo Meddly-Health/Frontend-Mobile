@@ -291,7 +291,7 @@ class _WeightField extends StatelessWidget {
             onChanged: (String? value) {
               double? weight = double.tryParse(value!);
 
-              if (weight == null) return;
+              weight ??= 0;
 
               context.read<UserFormCubit>().weightChanged(weight);
             },
@@ -345,14 +345,16 @@ class _WeightField extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text('Kg'),
-                      if (state.weight.valid && state.weight.value != 0)
+                      if (state.weight.valid &&
+                          state.weight.value > 0 &&
+                          state.weight.value < 1000)
                         SizedBox(
                           height: 30,
                           width: 30,
                           child: showCheckIcon(
-                              state.weight.valid && state.weight.value != 0,
+                              state.weight.valid && state.weight.value > 0,
                               state.errorMessage,
-                              context)!,
+                              context),
                         )
                     ]),
                 suffixIconConstraints: const BoxConstraints(
@@ -380,15 +382,15 @@ class _HeightField extends StatelessWidget {
             onChanged: (String? value) {
               double? height = double.tryParse(value!);
 
-              if (height == null) return;
+              height ??= 0;
 
-              context.read<UserFormCubit>().weightChanged(height);
+              context.read<UserFormCubit>().heigthChanged(height);
             },
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: const [],
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
-              hintText: 'Peso',
+              hintText: 'Altura',
               hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context)
                         .colorScheme
@@ -420,7 +422,7 @@ class _HeightField extends StatelessWidget {
                 borderSide:
                     BorderSide(color: Theme.of(context).colorScheme.error),
               ),
-              errorText: !showErrorText ? null : 'El peso es inválido.',
+              errorText: !showErrorText ? null : 'La altura es inválida.',
               errorStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context).colorScheme.error,
                   ),
@@ -434,15 +436,14 @@ class _HeightField extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text('metros'),
-                    if (state.height.valid && state.height.value > 0)
-                      SizedBox(
-                        height: 30,
-                        width: 30,
-                        child: showCheckIcon(
-                            state.weight.valid && state.weight.value != 0,
-                            state.errorMessage,
-                            context)!,
-                      )
+                    SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: showCheckIcon(
+                          state.height.valid && state.height.value > 0,
+                          state.errorMessage,
+                          context),
+                    )
                   ]),
               suffixIconConstraints: const BoxConstraints(
                   maxHeight: 30, maxWidth: 90, minHeight: 30, minWidth: 60),

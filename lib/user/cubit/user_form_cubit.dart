@@ -61,7 +61,26 @@ class UserFormCubit extends Cubit<UserFormState> {
     final weight = Weigth.dirty(value);
     emit(state.copyWith(
         weight: weight,
-        status: Formz.validate([weight, state.lastName, state.name])));
+        status: Formz.validate([
+          weight,
+          state.lastName,
+          state.name,
+          state.birthDate,
+          state.height
+        ])));
+  }
+
+  void heigthChanged(double value) {
+    final heigth = Heigth.dirty(value);
+    emit(state.copyWith(
+        height: heigth,
+        status: Formz.validate([
+          heigth,
+          state.lastName,
+          state.name,
+          state.weight,
+          state.birthDate
+        ])));
   }
 
   void sexChanged(bool value) {
