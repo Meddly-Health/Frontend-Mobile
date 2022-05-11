@@ -28,53 +28,72 @@ class LoginPage extends StatelessWidget {
           }
         },
         child: Scaffold(
-          body: BlocListener<LoginCubit, LoginState>(
-            listener: (context, state) {
-              if (state.status.isSubmissionFailure) {
-                AutoRouter.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.errorMessage ?? 'Error'),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-              }
-              if (state.status.isSubmissionInProgress) {
-                showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (context) =>
-                        const Center(child: CircularProgressIndicator()));
-              }
-            },
-            child: Container(
-              padding: defaultPadding,
-              child: SafeArea(
-                child: SingleChildScrollView(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height -
-                        kBottomNavigationBarHeight -
-                        kToolbarHeight,
-                    child: Column(
-                      children: [
-                        const Spacer(flex: 1),
-                        Hero(
-                            tag: 'logo',
-                            child: SvgPicture.asset(AssetsProvider.meddlyLogo)),
-                        const Spacer(flex: 1),
-                        FadeIn(child: const LoginForm()),
-                        const Spacer(flex: 3),
-                        const _DontHaveAnAccountText(),
-                      ],
-                    ),
-                  ),
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(),
+          body: const _LoginPageBody(),
+        ),
+      ),
+    );
+  }
+}
+
+class _LoginPageBody extends StatelessWidget {
+  const _LoginPageBody({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Builder(builder: (context) {
+      return BlocListener<LoginCubit, LoginState>(
+        listener: (context, state) {
+          if (state.status.isSubmissionFailure) {
+            AutoRouter.of(context).pop();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.errorMessage ?? 'Error'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+          if (state.status.isSubmissionInProgress) {
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) =>
+                    const Center(child: CircularProgressIndicator()));
+          }
+        },
+        child: Container(
+          padding: defaultPadding,
+          child: SafeArea(
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height -
+                        MediaQuery.of(context).padding.vertical -
+                        Scaffold.of(context).appBarMaxHeight! -
+                        defaultPadding.bottom -
+                        defaultPadding.top),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Spacer(flex: 1),
+                    Hero(
+                        tag: 'logo',
+                        child: SvgPicture.asset(AssetsProvider.meddlyLogo)),
+                    const Spacer(flex: 1),
+                    FadeIn(child: const LoginForm()),
+                    const Spacer(flex: 3),
+                    const _DontHaveAnAccountText(),
+                  ],
                 ),
               ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 class ThemeManager {
   static ThemeData lightTheme = ThemeData.light().copyWith(
       scaffoldBackgroundColor: scaffoldBackgroundColorLight,
+      appBarTheme: AppBarTheme(
+          toolbarHeight: 0, elevation: 0, color: scaffoldBackgroundColorLight),
       colorScheme: const ColorScheme.light().copyWith(
           primary: primaryLight,
           secondary: secondaryLight,

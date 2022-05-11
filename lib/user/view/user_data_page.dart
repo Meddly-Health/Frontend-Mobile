@@ -15,27 +15,51 @@ class UserDataPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => UserFormCubit(),
       child: Scaffold(
-        body: Container(
-          padding: defaultPadding,
-          child: SafeArea(
-            child: SingleChildScrollView(
+        resizeToAvoidBottomInset: false,
+        appBar: AppBar(),
+        body: const _UserDataPageBody(),
+      ),
+    );
+  }
+}
+
+class _UserDataPageBody extends StatelessWidget {
+  const _UserDataPageBody({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Builder(builder: (context) {
+      return Container(
+        padding: defaultPadding,
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                  maxHeight: MediaQuery.of(context).size.height -
+                      Scaffold.of(context).appBarMaxHeight! -
+                      MediaQuery.of(context).padding.vertical -
+                      defaultPadding.vertical),
               child: FadeIn(
-                child: Column(mainAxisSize: MainAxisSize.min, children: [
-                  Text(
-                    'Por favor, completa tus datos personales',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 20),
-                  const UserDataForm(),
-                  const SizedBox(height: 40),
-                  const _OmitOrSave()
-                ]),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Por favor, completa tus datos personales',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(height: 20),
+                      const UserDataForm(),
+                      const Spacer(),
+                      const _OmitOrSave()
+                    ]),
               ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 

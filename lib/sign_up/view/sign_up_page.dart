@@ -28,56 +28,75 @@ class SignUpPage extends StatelessWidget {
           }
         },
         child: Scaffold(
-          body: BlocListener<SignUpCubit, SignUpState>(
-            listener: (context, state) {
-              if (state.status.isSubmissionFailure) {
-                AutoRouter.of(context).pop();
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.errorMessage ?? 'Error'),
-                    backgroundColor: Colors.red,
-                  ),
-                );
-              }
-              if (state.status.isSubmissionInProgress) {
-                showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (context) =>
-                        const Center(child: CircularProgressIndicator()));
-              }
-              if (state.status.isSubmissionSuccess) {
-                ///
-              }
-            },
-            child: Container(
-              padding: defaultPadding,
-              child: SafeArea(
-                child: SingleChildScrollView(
-                  child: SizedBox(
-                    height: MediaQuery.of(context).size.height -
-                        kBottomNavigationBarHeight -
-                        kToolbarHeight,
-                    child: Column(
-                      children: [
-                        const Spacer(flex: 1),
-                        Hero(
-                            tag: 'logo',
-                            child: SvgPicture.asset(AssetsProvider.meddlyLogo)),
-                        const Spacer(flex: 1),
-                        FadeIn(child: const SignUpForm()),
-                        const Spacer(flex: 3),
-                        const _AlreadyHaveAnAccountText(),
-                      ],
-                    ),
-                  ),
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(),
+          body: const _SignUpPageBody(),
+        ),
+      ),
+    );
+  }
+}
+
+class _SignUpPageBody extends StatelessWidget {
+  const _SignUpPageBody({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Builder(builder: (context) {
+      return BlocListener<SignUpCubit, SignUpState>(
+        listener: (context, state) {
+          if (state.status.isSubmissionFailure) {
+            AutoRouter.of(context).pop();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.errorMessage ?? 'Error'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+          if (state.status.isSubmissionInProgress) {
+            showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) =>
+                    const Center(child: CircularProgressIndicator()));
+          }
+          if (state.status.isSubmissionSuccess) {
+            ///
+          }
+        },
+        child: Container(
+          padding: defaultPadding,
+          child: SafeArea(
+            child: SingleChildScrollView(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height -
+                        MediaQuery.of(context).padding.vertical -
+                        Scaffold.of(context).appBarMaxHeight! -
+                        defaultPadding.bottom -
+                        defaultPadding.top),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Spacer(flex: 1),
+                    Hero(
+                        tag: 'logo',
+                        child: SvgPicture.asset(AssetsProvider.meddlyLogo)),
+                    const Spacer(flex: 1),
+                    FadeIn(child: const SignUpForm()),
+                    const Spacer(flex: 3),
+                    const _AlreadyHaveAnAccountText(),
+                  ],
                 ),
               ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
 
