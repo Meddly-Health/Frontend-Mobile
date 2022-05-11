@@ -2,7 +2,7 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'auth/bloc/auth_bloc.dart';
+import 'package:meddly/blocs.dart';
 import 'theme/theme.dart';
 
 import 'bloc_observer.dart';
@@ -14,6 +14,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  var connectivityBloc = ConnectivityBloc();
   var authenticationRespository =
       AuthenticationRepository(languageCode: LanguageCode.es);
   var authBloc = AuthBloc(authenticationRepository: authenticationRespository);
@@ -23,6 +25,7 @@ void main() async {
       runApp(MyApp(
         authenticationRepository: authenticationRespository,
         authBloc: authBloc,
+        connectivityBloc: connectivityBloc,
       ));
     },
     blocObserver: MyBlocObserver(),
@@ -33,10 +36,12 @@ class MyApp extends StatelessWidget {
   MyApp(
       {Key? key,
       required this.authenticationRepository,
-      required this.authBloc})
+      required this.authBloc,
+      required this.connectivityBloc})
       : super(key: key);
   final AuthenticationRepository authenticationRepository;
   final AuthBloc authBloc;
+  final ConnectivityBloc connectivityBloc;
 
   final _router = AppRouter();
 
@@ -51,16 +56,17 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider.value(value: authBloc),
+          BlocProvider.value(value: connectivityBloc)
         ],
         child: MaterialApp.router(
           theme: ThemeManager.lightTheme,
           debugShowCheckedModeBanner: false,
           routeInformationParser: _router.defaultRouteParser(),
           routerDelegate: _router.delegate(initialRoutes: [
-            const UserDataRoute(),
-            // authenticationRepository.currentUser.isEmpty
-            //     ? const LoginRoute()
-            //     : const HomeRoute(),
+            // const UserDataRoute(),
+            authenticationRepository.currentUser.isEmpty
+                ? const LoginRoute()
+                : const HomeRoute(),
           ]),
         ),
       ),
