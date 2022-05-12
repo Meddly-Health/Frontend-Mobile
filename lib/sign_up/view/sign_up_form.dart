@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
 import 'package:meddly/theme/theme.dart';
+import '../../connectivity/bloc/connectivity_bloc.dart';
 import '../../helpers/assets_provider.dart';
 
 import '../../helpers/helpers.dart';
@@ -74,12 +75,16 @@ class _GoogleLogginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isConnected = context.read<ConnectivityBloc>().state.isConnected;
+
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
         return GestureDetector(
           key: const Key('google_login_button'),
           onTap: () {
-            context.read<SignUpCubit>().logInWithGoogle();
+            if (isConnected) {
+              context.read<SignUpCubit>().logInWithGoogle();
+            }
           },
           child: Container(
               height: 55,
@@ -111,6 +116,8 @@ class _SignUpButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isConnected = context.read<ConnectivityBloc>().state.isConnected;
+
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
         return GestureDetector(
@@ -119,6 +126,7 @@ class _SignUpButton extends StatelessWidget {
             FocusManager.instance.primaryFocus?.unfocus();
             if (state.status.isValid &&
                 state.termsAccepted &&
+                isConnected &&
                 !state.status.isSubmissionInProgress) {
               context.read<SignUpCubit>().signUpFormSubmitted();
             }

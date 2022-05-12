@@ -9,7 +9,8 @@ import '../helpers/assets_provider.dart';
 enum SnackBarType { error, success, warning, loading }
 
 SnackBar getSnackBar(BuildContext context, String message, SnackBarType type,
-    [Duration duration = const Duration(seconds: 4)]) {
+    [Duration duration = const Duration(seconds: 4),
+    dismissDirection = DismissDirection.down]) {
   switch (type) {
     case SnackBarType.error:
       return SnackBar(
@@ -79,11 +80,6 @@ SnackBar getSnackBar(BuildContext context, String message, SnackBarType type,
                 child: SizedBox(
                   height: 20,
                   width: 20,
-                  // decoration: BoxDecoration(
-                  //   color:
-                  //       Theme.of(context).colorScheme.validColor.withOpacity(0.6),
-                  //   borderRadius: BorderRadius.circular(999),
-                  // ),
                   child: CircularProgressIndicator(
                     color: Colors.white,
                     backgroundColor: Theme.of(context)

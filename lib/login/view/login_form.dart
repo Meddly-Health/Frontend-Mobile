@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
+import 'package:meddly/connectivity/bloc/connectivity_bloc.dart';
 import 'package:meddly/theme/theme.dart';
 import '../../helpers/assets_provider.dart';
 
@@ -36,12 +37,16 @@ class _GoogleLogginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isConnected = context.read<ConnectivityBloc>().state.isConnected;
+
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
         return GestureDetector(
           key: const Key('google_login_button'),
           onTap: () {
-            context.read<LoginCubit>().logInWithGoogle();
+            if (isConnected) {
+              context.read<LoginCubit>().logInWithGoogle();
+            }
           },
           child: Container(
               height: 55,
@@ -73,6 +78,8 @@ class _LogginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isConnected = context.read<ConnectivityBloc>().state.isConnected;
+
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
         return GestureDetector(
@@ -83,6 +90,7 @@ class _LogginButton extends StatelessWidget {
 
             if (state.email.value.isNotEmpty &&
                 state.password.value.isNotEmpty &&
+                isConnected &&
                 !state.status.isSubmissionInProgress) {
               context.read<LoginCubit>().logInWithCredentials();
             }

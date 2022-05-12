@@ -1,7 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -71,17 +70,18 @@ class _LoginPageBody extends StatelessWidget {
             }
           }),
           BlocListener<ConnectivityBloc, ConnectivityState>(
-              listener: ((context, state) {
-            if (state.connectivityResult == ConnectivityResult.none) {
-              ScaffoldMessenger.of(context).showSnackBar(getSnackBar(
-                  context,
-                  'No hay conexión a Internet.',
-                  SnackBarType.error,
-                  const Duration(days: 365)));
-            } else {
-              ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            }
-          }))
+            listener: ((context, state) {
+              if (!state.isConnected) {
+                ScaffoldMessenger.of(context).showSnackBar(getSnackBar(
+                    context,
+                    'No hay conexión a Internet.',
+                    SnackBarType.error,
+                    const Duration(days: 365)));
+              } else {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              }
+            }),
+          )
         ],
         child: Container(
           padding: defaultPadding,

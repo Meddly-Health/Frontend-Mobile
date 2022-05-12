@@ -46,26 +46,44 @@ class _SignUpPageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      return BlocListener<SignUpCubit, SignUpState>(
-        listener: (context, state) {
-          if (state.status.isSubmissionFailure) {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-            ScaffoldMessenger.of(context).showSnackBar(
-              getSnackBar(
-                  context,
-                  state.errorMessage ??
-                      'Por favor, revise los datos ingresados.',
-                  SnackBarType.error),
-            );
-          }
-          if (state.status.isSubmissionInProgress) {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          }
+      return MultiBlocListener(
+        listeners: [
+          BlocListener<SignUpCubit, SignUpState>(
+            listener: (context, state) {
+              if (state.status.isSubmissionFailure) {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  getSnackBar(
+                    context,
+                    state.errorMessage ??
+                        'Por favor, revise los datos ingresados.',
+                    SnackBarType.error,
+                  ),
+                );
+              }
+              if (state.status.isSubmissionInProgress) {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              }
 
-          if (state.status.isSubmissionSuccess) {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          }
-        },
+              if (state.status.isSubmissionSuccess) {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              }
+            },
+          ),
+          BlocListener<ConnectivityBloc, ConnectivityState>(
+            listener: ((context, state) {
+              if (!state.isConnected) {
+                ScaffoldMessenger.of(context).showSnackBar(getSnackBar(
+                    context,
+                    'No hay conexión a Internet.',
+                    SnackBarType.error,
+                    const Duration(days: 365)));
+              } else {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              }
+            }),
+          )
+        ],
         child: Container(
           padding: defaultPadding,
           child: SafeArea(

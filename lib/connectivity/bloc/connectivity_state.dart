@@ -6,6 +6,8 @@ class ConnectivityState {
 
   const ConnectivityState({this.connectivityResult = ConnectivityResult.none});
 
+  bool get isConnected => connectivityResult != ConnectivityResult.none;
+
   ConnectivityState copyWith({
     ConnectivityResult? connectivityResult,
   }) {
