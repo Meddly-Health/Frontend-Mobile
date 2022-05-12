@@ -33,6 +33,7 @@ dependencies:
       url: https://github.com/lorensala/authentication_repository.git
       ref: master
   auto_route: ^3.2.4
+  auto_size_text: ^3.0.0
   bloc: ^8.0.3
   cache:
     git:

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
+import 'package:meddly/theme/theme.dart';
 import '../../helpers/assets_provider.dart';
 
 import '../cubit/login_cubit.dart';
@@ -77,10 +78,12 @@ class _LogginButton extends StatelessWidget {
         return GestureDetector(
           key: const Key('login_button'),
           onTap: () async {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
             FocusManager.instance.primaryFocus?.unfocus();
 
             if (state.email.value.isNotEmpty &&
-                state.password.value.isNotEmpty) {
+                state.password.value.isNotEmpty &&
+                !state.status.isSubmissionInProgress) {
               context.read<LoginCubit>().logInWithCredentials();
             }
           },
@@ -95,8 +98,21 @@ class _LogginButton extends StatelessWidget {
               ),
               duration: const Duration(milliseconds: 200),
               child: Center(
-                child: Text('Iniciar Sesión',
-                    style: Theme.of(context).textTheme.labelMedium),
+                child: state.status.isSubmissionInProgress
+                    ? SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          backgroundColor: Theme.of(context)
+                              .colorScheme
+                              .validColor
+                              .withOpacity(0.2),
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : Text('Iniciar Sesión',
+                        style: Theme.of(context).textTheme.labelMedium),
               )),
         );
       },

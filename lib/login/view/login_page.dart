@@ -1,10 +1,12 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
+import 'package:meddly/widgets/widgets.dart';
 import '../../helpers/assets_provider.dart';
 import '../../helpers/constants.dart';
 import '../../routes/router.dart';
@@ -45,25 +47,42 @@ class _LoginPageBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      return BlocListener<LoginCubit, LoginState>(
-        listener: (context, state) {
-          if (state.status.isSubmissionFailure) {
-            AutoRouter.of(context).pop();
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.errorMessage ?? 'Error'),
-                backgroundColor: Colors.red,
-              ),
-            );
-          }
-          if (state.status.isSubmissionInProgress) {
-            showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) =>
-                    const Center(child: CircularProgressIndicator()));
-          }
-        },
+      return MultiBlocListener(
+        listeners: [
+          BlocListener<LoginCubit, LoginState>(listener: (context, state) {
+            {
+              if (state.status.isSubmissionFailure) {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  getSnackBar(
+                      context,
+                      state.errorMessage ??
+                          'Por favor, revise los datos ingresados.',
+                      SnackBarType.error),
+                );
+              }
+              if (state.status.isSubmissionInProgress) {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              }
+
+              if (state.status.isSubmissionSuccess) {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              }
+            }
+          }),
+          BlocListener<ConnectivityBloc, ConnectivityState>(
+              listener: ((context, state) {
+            if (state.connectivityResult == ConnectivityResult.none) {
+              ScaffoldMessenger.of(context).showSnackBar(getSnackBar(
+                  context,
+                  'No hay conexión a Internet.',
+                  SnackBarType.error,
+                  const Duration(days: 365)));
+            } else {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            }
+          }))
+        ],
         child: Container(
           padding: defaultPadding,
           child: SafeArea(
@@ -79,9 +98,7 @@ class _LoginPageBody extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Spacer(flex: 1),
-                    Hero(
-                        tag: 'logo',
-                        child: SvgPicture.asset(AssetsProvider.meddlyLogo)),
+                    SvgPicture.asset(AssetsProvider.meddlyLogo),
                     const Spacer(flex: 1),
                     FadeIn(child: const LoginForm()),
                     const Spacer(flex: 3),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
+import 'package:meddly/theme/theme.dart';
 import '../../helpers/assets_provider.dart';
 
 import '../../helpers/helpers.dart';
@@ -116,7 +117,9 @@ class _SignUpButton extends StatelessWidget {
           key: const Key('sign_up_button'),
           onTap: () async {
             FocusManager.instance.primaryFocus?.unfocus();
-            if (state.status.isValid && state.termsAccepted) {
+            if (state.status.isValid &&
+                state.termsAccepted &&
+                !state.status.isSubmissionInProgress) {
               context.read<SignUpCubit>().signUpFormSubmitted();
             }
           },
@@ -130,8 +133,21 @@ class _SignUpButton extends StatelessWidget {
               ),
               duration: const Duration(milliseconds: 200),
               child: Center(
-                child: Text('Registrarse',
-                    style: Theme.of(context).textTheme.labelMedium),
+                child: state.status.isSubmissionInProgress
+                    ? SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          backgroundColor: Theme.of(context)
+                              .colorScheme
+                              .validColor
+                              .withOpacity(0.2),
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : Text('Registrarse',
+                        style: Theme.of(context).textTheme.labelMedium),
               )),
         );
       },
@@ -202,8 +218,7 @@ class _EmailField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon:
-                  showCheckIcon(state.email.valid, state.errorMessage, context),
+              suffixIcon: showCheckIcon(state.email.valid, context),
               suffixIconConstraints: const BoxConstraints(
                   maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
             ));
@@ -279,8 +294,7 @@ class _PasswordField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon: showCheckIcon(
-                  state.password.valid, state.errorMessage, context),
+              suffixIcon: showCheckIcon(state.password.valid, context),
               suffixIconConstraints: const BoxConstraints(
                   maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
             ));
@@ -361,8 +375,7 @@ class _ConfirmedPasswordField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon: showCheckIcon(
-                  state.confirmedPassword.valid, state.errorMessage, context),
+              suffixIcon: showCheckIcon(state.confirmedPassword.valid, context),
               suffixIconConstraints: const BoxConstraints(
                   maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
             ));

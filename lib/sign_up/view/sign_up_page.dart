@@ -8,6 +8,7 @@ import 'package:formz/formz.dart';
 import '../../helpers/assets_provider.dart';
 import '../../helpers/constants.dart';
 import '../../routes/router.dart';
+import '../../widgets/widgets.dart';
 import 'sign_up_form.dart';
 
 import '../../blocs.dart';
@@ -48,23 +49,21 @@ class _SignUpPageBody extends StatelessWidget {
       return BlocListener<SignUpCubit, SignUpState>(
         listener: (context, state) {
           if (state.status.isSubmissionFailure) {
-            AutoRouter.of(context).pop();
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.errorMessage ?? 'Error'),
-                backgroundColor: Colors.red,
-              ),
+              getSnackBar(
+                  context,
+                  state.errorMessage ??
+                      'Por favor, revise los datos ingresados.',
+                  SnackBarType.error),
             );
           }
           if (state.status.isSubmissionInProgress) {
-            showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) =>
-                    const Center(child: CircularProgressIndicator()));
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
           }
+
           if (state.status.isSubmissionSuccess) {
-            ///
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
           }
         },
         child: Container(

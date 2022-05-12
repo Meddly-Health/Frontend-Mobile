@@ -12,10 +12,17 @@ class ConnectivityBloc extends Bloc<ConnectivityEvent, ConnectivityState> {
 
   ConnectivityBloc() : super(const ConnectivityState()) {
     on<ConnectivityCheckEvent>((event, emit) {
+      print(event.connectivityResult);
       emit(state.copyWith(connectivityResult: event.connectivityResult));
     });
 
+    _checkConnectivity();
     _connectivityStream();
+  }
+
+  void _checkConnectivity() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    add(ConnectivityCheckEvent(connectivityResult));
   }
 
   void _connectivityStream() {

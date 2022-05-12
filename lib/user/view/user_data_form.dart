@@ -194,8 +194,7 @@ class _NameField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon:
-                  showCheckIcon(state.name.valid, state.errorMessage, context),
+              suffixIcon: showCheckIcon(state.name.valid, context),
               suffixIconConstraints: const BoxConstraints(
                   maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
             ));
@@ -267,8 +266,7 @@ class _LastNameField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon: showCheckIcon(
-                  state.lastName.valid, state.errorMessage, context),
+              suffixIcon: showCheckIcon(state.lastName.valid, context),
               suffixIconConstraints: const BoxConstraints(
                   maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
             ));
@@ -357,7 +355,6 @@ class _WeightField extends StatelessWidget {
                           width: 30,
                           child: showCheckIcon(
                               state.weight.valid && state.weight.value > 0,
-                              state.errorMessage,
                               context),
                         )
                     ]),
@@ -445,7 +442,6 @@ class _HeightField extends StatelessWidget {
                       width: 30,
                       child: showCheckIcon(
                           state.height.valid && state.height.value > 0,
-                          state.errorMessage,
                           context),
                     )
                   ]),
