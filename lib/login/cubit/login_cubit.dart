@@ -30,11 +30,13 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> logInWithCredentials() async {
+    emit(state.copyWith(status: FormzStatus.submissionInProgress));
     if (!state.status.isValidated) {
-      emit(state.copyWith(status: FormzStatus.submissionFailure));
+      emit(state.copyWith(
+          status: FormzStatus.submissionFailure,
+          errorMessage: 'Invalid credentials'));
       return;
     }
-    emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
       await _authenticationRepository.logInWithEmailAndPassword(
         email: state.email.value.trim().toLowerCase(),

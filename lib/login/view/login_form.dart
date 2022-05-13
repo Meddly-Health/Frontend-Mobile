@@ -78,20 +78,20 @@ class _LogginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isConnected = context.read<ConnectivityBloc>().state.isConnected;
-
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
         return GestureDetector(
           key: const Key('login_button'),
           onTap: () async {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
             FocusManager.instance.primaryFocus?.unfocus();
+            bool isConnected =
+                context.read<ConnectivityBloc>().state.isConnected;
 
             if (state.email.value.isNotEmpty &&
                 state.password.value.isNotEmpty &&
                 isConnected &&
                 !state.status.isSubmissionInProgress) {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
               context.read<LoginCubit>().logInWithCredentials();
             }
           },
@@ -206,6 +206,7 @@ class _PasswordField extends StatelessWidget {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
         bool showErrorText = state.status.isSubmissionFailure;
+        bool isConnected = context.read<ConnectivityBloc>().state.isConnected;
 
         return TextFormField(
             key: const Key('login_password'),
@@ -217,7 +218,10 @@ class _PasswordField extends StatelessWidget {
               FocusManager.instance.primaryFocus?.unfocus();
 
               if (state.email.value.isNotEmpty &&
-                  state.password.value.isNotEmpty) {
+                  state.password.value.isNotEmpty &&
+                  isConnected &&
+                  !state.status.isSubmissionInProgress) {
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 context.read<LoginCubit>().logInWithCredentials();
               }
             },
