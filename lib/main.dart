@@ -63,10 +63,10 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           routeInformationParser: _router.defaultRouteParser(),
           routerDelegate: _router.delegate(initialRoutes: [
-            // const UserDataRoute(),
-            authenticationRepository.currentUser.isEmpty
-                ? const LoginRoute()
-                : const HomeRoute(),
+            const WelcomeRoute(),
+            // authenticationRepository.currentUser.isEmpty
+            //     ? const LoginRoute()
+            //     : const HomeRoute(),
           ]),
         ),
       ),

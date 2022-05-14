@@ -35,6 +35,15 @@ class _$AppRouter extends RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
+    WelcomeRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const WelcomePage(),
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 200,
+          opaque: true,
+          barrierDismissible: false);
+    },
     HomeRoute.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
@@ -59,6 +68,7 @@ class _$AppRouter extends RootStackRouter {
   List<RouteConfig> get routes => [
         RouteConfig(LoginRoute.name, path: 'login'),
         RouteConfig(SignUpRoute.name, path: 'signup'),
+        RouteConfig(WelcomeRoute.name, path: 'welcome'),
         RouteConfig(HomeRoute.name, path: ''),
         RouteConfig(UserDataRoute.name, path: 'user_data')
       ];
@@ -78,6 +88,14 @@ class SignUpRoute extends PageRouteInfo<void> {
   const SignUpRoute() : super(SignUpRoute.name, path: 'signup');
 
   static const String name = 'SignUpRoute';
+}
+
+/// generated route for
+/// [WelcomePage]
+class WelcomeRoute extends PageRouteInfo<void> {
+  const WelcomeRoute() : super(WelcomeRoute.name, path: 'welcome');
+
+  static const String name = 'WelcomeRoute';
 }
 
 /// generated route for
