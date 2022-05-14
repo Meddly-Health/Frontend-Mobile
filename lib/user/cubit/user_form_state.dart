@@ -11,8 +11,6 @@ class UserFormState extends Equatable {
   final bool sex;
   final String? errorMessage;
 
-  // TODO: Hacer un validator para la fecha de nacimiento!
-
   bool get isValid => status.isValid;
 
   const UserFormState(

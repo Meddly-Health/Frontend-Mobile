@@ -16,11 +16,15 @@ class WelcomeCubit extends Cubit<WelcomeState> {
 
     pageController.addListener(() {
       if (pageController.page! < 0.5) {
+        if (state.currentPage == 0) return;
         emit(state.copyWith(currentPage: 0));
       } else if (pageController.page! < 1.5 && pageController.page! >= 0.5) {
+        if (state.currentPage == 1) return;
         emit(state.copyWith(currentPage: 1));
       } else if (pageController.page! <= 2 && pageController.page! >= 1.5) {
-        emit(state.copyWith(currentPage: 2));
+        if (state.currentPage == 2) return;
+
+        return emit(state.copyWith(currentPage: 2));
       }
     });
 

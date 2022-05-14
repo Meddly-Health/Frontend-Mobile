@@ -2,9 +2,11 @@ import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
 import 'package:meddly/helpers/constants.dart';
 import 'package:meddly/routes/router.dart';
 import 'package:meddly/user/cubit/user_form_cubit.dart';
+import 'package:meddly/user/repository/respository.dart';
 import 'package:meddly/user/view/user_data_form.dart';
 
 class UserDataPage extends StatelessWidget {
@@ -13,11 +15,22 @@ class UserDataPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => UserFormCubit(),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(),
-        body: const _UserDataPageBody(),
+      create: (context) =>
+          UserFormCubit(RepositoryProvider.of<UserRepository>(context)),
+      child: BlocListener<UserFormCubit, UserFormState>(
+        listener: (context, state) {
+          if (state.status.isSubmissionSuccess) {
+            AutoRouter.of(context).pushAndPopUntil(const HomeRoute(),
+                predicate: ((route) => false));
+          } else if (state.status.isSubmissionFailure) {
+            print('error');
+          }
+        },
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
+          appBar: AppBar(),
+          body: const _UserDataPageBody(),
+        ),
       ),
     );
   }
@@ -96,9 +109,7 @@ class _OmitOrSave extends StatelessWidget {
             return GestureDetector(
               onTap: () async {
                 if (state.isValid) {
-                  // context.read<UserFormCubit>().saveUserData();
-                  AutoRouter.of(context).pushAndPopUntil(const HomeRoute(),
-                      predicate: ((route) => false));
+                  context.read<UserFormCubit>().saveUserData();
                 }
               },
               child: AnimatedContainer(

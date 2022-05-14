@@ -31,16 +31,14 @@ class WelcomePage extends StatelessWidget {
                           return Container(
                             margin: const EdgeInsets.only(top: 30),
                             height: MediaQuery.of(context).size.height / 2,
-                            child: Expanded(
-                              child: PageView(
-                                controller:
-                                    context.read<WelcomeCubit>().pageController,
-                                children: [
-                                  _PageViewBody.diagnosis(),
-                                  _PageViewBody.pills(),
-                                  _PageViewBody.treatment(),
-                                ],
-                              ),
+                            child: PageView(
+                              controller:
+                                  context.read<WelcomeCubit>().pageController,
+                              children: [
+                                _PageViewBody.diagnosis(),
+                                _PageViewBody.pills(),
+                                _PageViewBody.treatment(),
+                              ],
                             ),
                           );
                         },
