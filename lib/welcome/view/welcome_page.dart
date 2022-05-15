@@ -22,27 +22,29 @@ class WelcomePage extends StatelessWidget {
           child: SizedBox(
             child: SafeArea(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  const Spacer(flex: 1),
+                  BlocBuilder<WelcomeCubit, WelcomeState>(
+                    builder: (context, state) {
+                      return Container(
+                        margin: const EdgeInsets.only(top: 30),
+                        height: MediaQuery.of(context).size.height / 1.5,
+                        child: PageView(
+                          controller:
+                              context.read<WelcomeCubit>().pageController,
+                          children: [
+                            _PageViewBody.diagnosis(),
+                            _PageViewBody.pills(),
+                            _PageViewBody.treatment(),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                  const Spacer(flex: 3),
                   Column(
                     children: [
-                      BlocBuilder<WelcomeCubit, WelcomeState>(
-                        builder: (context, state) {
-                          return Container(
-                            margin: const EdgeInsets.only(top: 30),
-                            height: MediaQuery.of(context).size.height / 2,
-                            child: PageView(
-                              controller:
-                                  context.read<WelcomeCubit>().pageController,
-                              children: [
-                                _PageViewBody.diagnosis(),
-                                _PageViewBody.pills(),
-                                _PageViewBody.treatment(),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
                       BlocBuilder<WelcomeCubit, WelcomeState>(
                         builder: (context, state) {
                           return Row(
@@ -58,9 +60,10 @@ class WelcomePage extends StatelessWidget {
                           );
                         },
                       ),
+                      const SizedBox(height: 20),
+                      const _WelcomeButton(),
                     ],
-                  ),
-                  const _WelcomeButton()
+                  )
                 ],
               ),
             ),
@@ -134,7 +137,7 @@ class _PageViewBody extends StatelessWidget {
           SizedBox(
               height: MediaQuery.of(context).size.height / 3,
               child: SvgPicture.asset(asset)),
-          const SizedBox(height: 16),
+          const SizedBox(height: 30),
           Text(
             title,
             style: Theme.of(context).textTheme.titleSmall,
