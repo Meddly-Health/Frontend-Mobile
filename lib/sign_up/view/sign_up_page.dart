@@ -24,7 +24,7 @@ class SignUpPage extends StatelessWidget {
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state.user.isNotEmpty) {
-            AutoRouter.of(context).pushAndPopUntil(const UserDataRoute(),
+            AutoRouter.of(context).pushAndPopUntil(const UserUpdateRoute(),
                 predicate: ((route) => false));
           }
         },
@@ -51,6 +51,7 @@ class _SignUpPageBody extends StatelessWidget {
           BlocListener<SignUpCubit, SignUpState>(
             listener: (context, state) {
               if (state.status.isSubmissionFailure) {
+                context.read<SignUpCubit>().termsAcceptedChanged(false);
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
                 ScaffoldMessenger.of(context).showSnackBar(
                   getSnackBar(

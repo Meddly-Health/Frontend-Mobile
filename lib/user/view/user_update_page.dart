@@ -1,29 +1,43 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:meddly/helpers/constants.dart';
 import 'package:meddly/routes/router.dart';
-import 'package:meddly/user/cubit/user_form_cubit.dart';
 import 'package:meddly/user/repository/respository.dart';
-import 'package:meddly/user/view/user_data_form.dart';
+import 'package:meddly/user/view/form/user_update_form.dart';
 import 'package:meddly/widgets/widgets.dart';
 
-class UserDataPage extends StatelessWidget {
-  const UserDataPage({Key? key}) : super(key: key);
+import '../../blocs.dart';
+
+class UserUpdatePage extends StatelessWidget {
+  const UserUpdatePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          UserFormCubit(RepositoryProvider.of<UserRepository>(context)),
+      create: (context) => UserFormCubit(
+          RepositoryProvider.of<UserRepository>(context),
+          RepositoryProvider.of<AuthenticationRepository>(context))
+        ..init(),
       child: BlocListener<UserFormCubit, UserFormState>(
         listener: (context, state) {
+          if (state.userStatus == UserStatus.loading) {
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return const Center(child: CircularProgressIndicator());
+              },
+            );
+          }
+
           if (state.status.isSubmissionSuccess) {
             AutoRouter.of(context).pushAndPopUntil(const HomeRoute(),
                 predicate: ((route) => false));
-          } else if (state.status.isSubmissionFailure) {
+          } else if (state.status.isSubmissionFailure ||
+              state.userStatus == UserStatus.error) {
             ScaffoldMessenger.of(context).showSnackBar(
               getSnackBar(context, state.errorMessage!, SnackBarType.error),
             );
@@ -66,7 +80,7 @@ class _UserDataPageBody extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       const SizedBox(height: 20),
-                      const UserDataForm(),
+                      const UserUpdateForm(),
                       const Spacer(),
                       const _OmitOrSave()
                     ]),

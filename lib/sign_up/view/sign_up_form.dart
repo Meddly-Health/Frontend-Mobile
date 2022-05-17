@@ -130,7 +130,8 @@ class _SignUpButton extends StatelessWidget {
           child: AnimatedContainer(
             height: 55,
             decoration: BoxDecoration(
-              color: state.status.isValid && state.termsAccepted
+              color: state.status.isValid && state.termsAccepted ||
+                      state.status.isSubmissionInProgress
                   ? Theme.of(context).colorScheme.primary
                   : Theme.of(context).colorScheme.secondaryContainer,
               borderRadius: BorderRadius.circular(10),
@@ -167,8 +168,9 @@ class _EmailField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
-        bool showErrorText =
-            state.email.value.isNotEmpty && state.email.invalid;
+        bool showErrorText = state.email.value.isNotEmpty &&
+            state.email.invalid &&
+            !state.isGoogleSignIn;
 
         return TextFormField(
             key: const Key('sign_up_email'),
@@ -239,8 +241,9 @@ class _PasswordField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
-        bool showErrorText =
-            state.password.value.isNotEmpty && state.password.invalid;
+        bool showErrorText = state.password.value.isNotEmpty &&
+            state.password.invalid &&
+            !state.isGoogleSignIn;
 
         return TextFormField(
             key: const Key('sign_up_password'),
@@ -316,11 +319,12 @@ class _ConfirmedPasswordField extends StatelessWidget {
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
         bool showErrorText = state.confirmedPassword.value.isNotEmpty &&
-            state.confirmedPassword.invalid;
+            state.confirmedPassword.invalid &&
+            !state.isGoogleSignIn;
 
         return TextFormField(
             key: const Key('sign_up_confirmed_password'),
-            textInputAction: TextInputAction.none,
+            textInputAction: TextInputAction.next,
             onChanged: (String? value) {
               context.read<SignUpCubit>().confirmedPasswordChanged(value!);
             },

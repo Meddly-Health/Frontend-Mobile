@@ -15,7 +15,7 @@ class MockAuthenticationRepository extends Mock
 
 class MockAuthBloc extends MockBloc<AuthEvent, AuthState> implements AuthBloc {}
 
-class MockUser extends Mock implements User {}
+class MockUser extends Mock implements AuthUser {}
 
 class MockLoginCubit extends MockCubit<LoginState> implements LoginCubit {}
 
@@ -26,7 +26,7 @@ void main() {
 
   late AuthBloc authBloc;
   late LoginCubit loginCubit;
-  late User user;
+  late AuthUser user;
   late AuthenticationRepository authenticationRepository;
   late AppRouter appRouter;
 

@@ -28,7 +28,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       lastName: json['last_name'] as String?,
       height: (json['height'] as num?)?.toDouble(),
       weight: (json['weight'] as num?)?.toDouble(),
-      sex: json['sex'] as bool?,
+      sex: $enumDecodeNullable(_$SexEnumMap, json['sex']),
       birth: json['birth'] == null
           ? null
           : DateTime.parse(json['birth'] as String),
@@ -46,8 +46,12 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'last_name': instance.lastName,
       'height': instance.height,
       'weight': instance.weight,
-      'sex': instance.sex,
-      'birth': instance.birth == null
-          ? null
-          : '${instance.birth?.year}-${instance.birth?.month}-${instance.birth?.day}',
+      'sex': _$SexEnumMap[instance.sex],
+      'birth': instance.birth?.toIso8601String(),
     };
+
+const _$SexEnumMap = {
+  Sex.masculino: 'masculino',
+  Sex.femenino: 'femenino',
+  Sex.otro: 'otro',
+};

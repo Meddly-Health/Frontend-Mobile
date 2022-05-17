@@ -4,11 +4,12 @@ part of 'user_form_cubit.dart';
 class UserFormState extends Equatable {
   final FormzStatus status;
   final Name name;
+  final UserStatus userStatus;
   final LastName lastName;
   final BirthDate birthDate;
   final Heigth height;
   final Weigth weight;
-  final bool sex;
+  final Sex sex;
   final String? errorMessage;
 
   bool get isValid => status.isValid;
@@ -20,32 +21,42 @@ class UserFormState extends Equatable {
       this.birthDate = const BirthDate.pure(),
       this.height = const Heigth.pure(),
       this.weight = const Weigth.pure(),
-      this.sex = false,
+      this.sex = Sex.otro,
+      this.userStatus = UserStatus.initial,
       this.errorMessage});
 
   @override
-  List<Object?> get props =>
-      [status, name, lastName, birthDate, height, weight, sex];
+  List<Object?> get props => [
+        status,
+        name,
+        lastName,
+        birthDate,
+        height,
+        weight,
+        sex,
+        errorMessage,
+        userStatus
+      ];
 
-  UserFormState copyWith({
-    FormzStatus? status,
-    Name? name,
-    LastName? lastName,
-    BirthDate? birthDate,
-    Heigth? height,
-    Weigth? weight,
-    bool? sex,
-    String? errorMessage,
-  }) {
+  UserFormState copyWith(
+      {FormzStatus? status,
+      Name? name,
+      LastName? lastName,
+      BirthDate? birthDate,
+      Heigth? height,
+      Weigth? weight,
+      Sex? sex,
+      String? errorMessage,
+      UserStatus? userStatus}) {
     return UserFormState(
-      status: status ?? this.status,
-      name: name ?? this.name,
-      lastName: lastName ?? this.lastName,
-      birthDate: birthDate ?? this.birthDate,
-      height: height ?? this.height,
-      weight: weight ?? this.weight,
-      sex: sex ?? this.sex,
-      errorMessage: errorMessage ?? this.errorMessage,
-    );
+        status: status ?? this.status,
+        name: name ?? this.name,
+        lastName: lastName ?? this.lastName,
+        birthDate: birthDate ?? this.birthDate,
+        height: height ?? this.height,
+        weight: weight ?? this.weight,
+        sex: sex ?? this.sex,
+        errorMessage: errorMessage ?? this.errorMessage,
+        userStatus: userStatus ?? this.userStatus);
   }
 }

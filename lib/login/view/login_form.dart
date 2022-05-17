@@ -131,7 +131,8 @@ class _EmailField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
-        bool showErrorText = state.status.isSubmissionFailure;
+        bool showErrorText =
+            state.status.isSubmissionFailure && !state.isGoogleSignIn;
 
         return TextFormField(
             key: const Key('login_email'),
@@ -199,7 +200,8 @@ class _PasswordField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
       builder: (context, state) {
-        bool showErrorText = state.status.isSubmissionFailure;
+        bool showErrorText =
+            state.status.isSubmissionFailure && !state.isGoogleSignIn;
 
         return TextFormField(
           key: const Key('login_password'),

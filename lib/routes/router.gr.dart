@@ -53,10 +53,10 @@ class _$AppRouter extends RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
-    UserDataRoute.name: (routeData) {
+    UserUpdateRoute.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
-          child: const UserDataPage(),
+          child: const UserUpdatePage(),
           transitionsBuilder: TransitionsBuilders.noTransition,
           durationInMilliseconds: 200,
           opaque: true,
@@ -70,7 +70,7 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(SignUpRoute.name, path: 'signup'),
         RouteConfig(WelcomeRoute.name, path: 'welcome'),
         RouteConfig(HomeRoute.name, path: ''),
-        RouteConfig(UserDataRoute.name, path: 'user_data')
+        RouteConfig(UserUpdateRoute.name, path: 'user_data')
       ];
 }
 
@@ -107,9 +107,9 @@ class HomeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [UserDataPage]
-class UserDataRoute extends PageRouteInfo<void> {
-  const UserDataRoute() : super(UserDataRoute.name, path: 'user_data');
+/// [UserUpdatePage]
+class UserUpdateRoute extends PageRouteInfo<void> {
+  const UserUpdateRoute() : super(UserUpdateRoute.name, path: 'user_data');
 
-  static const String name = 'UserDataRoute';
+  static const String name = 'UserUpdateRoute';
 }

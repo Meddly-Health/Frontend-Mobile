@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:meddly/user/view/user_data_page.dart';
+import 'package:meddly/user/view/user_update_page.dart';
 import 'package:meddly/welcome/view/welcome_page.dart';
 import '../home/view/home_page.dart';
 import '../sign_up/view/view.dart';
@@ -21,5 +21,5 @@ const List<AutoRoute> routes = [
   AutoRoute(path: 'signup', page: SignUpPage),
   AutoRoute(path: 'welcome', page: WelcomePage),
   AutoRoute(path: '', page: HomePage),
-  AutoRoute(path: 'user_data', page: UserDataPage),
+  AutoRoute(path: 'user_data', page: UserUpdatePage),
 ];

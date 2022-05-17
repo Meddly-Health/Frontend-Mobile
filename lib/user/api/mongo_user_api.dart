@@ -1,5 +1,6 @@
 import 'package:authentication_repository/authentication_repository.dart'
     as auth;
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:meddly/helpers/constants.dart';
 
@@ -53,11 +54,15 @@ class MongoUserApi extends UserApi {
             headers: {'Authorization': 'Bearer $token'},
           ));
 
+      await _authenticationRepository.deleteUser();
+
       if (response.statusCode == 200) {
         return Right(User.fromJson(response.data));
       } else {
         return Left(UserException.fromStatusCode(response.statusCode!));
       }
+    } on DeleteUserFailure catch (e) {
+      return Left(UserException(message: e.message));
     } on DioError catch (e) {
       return Left(UserException.fromDioError(e));
     } catch (e) {

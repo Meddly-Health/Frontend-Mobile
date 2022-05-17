@@ -15,7 +15,7 @@ class MockLoginCubit extends MockCubit<LoginState> implements LoginCubit {}
 
 class MockAuthBloc extends MockBloc<AuthEvent, AuthState> implements AuthBloc {}
 
-class MockUser extends Mock implements User {}
+class MockUser extends Mock implements AuthUser {}
 
 class MockEmail extends Mock implements Email {}
 

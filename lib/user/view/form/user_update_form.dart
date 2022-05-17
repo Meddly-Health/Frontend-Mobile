@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meddly/helpers/constants.dart';
 
-import '../../blocs.dart';
-import '../../helpers/helpers.dart';
+import '../../../blocs.dart';
+import '../../../helpers/helpers.dart';
+import '../../models/models.dart';
 
-class UserDataForm extends StatelessWidget {
-  const UserDataForm({Key? key}) : super(key: key);
+class UserUpdateForm extends StatelessWidget {
+  const UserUpdateForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,28 +48,34 @@ class _SexDropDown extends StatelessWidget {
           ),
           width: MediaQuery.of(context).size.width,
           child: DropdownButtonHideUnderline(
-              child: DropdownButton<bool>(
+              child: DropdownButton<Sex>(
             value: state.sex,
             style: Theme.of(context).textTheme.bodyMedium,
             dropdownColor: Theme.of(context).colorScheme.secondary,
             icon: Transform.rotate(
                 angle: 11, child: const Icon(Icons.chevron_left)),
-            items: const <DropdownMenuItem<bool>>[
-              DropdownMenuItem<bool>(
+            items: const <DropdownMenuItem<Sex>>[
+              DropdownMenuItem<Sex>(
                 child: Text(
                   'Femenino',
                 ),
-                value: false,
+                value: Sex.femenino,
               ),
-              DropdownMenuItem<bool>(
+              DropdownMenuItem<Sex>(
                 child: Text(
                   'Masculino',
                 ),
-                value: true,
+                value: Sex.masculino,
+              ),
+              DropdownMenuItem<Sex>(
+                child: Text(
+                  'Otro',
+                ),
+                value: Sex.otro,
               ),
             ],
-            onChanged: (bool? value) {
-              context.read<UserFormCubit>().sexChanged(value!);
+            onChanged: (Sex? value) {
+              context.read<UserFormCubit>().sexChanged(value);
             },
           )),
         );
@@ -149,6 +156,7 @@ class _NameField extends StatelessWidget {
             onChanged: (String? value) {
               context.read<UserFormCubit>().nameChanged(value!);
             },
+            controller: context.read<UserFormCubit>().nameController,
             keyboardType: TextInputType.name,
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
@@ -221,6 +229,7 @@ class _LastNameField extends StatelessWidget {
             onChanged: (String? value) {
               context.read<UserFormCubit>().lastNameChanged(value!);
             },
+            controller: context.read<UserFormCubit>().lastNameController,
             keyboardType: TextInputType.name,
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
@@ -289,7 +298,7 @@ class _WeightField extends StatelessWidget {
         return TextFormField(
             key: const Key('user_weight'),
             textInputAction: TextInputAction.next,
-            initialValue: state.weight.value.toStringAsFixed(2),
+            controller: context.read<UserFormCubit>().weightController,
             onChanged: (String? value) {
               double? weight = double.tryParse(value!);
 
@@ -379,14 +388,14 @@ class _HeightField extends StatelessWidget {
         return TextFormField(
             key: const Key('user_height'),
             textInputAction: TextInputAction.next,
-            initialValue: state.height.value.toStringAsFixed(2),
             onChanged: (String? value) {
               double? height = double.tryParse(value!);
 
               height ??= 0;
 
-              context.read<UserFormCubit>().heigthChanged(height);
+              context.read<UserFormCubit>().heightChanged(height);
             },
+            controller: context.read<UserFormCubit>().heightController,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             inputFormatters: const [],
             style: Theme.of(context).textTheme.bodyMedium,

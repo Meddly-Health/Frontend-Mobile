@@ -2,6 +2,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'user.g.dart';
 
+enum Sex { masculino, femenino, otro }
+
 @JsonSerializable()
 class User {
   @JsonKey(name: 'user_id')
@@ -20,7 +22,7 @@ class User {
   final String? lastName;
   final double? height;
   final double? weight;
-  final bool? sex;
+  final Sex? sex;
   final DateTime? birth;
 
   const User({
@@ -42,16 +44,36 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
-}
 
-class BirthConverter implements JsonConverter<DateTime, String> {
-  @override
-  fromJson(json) {
-    return DateTime.parse(json);
-  }
-
-  @override
-  toJson(object) {
-    return '${object.year}-${object.month}-${object.day}';
+  User copyWith({
+    String? id,
+    String? email,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+    List<String>? diseases,
+    List<String>? supervisors,
+    List<String>? supervisedBy,
+    String? firstName,
+    String? lastName,
+    double? height,
+    double? weight,
+    Sex? sex,
+    DateTime? birth,
+  }) {
+    return User(
+      id: id ?? this.id,
+      email: email ?? this.email,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      diseases: diseases ?? this.diseases,
+      supervisors: supervisors ?? this.supervisors,
+      supervisedBy: supervisedBy ?? this.supervisedBy,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      height: height ?? this.height,
+      weight: weight ?? this.weight,
+      sex: sex ?? this.sex,
+      birth: birth ?? this.birth,
+    );
   }
 }
