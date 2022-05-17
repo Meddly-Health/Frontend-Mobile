@@ -30,7 +30,8 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> logInWithCredentials() async {
-    emit(state.copyWith(status: FormzStatus.submissionInProgress));
+    emit(state.copyWith(
+        status: FormzStatus.submissionInProgress, isGoogleSignIn: false));
     if (!state.status.isValidated) {
       emit(state.copyWith(
           status: FormzStatus.submissionFailure,
@@ -55,7 +56,8 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> logInWithGoogle() async {
-    emit(state.copyWith(status: FormzStatus.submissionInProgress));
+    emit(state.copyWith(
+        status: FormzStatus.submissionInProgress, isGoogleSignIn: true));
     try {
       await _authenticationRepository.logInWithGoogle();
 

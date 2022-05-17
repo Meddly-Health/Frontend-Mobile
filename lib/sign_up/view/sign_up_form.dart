@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
-import 'package:meddly/theme/theme.dart';
 import '../../connectivity/bloc/connectivity_bloc.dart';
 import '../../helpers/assets_provider.dart';
 
 import '../../helpers/helpers.dart';
+import '../../widgets/widgets.dart';
 import '../cubit/sign_up_cubit.dart';
 
 class SignUpForm extends StatelessWidget {
@@ -75,34 +75,40 @@ class _GoogleLogginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isConnected = context.read<ConnectivityBloc>().state.isConnected;
-
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
         return GestureDetector(
           key: const Key('google_login_button'),
-          onTap: () {
-            if (isConnected) {
-              context.read<SignUpCubit>().logInWithGoogle();
-            }
-          },
+          onTap: () => _loginWithGoogle(context, state),
           child: Container(
-              height: 55,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset(AssetsProvider.googleIcon),
-                    const SizedBox(width: 16),
-                    Text('Iniciar Sesión con Google',
-                        style: Theme.of(context).textTheme.bodyMedium),
-                  ],
-                ),
-              )),
+            height: 55,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.secondary,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Center(
+              child: state.status.isSubmissionInProgress && state.isGoogleSignIn
+                  ? SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        color: Colors.black,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
+                        strokeWidth: 2,
+                      ),
+                    )
+                  : Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset(AssetsProvider.googleIcon),
+                        const SizedBox(width: 16),
+                        Text('Iniciar Sesión con Google',
+                            style: Theme.of(context).textTheme.bodyMedium),
+                      ],
+                    ),
+            ),
+          ),
         );
       },
     );
@@ -116,47 +122,36 @@ class _SignUpButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isConnected = context.read<ConnectivityBloc>().state.isConnected;
-
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
         return GestureDetector(
           key: const Key('sign_up_button'),
-          onTap: () async {
-            FocusManager.instance.primaryFocus?.unfocus();
-            if (state.status.isValid &&
-                state.termsAccepted &&
-                isConnected &&
-                !state.status.isSubmissionInProgress) {
-              context.read<SignUpCubit>().signUpFormSubmitted();
-            }
-          },
+          onTap: () => _signInWithEmailAndPassword(context, state),
           child: AnimatedContainer(
-              height: 55,
-              decoration: BoxDecoration(
-                color: state.status.isValid && state.termsAccepted
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.secondaryContainer,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              duration: const Duration(milliseconds: 200),
-              child: Center(
-                child: state.status.isSubmissionInProgress
-                    ? SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          backgroundColor: Theme.of(context)
-                              .colorScheme
-                              .validColor
-                              .withOpacity(0.2),
-                          strokeWidth: 2,
-                        ),
-                      )
-                    : Text('Registrarse',
-                        style: Theme.of(context).textTheme.labelMedium),
-              )),
+            height: 55,
+            decoration: BoxDecoration(
+              color: state.status.isValid && state.termsAccepted
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.secondaryContainer,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            duration: const Duration(milliseconds: 200),
+            child: Center(
+              child: state.status.isSubmissionInProgress &&
+                      !state.isGoogleSignIn
+                  ? SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        strokeWidth: 2,
+                      ),
+                    )
+                  : Text('Iniciar Sesión',
+                      style: Theme.of(context).textTheme.labelMedium),
+            ),
+          ),
         );
       },
     );
@@ -323,22 +318,11 @@ class _ConfirmedPasswordField extends StatelessWidget {
         bool showErrorText = state.confirmedPassword.value.isNotEmpty &&
             state.confirmedPassword.invalid;
 
-        bool isConnected = context.read<ConnectivityBloc>().state.isConnected;
-
         return TextFormField(
             key: const Key('sign_up_confirmed_password'),
-            textInputAction: TextInputAction.done,
+            textInputAction: TextInputAction.none,
             onChanged: (String? value) {
               context.read<SignUpCubit>().confirmedPasswordChanged(value!);
-            },
-            onFieldSubmitted: (String? value) {
-              FocusManager.instance.primaryFocus?.unfocus();
-              if (state.status.isValid &&
-                  state.termsAccepted &&
-                  isConnected &&
-                  !state.status.isSubmissionInProgress) {
-                context.read<SignUpCubit>().signUpFormSubmitted();
-              }
             },
             keyboardType: TextInputType.text,
             style: Theme.of(context).textTheme.bodyMedium,
@@ -394,5 +378,34 @@ class _ConfirmedPasswordField extends StatelessWidget {
             ));
       },
     );
+  }
+}
+
+void _loginWithGoogle(BuildContext context, SignUpState state) {
+  bool isConnected = context.read<ConnectivityBloc>().state.isConnected;
+
+  if (!isConnected) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+        getSnackBar(context, 'No hay conexión a internet', SnackBarType.error));
+    return;
+  }
+
+  context.read<SignUpCubit>().logInWithGoogle();
+}
+
+void _signInWithEmailAndPassword(BuildContext context, SignUpState state) {
+  bool isConnected = context.read<ConnectivityBloc>().state.isConnected;
+
+  if (!isConnected) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+        getSnackBar(context, 'No hay conexión a internet', SnackBarType.error));
+    return;
+  }
+
+  if (state.status.isValid && state.termsAccepted) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    context.read<SignUpCubit>().signUpFormSubmitted();
   }
 }

@@ -10,6 +10,7 @@ class SignUpState extends Equatable {
     this.status = FormzStatus.pure,
     this.termsAccepted = false,
     this.errorMessage,
+    this.isGoogleSignIn = false,
   });
 
   final Email email;
@@ -18,10 +19,17 @@ class SignUpState extends Equatable {
   final FormzStatus status;
   final bool termsAccepted;
   final String? errorMessage;
+  final bool isGoogleSignIn;
 
   @override
-  List<Object> get props =>
-      [email, password, confirmedPassword, status, termsAccepted];
+  List<Object> get props => [
+        email,
+        password,
+        confirmedPassword,
+        status,
+        termsAccepted,
+        isGoogleSignIn
+      ];
 
   SignUpState copyWith({
     Email? email,
@@ -30,6 +38,7 @@ class SignUpState extends Equatable {
     FormzStatus? status,
     String? errorMessage,
     bool? termsAccepted,
+    bool? isGoogleSignIn,
   }) {
     return SignUpState(
       email: email ?? this.email,
@@ -38,6 +47,7 @@ class SignUpState extends Equatable {
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
       termsAccepted: termsAccepted ?? this.termsAccepted,
+      isGoogleSignIn: isGoogleSignIn ?? this.isGoogleSignIn,
     );
   }
 }

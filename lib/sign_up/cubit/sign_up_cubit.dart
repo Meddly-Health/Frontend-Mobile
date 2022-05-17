@@ -59,7 +59,8 @@ class SignUpCubit extends Cubit<SignUpState> {
   }
 
   Future<void> logInWithGoogle() async {
-    emit(state.copyWith(status: FormzStatus.submissionInProgress));
+    emit(state.copyWith(
+        status: FormzStatus.submissionInProgress, isGoogleSignIn: true));
     try {
       await _authenticationRepository.logInWithGoogle();
 
@@ -76,7 +77,8 @@ class SignUpCubit extends Cubit<SignUpState> {
 
   Future<void> signUpFormSubmitted() async {
     if (!state.status.isValidated && !state.termsAccepted) return;
-    emit(state.copyWith(status: FormzStatus.submissionInProgress));
+    emit(state.copyWith(
+        status: FormzStatus.submissionInProgress, isGoogleSignIn: false));
     try {
       await _authenticationRepository.signUp(
         email: state.email.value.trim().toLowerCase(),
