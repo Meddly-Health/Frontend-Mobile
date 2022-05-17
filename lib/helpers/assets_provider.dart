@@ -9,4 +9,6 @@ class AssetsProvider {
   static const String pills = 'assets/svg/pills.svg';
   static const String diagnosis = 'assets/svg/diagnosis.svg';
   static const String treatment = 'assets/svg/treatment.svg';
+  static const String eyeCrossed = 'assets/svg/eye-crossed.svg';
+  static const String eye = 'assets/svg/eye.svg';
 }

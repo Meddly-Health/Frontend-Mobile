@@ -47,5 +47,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'height': instance.height,
       'weight': instance.weight,
       'sex': instance.sex,
-      'birth': instance.birth?.toIso8601String(),
+      'birth': instance.birth == null
+          ? null
+          : '${instance.birth?.year}-${instance.birth?.month}-${instance.birth?.day}',
     };

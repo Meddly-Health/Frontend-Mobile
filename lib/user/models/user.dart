@@ -12,15 +12,8 @@ class User {
   @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
   final List<String>? diseases;
-  // final List<String> allergies;
-  // final List<String> medications;
-  // final List<String> conditions;
-  // final List<String> surgeries;
-  // final List<String> procedures;
-  // final List<String> immunizations;
-  // final List<String> vaccinations;
-  List<String>? supervisors;
-  List<String>? supervisedBy;
+  final List<String>? supervisors;
+  final List<String>? supervisedBy;
   @JsonKey(name: 'first_name')
   final String? firstName;
   @JsonKey(name: 'last_name')
@@ -30,7 +23,7 @@ class User {
   final bool? sex;
   final DateTime? birth;
 
-  User({
+  const User({
     this.id,
     this.email,
     this.createdAt,
@@ -49,4 +42,16 @@ class User {
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
+}
+
+class BirthConverter implements JsonConverter<DateTime, String> {
+  @override
+  fromJson(json) {
+    return DateTime.parse(json);
+  }
+
+  @override
+  toJson(object) {
+    return '${object.year}-${object.month}-${object.day}';
+  }
 }

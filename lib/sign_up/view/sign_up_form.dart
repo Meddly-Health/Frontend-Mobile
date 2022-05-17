@@ -323,6 +323,8 @@ class _ConfirmedPasswordField extends StatelessWidget {
         bool showErrorText = state.confirmedPassword.value.isNotEmpty &&
             state.confirmedPassword.invalid;
 
+        bool isConnected = context.read<ConnectivityBloc>().state.isConnected;
+
         return TextFormField(
             key: const Key('sign_up_confirmed_password'),
             textInputAction: TextInputAction.done,
@@ -331,7 +333,10 @@ class _ConfirmedPasswordField extends StatelessWidget {
             },
             onFieldSubmitted: (String? value) {
               FocusManager.instance.primaryFocus?.unfocus();
-              if (state.status.isValid) {
+              if (state.status.isValid &&
+                  state.termsAccepted &&
+                  isConnected &&
+                  !state.status.isSubmissionInProgress) {
                 context.read<SignUpCubit>().signUpFormSubmitted();
               }
             },

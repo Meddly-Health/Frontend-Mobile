@@ -209,70 +209,84 @@ class _PasswordField extends StatelessWidget {
         bool isConnected = context.read<ConnectivityBloc>().state.isConnected;
 
         return TextFormField(
-            key: const Key('login_password'),
-            textInputAction: TextInputAction.done,
-            onChanged: (String? value) {
-              context.read<LoginCubit>().passwordChanged(value!);
-            },
-            onFieldSubmitted: (String? value) {
-              FocusManager.instance.primaryFocus?.unfocus();
+          key: const Key('login_password'),
+          textInputAction: TextInputAction.done,
+          onChanged: (String? value) {
+            context.read<LoginCubit>().passwordChanged(value!);
+          },
+          onFieldSubmitted: (String? value) {
+            FocusManager.instance.primaryFocus?.unfocus();
 
-              if (state.email.value.isNotEmpty &&
-                  state.password.value.isNotEmpty &&
-                  isConnected &&
-                  !state.status.isSubmissionInProgress) {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                context.read<LoginCubit>().logInWithCredentials();
-              }
-            },
-            keyboardType: TextInputType.text,
-            style: Theme.of(context).textTheme.bodyMedium,
-            obscureText: true,
-            decoration: InputDecoration(
-              hintText: 'Contraseña',
-              hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.6),
-                  ),
-              filled: true,
-              fillColor: Theme.of(context).colorScheme.secondary,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+            if (state.email.value.isNotEmpty &&
+                state.password.value.isNotEmpty &&
+                isConnected &&
+                !state.status.isSubmissionInProgress) {
+              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+              context.read<LoginCubit>().logInWithCredentials();
+            }
+          },
+          keyboardType: TextInputType.text,
+          style: Theme.of(context).textTheme.bodyMedium,
+          obscureText: state.isPasswordObscure,
+          decoration: InputDecoration(
+            hintText: 'Contraseña',
+            hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color:
+                      Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                ),
+            filled: true,
+            fillColor: Theme.of(context).colorScheme.secondary,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide:
+                  BorderSide(color: Theme.of(context).colorScheme.secondary),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide:
+                  BorderSide(color: Theme.of(context).colorScheme.secondary),
+            ),
+            errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide:
+                  BorderSide(color: Theme.of(context).colorScheme.error),
+            ),
+            focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide:
+                  BorderSide(color: Theme.of(context).colorScheme.error),
+            ),
+            errorText: !showErrorText ? null : '',
+            errorStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Theme.of(context).colorScheme.error,
+                overflow: TextOverflow.visible),
+            errorMaxLines: 2,
+            labelStyle: state.errorMessage == null
+                ? Theme.of(context).textTheme.bodyMedium
+                : Theme.of(context).textTheme.bodyMedium,
+            floatingLabelStyle: state.errorMessage == null
+                ? Theme.of(context).textTheme.bodyMedium
+                : Theme.of(context).textTheme.bodyMedium,
+            suffixIcon: GestureDetector(
+              onTap: () =>
+                  context.read<LoginCubit>().togglePasswordVisibility(),
+              child: Container(
+                padding: const EdgeInsets.only(right: 10),
+                child: SvgPicture.asset(
+                  !state.isPasswordObscure
+                      ? AssetsProvider.eyeCrossed
+                      : AssetsProvider.eye,
+                  color: Theme.of(context).colorScheme.secondaryContainer,
+                ),
               ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.secondary),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.secondary),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.error),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.error),
-              ),
-              errorText: !showErrorText ? null : '',
-              errorStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.error,
-                  overflow: TextOverflow.visible),
-              errorMaxLines: 2,
-              labelStyle: state.errorMessage == null
-                  ? Theme.of(context).textTheme.bodyMedium
-                  : Theme.of(context).textTheme.bodyMedium,
-              floatingLabelStyle: state.errorMessage == null
-                  ? Theme.of(context).textTheme.bodyMedium
-                  : Theme.of(context).textTheme.bodyMedium,
-            ));
+            ),
+            suffixIconConstraints: const BoxConstraints(
+                maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
+          ),
+        );
       },
     );
   }

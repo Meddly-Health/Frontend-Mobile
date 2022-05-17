@@ -104,8 +104,8 @@ class UserFormCubit extends Cubit<UserFormState> {
     var response = await _userRepository.updateUser(user);
 
     response.fold(
-        (UserException l) =>
-            emit(state.copyWith(status: FormzStatus.submissionFailure)),
+        (UserException l) => emit(state.copyWith(
+            status: FormzStatus.submissionFailure, errorMessage: l.message)),
         (User r) =>
             emit(state.copyWith(status: FormzStatus.submissionSuccess)));
   }

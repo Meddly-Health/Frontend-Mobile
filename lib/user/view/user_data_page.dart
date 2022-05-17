@@ -8,6 +8,7 @@ import 'package:meddly/routes/router.dart';
 import 'package:meddly/user/cubit/user_form_cubit.dart';
 import 'package:meddly/user/repository/respository.dart';
 import 'package:meddly/user/view/user_data_form.dart';
+import 'package:meddly/widgets/widgets.dart';
 
 class UserDataPage extends StatelessWidget {
   const UserDataPage({Key? key}) : super(key: key);
@@ -23,7 +24,9 @@ class UserDataPage extends StatelessWidget {
             AutoRouter.of(context).pushAndPopUntil(const HomeRoute(),
                 predicate: ((route) => false));
           } else if (state.status.isSubmissionFailure) {
-            print('error');
+            ScaffoldMessenger.of(context).showSnackBar(
+              getSnackBar(context, state.errorMessage!, SnackBarType.error),
+            );
           }
         },
         child: Scaffold(

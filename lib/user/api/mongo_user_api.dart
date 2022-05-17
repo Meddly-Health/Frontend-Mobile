@@ -18,7 +18,9 @@ class MongoUserApi extends UserApi {
 
   MongoUserApi({required authenticationRepository, required Dio dio})
       : _authenticationRepository = authenticationRepository,
-        _dio = dio..options.baseUrl = baseUrl;
+        _dio = dio
+          ..options.baseUrl = baseUrl
+          ..options.contentType = 'application/json';
 
   @override
   Future<Either<UserException, User>> getUser(String id) async {
@@ -46,6 +48,7 @@ class MongoUserApi extends UserApi {
     try {
       String token = await _authenticationRepository.getAuthToken();
       Response response = await _dio.delete('/user/',
+          data: {'id': id},
           options: Options(
             headers: {'Authorization': 'Bearer $token'},
           ));
@@ -66,12 +69,14 @@ class MongoUserApi extends UserApi {
   Future<Either<UserException, User>> updateUser(User user) async {
     try {
       String token = await _authenticationRepository.getAuthToken();
+
       Response response = await _dio.post('/user/',
+          data: user.toJson(),
           options: Options(
             headers: {'Authorization': 'Bearer $token'},
           ));
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         return Right(User.fromJson(response.data));
       } else {
         return Left(UserException.fromStatusCode(response.statusCode!));
