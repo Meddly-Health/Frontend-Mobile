@@ -3,4 +3,12 @@ class AssetsProvider {
   static const String meddlyLogo = 'assets/svg/meddly-logo.svg';
   static const String valid = 'assets/svg/valid.svg';
   static const String invalid = 'assets/svg/invalid.svg';
+  static const String info = 'assets/svg/info.svg';
+  static const String exclamation = 'assets/svg/exclamation.svg';
+  static const String cross = 'assets/svg/cross.svg';
+  static const String pills = 'assets/svg/pills.svg';
+  static const String diagnosis = 'assets/svg/diagnosis.svg';
+  static const String treatment = 'assets/svg/treatment.svg';
+  static const String eyeCrossed = 'assets/svg/eye-crossed.svg';
+  static const String eye = 'assets/svg/eye.svg';
 }

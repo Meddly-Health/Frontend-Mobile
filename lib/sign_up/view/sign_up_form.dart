@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
+import '../../connectivity/bloc/connectivity_bloc.dart';
 import '../../helpers/assets_provider.dart';
 
 import '../../helpers/helpers.dart';
+import '../../widgets/widgets.dart';
 import '../cubit/sign_up_cubit.dart';
 
 class SignUpForm extends StatelessWidget {
@@ -23,11 +25,46 @@ class SignUpForm extends StatelessWidget {
         SizedBox(height: 16),
         _ConfirmedPasswordField(),
         SizedBox(height: 20),
+        _TermsAndConditions(),
+        SizedBox(height: 20),
         _SignUpButton(),
         SizedBox(height: 16),
         _GoogleLogginButton()
       ],
     );
+  }
+}
+
+class _TermsAndConditions extends StatelessWidget {
+  const _TermsAndConditions({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+      BlocBuilder<SignUpCubit, SignUpState>(
+        builder: (context, state) {
+          return Checkbox(
+              activeColor: Theme.of(context).colorScheme.primary,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(3)),
+              value: state.termsAccepted,
+              onChanged: (bool? value) {
+                context.read<SignUpCubit>().termsAcceptedChanged(value!);
+              });
+        },
+      ),
+      Text.rich(TextSpan(children: [
+        TextSpan(
+            text: 'Acepto los ', style: Theme.of(context).textTheme.bodyMedium),
+        TextSpan(
+            text: 'términos y condiciones',
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Theme.of(context).colorScheme.primary,
+                fontWeight: FontWeight.bold)),
+      ]))
+    ]);
   }
 }
 
@@ -42,26 +79,36 @@ class _GoogleLogginButton extends StatelessWidget {
       builder: (context, state) {
         return GestureDetector(
           key: const Key('google_login_button'),
-          onTap: () {
-            context.read<SignUpCubit>().logInWithGoogle();
-          },
+          onTap: () => _loginWithGoogle(context, state),
           child: Container(
-              height: 55,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondary,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset(AssetsProvider.googleIcon),
-                    const SizedBox(width: 16),
-                    Text('Iniciar Sesión con Google',
-                        style: Theme.of(context).textTheme.bodyMedium),
-                  ],
-                ),
-              )),
+            height: 55,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.secondary,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Center(
+              child: state.status.isSubmissionInProgress && state.isGoogleSignIn
+                  ? SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        color: Colors.black,
+                        backgroundColor:
+                            Theme.of(context).colorScheme.secondary,
+                        strokeWidth: 2,
+                      ),
+                    )
+                  : Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SvgPicture.asset(AssetsProvider.googleIcon),
+                        const SizedBox(width: 16),
+                        Text('Iniciar Sesión con Google',
+                            style: Theme.of(context).textTheme.bodyMedium),
+                      ],
+                    ),
+            ),
+          ),
         );
       },
     );
@@ -79,25 +126,33 @@ class _SignUpButton extends StatelessWidget {
       builder: (context, state) {
         return GestureDetector(
           key: const Key('sign_up_button'),
-          onTap: () async {
-            FocusManager.instance.primaryFocus?.unfocus();
-            if (state.status.isValid) {
-              context.read<SignUpCubit>().signUpFormSubmitted();
-            }
-          },
+          onTap: () => _signInWithEmailAndPassword(context, state),
           child: AnimatedContainer(
-              height: 55,
-              decoration: BoxDecoration(
-                color: state.status.isValid
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.secondaryContainer,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              duration: const Duration(milliseconds: 200),
-              child: Center(
-                child: Text('Registrarse',
-                    style: Theme.of(context).textTheme.labelMedium),
-              )),
+            height: 55,
+            decoration: BoxDecoration(
+              color: state.status.isValid && state.termsAccepted ||
+                      state.status.isSubmissionInProgress
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.secondaryContainer,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            duration: const Duration(milliseconds: 200),
+            child: Center(
+              child: state.status.isSubmissionInProgress &&
+                      !state.isGoogleSignIn
+                  ? SizedBox(
+                      height: 20,
+                      width: 20,
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        backgroundColor: Theme.of(context).colorScheme.primary,
+                        strokeWidth: 2,
+                      ),
+                    )
+                  : Text('Iniciar Sesión',
+                      style: Theme.of(context).textTheme.labelMedium),
+            ),
+          ),
         );
       },
     );
@@ -113,8 +168,9 @@ class _EmailField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
-        bool showErrorText =
-            state.email.value.isNotEmpty && state.email.invalid;
+        bool showErrorText = state.email.value.isNotEmpty &&
+            state.email.invalid &&
+            !state.isGoogleSignIn;
 
         return TextFormField(
             key: const Key('sign_up_email'),
@@ -167,8 +223,7 @@ class _EmailField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon:
-                  showCheckIcon(state.email.valid, state.errorMessage, context),
+              suffixIcon: showCheckIcon(state.email.valid, context),
               suffixIconConstraints: const BoxConstraints(
                   maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
             ));
@@ -186,8 +241,9 @@ class _PasswordField extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
-        bool showErrorText =
-            state.password.value.isNotEmpty && state.password.invalid;
+        bool showErrorText = state.password.value.isNotEmpty &&
+            state.password.invalid &&
+            !state.isGoogleSignIn;
 
         return TextFormField(
             key: const Key('sign_up_password'),
@@ -244,8 +300,7 @@ class _PasswordField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon: showCheckIcon(
-                  state.password.valid, state.errorMessage, context),
+              suffixIcon: showCheckIcon(state.password.valid, context),
               suffixIconConstraints: const BoxConstraints(
                   maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
             ));
@@ -264,19 +319,14 @@ class _ConfirmedPasswordField extends StatelessWidget {
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
         bool showErrorText = state.confirmedPassword.value.isNotEmpty &&
-            state.confirmedPassword.invalid;
+            state.confirmedPassword.invalid &&
+            !state.isGoogleSignIn;
 
         return TextFormField(
             key: const Key('sign_up_confirmed_password'),
-            textInputAction: TextInputAction.done,
+            textInputAction: TextInputAction.next,
             onChanged: (String? value) {
               context.read<SignUpCubit>().confirmedPasswordChanged(value!);
-            },
-            onFieldSubmitted: (String? value) {
-              FocusManager.instance.primaryFocus?.unfocus();
-              if (state.status.isValid) {
-                context.read<SignUpCubit>().signUpFormSubmitted();
-              }
             },
             keyboardType: TextInputType.text,
             style: Theme.of(context).textTheme.bodyMedium,
@@ -326,12 +376,40 @@ class _ConfirmedPasswordField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon: showCheckIcon(
-                  state.confirmedPassword.valid, state.errorMessage, context),
+              suffixIcon: showCheckIcon(state.confirmedPassword.valid, context),
               suffixIconConstraints: const BoxConstraints(
                   maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
             ));
       },
     );
+  }
+}
+
+void _loginWithGoogle(BuildContext context, SignUpState state) {
+  bool isConnected = context.read<ConnectivityBloc>().state.isConnected;
+
+  if (!isConnected) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+        getSnackBar(context, 'No hay conexión a internet', SnackBarType.error));
+    return;
+  }
+
+  context.read<SignUpCubit>().logInWithGoogle();
+}
+
+void _signInWithEmailAndPassword(BuildContext context, SignUpState state) {
+  bool isConnected = context.read<ConnectivityBloc>().state.isConnected;
+
+  if (!isConnected) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+        getSnackBar(context, 'No hay conexión a internet', SnackBarType.error));
+    return;
+  }
+
+  if (state.status.isValid && state.termsAccepted) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    context.read<SignUpCubit>().signUpFormSubmitted();
   }
 }

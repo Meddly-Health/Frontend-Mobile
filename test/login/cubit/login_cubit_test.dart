@@ -98,11 +98,32 @@ void main() {
 
     group('logInWithCredentials', () {
       blocTest<LoginCubit, LoginState>(
-        'submissionFailure when status is not validated',
+        'emits [submissionInProgress] [submissionFailure] with invalid data',
         build: () => LoginCubit(authenticationRepository),
         act: (cubit) => cubit.logInWithCredentials(),
+        setUp: () {
+          when(
+            () => authenticationRepository.logInWithEmailAndPassword(
+              email: any(named: 'email'),
+              password: any(named: 'password'),
+            ),
+          ).thenThrow(const LogInWithEmailAndPasswordFailure('ops!'));
+        },
         expect: () => const <LoginState>[
-          LoginState(status: FormzStatus.submissionFailure)
+          LoginState(
+              email: Email.pure(),
+              password: Password.pure(),
+              status: FormzStatus.submissionInProgress,
+              errorMessage: null,
+              isPasswordObscure: true,
+              isGoogleSignIn: false),
+          LoginState(
+              email: Email.pure(),
+              password: Password.pure(),
+              status: FormzStatus.submissionFailure,
+              errorMessage: 'ops!',
+              isPasswordObscure: true,
+              isGoogleSignIn: false),
         ],
       );
 
@@ -198,8 +219,10 @@ void main() {
         build: () => LoginCubit(authenticationRepository),
         act: (cubit) => cubit.logInWithGoogle(),
         expect: () => const <LoginState>[
-          LoginState(status: FormzStatus.submissionInProgress),
-          LoginState(status: FormzStatus.submissionSuccess)
+          LoginState(
+              status: FormzStatus.submissionInProgress, isGoogleSignIn: true),
+          LoginState(
+              status: FormzStatus.submissionSuccess, isGoogleSignIn: true)
         ],
       );
 
@@ -214,8 +237,10 @@ void main() {
         build: () => LoginCubit(authenticationRepository),
         act: (cubit) => cubit.logInWithGoogle(),
         expect: () => const <LoginState>[
-          LoginState(status: FormzStatus.submissionInProgress),
-          LoginState(status: FormzStatus.submissionFailure)
+          LoginState(
+              status: FormzStatus.submissionInProgress, isGoogleSignIn: true),
+          LoginState(
+              status: FormzStatus.submissionFailure, isGoogleSignIn: true)
         ],
       );
     });

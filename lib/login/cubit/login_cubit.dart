@@ -30,11 +30,14 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> logInWithCredentials() async {
+    emit(state.copyWith(
+        status: FormzStatus.submissionInProgress, isGoogleSignIn: false));
     if (!state.status.isValidated) {
-      emit(state.copyWith(status: FormzStatus.submissionFailure));
+      emit(state.copyWith(
+          status: FormzStatus.submissionFailure,
+          errorMessage: 'Invalid credentials'));
       return;
     }
-    emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
       await _authenticationRepository.logInWithEmailAndPassword(
         email: state.email.value.trim().toLowerCase(),
@@ -53,8 +56,9 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> logInWithGoogle() async {
-    emit(state.copyWith(status: FormzStatus.submissionInProgress));
     try {
+      emit(state.copyWith(
+          status: FormzStatus.submissionInProgress, isGoogleSignIn: true));
       await _authenticationRepository.logInWithGoogle();
 
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
@@ -77,5 +81,9 @@ class LoginCubit extends Cubit<LoginState> {
     } catch (_) {
       emit(state.copyWith(status: FormzStatus.submissionCanceled));
     }
+  }
+
+  void togglePasswordVisibility() {
+    emit(state.copyWith(isPasswordVisible: !state.isPasswordObscure));
   }
 }
