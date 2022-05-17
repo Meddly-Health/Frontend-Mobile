@@ -276,7 +276,7 @@ class _PasswordField extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.only(right: 10),
                 child: SvgPicture.asset(
-                  !state.isPasswordObscure
+                  state.isPasswordObscure
                       ? AssetsProvider.eyeCrossed
                       : AssetsProvider.eye,
                   color: Theme.of(context).colorScheme.secondaryContainer,

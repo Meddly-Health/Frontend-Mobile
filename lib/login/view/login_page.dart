@@ -133,7 +133,7 @@ class _DontHaveAnAccountText extends StatelessWidget {
             text: '¿No tienes cuenta? ',
             style: Theme.of(context).textTheme.bodyMedium),
         TextSpan(
-            text: 'Registrate',
+            text: 'Regístrate',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.bold)),
