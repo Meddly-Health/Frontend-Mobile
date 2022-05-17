@@ -19,8 +19,9 @@ class UserUpdatePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => UserFormCubit(
-          RepositoryProvider.of<UserRepository>(context),
-          RepositoryProvider.of<AuthenticationRepository>(context))
+          userRepository: RepositoryProvider.of<UserRepository>(context),
+          authenticationRepository:
+              RepositoryProvider.of<AuthenticationRepository>(context))
         ..init(),
       child: BlocListener<UserFormCubit, UserFormState>(
         listener: (context, state) {

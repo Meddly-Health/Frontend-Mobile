@@ -98,7 +98,7 @@ void main() {
 
     group('logInWithCredentials', () {
       blocTest<LoginCubit, LoginState>(
-        'submissionFailure with invalid data',
+        'emits [submissionInProgress] [submissionFailure] with invalid data',
         build: () => LoginCubit(authenticationRepository),
         act: (cubit) => cubit.logInWithCredentials(),
         setUp: () {
@@ -219,8 +219,10 @@ void main() {
         build: () => LoginCubit(authenticationRepository),
         act: (cubit) => cubit.logInWithGoogle(),
         expect: () => const <LoginState>[
-          LoginState(status: FormzStatus.submissionInProgress),
-          LoginState(status: FormzStatus.submissionSuccess)
+          LoginState(
+              status: FormzStatus.submissionInProgress, isGoogleSignIn: true),
+          LoginState(
+              status: FormzStatus.submissionSuccess, isGoogleSignIn: true)
         ],
       );
 
@@ -235,8 +237,10 @@ void main() {
         build: () => LoginCubit(authenticationRepository),
         act: (cubit) => cubit.logInWithGoogle(),
         expect: () => const <LoginState>[
-          LoginState(status: FormzStatus.submissionInProgress),
-          LoginState(status: FormzStatus.submissionFailure)
+          LoginState(
+              status: FormzStatus.submissionInProgress, isGoogleSignIn: true),
+          LoginState(
+              status: FormzStatus.submissionFailure, isGoogleSignIn: true)
         ],
       );
     });

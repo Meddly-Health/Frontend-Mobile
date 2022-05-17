@@ -12,8 +12,10 @@ import 'package:equatable/equatable.dart';
 part 'user_form_state.dart';
 
 class UserFormCubit extends Cubit<UserFormState> {
-  UserFormCubit(this._userRepository, this._authenticationRepository)
-      : super(const UserFormState());
+  UserFormCubit({required userRepository, required authenticationRepository})
+      : _userRepository = userRepository,
+        _authenticationRepository = authenticationRepository,
+        super(const UserFormState());
 
   final UserRepository _userRepository;
   final AuthenticationRepository _authenticationRepository;
