@@ -1,36 +1,47 @@
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meddly/helpers/assets_provider.dart';
 
 import 'package:meddly/routes/router.dart';
+import 'package:meddly/user/repository/respository.dart';
+
+import '../../user/bloc/user_bloc.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: AutoTabsScaffold(
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-          appBarBuilder: (context, tabsRouter) => AppBar(
-                leading: const AutoBackButton(),
-              ),
-          routes: const [
-            CalendarRoute(),
-            CalendarRoute(),
-            CalendarRoute(),
-            CalendarRoute(),
-            CalendarRoute(),
-          ],
-          bottomNavigationBuilder: (context, tabsRouter) {
-            return _BottomNavBar(
-                currentIndex: tabsRouter.activeIndex,
-                setActiveIndex: (int? index) {
-                  tabsRouter.setActiveIndex(index!);
-                });
-          }),
+    return BlocProvider(
+      create: (_) => UserBloc(RepositoryProvider.of<UserRepository>(context),
+          RepositoryProvider.of<AuthenticationRepository>(context))
+        ..add(UserLoading()),
+      child: BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) {
+          return AutoTabsScaffold(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              appBarBuilder: (context, tabsRouter) => AppBar(
+                    leading: const AutoBackButton(),
+                  ),
+              routes: const [
+                CalendarRoute(),
+                CalendarRoute(),
+                CalendarRoute(),
+                CalendarRoute(),
+                CalendarRoute(),
+              ],
+              bottomNavigationBuilder: (context, tabsRouter) {
+                return _BottomNavBar(
+                    currentIndex: tabsRouter.activeIndex,
+                    setActiveIndex: (int? index) {
+                      tabsRouter.setActiveIndex(index!);
+                    });
+              });
+        },
+      ),
     );
   }
 }

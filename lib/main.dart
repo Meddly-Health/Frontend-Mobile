@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider.value(value: authBloc),
-          BlocProvider.value(value: connectivityBloc)
+          BlocProvider.value(value: connectivityBloc),
         ],
         child: MaterialApp.router(
           theme: ThemeManager.lightTheme,

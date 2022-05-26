@@ -22,6 +22,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UserDelete>(_onUserDelete);
 
     on<UserUpdate>(_onUserUpdate);
+
+    on<UserChangedSupervisor>(_onUserChangedSupervisor);
   }
 
   FutureOr<void> _onUserUpdate(
@@ -32,10 +34,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     emit(state.copyWith(status: UserStatus.loading));
 
-    // Create a new user ...
-
-    var response = await userRepository
-        .updateUser(state.currentUser!.copyWith(lastName: 'updated'));
+    var response = await userRepository.updateUser(event.user);
 
     response.fold(
       (error) => emit(state.copyWith(
@@ -72,5 +71,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       (User r) =>
           emit(state.copyWith(status: UserStatus.success, currentUser: r)),
     );
+  }
+
+  void _onUserChangedSupervisor(
+      UserChangedSupervisor event, Emitter<UserState> emit) {
+    User userUpdate = state.currentUser!.copyWith(supervising: event.user);
+    emit(state.copyWith(currentUser: userUpdate));
   }
 }
