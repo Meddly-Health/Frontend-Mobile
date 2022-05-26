@@ -61,36 +61,44 @@ class _UserDataPageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      return Container(
-        padding: defaultPadding,
-        child: SafeArea(
-          child: SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height -
-                      Scaffold.of(context).appBarMaxHeight! -
-                      MediaQuery.of(context).padding.vertical -
-                      defaultPadding.vertical),
-              child: FadeIn(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Por favor, completa tus datos personales',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      const SizedBox(height: 20),
-                      const UserUpdateForm(),
-                      const Spacer(),
-                      const _OmitOrSave()
-                    ]),
+    return BlocBuilder<UserFormCubit, UserFormState>(
+      builder: (context, state) {
+        if (state.userStatus == UserStatus.loading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return Builder(builder: (context) {
+          return Container(
+            padding: defaultPadding,
+            child: SafeArea(
+              child: SingleChildScrollView(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                      maxHeight: MediaQuery.of(context).size.height -
+                          Scaffold.of(context).appBarMaxHeight! -
+                          MediaQuery.of(context).padding.vertical -
+                          defaultPadding.vertical),
+                  child: FadeIn(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Por favor, completa tus datos personales',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          const SizedBox(height: 20),
+                          const UserUpdateForm(),
+                          const Spacer(),
+                          const _OmitOrSave()
+                        ]),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-      );
-    });
+          );
+        });
+      },
+    );
   }
 }
 
@@ -105,7 +113,7 @@ class _OmitOrSave extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            AutoRouter.of(context).pushAndPopUntil(const CalendarRoute(),
+            AutoRouter.of(context).pushAndPopUntil(const HomeRouter(),
                 predicate: ((route) => false));
           },
           child: Container(

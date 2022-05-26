@@ -31,7 +31,7 @@ class HomePage extends StatelessWidget {
                 CalendarRoute(),
                 CalendarRoute(),
                 CalendarRoute(),
-                CalendarRoute(),
+                UserRoute(),
               ],
               bottomNavigationBuilder: (context, tabsRouter) {
                 return _BottomNavBar(

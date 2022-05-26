@@ -70,6 +70,15 @@ class _$AppRouter extends RootStackRouter {
           durationInMilliseconds: 200,
           opaque: true,
           barrierDismissible: false);
+    },
+    UserRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const UserPage(),
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 200,
+          opaque: true,
+          barrierDismissible: false);
     }
   };
 
@@ -85,7 +94,8 @@ class _$AppRouter extends RootStackRouter {
               redirectTo: 'calendar',
               fullMatch: true),
           RouteConfig(CalendarRoute.name,
-              path: 'calendar', parent: HomeRouter.name)
+              path: 'calendar', parent: HomeRouter.name),
+          RouteConfig(UserRoute.name, path: 'user', parent: HomeRouter.name)
         ]),
         RouteConfig(UserUpdateRoute.name, path: 'user_data')
       ];
@@ -138,4 +148,12 @@ class CalendarRoute extends PageRouteInfo<void> {
   const CalendarRoute() : super(CalendarRoute.name, path: 'calendar');
 
   static const String name = 'CalendarRoute';
+}
+
+/// generated route for
+/// [UserPage]
+class UserRoute extends PageRouteInfo<void> {
+  const UserRoute() : super(UserRoute.name, path: 'user');
+
+  static const String name = 'UserRoute';
 }

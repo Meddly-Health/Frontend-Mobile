@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:meddly/calendar/view/calendar_page.dart';
+import 'package:meddly/user/view/user_page.dart';
 import 'package:meddly/user/view/user_update_page.dart';
 import 'package:meddly/welcome/view/welcome_page.dart';
 import '../home/view/home_page.dart';
@@ -27,6 +28,7 @@ const List<AutoRoute> routes = [
     page: HomePage,
     children: [
       AutoRoute(path: 'calendar', page: CalendarPage, initial: true),
+      AutoRoute(path: 'user', page: UserPage),
     ],
   ),
   AutoRoute(path: 'user_data', page: UserUpdatePage),

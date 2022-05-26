@@ -32,6 +32,9 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       birth: json['birth'] == null
           ? null
           : DateTime.parse(json['birth'] as String),
+      supervising: json['supervising'] == null
+          ? null
+          : User.fromJson(json['supervising'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
@@ -48,6 +51,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'weight': instance.weight,
       'sex': _$SexEnumMap[instance.sex],
       'birth': instance.birth?.toIso8601String(),
+      'supervising': instance.supervising,
     };
 
 const _$SexEnumMap = {
