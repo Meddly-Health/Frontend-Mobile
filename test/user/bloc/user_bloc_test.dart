@@ -20,12 +20,14 @@ void main() {
     late UserRepository userRepository;
     late AuthenticationRepository authenticationRepository;
     late User user;
+    late User userUpdated;
     late AuthUser authUser;
 
     setUp(() {
       userRepository = MockUserRepository();
       authenticationRepository = MockAuthenticationRepository();
       user = const User(firstName: 'Lorenzo', lastName: 'Perez');
+      userUpdated = const User(firstName: 'Lorenzo', lastName: 'Sala');
       authUser = MockAuthUser();
     });
     group('update', () {
@@ -36,12 +38,12 @@ void main() {
         setUp: () {
           registerFallbackValue(user);
           when(() => userRepository.updateUser(any()))
-              .thenAnswer((_) async => Right(user));
+              .thenAnswer((_) async => Right(userUpdated));
         },
-        act: (bloc) => bloc.add(UserUpdate()),
+        act: (bloc) => bloc.add(UserUpdate(user: userUpdated)),
         expect: () => <UserState>[
           UserState(status: UserStatus.loading, currentUser: user),
-          UserState(status: UserStatus.success, currentUser: user),
+          UserState(status: UserStatus.success, currentUser: userUpdated),
         ],
       );
 
@@ -54,7 +56,7 @@ void main() {
           when(() => userRepository.updateUser(any()))
               .thenAnswer((_) async => Left(UserException(message: 'ops!')));
         },
-        act: (bloc) => bloc.add(UserUpdate()),
+        act: (bloc) => bloc.add(UserUpdate(user: userUpdated)),
         expect: () => <UserState>[
           UserState(status: UserStatus.loading, currentUser: user),
           UserState(
