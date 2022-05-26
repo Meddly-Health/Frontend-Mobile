@@ -16,20 +16,17 @@ class CalendarPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SizedBox(
-                height: 70,
-                width: MediaQuery.of(context).size.width / 2,
-                child: Expanded(
-                  child: AutoSizeText(
-                    'Buenos días, Lorenzo',
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
+              Expanded(
+                child: AutoSizeText(
+                  'Buenos días, Lorenzo',
+                  style: Theme.of(context).textTheme.titleLarge,
+                  maxLines: 2,
                 ),
               ),
+              const Spacer(),
               const Icon(Icons.notifications)
             ],
           ),
-          
         ],
       ),
     );

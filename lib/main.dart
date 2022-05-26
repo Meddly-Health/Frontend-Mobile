@@ -28,9 +28,6 @@ void main() async {
   var userRepository = UserRepository(userApi: mongoUserApi);
   var authBloc = AuthBloc(authenticationRepository: authenticationRepository);
 
-  // Listen to the first User that comes in the stream and then stops.
-  await authenticationRepository.user.first;
-
   BlocOverrides.runZoned(
     () {
       runApp(MyApp(
@@ -80,7 +77,7 @@ class MyApp extends StatelessWidget {
           routerDelegate: _router.delegate(initialRoutes: [
             authenticationRepository.currentUser.isEmpty
                 ? const WelcomeRoute()
-                : const WelcomeRoute(),
+                : const HomeRouter(),
           ]),
         ),
       ),
