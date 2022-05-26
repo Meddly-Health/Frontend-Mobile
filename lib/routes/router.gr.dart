@@ -44,7 +44,7 @@ class _$AppRouter extends RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
-    HomeRoute.name: (routeData) {
+    HomeRouter.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const HomePage(),
@@ -61,6 +61,15 @@ class _$AppRouter extends RootStackRouter {
           durationInMilliseconds: 200,
           opaque: true,
           barrierDismissible: false);
+    },
+    CalendarRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const CalendarPage(),
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 200,
+          opaque: true,
+          barrierDismissible: false);
     }
   };
 
@@ -69,7 +78,15 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(LoginRoute.name, path: 'login'),
         RouteConfig(SignUpRoute.name, path: 'signup'),
         RouteConfig(WelcomeRoute.name, path: 'welcome'),
-        RouteConfig(HomeRoute.name, path: ''),
+        RouteConfig(HomeRouter.name, path: 'home', children: [
+          RouteConfig('#redirect',
+              path: '',
+              parent: HomeRouter.name,
+              redirectTo: 'calendar',
+              fullMatch: true),
+          RouteConfig(CalendarRoute.name,
+              path: 'calendar', parent: HomeRouter.name)
+        ]),
         RouteConfig(UserUpdateRoute.name, path: 'user_data')
       ];
 }
@@ -100,10 +117,11 @@ class WelcomeRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [HomePage]
-class HomeRoute extends PageRouteInfo<void> {
-  const HomeRoute() : super(HomeRoute.name, path: '');
+class HomeRouter extends PageRouteInfo<void> {
+  const HomeRouter({List<PageRouteInfo>? children})
+      : super(HomeRouter.name, path: 'home', initialChildren: children);
 
-  static const String name = 'HomeRoute';
+  static const String name = 'HomeRouter';
 }
 
 /// generated route for
@@ -112,4 +130,12 @@ class UserUpdateRoute extends PageRouteInfo<void> {
   const UserUpdateRoute() : super(UserUpdateRoute.name, path: 'user_data');
 
   static const String name = 'UserUpdateRoute';
+}
+
+/// generated route for
+/// [CalendarPage]
+class CalendarRoute extends PageRouteInfo<void> {
+  const CalendarRoute() : super(CalendarRoute.name, path: 'calendar');
+
+  static const String name = 'CalendarRoute';
 }

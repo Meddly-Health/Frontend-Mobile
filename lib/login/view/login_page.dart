@@ -24,7 +24,7 @@ class LoginPage extends StatelessWidget {
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state.user.isNotEmpty) {
-            AutoRouter.of(context).pushAndPopUntil(const HomeRoute(),
+            AutoRouter.of(context).pushAndPopUntil(const HomeRouter(),
                 predicate: ((route) => false));
           }
         },

@@ -3,8 +3,19 @@ import 'package:flutter/material.dart';
 class ThemeManager {
   static ThemeData lightTheme = ThemeData.light().copyWith(
       scaffoldBackgroundColor: scaffoldBackgroundColorLight,
+      bottomAppBarColor: secondaryLight,
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: secondaryLight,
+          elevation: 0,
+          unselectedLabelStyle: const TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black),
+          selectedLabelStyle: const TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black)),
       appBarTheme: AppBarTheme(
-          toolbarHeight: 0, elevation: 0, color: scaffoldBackgroundColorLight),
+        toolbarHeight: 0,
+        elevation: 0,
+        color: scaffoldBackgroundColorLight,
+      ),
       colorScheme: const ColorScheme.light().copyWith(
           primary: primaryLight,
           secondary: secondaryLight,

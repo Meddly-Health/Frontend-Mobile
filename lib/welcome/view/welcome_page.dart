@@ -9,6 +9,12 @@ import 'package:meddly/helpers/constants.dart';
 import 'package:meddly/routes/router.dart';
 import 'package:meddly/welcome/cubit/welcome_cubit.dart';
 
+List pages = [
+  _PageViewBody.diagnosis(),
+  _PageViewBody.pills(),
+  _PageViewBody.treatment(),
+];
+
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
 
@@ -30,14 +36,12 @@ class WelcomePage extends StatelessWidget {
                       return Container(
                         margin: const EdgeInsets.only(top: 30),
                         height: MediaQuery.of(context).size.height / 1.5,
-                        child: PageView(
+                        child: PageView.builder(
                           controller:
                               context.read<WelcomeCubit>().pageController,
-                          children: [
-                            _PageViewBody.diagnosis(),
-                            _PageViewBody.pills(),
-                            _PageViewBody.treatment(),
-                          ],
+                          itemBuilder: (BuildContext context, int index) {
+                            return pages[index % 3];
+                          },
                         ),
                       );
                     },
@@ -84,15 +88,20 @@ class _PageIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      width: 10,
-      height: 10,
-      decoration: BoxDecoration(
-        color:
-            currentPage ? Theme.of(context).colorScheme.primary : Colors.grey,
-        borderRadius: BorderRadius.circular(999),
-      ),
-      duration: const Duration(milliseconds: 300),
+    return BlocBuilder<WelcomeCubit, WelcomeState>(
+      builder: (context, state) {
+        return AnimatedContainer(
+          width: currentPage ? 20 : 10,
+          height: 10,
+          decoration: BoxDecoration(
+            color: currentPage
+                ? Theme.of(context).colorScheme.primary
+                : Colors.grey,
+            borderRadius: BorderRadius.circular(999),
+          ),
+          duration: const Duration(milliseconds: 300),
+        );
+      },
     );
   }
 }

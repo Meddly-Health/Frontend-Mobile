@@ -15,16 +15,8 @@ class WelcomeCubit extends Cubit<WelcomeState> {
     pageController = PageController();
 
     pageController.addListener(() {
-      if (pageController.page! < 0.5) {
-        if (state.currentPage == 0) return;
-        emit(state.copyWith(currentPage: 0));
-      } else if (pageController.page! < 1.5 && pageController.page! >= 0.5) {
-        if (state.currentPage == 1) return;
-        emit(state.copyWith(currentPage: 1));
-      } else if (pageController.page! <= 2 && pageController.page! >= 1.5) {
-        if (state.currentPage == 2) return;
-
-        return emit(state.copyWith(currentPage: 2));
+      if (pageController.page!.round() % 3 != state.currentPage) {
+        emit(state.copyWith(currentPage: (pageController.page!.round()) % 3));
       }
     });
 
@@ -33,17 +25,8 @@ class WelcomeCubit extends Cubit<WelcomeState> {
 
   void automaticallyMoveToNextPage() async {
     _timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
-      if (state.currentPage == 2) {
-        emit(state.copyWith(currentPage: 0));
-        pageController.animateToPage(0,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOut);
-      } else {
-        emit(state.copyWith(currentPage: state.currentPage + 1));
-        pageController.animateToPage(state.currentPage,
-            duration: const Duration(milliseconds: 500),
-            curve: Curves.easeInOut);
-      }
+      pageController.nextPage(
+          duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
     });
   }
 

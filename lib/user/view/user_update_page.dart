@@ -35,7 +35,7 @@ class UserUpdatePage extends StatelessWidget {
           }
 
           if (state.status.isSubmissionSuccess) {
-            AutoRouter.of(context).pushAndPopUntil(const HomeRoute(),
+            AutoRouter.of(context).pushAndPopUntil(const HomeRouter(),
                 predicate: ((route) => false));
           } else if (state.status.isSubmissionFailure ||
               state.userStatus == UserStatus.error) {
@@ -105,7 +105,7 @@ class _OmitOrSave extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            AutoRouter.of(context).pushAndPopUntil(const HomeRoute(),
+            AutoRouter.of(context).pushAndPopUntil(const CalendarRoute(),
                 predicate: ((route) => false));
           },
           child: Container(
