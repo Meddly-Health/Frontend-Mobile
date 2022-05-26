@@ -149,7 +149,10 @@ class _PageViewBody extends StatelessWidget {
           const SizedBox(height: 30),
           Text(
             title,
-            style: Theme.of(context).textTheme.titleSmall,
+            style: Theme.of(context)
+                .textTheme
+                .titleSmall!
+                .copyWith(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 10),
           Text(

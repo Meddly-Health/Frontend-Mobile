@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+var font = 'Be Vietnam Pro';
+
 class ThemeManager {
   static ThemeData lightTheme = ThemeData.light().copyWith(
       scaffoldBackgroundColor: scaffoldBackgroundColorLight,
@@ -34,12 +36,12 @@ extension ColorSchemeExtension on ColorScheme {
   Color get validColor => const Color(0xff50C878);
 }
 
-TextTheme textTheme = Typography.whiteMountainView.copyWith(
-  titleLarge: const TextStyle(fontSize: 28, color: Colors.black),
-  titleMedium: const TextStyle(fontSize: 24, color: Colors.black),
-  titleSmall: const TextStyle(fontSize: 20, color: Colors.black),
-  labelMedium: const TextStyle(fontSize: 16, color: Colors.white),
-  bodySmall: const TextStyle(fontSize: 14, color: Colors.black),
-  bodyMedium: const TextStyle(fontSize: 16, color: Colors.black),
-  bodyLarge: const TextStyle(fontSize: 18, color: Colors.black),
+TextTheme textTheme = TextTheme(
+  titleLarge: TextStyle(fontSize: 28, fontFamily: font, color: Colors.black),
+  titleMedium: TextStyle(fontSize: 24, fontFamily: font, color: Colors.black),
+  titleSmall: TextStyle(fontSize: 20, fontFamily: font, color: Colors.black),
+  labelMedium: TextStyle(fontSize: 16, fontFamily: font, color: Colors.white),
+  bodySmall: TextStyle(fontSize: 14, fontFamily: font, color: Colors.black),
+  bodyMedium: TextStyle(fontSize: 16, fontFamily: font, color: Colors.black),
+  bodyLarge: TextStyle(fontSize: 18, fontFamily: font, color: Colors.black),
 );

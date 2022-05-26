@@ -28,7 +28,7 @@ void main() async {
   var userRepository = UserRepository(userApi: mongoUserApi);
   var authBloc = AuthBloc(authenticationRepository: authenticationRepository);
 
-  // Listen to the first User that comes in the stream and then stops.`
+  // Listen to the first User that comes in the stream and then stops.
   await authenticationRepository.user.first;
 
   BlocOverrides.runZoned(
