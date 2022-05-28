@@ -32,7 +32,8 @@ class UserProfilePage extends StatelessWidget {
             Column(
               children: [
                 IconAndTextTileItem(
-                  onTap: () {},
+                  onTap: () =>
+                      context.router.push(const UserLinkedAccountsRoute()),
                   label: 'Cuentas vinculadas',
                   asset: AssetsProvider.linkedUsersIcon,
                 ),

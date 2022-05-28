@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:meddly/calendar/view/calendar_page.dart';
-import 'package:meddly/user/view/profile/personal_info/view/user_personal_info.dart';
+import 'package:meddly/user/view/profile/linked_accounts/view/user_linked_accounts_page.dart';
+import 'package:meddly/user/view/profile/linked_accounts/view/user_supervised_page.dart';
+import 'package:meddly/user/view/profile/personal_info/view/user_personal_info_page.dart';
 import 'package:meddly/user/view/profile/settings/view/user_settings_page.dart';
 import 'package:meddly/user/view/profile/user_profile_page.dart';
 import 'package:meddly/user/view/user_update_page.dart';
@@ -10,6 +12,7 @@ import '../home/view/home_page.dart';
 import '../sign_up/view/view.dart';
 
 import '../login/view/view.dart';
+import '../user/view/profile/linked_accounts/view/user_supervisors_page.dart';
 
 part 'router.gr.dart';
 
@@ -38,6 +41,9 @@ const List<AutoRoute> routes = [
           AutoRoute(path: 'user/profile', page: UserProfilePage, initial: true),
           AutoRoute(path: 'user/personal_info', page: UserPersonalInfoPage),
           AutoRoute(path: 'user/settings', page: UserSettingsPage),
+          AutoRoute(path: 'user/linked_accounts', page: UserLinkedAccountsPage),
+          AutoRoute(path: 'user/supervisors', page: UserSupervisorsPage),
+          AutoRoute(path: 'user/supervised', page: UserSupervisedPage),
         ],
       ),
     ],

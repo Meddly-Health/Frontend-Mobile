@@ -106,6 +106,33 @@ class _$AppRouter extends RootStackRouter {
           durationInMilliseconds: 200,
           opaque: true,
           barrierDismissible: false);
+    },
+    UserLinkedAccountsRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const UserLinkedAccountsPage(),
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 200,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    UserSupervisorsRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const UserSupervisorsPage(),
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 200,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    UserSupervisedRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const UserSupervisedPage(),
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 200,
+          opaque: true,
+          barrierDismissible: false);
     }
   };
 
@@ -136,7 +163,13 @@ class _$AppRouter extends RootStackRouter {
                 RouteConfig(UserPersonalInfoRoute.name,
                     path: 'user/personal_info', parent: UserRouter.name),
                 RouteConfig(UserSettingsRoute.name,
-                    path: 'user/settings', parent: UserRouter.name)
+                    path: 'user/settings', parent: UserRouter.name),
+                RouteConfig(UserLinkedAccountsRoute.name,
+                    path: 'user/linked_accounts', parent: UserRouter.name),
+                RouteConfig(UserSupervisorsRoute.name,
+                    path: 'user/supervisors', parent: UserRouter.name),
+                RouteConfig(UserSupervisedRoute.name,
+                    path: 'user/supervised', parent: UserRouter.name)
               ])
         ]),
         RouteConfig(UserUpdateRoute.name, path: 'user_data')
@@ -225,4 +258,31 @@ class UserSettingsRoute extends PageRouteInfo<void> {
       : super(UserSettingsRoute.name, path: 'user/settings');
 
   static const String name = 'UserSettingsRoute';
+}
+
+/// generated route for
+/// [UserLinkedAccountsPage]
+class UserLinkedAccountsRoute extends PageRouteInfo<void> {
+  const UserLinkedAccountsRoute()
+      : super(UserLinkedAccountsRoute.name, path: 'user/linked_accounts');
+
+  static const String name = 'UserLinkedAccountsRoute';
+}
+
+/// generated route for
+/// [UserSupervisorsPage]
+class UserSupervisorsRoute extends PageRouteInfo<void> {
+  const UserSupervisorsRoute()
+      : super(UserSupervisorsRoute.name, path: 'user/supervisors');
+
+  static const String name = 'UserSupervisorsRoute';
+}
+
+/// generated route for
+/// [UserSupervisedPage]
+class UserSupervisedRoute extends PageRouteInfo<void> {
+  const UserSupervisedRoute()
+      : super(UserSupervisedRoute.name, path: 'user/supervised');
+
+  static const String name = 'UserSupervisedRoute';
 }
