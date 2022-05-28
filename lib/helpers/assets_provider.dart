@@ -30,4 +30,5 @@ class AssetsProvider {
   static const String lockIcon = 'assets/svg/lock-icon.svg';
   static const String deleteUser = 'assets/svg/delete-user.svg';
   static const String trashIcon = 'assets/svg/trash-icon.svg';
+  static const String linkIcon = 'assets/svg/link-icon.svg';
 }

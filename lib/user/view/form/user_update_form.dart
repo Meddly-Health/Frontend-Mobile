@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:meddly/helpers/assets_provider.dart';
 import 'package:meddly/helpers/constants.dart';
 
 import '../../../blocs.dart';
@@ -12,19 +14,57 @@ class UserUpdateForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
-      children: const [
-        _NameField(),
-        SizedBox(height: 16),
-        _LastNameField(),
-        SizedBox(height: 16),
-        _DatePicker(),
-        SizedBox(height: 16),
-        _WeightField(),
-        SizedBox(height: 16),
-        _HeightField(),
-        SizedBox(height: 16),
-        _SexDropDown(),
+      children: [
+        Text('Nombre(s)',
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(fontWeight: FontWeight.w500)),
+        const SizedBox(height: 16),
+        const _NameField(),
+        const SizedBox(height: 16),
+        Text('Apellido(s)',
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(fontWeight: FontWeight.w500)),
+        const SizedBox(height: 16),
+        const _LastNameField(),
+        const SizedBox(height: 16),
+        Text('Fecha de nacimiento',
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(fontWeight: FontWeight.w500)),
+        const SizedBox(height: 16),
+        const _DatePicker(),
+        const SizedBox(height: 16),
+        Text('Peso',
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(fontWeight: FontWeight.w500)),
+        const SizedBox(height: 16),
+        const _WeightField(),
+        const SizedBox(height: 16),
+        Text('Altura',
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(fontWeight: FontWeight.w500)),
+        const SizedBox(height: 16),
+        const _HeightField(),
+        const SizedBox(height: 16),
+        Text('Sexo',
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(fontWeight: FontWeight.w500)),
+        const SizedBox(height: 16),
+        const _SexDropDown(),
+        const SizedBox(height: 16),
       ],
     );
   }
@@ -49,6 +89,9 @@ class _SexDropDown extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           child: DropdownButtonHideUnderline(
               child: DropdownButton<Sex>(
+            borderRadius: BorderRadius.circular(20),
+            elevation: 0,
+            hint: const Text('Seleccione un sexo'),
             value: state.sex,
             style: Theme.of(context).textTheme.bodyMedium,
             dropdownColor: Theme.of(context).colorScheme.secondary,
@@ -108,30 +151,56 @@ class _DatePicker extends StatelessWidget {
       },
       child: BlocBuilder<UserFormCubit, UserFormState>(
         builder: (context, state) {
-          return AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            height: 60,
-            padding: defaultPadding,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(
-              border: state.birthDate.valid || state.birthDate.value == null
-                  ? null
-                  : Border.all(color: Theme.of(context).colorScheme.error),
-              color: Theme.of(context).colorScheme.secondary,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Row(
-              children: [
-                Text(
-                  state.birthDate.value == null
-                      ? 'Fecha de Nacimiento'
-                      : formatDate(state.birthDate.value!),
-                  style: Theme.of(context).textTheme.bodyMedium,
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                height: 60,
+                padding: defaultPadding,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  border: state.birthDate.valid || state.birthDate.value == null
+                      ? null
+                      : Border.all(color: Theme.of(context).colorScheme.error),
+                  color: Theme.of(context).colorScheme.secondary,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                const Spacer(),
-                const Icon(Icons.calendar_month_rounded)
-              ],
-            ),
+                child: Row(
+                  children: [
+                    Text(
+                      state.birthDate.value == null
+                          ? 'Selecciona una fecha'
+                          : formatDate(state.birthDate.value!),
+                      style: state.birthDate.value == null
+                          ? Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .color!
+                                  .withOpacity(0.5))
+                          : Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const Spacer(),
+                    SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: SvgPicture.asset(AssetsProvider.calendarIcon))
+                  ],
+                ),
+              ),
+              state.birthDate.valid || state.birthDate.value == null
+                  ? Container()
+                  : Padding(
+                      padding: const EdgeInsets.only(top: 8),
+                      child: Text('   La edad debe ser mayor a 18 años.',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                  color: Theme.of(context).colorScheme.error)),
+                    ),
+            ],
           );
         },
       ),
@@ -160,7 +229,7 @@ class _NameField extends StatelessWidget {
             keyboardType: TextInputType.name,
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
-              hintText: 'Nombre',
+              hintText: 'Ej: Juan Nicolás',
               hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context)
                         .colorScheme
@@ -233,7 +302,7 @@ class _LastNameField extends StatelessWidget {
             keyboardType: TextInputType.name,
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
-              hintText: 'Apellido',
+              hintText: 'Ej: Pérez Suarez',
               hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context)
                         .colorScheme
@@ -310,7 +379,7 @@ class _WeightField extends StatelessWidget {
             inputFormatters: const [],
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
-                hintText: 'Peso',
+                hintText: 'Ej: 80',
                 hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: Theme.of(context)
                           .colorScheme
@@ -355,7 +424,13 @@ class _WeightField extends StatelessWidget {
                 suffixIcon: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text('Kg'),
+                      Text(
+                        'kg',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(fontWeight: FontWeight.w500),
+                      ),
                       if (state.weight.valid &&
                           state.weight.value > 0 &&
                           state.weight.value < 1000)
@@ -400,7 +475,7 @@ class _HeightField extends StatelessWidget {
             inputFormatters: const [],
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
-              hintText: 'Altura',
+              hintText: 'Ej: 175',
               hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context)
                         .colorScheme
@@ -445,7 +520,13 @@ class _HeightField extends StatelessWidget {
               suffixIcon: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('metros'),
+                    Text(
+                      'cm',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.w500),
+                    ),
                     SizedBox(
                       height: 30,
                       width: 30,
@@ -455,7 +536,7 @@ class _HeightField extends StatelessWidget {
                     )
                   ]),
               suffixIconConstraints: const BoxConstraints(
-                  maxHeight: 30, maxWidth: 90, minHeight: 30, minWidth: 60),
+                  maxHeight: 30, maxWidth: 60, minHeight: 30, minWidth: 60),
             ));
       },
     );

@@ -9,7 +9,7 @@ class UserFormState extends Equatable {
   final BirthDate birthDate;
   final Heigth height;
   final Weigth weight;
-  final Sex sex;
+  final Sex? sex;
   final String? errorMessage;
 
   bool get isValid => status.isValid;
@@ -21,7 +21,7 @@ class UserFormState extends Equatable {
       this.birthDate = const BirthDate.pure(),
       this.height = const Heigth.pure(),
       this.weight = const Weigth.pure(),
-      this.sex = Sex.otro,
+      this.sex,
       this.userStatus = UserStatus.initial,
       this.errorMessage});
 

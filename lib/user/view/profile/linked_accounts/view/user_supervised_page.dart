@@ -17,16 +17,107 @@ class UserSupervisedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: const [
-          Padding(
-            padding: defaultPadding,
-            child: PageTitle(title: 'Supervisados'),
-          ),
-          _Supervised(),
-        ],
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Stack(
+          children: [
+            Column(
+              children: const [
+                Padding(
+                  padding: defaultPadding,
+                  child: PageTitle(title: 'Supervisados'),
+                ),
+                _Supervised(),
+              ],
+            ),
+            const _DraggableScrollableSheet()
+          ],
+        ),
       ),
     );
+  }
+}
+
+class _DraggableScrollableSheet extends StatefulWidget {
+  const _DraggableScrollableSheet({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  State<_DraggableScrollableSheet> createState() =>
+      _DraggableScrollableSheetState();
+}
+
+class _DraggableScrollableSheetState extends State<_DraggableScrollableSheet> {
+  late final DraggableScrollableController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = DraggableScrollableController();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DraggableScrollableSheet(
+        initialChildSize: 0.11,
+        minChildSize: 0.11,
+        snap: true,
+        snapSizes: const [0.11, 0.5],
+        maxChildSize: 0.5,
+        controller: _scrollController,
+        builder: (context, scrollController) {
+          return Container(
+              decoration: BoxDecoration(
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(20),
+                  topRight: Radius.circular(20),
+                ),
+                color: Theme.of(context).colorScheme.primary,
+              ),
+              padding: defaultPadding.copyWith(bottom: 0),
+              child: SingleChildScrollView(
+                controller: scrollController,
+                physics: const ClampingScrollPhysics(),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      height: 3,
+                      width: 100,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.secondary,
+                          borderRadius: BorderRadius.circular(999)),
+                    ),
+                    const SizedBox(height: 9),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(9),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.secondary,
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: SvgPicture.asset(AssetsProvider.linkIcon),
+                        ),
+                        const SizedBox(width: 16),
+                        Text(
+                          'Ingresa el link de invitación ',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              ));
+        });
   }
 }
 
