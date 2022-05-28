@@ -71,10 +71,37 @@ class _$AppRouter extends RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
-    UserRoute.name: (routeData) {
+    UserRouter.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
-          child: const UserPage(),
+          child: const EmptyRouterPage(),
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 200,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    UserProfileRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const UserProfilePage(),
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 200,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    UserPersonalInfoRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const UserPersonalInfoPage(),
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 200,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    UserSettingsRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const UserSettingsPage(),
           transitionsBuilder: TransitionsBuilders.noTransition,
           durationInMilliseconds: 200,
           opaque: true,
@@ -95,7 +122,22 @@ class _$AppRouter extends RootStackRouter {
               fullMatch: true),
           RouteConfig(CalendarRoute.name,
               path: 'calendar', parent: HomeRouter.name),
-          RouteConfig(UserRoute.name, path: 'user', parent: HomeRouter.name)
+          RouteConfig(UserRouter.name,
+              path: 'user',
+              parent: HomeRouter.name,
+              children: [
+                RouteConfig('#redirect',
+                    path: '',
+                    parent: UserRouter.name,
+                    redirectTo: 'user/profile',
+                    fullMatch: true),
+                RouteConfig(UserProfileRoute.name,
+                    path: 'user/profile', parent: UserRouter.name),
+                RouteConfig(UserPersonalInfoRoute.name,
+                    path: 'user/personal_info', parent: UserRouter.name),
+                RouteConfig(UserSettingsRoute.name,
+                    path: 'user/settings', parent: UserRouter.name)
+              ])
         ]),
         RouteConfig(UserUpdateRoute.name, path: 'user_data')
       ];
@@ -151,9 +193,36 @@ class CalendarRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [UserPage]
-class UserRoute extends PageRouteInfo<void> {
-  const UserRoute() : super(UserRoute.name, path: 'user');
+/// [EmptyRouterPage]
+class UserRouter extends PageRouteInfo<void> {
+  const UserRouter({List<PageRouteInfo>? children})
+      : super(UserRouter.name, path: 'user', initialChildren: children);
 
-  static const String name = 'UserRoute';
+  static const String name = 'UserRouter';
+}
+
+/// generated route for
+/// [UserProfilePage]
+class UserProfileRoute extends PageRouteInfo<void> {
+  const UserProfileRoute() : super(UserProfileRoute.name, path: 'user/profile');
+
+  static const String name = 'UserProfileRoute';
+}
+
+/// generated route for
+/// [UserPersonalInfoPage]
+class UserPersonalInfoRoute extends PageRouteInfo<void> {
+  const UserPersonalInfoRoute()
+      : super(UserPersonalInfoRoute.name, path: 'user/personal_info');
+
+  static const String name = 'UserPersonalInfoRoute';
+}
+
+/// generated route for
+/// [UserSettingsPage]
+class UserSettingsRoute extends PageRouteInfo<void> {
+  const UserSettingsRoute()
+      : super(UserSettingsRoute.name, path: 'user/settings');
+
+  static const String name = 'UserSettingsRoute';
 }

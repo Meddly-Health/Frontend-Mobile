@@ -37,9 +37,21 @@ extension ColorSchemeExtension on ColorScheme {
 }
 
 TextTheme textTheme = TextTheme(
-  titleLarge: TextStyle(fontSize: 28, fontFamily: font, color: Colors.black),
-  titleMedium: TextStyle(fontSize: 24, fontFamily: font, color: Colors.black),
-  titleSmall: TextStyle(fontSize: 20, fontFamily: font, color: Colors.black),
+  titleLarge: TextStyle(
+      fontSize: 28,
+      fontFamily: font,
+      color: Colors.black,
+      fontWeight: FontWeight.bold),
+  titleMedium: TextStyle(
+      fontSize: 24,
+      fontFamily: font,
+      color: Colors.black,
+      fontWeight: FontWeight.bold),
+  titleSmall: TextStyle(
+      fontSize: 20,
+      fontFamily: font,
+      color: Colors.black,
+      fontWeight: FontWeight.bold),
   labelMedium: TextStyle(fontSize: 16, fontFamily: font, color: Colors.white),
   bodySmall: TextStyle(fontSize: 14, fontFamily: font, color: Colors.black),
   bodyMedium: TextStyle(fontSize: 16, fontFamily: font, color: Colors.black),

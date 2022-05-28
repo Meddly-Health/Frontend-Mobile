@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:meddly/calendar/view/calendar_page.dart';
-import 'package:meddly/user/view/user_page.dart';
+import 'package:meddly/user/view/profile/personal_info/view/user_personal_info.dart';
+import 'package:meddly/user/view/profile/settings/view/user_settings_page.dart';
+import 'package:meddly/user/view/profile/user_profile_page.dart';
 import 'package:meddly/user/view/user_update_page.dart';
 import 'package:meddly/welcome/view/welcome_page.dart';
 import '../home/view/home_page.dart';
@@ -28,7 +30,16 @@ const List<AutoRoute> routes = [
     page: HomePage,
     children: [
       AutoRoute(path: 'calendar', page: CalendarPage, initial: true),
-      AutoRoute(path: 'user', page: UserPage),
+      AutoRoute(
+        path: 'user',
+        name: 'UserRouter',
+        page: EmptyRouterPage,
+        children: [
+          AutoRoute(path: 'user/profile', page: UserProfilePage, initial: true),
+          AutoRoute(path: 'user/personal_info', page: UserPersonalInfoPage),
+          AutoRoute(path: 'user/settings', page: UserSettingsPage),
+        ],
+      ),
     ],
   ),
   AutoRoute(path: 'user_data', page: UserUpdatePage),

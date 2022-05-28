@@ -18,13 +18,20 @@ class CalendarPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: defaultPadding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          _NameNotifications(),
-          SizedBox(height: 16),
-          _SupervisorDropdownButton()
-        ],
+      child: BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) {
+          if (state.status != UserStatus.success) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              _NameNotifications(),
+              SizedBox(height: 16),
+              _SupervisorDropdownButton()
+            ],
+          );
+        },
       ),
     );
   }
@@ -39,10 +46,6 @@ class _SupervisorDropdownButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        if (state.status != UserStatus.success) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
         return Container(
             padding: defaultPadding.copyWith(top: 5, bottom: 5),
             width: MediaQuery.of(context).size.width,
