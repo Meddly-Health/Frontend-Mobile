@@ -17,7 +17,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   UserBloc(this.userRepository, this.authenticationRepository)
       : super(const UserState()) {
-    on<UserLoading>(_onUserLoading);
+    on<UserInit>(_onUserLoading);
 
     on<UserDelete>(_onUserDelete);
 
@@ -58,8 +58,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     );
   }
 
-  FutureOr<void> _onUserLoading(
-      UserLoading event, Emitter<UserState> emit) async {
+  FutureOr<void> _onUserLoading(UserInit event, Emitter<UserState> emit) async {
     emit(state.copyWith(status: UserStatus.loading));
 
     var response =

@@ -27,6 +27,7 @@ void main() async {
 
   var userRepository = UserRepository(userApi: mongoUserApi);
   var authBloc = AuthBloc(authenticationRepository: authenticationRepository);
+  var userBloc = UserBloc(userRepository, authenticationRepository);
 
   BlocOverrides.runZoned(
     () {
@@ -35,6 +36,7 @@ void main() async {
         authBloc: authBloc,
         connectivityBloc: connectivityBloc,
         userRepository: userRepository,
+        userBloc: userBloc,
       ));
     },
     blocObserver: MyBlocObserver(),
@@ -46,6 +48,7 @@ class MyApp extends StatelessWidget {
       {Key? key,
       required this.authenticationRepository,
       required this.authBloc,
+      required this.userBloc,
       required this.connectivityBloc,
       required this.userRepository})
       : super(key: key);
@@ -53,6 +56,7 @@ class MyApp extends StatelessWidget {
   final AuthBloc authBloc;
   final ConnectivityBloc connectivityBloc;
   final UserRepository userRepository;
+  final UserBloc userBloc;
 
   final _router = AppRouter();
 
@@ -69,6 +73,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider.value(value: authBloc),
           BlocProvider.value(value: connectivityBloc),
+          BlocProvider.value(value: userBloc)
         ],
         child: MaterialApp.router(
           theme: ThemeManager.lightTheme,

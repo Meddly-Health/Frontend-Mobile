@@ -1,4 +1,3 @@
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,12 +5,22 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meddly/helpers/assets_provider.dart';
 
 import 'package:meddly/routes/router.dart';
-import 'package:meddly/user/repository/respository.dart';
 
 import '../../blocs.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    context.read<UserBloc>().add(UserInit());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,33 +31,28 @@ class HomePage extends StatelessWidget {
               .pushAndPopUntil(const LoginRoute(), predicate: (route) => false);
         }
       },
-      child: BlocProvider(
-        create: (_) => UserBloc(RepositoryProvider.of<UserRepository>(context),
-            RepositoryProvider.of<AuthenticationRepository>(context))
-          ..add(UserLoading()),
-        child: BlocBuilder<UserBloc, UserState>(
-          builder: (context, state) {
-            return AutoTabsScaffold(
-                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                appBarBuilder: (context, tabsRouter) => AppBar(
-                      leading: const AutoBackButton(),
-                    ),
-                routes: const [
-                  CalendarRoute(),
-                  CalendarRoute(),
-                  CalendarRoute(),
-                  CalendarRoute(),
-                  UserRouter(),
-                ],
-                bottomNavigationBuilder: (context, tabsRouter) {
-                  return _BottomNavBar(
-                      currentIndex: tabsRouter.activeIndex,
-                      setActiveIndex: (int? index) {
-                        tabsRouter.setActiveIndex(index!);
-                      });
-                });
-          },
-        ),
+      child: BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) {
+          return AutoTabsScaffold(
+              backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+              appBarBuilder: (context, tabsRouter) => AppBar(
+                    leading: const AutoBackButton(),
+                  ),
+              routes: const [
+                CalendarRoute(),
+                CalendarRoute(),
+                CalendarRoute(),
+                CalendarRoute(),
+                UserRouter(),
+              ],
+              bottomNavigationBuilder: (context, tabsRouter) {
+                return _BottomNavBar(
+                    currentIndex: tabsRouter.activeIndex,
+                    setActiveIndex: (int? index) {
+                      tabsRouter.setActiveIndex(index!);
+                    });
+              });
+        },
       ),
     );
   }

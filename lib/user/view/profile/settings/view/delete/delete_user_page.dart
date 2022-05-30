@@ -53,35 +53,50 @@ class DeleteUserPage extends StatelessWidget {
                         listener: (context, state) {
                           if (state.status.isSubmissionSuccess) {
                             _deleteAccount(context);
+                          } else if (state.status.isSubmissionFailure) {
+                            context.router.pop();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                getSnackBar(context, state.errorMessage!,
+                                    SnackBarType.error));
                           }
                         },
-                        child: AlertDialog(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.background,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            title: Text(
-                              'Para confirmar, ingrese a su cuenta nuevamente.',
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                            actions: [
-                              BlocBuilder<LoginCubit, LoginState>(
-                                builder: (context, state) {
-                                  return GestureDetector(
-                                      onTap: () {
-                                        if (!state
-                                            .status.isSubmissionInProgress) {
-                                          context.router.pop();
-                                        }
-                                      },
-                                      child: const Text('Cancelar'));
-                                },
-                              )
-                            ],
-                            actionsPadding: defaultPadding,
-                            content: const SingleChildScrollView(
-                                child: LoginForm())),
+                        child: BlocListener<UserBloc, UserState>(
+                          listener: (context, state) {
+                            if (state.status == UserStatus.error) {
+                              context.router.pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  getSnackBar(context, state.errorMessage!,
+                                      SnackBarType.error));
+                            }
+                          },
+                          child: AlertDialog(
+                              backgroundColor:
+                                  Theme.of(context).colorScheme.background,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              title: Text(
+                                'Para confirmar, ingrese a su cuenta nuevamente.',
+                                style: Theme.of(context).textTheme.bodyMedium,
+                              ),
+                              actions: [
+                                BlocBuilder<LoginCubit, LoginState>(
+                                  builder: (context, state) {
+                                    return GestureDetector(
+                                        onTap: () {
+                                          if (!state
+                                              .status.isSubmissionInProgress) {
+                                            context.router.pop();
+                                          }
+                                        },
+                                        child: const Text('Cancelar'));
+                                  },
+                                )
+                              ],
+                              actionsPadding: defaultPadding,
+                              content: const SingleChildScrollView(
+                                  child: LoginForm())),
+                        ),
                       ),
                     ),
                   );
@@ -107,5 +122,5 @@ void _deleteAccount(BuildContext context) {
         getSnackBar(context, 'No hay conexión a internet', SnackBarType.error));
     return;
   }
-  context.read<AuthenticationRepository>().deleteUser();
+  context.read<UserBloc>().add(UserDelete());
 }
