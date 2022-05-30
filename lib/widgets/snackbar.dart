@@ -13,6 +13,7 @@ SnackBar getSnackBar(BuildContext context, String message, SnackBarType type,
     dismissDirection = DismissDirection.down]) {
   switch (type) {
     case SnackBarType.error:
+      return _getErrorSnackbar(context, message);
       return SnackBar(
           shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.only(
@@ -46,9 +47,7 @@ SnackBar getSnackBar(BuildContext context, String message, SnackBarType type,
             ],
           ));
     case SnackBarType.success:
-      return SnackBar(
-        content: Container(),
-      );
+      return _getSuccessSnackbar(context, message);
 
     case SnackBarType.warning:
       return SnackBar(
@@ -94,4 +93,71 @@ SnackBar getSnackBar(BuildContext context, String message, SnackBarType type,
             ],
           ));
   }
+}
+
+SnackBar _getSuccessSnackbar(BuildContext context, String message) {
+  return SnackBar(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    backgroundColor: Theme.of(context).colorScheme.validColor,
+    behavior: SnackBarBehavior.floating,
+    elevation: 0,
+    content: Container(
+      width: MediaQuery.of(context).size.width,
+      height: 30,
+      decoration:
+          BoxDecoration(color: Theme.of(context).colorScheme.validColor),
+      child: Row(
+        children: [
+          SizedBox(
+              height: 21,
+              width: 21,
+              child: SvgPicture.asset(
+                AssetsProvider.success,
+                color: Theme.of(context).colorScheme.secondary,
+              )),
+          const SizedBox(width: 16),
+          Expanded(
+            child: AutoSizeText(message,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall!
+                    .copyWith(color: Theme.of(context).colorScheme.secondary)),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+SnackBar _getErrorSnackbar(BuildContext context, String message) {
+  return SnackBar(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    backgroundColor: Theme.of(context).colorScheme.error,
+    behavior: SnackBarBehavior.floating,
+    elevation: 0,
+    content: Container(
+      width: MediaQuery.of(context).size.width,
+      height: 30,
+      decoration: BoxDecoration(color: Theme.of(context).colorScheme.error),
+      child: Row(
+        children: [
+          SizedBox(
+              height: 21,
+              width: 21,
+              child: SvgPicture.asset(
+                AssetsProvider.exclamation,
+                color: Theme.of(context).colorScheme.secondary,
+              )),
+          const SizedBox(width: 16),
+          Expanded(
+            child: AutoSizeText(message,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall!
+                    .copyWith(color: Theme.of(context).colorScheme.secondary)),
+          ),
+        ],
+      ),
+    ),
+  );
 }

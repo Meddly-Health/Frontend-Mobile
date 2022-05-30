@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meddly/helpers/constants.dart';
 
-import '../../../../../helpers/assets_provider.dart';
-import '../../../../../widgets/page_title.dart';
-import '../../../../models/user.dart';
+import '../../../../../../helpers/assets_provider.dart';
+import '../../../../../../widgets/page_title.dart';
+import '../../../../../models/user.dart';
 
 List<User> fakeUsers = const [
   User(id: '1', firstName: 'Juan', lastName: 'Perez'),

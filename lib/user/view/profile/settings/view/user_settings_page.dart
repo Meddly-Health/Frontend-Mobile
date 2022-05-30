@@ -73,6 +73,7 @@ class UserSettingsPage extends StatelessWidget {
                   onTap: () {},
                   label: 'Eliminar cuenta',
                   asset: AssetsProvider.deleteUser,
+                  color: Theme.of(context).colorScheme.error,
                 ),
               ],
             )

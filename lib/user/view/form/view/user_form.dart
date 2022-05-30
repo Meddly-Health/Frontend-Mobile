@@ -227,6 +227,7 @@ class _NameField extends StatelessWidget {
             },
             controller: context.read<UserFormCubit>().nameController,
             keyboardType: TextInputType.name,
+            textCapitalization: TextCapitalization.words,
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
               hintText: 'Ej: Juan Nicolás',
@@ -298,6 +299,7 @@ class _LastNameField extends StatelessWidget {
             onChanged: (String? value) {
               context.read<UserFormCubit>().lastNameChanged(value!);
             },
+            textCapitalization: TextCapitalization.words,
             controller: context.read<UserFormCubit>().lastNameController,
             keyboardType: TextInputType.name,
             style: Theme.of(context).textTheme.bodyMedium,

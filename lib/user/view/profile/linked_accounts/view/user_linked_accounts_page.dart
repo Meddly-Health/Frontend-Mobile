@@ -53,37 +53,3 @@ class UserLinkedAccountsPage extends StatelessWidget {
     );
   }
 }
-
-// class _SupervisedBy extends StatelessWidget {
-//   const _SupervisedBy({Key? key}) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListView.builder(
-//         shrinkWrap: true,
-//         itemCount: fakeUsers.length,
-//         itemBuilder: (context, index) => Container(
-//               padding: const EdgeInsets.symmetric(vertical: 8),
-//               child: Row(
-//                 children: [
-//                   const CircleAvatar(
-//                     backgroundColor: Color(0xff95D6A4),
-//                     radius: 24,
-//                   ),
-//                   const SizedBox(width: 16),
-//                   Text(
-//                     '${fakeUsers[index].firstName} ${fakeUsers[index].lastName}',
-//                     style: Theme.of(context).textTheme.bodyMedium,
-//                   ),
-//                   const Spacer(),
-//                   SizedBox(
-//                       height: 20,
-//                       width: 20,
-//                       child: SvgPicture.asset(AssetsProvider.trashIcon))
-//                 ],
-//               ),
-//             ));
-//   }
-// }
-
-

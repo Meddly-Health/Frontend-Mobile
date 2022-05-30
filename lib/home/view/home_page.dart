@@ -134,7 +134,7 @@ class _BottomNavBarDot extends StatelessWidget {
             height: 6,
             width: 12,
             decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.secondaryContainer,
                 borderRadius: BorderRadius.circular(999)),
           ),
         ),
