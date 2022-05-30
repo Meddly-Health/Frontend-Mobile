@@ -1,4 +1,6 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:meddly/routes/router.dart';
 
 import '../../../../../helpers/assets_provider.dart';
 import '../../../../../helpers/constants.dart';
@@ -70,7 +72,7 @@ class UserSettingsPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 35),
                 IconAndTextTileItem(
-                  onTap: () {},
+                  onTap: () => context.router.push(const DeleteUserRoute()),
                   label: 'Eliminar cuenta',
                   asset: AssetsProvider.deleteUser,
                   color: Theme.of(context).colorScheme.error,

@@ -133,6 +133,15 @@ class _$AppRouter extends RootStackRouter {
           durationInMilliseconds: 200,
           opaque: true,
           barrierDismissible: false);
+    },
+    DeleteUserRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const DeleteUserPage(),
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 200,
+          opaque: true,
+          barrierDismissible: false);
     }
   };
 
@@ -169,7 +178,9 @@ class _$AppRouter extends RootStackRouter {
                 RouteConfig(UserSupervisorsRoute.name,
                     path: 'user/supervisors', parent: UserRouter.name),
                 RouteConfig(UserSupervisedRoute.name,
-                    path: 'user/supervised', parent: UserRouter.name)
+                    path: 'user/supervised', parent: UserRouter.name),
+                RouteConfig(DeleteUserRoute.name,
+                    path: 'user/delete', parent: UserRouter.name)
               ])
         ]),
         RouteConfig(UserUpdateRoute.name, path: 'user_data')
@@ -285,4 +296,12 @@ class UserSupervisedRoute extends PageRouteInfo<void> {
       : super(UserSupervisedRoute.name, path: 'user/supervised');
 
   static const String name = 'UserSupervisedRoute';
+}
+
+/// generated route for
+/// [DeleteUserPage]
+class DeleteUserRoute extends PageRouteInfo<void> {
+  const DeleteUserRoute() : super(DeleteUserRoute.name, path: 'user/delete');
+
+  static const String name = 'DeleteUserRoute';
 }

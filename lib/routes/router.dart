@@ -4,6 +4,7 @@ import 'package:meddly/calendar/view/calendar_page.dart';
 import 'package:meddly/user/view/profile/linked_accounts/view/user_linked_accounts_page.dart';
 import 'package:meddly/user/view/profile/linked_accounts/view/supervised/user_supervised_page.dart';
 import 'package:meddly/user/view/profile/personal_info/view/user_personal_info_page.dart';
+import 'package:meddly/user/view/profile/settings/view/delete/delete_user_page.dart';
 import 'package:meddly/user/view/profile/settings/view/user_settings_page.dart';
 import 'package:meddly/user/view/profile/user_profile_page.dart';
 import 'package:meddly/user/view/user_update_page.dart';
@@ -44,6 +45,7 @@ const List<AutoRoute> routes = [
           AutoRoute(path: 'user/linked_accounts', page: UserLinkedAccountsPage),
           AutoRoute(path: 'user/supervisors', page: UserSupervisorsPage),
           AutoRoute(path: 'user/supervised', page: UserSupervisedPage),
+          AutoRoute(path: 'user/delete', page: DeleteUserPage),
         ],
       ),
     ],

@@ -1,11 +1,13 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
+
 import 'package:meddly/connectivity/bloc/connectivity_bloc.dart';
 import 'package:meddly/widgets/snackbar.dart';
-import '../../helpers/assets_provider.dart';
 
+import '../../helpers/assets_provider.dart';
 import '../cubit/login_cubit.dart';
 
 class LoginForm extends StatelessWidget {

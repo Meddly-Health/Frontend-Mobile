@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meddly/helpers/constants.dart';
-import 'package:meddly/widgets/snackbar.dart';
 
 import '../../../../../../helpers/assets_provider.dart';
 import '../../../../../../widgets/page_title.dart';
@@ -55,12 +54,6 @@ class _Supervised extends StatelessWidget {
             const SizedBox(height: 16),
             Text('No añadiste ningún supervisado',
                 style: Theme.of(context).textTheme.bodyMedium),
-            ElevatedButton(
-                onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(getSnackBar(
-                      context, 'Mensaje de éxito', SnackBarType.success));
-                },
-                child: const Text('hola')),
             const Spacer(),
           ],
         ),
