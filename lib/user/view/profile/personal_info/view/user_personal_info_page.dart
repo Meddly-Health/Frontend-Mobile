@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meddly/blocs.dart';
 import 'package:meddly/helpers/constants.dart';
 import 'package:meddly/user/repository/respository.dart';
-import 'package:meddly/user/view/form/user_update_form.dart';
+import 'package:meddly/user/view/form/view/user_form.dart';
 import '../../../../../widgets/widgets.dart';
 
 class UserPersonalInfoPage extends StatelessWidget {

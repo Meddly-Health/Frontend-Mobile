@@ -41,7 +41,7 @@ class UserSettingsPage extends StatelessWidget {
                 const SizedBox(height: 35),
                 IconAndTextTileItem(
                   onTap: () {},
-                  label: 'Reportar bugs en la aplicación',
+                  label: 'Reportar errores en la aplicación',
                   asset: AssetsProvider.megaphoneIcon,
                 ),
                 const SizedBox(height: 35),
@@ -53,7 +53,7 @@ class UserSettingsPage extends StatelessWidget {
                 const SizedBox(height: 35),
                 IconAndTextTileItem(
                   onTap: () {},
-                  label: 'Política de privacidad',
+                  label: 'Políticas de privacidad',
                   asset: AssetsProvider.reciveIcon,
                 ),
                 const SizedBox(height: 35),

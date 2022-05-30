@@ -127,14 +127,14 @@ class _BottomNavBarDot extends StatelessWidget {
         AnimatedPositioned(
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
-          left: MediaQuery.of(context).size.width / 10.5 +
+          left: MediaQuery.of(context).size.width / 11.5 +
               ((MediaQuery.of(context).size.width / 5) * currentIndex),
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 300),
             height: 6,
-            width: 6,
+            width: 12,
             decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.secondaryContainer,
+                color: Theme.of(context).colorScheme.primary,
                 borderRadius: BorderRadius.circular(999)),
           ),
         ),

@@ -4,9 +4,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:meddly/helpers/assets_provider.dart';
 import 'package:meddly/helpers/constants.dart';
 
-import '../../../blocs.dart';
-import '../../../helpers/helpers.dart';
-import '../../models/models.dart';
+import '../../../../blocs.dart';
+import '../../../../helpers/helpers.dart';
+import '../../../models/models.dart';
 
 class UserUpdateForm extends StatelessWidget {
   const UserUpdateForm({Key? key}) : super(key: key);

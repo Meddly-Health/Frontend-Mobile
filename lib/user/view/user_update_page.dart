@@ -7,7 +7,7 @@ import 'package:formz/formz.dart';
 import 'package:meddly/helpers/constants.dart';
 import 'package:meddly/routes/router.dart';
 import 'package:meddly/user/repository/respository.dart';
-import 'package:meddly/user/view/form/user_update_form.dart';
+import 'package:meddly/user/view/form/view/user_form.dart';
 import 'package:meddly/widgets/widgets.dart';
 
 import '../../blocs.dart';
@@ -72,26 +72,19 @@ class _UserDataPageBody extends StatelessWidget {
             padding: defaultPadding,
             child: SafeArea(
               child: SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(
-                      maxHeight: MediaQuery.of(context).size.height -
-                          Scaffold.of(context).appBarMaxHeight! -
-                          MediaQuery.of(context).padding.vertical -
-                          defaultPadding.vertical),
-                  child: FadeIn(
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Por favor, completa tus datos personales',
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          const SizedBox(height: 20),
-                          const UserUpdateForm(),
-                          const Spacer(),
-                          const _OmitOrSave()
-                        ]),
-                  ),
+                child: FadeIn(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Por favor, completa tus datos personales',
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        const SizedBox(height: 16),
+                        const UserUpdateForm(),
+                        const SizedBox(height: 16),
+                        const _OmitOrSave()
+                      ]),
                 ),
               ),
             ),
