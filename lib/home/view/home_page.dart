@@ -40,9 +40,9 @@ class _HomePageState extends State<HomePage> {
                   ),
               routes: const [
                 CalendarRoute(),
-                CalendarRoute(),
-                CalendarRoute(),
-                CalendarRoute(),
+                DiagnosisRoute(),
+                MeasurementesRoute(),
+                MedicineRoute(),
                 UserRouter(),
               ],
               bottomNavigationBuilder: (context, tabsRouter) {

@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:meddly/calendar/view/calendar_page.dart';
+import 'package:meddly/diagnosis/view/diagnosis_page.dart';
+import 'package:meddly/measurements/view/measurements_page.dart';
+import 'package:meddly/medicine/view/medicine_page.dart';
 import 'package:meddly/user/view/profile/linked_accounts/view/user_linked_accounts_page.dart';
 import 'package:meddly/user/view/profile/linked_accounts/view/supervised/user_supervised_page.dart';
 import 'package:meddly/user/view/profile/personal_info/view/user_personal_info_page.dart';
@@ -33,6 +36,9 @@ const List<AutoRoute> routes = [
     name: 'HomeRouter',
     page: HomePage,
     children: [
+      AutoRoute(path: 'diagnosis', page: DiagnosisPage),
+      AutoRoute(path: 'measurements', page: MeasurementesPage),
+      AutoRoute(path: 'medicine', page: MedicinePage),
       AutoRoute(path: 'calendar', page: CalendarPage, initial: true),
       AutoRoute(
         path: 'user',

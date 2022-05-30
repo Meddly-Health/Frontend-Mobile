@@ -62,6 +62,33 @@ class _$AppRouter extends RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
+    DiagnosisRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const DiagnosisPage(),
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 200,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    MeasurementesRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const MeasurementesPage(),
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 200,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    MedicineRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const MedicinePage(),
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 200,
+          opaque: true,
+          barrierDismissible: false);
+    },
     CalendarRoute.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
@@ -156,6 +183,12 @@ class _$AppRouter extends RootStackRouter {
               parent: HomeRouter.name,
               redirectTo: 'calendar',
               fullMatch: true),
+          RouteConfig(DiagnosisRoute.name,
+              path: 'diagnosis', parent: HomeRouter.name),
+          RouteConfig(MeasurementesRoute.name,
+              path: 'measurements', parent: HomeRouter.name),
+          RouteConfig(MedicineRoute.name,
+              path: 'medicine', parent: HomeRouter.name),
           RouteConfig(CalendarRoute.name,
               path: 'calendar', parent: HomeRouter.name),
           RouteConfig(UserRouter.name,
@@ -226,6 +259,31 @@ class UserUpdateRoute extends PageRouteInfo<void> {
   const UserUpdateRoute() : super(UserUpdateRoute.name, path: 'user_data');
 
   static const String name = 'UserUpdateRoute';
+}
+
+/// generated route for
+/// [DiagnosisPage]
+class DiagnosisRoute extends PageRouteInfo<void> {
+  const DiagnosisRoute() : super(DiagnosisRoute.name, path: 'diagnosis');
+
+  static const String name = 'DiagnosisRoute';
+}
+
+/// generated route for
+/// [MeasurementesPage]
+class MeasurementesRoute extends PageRouteInfo<void> {
+  const MeasurementesRoute()
+      : super(MeasurementesRoute.name, path: 'measurements');
+
+  static const String name = 'MeasurementesRoute';
+}
+
+/// generated route for
+/// [MedicinePage]
+class MedicineRoute extends PageRouteInfo<void> {
+  const MedicineRoute() : super(MedicineRoute.name, path: 'medicine');
+
+  static const String name = 'MedicineRoute';
 }
 
 /// generated route for
