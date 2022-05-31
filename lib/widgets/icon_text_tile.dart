@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class IconAndTextTileItem extends StatelessWidget {
@@ -18,7 +19,11 @@ class IconAndTextTileItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        HapticFeedback.lightImpact();
+        onTap();
+      },
       child: Row(
         children: [
           SvgPicture.asset(asset, color: color),

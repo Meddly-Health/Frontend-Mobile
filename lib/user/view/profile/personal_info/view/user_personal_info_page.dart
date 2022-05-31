@@ -13,28 +13,32 @@ class UserPersonalInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      padding: defaultPadding.copyWith(bottom: 0),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const PageTitle(title: 'Mi Perfil'),
-            const SizedBox(height: 35),
-            const _UserAvatar(),
-            const SizedBox(height: 16),
-            Text('Información personal',
-                style: Theme.of(context).textTheme.titleSmall),
-            const SizedBox(height: 16),
-            BlocProvider(
-              create: (context) => UserFormCubit(
-                  authenticationRepository:
-                      RepositoryProvider.of<AuthenticationRepository>(context),
-                  userRepository:
-                      RepositoryProvider.of<UserRepository>(context)),
-              child: const UserUpdateForm(),
-            )
-          ],
+        body: GestureDetector(
+      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+      child: Container(
+        padding: defaultPadding.copyWith(bottom: 0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const PageTitle(title: 'Mi Perfil'),
+              const SizedBox(height: 35),
+              const _UserAvatar(),
+              const SizedBox(height: 16),
+              Text('Información personal',
+                  style: Theme.of(context).textTheme.titleSmall),
+              const SizedBox(height: 16),
+              BlocProvider(
+                create: (context) => UserFormCubit(
+                    authenticationRepository:
+                        RepositoryProvider.of<AuthenticationRepository>(
+                            context),
+                    userRepository:
+                        RepositoryProvider.of<UserRepository>(context)),
+                child: const UserUpdateForm(),
+              )
+            ],
+          ),
         ),
       ),
     ));

@@ -24,7 +24,7 @@ class WelcomeCubit extends Cubit<WelcomeState> {
   }
 
   void automaticallyMoveToNextPage() async {
-    _timer = Timer.periodic(const Duration(seconds: 5), (Timer timer) {
+    _timer = Timer.periodic(const Duration(seconds: 9), (Timer timer) {
       pageController.nextPage(
           duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
     });

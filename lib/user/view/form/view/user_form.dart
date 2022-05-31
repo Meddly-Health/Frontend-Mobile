@@ -17,7 +17,7 @@ class UserUpdateForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text('Nombre(s)',
+        Text('Nombre(s) *',
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium!
@@ -25,7 +25,7 @@ class UserUpdateForm extends StatelessWidget {
         const SizedBox(height: 16),
         const _NameField(),
         const SizedBox(height: 16),
-        Text('Apellido(s)',
+        Text('Apellido(s) *',
             style: Theme.of(context)
                 .textTheme
                 .bodyMedium!

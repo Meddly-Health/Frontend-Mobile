@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
@@ -46,11 +47,13 @@ class _TermsAndConditions extends StatelessWidget {
       BlocBuilder<SignUpCubit, SignUpState>(
         builder: (context, state) {
           return Checkbox(
+              materialTapTargetSize: MaterialTapTargetSize.padded,
               activeColor: Theme.of(context).colorScheme.primary,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(3)),
               value: state.termsAccepted,
               onChanged: (bool? value) {
+                HapticFeedback.lightImpact();
                 context.read<SignUpCubit>().termsAcceptedChanged(value!);
               });
         },
@@ -79,7 +82,10 @@ class _GoogleLogginButton extends StatelessWidget {
       builder: (context, state) {
         return GestureDetector(
           key: const Key('google_login_button'),
-          onTap: () => _loginWithGoogle(context, state),
+          onTap: () {
+            HapticFeedback.lightImpact();
+            _loginWithGoogle(context, state);
+          },
           child: Container(
             height: 55,
             decoration: BoxDecoration(
@@ -126,7 +132,10 @@ class _SignUpButton extends StatelessWidget {
       builder: (context, state) {
         return GestureDetector(
           key: const Key('sign_up_button'),
-          onTap: () => _signInWithEmailAndPassword(context, state),
+          onTap: () {
+            HapticFeedback.lightImpact();
+            _signInWithEmailAndPassword(context, state);
+          },
           child: AnimatedContainer(
             height: 55,
             decoration: BoxDecoration(
@@ -149,7 +158,7 @@ class _SignUpButton extends StatelessWidget {
                         strokeWidth: 2,
                       ),
                     )
-                  : Text('Iniciar Sesión',
+                  : Text('Regístrate',
                       style: Theme.of(context).textTheme.labelMedium),
             ),
           ),

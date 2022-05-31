@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -176,6 +177,7 @@ class _WelcomeButton extends StatelessWidget {
     return GestureDetector(
       key: const Key('login_button'),
       onTap: () {
+        HapticFeedback.lightImpact();
         AutoRouter.of(context)
             .pushAndPopUntil(const LoginRoute(), predicate: (route) => false);
       },

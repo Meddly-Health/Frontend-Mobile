@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meddly/helpers/assets_provider.dart';
@@ -156,16 +157,22 @@ class _BottomNavBarItem extends StatelessWidget {
       : super(key: key);
 
   final String icon;
-  final VoidCallback onTap;
+  final Function onTap;
   final bool isPressed;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
-      child: SizedBox(
-        width: 26,
-        height: 26,
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        HapticFeedback.lightImpact();
+
+        onTap();
+      },
+      child: Container(
+        width: 30,
+        height: 30,
+        padding: const EdgeInsets.all(2),
         child: SvgPicture.asset(
           icon,
           color: isPressed

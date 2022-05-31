@@ -47,7 +47,9 @@ class UserUpdatePage extends StatelessWidget {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: AppBar(),
-          body: const _UserDataPageBody(),
+          body: GestureDetector(
+              onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+              child: const _UserDataPageBody()),
         ),
       ),
     );
@@ -70,22 +72,21 @@ class _UserDataPageBody extends StatelessWidget {
         return Builder(builder: (context) {
           return Container(
             padding: defaultPadding,
-            child: SafeArea(
-              child: SingleChildScrollView(
-                child: FadeIn(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Por favor, completa tus datos personales',
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
-                        const SizedBox(height: 16),
-                        const UserUpdateForm(),
-                        const SizedBox(height: 16),
-                        const _OmitOrSave()
-                      ]),
-                ),
+            child: SingleChildScrollView(
+              child: FadeIn(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Por favor, completa tus datos personales',
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                      const SizedBox(height: 16),
+                      const UserUpdateForm(),
+                      const SizedBox(height: 16),
+                      const _OmitOrSave(),
+                      const SizedBox(height: 16),
+                    ]),
               ),
             ),
           );

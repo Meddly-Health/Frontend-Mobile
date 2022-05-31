@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meddly/helpers/constants.dart';
 
 import '../../../../../../helpers/assets_provider.dart';
-import '../../../../../../widgets/page_title.dart';
+import '../../../../../../widgets/widgets.dart';
 import '../../../../../models/user.dart';
 import '../../widgets/custom_draggable_scrollable_sheet.dart';
 
@@ -46,17 +46,8 @@ class _Supervised extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (fakeUsers.isEmpty) {
-      return Expanded(
-        child: Column(
-          children: [
-            const Spacer(),
-            SvgPicture.asset(AssetsProvider.openBox),
-            const SizedBox(height: 16),
-            Text('No añadiste ningún supervisado',
-                style: Theme.of(context).textTheme.bodyMedium),
-            const Spacer(),
-          ],
-        ),
+      return const Expanded(
+        child: NoData(message: 'No añadiste ningún supervisado'),
       );
     }
 

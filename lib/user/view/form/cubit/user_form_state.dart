@@ -12,7 +12,12 @@ class UserFormState extends Equatable {
   final Sex? sex;
   final String? errorMessage;
 
-  bool get isValid => status.isValid;
+  bool get isValid =>
+      name.valid &&
+      lastName.valid &&
+      (birthDate.valid || birthDate.pure) &&
+      (weight.valid || weight.pure) &&
+      (height.valid || birthDate.pure);
 
   const UserFormState(
       {this.status = FormzStatus.pure,

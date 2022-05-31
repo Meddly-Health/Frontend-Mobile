@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
@@ -126,8 +127,11 @@ class _DontHaveAnAccountText extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       key: testingKey,
-      onTap: () => AutoRouter.of(context)
-          .pushAndPopUntil(const SignUpRoute(), predicate: (route) => false),
+      onTap: () {
+        HapticFeedback.lightImpact();
+        AutoRouter.of(context)
+            .pushAndPopUntil(const SignUpRoute(), predicate: (route) => false);
+      },
       child: Text.rich(TextSpan(children: [
         TextSpan(
             text: '¿No tienes cuenta? ',
