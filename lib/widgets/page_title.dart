@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'dart:math' as math;
 
@@ -18,7 +19,11 @@ class PageTitle extends StatelessWidget {
       child: Stack(
         children: [
           GestureDetector(
-            onTap: () => context.router.pop(),
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              HapticFeedback.lightImpact();
+              AutoRouter.of(context).pop();
+            },
             child: Transform.rotate(
                 angle: -math.pi,
                 child: SizedBox(
