@@ -21,8 +21,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const LoginPage(),
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          durationInMilliseconds: 200,
+          durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     },
@@ -30,8 +29,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const SignUpPage(),
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          durationInMilliseconds: 200,
+          durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     },
@@ -39,8 +37,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const WelcomePage(),
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          durationInMilliseconds: 200,
+          durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     },
@@ -48,8 +45,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const HomePage(),
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          durationInMilliseconds: 200,
+          durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     },
@@ -57,8 +53,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const UserUpdatePage(),
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          durationInMilliseconds: 200,
+          durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     },
@@ -66,8 +61,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const DiagnosisPage(),
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          durationInMilliseconds: 200,
+          durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     },
@@ -75,8 +69,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const MeasurementesPage(),
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          durationInMilliseconds: 200,
+          durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     },
@@ -84,8 +77,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const MedicinePage(),
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          durationInMilliseconds: 200,
+          durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     },
@@ -93,8 +85,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const CalendarPage(),
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          durationInMilliseconds: 200,
+          durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     },
@@ -102,8 +93,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const EmptyRouterPage(),
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          durationInMilliseconds: 200,
+          durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     },
@@ -111,8 +101,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const UserProfilePage(),
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          durationInMilliseconds: 200,
+          durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     },
@@ -120,8 +109,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const UserPersonalInfoPage(),
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          durationInMilliseconds: 200,
+          durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     },
@@ -129,8 +117,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const UserSettingsPage(),
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          durationInMilliseconds: 200,
+          durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     },
@@ -138,8 +125,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const UserLinkedAccountsPage(),
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          durationInMilliseconds: 200,
+          durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     },
@@ -147,8 +133,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const UserSupervisorsPage(),
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          durationInMilliseconds: 200,
+          durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     },
@@ -156,8 +141,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const UserSupervisedPage(),
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          durationInMilliseconds: 200,
+          durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     },
@@ -165,8 +149,7 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const DeleteUserPage(),
-          transitionsBuilder: TransitionsBuilders.noTransition,
-          durationInMilliseconds: 200,
+          durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     }

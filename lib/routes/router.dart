@@ -23,9 +23,7 @@ part 'router.gr.dart';
 @CustomAutoRouter(
   routes: routes,
   replaceInRouteName: 'Page,Route',
-  durationInMilliseconds: 200,
-  transitionsBuilder: TransitionsBuilders.noTransition,
-  reverseDurationInMilliseconds: 100,
+  durationInMilliseconds: 100,
 )
 class AppRouter extends _$AppRouter {}
 

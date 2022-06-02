@@ -301,7 +301,9 @@ class _NameField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon: showCheckIcon(state.name.valid, context),
+              suffixIcon: state.enabled
+                  ? showCheckIcon(state.name.valid, context)
+                  : Container(),
               suffixIconConstraints: const BoxConstraints(
                   maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
             ));
@@ -382,7 +384,9 @@ class _LastNameField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon: showCheckIcon(state.lastName.valid, context),
+              suffixIcon: state.enabled
+                  ? showCheckIcon(state.lastName.valid, context)
+                  : Container(),
               suffixIconConstraints: const BoxConstraints(
                   maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
             ));
@@ -486,7 +490,9 @@ class _WeightField extends StatelessWidget {
                         SizedBox(
                           height: 30,
                           width: 30,
-                          child: showCheckIcon(state.weight.valid, context),
+                          child: state.enabled
+                              ? showCheckIcon(state.weight.valid, context)
+                              : Container(),
                         )
                     ]),
                 suffixIconConstraints: const BoxConstraints(
@@ -588,7 +594,9 @@ class _HeightField extends StatelessWidget {
                     SizedBox(
                       height: 30,
                       width: 30,
-                      child: showCheckIcon(state.height.valid, context),
+                      child: state.enabled
+                          ? showCheckIcon(state.height.valid, context)
+                          : Container(),
                     )
                   ]),
               suffixIconConstraints: const BoxConstraints(

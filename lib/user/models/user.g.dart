@@ -33,6 +33,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       birth: json['birth'] == null
           ? null
           : DateTime.parse(json['birth'] as String),
+      avatar: json['avatar'] as String? ?? 'assets/avatar/default.svg',
       supervising: json['supervising'] == null
           ? null
           : User.fromJson(json['supervising'] as Map<String, dynamic>),
@@ -41,6 +42,7 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'user_id': instance.id,
       'email': instance.email,
+      'avatar': instance.avatar,
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),
       'diseases': instance.diseases,

@@ -9,6 +9,8 @@ class User extends Equatable {
   @JsonKey(name: 'user_id')
   final String? id;
   final String? email;
+  @JsonKey(defaultValue: 'assets/avatar/default.svg')
+  final String? avatar;
   @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @JsonKey(name: 'updated_at')
@@ -42,6 +44,7 @@ class User extends Equatable {
       this.sex,
       this.invitation,
       this.birth,
+      this.avatar,
       this.supervising});
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
@@ -64,6 +67,7 @@ class User extends Equatable {
     String? invitation,
     User? supervising,
     DateTime? birth,
+    String? avatar,
   }) {
     return User(
         id: id ?? this.id,
@@ -79,6 +83,7 @@ class User extends Equatable {
         weight: weight ?? this.weight,
         sex: sex ?? this.sex,
         birth: birth ?? this.birth,
+        avatar: avatar ?? this.avatar,
         invitation: invitation ?? this.invitation,
         supervising: supervising ?? this.supervising);
   }

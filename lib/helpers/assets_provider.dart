@@ -36,4 +36,5 @@ class AssetsProvider {
   static const String treatment = 'assets/svg/treatment.svg';
   static const String valid = 'assets/svg/valid.svg';
   static const String success = 'assets/svg/success.svg';
+  static const String edit = 'assets/svg/edit.svg';
 }

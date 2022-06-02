@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:meddly/auth/bloc/auth_bloc.dart';
 import 'package:meddly/routes/router.dart';
 
+import '../../../blocs.dart';
 import '../../../helpers/assets_provider.dart';
 import '../../../helpers/constants.dart';
 import '../../../widgets/widgets.dart';
@@ -96,25 +96,29 @@ class _ProfileNameEmail extends StatelessWidget {
           children: [
             const Avatar(),
             const SizedBox(width: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Lorenzo Sala',
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                Text(
-                  'salaloren@gmail.com',
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                      fontWeight: FontWeight.w500,
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodySmall!
-                          .color!
-                          .withOpacity(0.5)),
-                ),
-              ],
+            BlocBuilder<UserBloc, UserState>(
+              builder: (context, state) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '${state.currentUser!.firstName} ${state.currentUser!.lastName}',
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                    Text(
+                      '${state.currentUser!.email}',
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontWeight: FontWeight.w500,
+                          color: Theme.of(context)
+                              .textTheme
+                              .bodySmall!
+                              .color!
+                              .withOpacity(0.5)),
+                    ),
+                  ],
+                );
+              },
             ),
             const Spacer(),
             SizedBox(

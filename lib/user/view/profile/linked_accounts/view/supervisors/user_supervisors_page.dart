@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -20,24 +21,26 @@ class UserSupervisorsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Stack(
-          children: [
-            Column(
-              children: const [
-                Padding(
-                  padding: defaultPadding,
-                  child: PageTitle(title: 'Supervisores'),
-                ),
-                _Supervisors(),
-              ],
-            ),
-            const CustomDraggableScrollableSheet(
-              type: CustomDraggableScrollableSheetType.supervisor,
-            ),
-          ],
+      body: FadeIn(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: Stack(
+            children: [
+              Column(
+                children: const [
+                  Padding(
+                    padding: defaultPadding,
+                    child: PageTitle(title: 'Supervisores'),
+                  ),
+                  _Supervisors(),
+                ],
+              ),
+              const CustomDraggableScrollableSheet(
+                type: CustomDraggableScrollableSheetType.supervisor,
+              ),
+            ],
+          ),
         ),
       ),
     );

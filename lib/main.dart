@@ -18,19 +18,19 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  var connectivityBloc = ConnectivityBloc();
-  var authenticationRepository =
-      AuthenticationRepository(languageCode: LanguageCode.es);
-
-  var mongoUserApi = FastApiUserApi(
-      authenticationRepository: authenticationRepository, dio: Dio());
-
-  var userRepository = UserRepository(userApi: mongoUserApi);
-  var authBloc = AuthBloc(authenticationRepository: authenticationRepository);
-  var userBloc = UserBloc(userRepository, authenticationRepository);
-
   BlocOverrides.runZoned(
     () {
+      var connectivityBloc = ConnectivityBloc();
+      var authenticationRepository =
+          AuthenticationRepository(languageCode: LanguageCode.es);
+
+      var mongoUserApi = FastApiUserApi(
+          authenticationRepository: authenticationRepository, dio: Dio());
+
+      var userRepository = UserRepository(userApi: mongoUserApi);
+      var authBloc =
+          AuthBloc(authenticationRepository: authenticationRepository);
+      var userBloc = UserBloc(userRepository, authenticationRepository);
       runApp(MyApp(
         authenticationRepository: authenticationRepository,
         authBloc: authBloc,
