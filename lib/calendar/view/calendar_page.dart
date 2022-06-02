@@ -3,13 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meddly/helpers/constants.dart';
 import 'package:meddly/user/models/user.dart';
+import 'package:meddly/widgets/widgets.dart';
 
 import '../../blocs.dart';
-
-final fakeUsers = [
-  const User(id: '1', firstName: 'Leila'),
-  const User(id: '2', firstName: 'Ignacio'),
-];
 
 class CalendarPage extends StatelessWidget {
   const CalendarPage({Key? key}) : super(key: key);
@@ -21,7 +17,8 @@ class CalendarPage extends StatelessWidget {
       child: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
           if (state.status != UserStatus.success) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(
+                child: Spinner(color: Theme.of(context).colorScheme.primary));
           }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,21 +60,23 @@ class _SupervisorDropdownButton extends StatelessWidget {
                     borderRadius: BorderRadius.circular(20),
                     dropdownColor: Theme.of(context).colorScheme.primary,
                     iconEnabledColor: Theme.of(context).colorScheme.secondary,
-                    items: fakeUsers
-                        .map((user) => DropdownMenuItem(
-                              child: Text(
-                                user.firstName!,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary),
-                              ),
-                              value: user,
-                            ))
-                        .toList(),
+                    items: state.currentUser!.supervised == null
+                        ? []
+                        : state.currentUser!.supervised!
+                            .map((user) => DropdownMenuItem(
+                                  child: Text(
+                                    user.firstName!,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary),
+                                  ),
+                                  value: user,
+                                ))
+                            .toList(),
                     onChanged: (User? user) {
                       if (user == null) {
                         return;

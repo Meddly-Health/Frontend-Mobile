@@ -18,7 +18,12 @@ class UserLinkedAccountsPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const PageTitle(title: 'Cuentas vinculadas'),
+              PageTitle(
+                title: 'Cuentas vinculadas',
+                onPop: () {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                },
+              ),
               const SizedBox(height: 30),
               Text(
                 'Los supervisores pueden acceder a tus datos para ayudarte con tus seguimiento.',

@@ -14,38 +14,7 @@ SnackBar getSnackBar(BuildContext context, String message, SnackBarType type,
   switch (type) {
     case SnackBarType.error:
       return _getErrorSnackbar(context, message);
-      return SnackBar(
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10), topRight: Radius.circular(10))),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          backgroundColor: Theme.of(context).colorScheme.error,
-          duration: duration,
-          content: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 20,
-                width: 20,
-                child: SvgPicture.asset(
-                  AssetsProvider.exclamation,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: AutoSizeText(
-                  message,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall!
-                      .copyWith(color: Colors.white),
-                ),
-              ),
-            ],
-          ));
+
     case SnackBarType.success:
       return _getSuccessSnackbar(context, message);
 

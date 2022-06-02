@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
           routerDelegate: _router.delegate(initialRoutes: [
             authenticationRepository.currentUser.isEmpty
                 ? const WelcomeRoute()
-                : const HomeRouter(),
+                : const LoadingRoute(),
           ]),
         ),
       ),

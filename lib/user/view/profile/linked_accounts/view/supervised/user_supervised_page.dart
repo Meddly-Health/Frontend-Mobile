@@ -23,8 +23,12 @@ class UserSupervisedPage extends StatelessWidget {
     return BlocListener<UserBloc, UserState>(
       listener: (context, state) {
         if (state.status == UserStatus.success) {
+          ScaffoldMessenger.of(context).showSnackBar(getSnackBar(
+              context, 'Operación realizada con éxito.', SnackBarType.success));
+        }
+        if (state.status == UserStatus.error) {
           ScaffoldMessenger.of(context).showSnackBar(
-              getSnackBar(context, 'Sucess.', SnackBarType.success));
+              getSnackBar(context, state.errorMessage!, SnackBarType.error));
         }
       },
       child: Scaffold(
@@ -35,12 +39,17 @@ class UserSupervisedPage extends StatelessWidget {
             child: Stack(
               children: [
                 Column(
-                  children: const [
+                  children: [
                     Padding(
                       padding: defaultPadding,
-                      child: PageTitle(title: 'Supervisados'),
+                      child: PageTitle(
+                        title: 'Supervisados',
+                        onPop: () {
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        },
+                      ),
                     ),
-                    _Supervised(),
+                    const _Supervised(),
                   ],
                 ),
                 const CustomDraggableScrollableSheet(

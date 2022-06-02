@@ -67,10 +67,6 @@ class _DraggableScrollableSheetContentSupervisors extends StatelessWidget {
               const SizedBox(height: 20),
               BlocBuilder<UserBloc, UserState>(
                 builder: (context, state) {
-                  if (state.status == UserStatus.error) {
-                    return _Error(errorMessage: state.errorMessage!);
-                  }
-
                   if (state.status == UserStatus.loading) {
                     return const _Loading();
                   }
@@ -158,9 +154,7 @@ class _DraggableScrollableSheetContentSupervised extends StatelessWidget {
                   if (state.status == UserStatus.loading) {
                     return const _Loading();
                   }
-                  if (state.status == UserStatus.error) {
-                    return _Error(errorMessage: state.errorMessage!);
-                  }
+
                   return const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30),
                     child: _CodeFormFieldSupervised(),

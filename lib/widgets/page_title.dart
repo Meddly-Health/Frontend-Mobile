@@ -29,12 +29,17 @@ class PageTitle extends StatelessWidget {
               }
               AutoRouter.of(context).pop();
             },
-            child: Transform.rotate(
-                angle: -math.pi,
-                child: SizedBox(
-                    height: 25,
-                    width: 25,
-                    child: SvgPicture.asset(AssetsProvider.chevron))),
+            child: Container(
+              height: 48,
+              width: 48,
+              alignment: Alignment.center,
+              child: Transform.rotate(
+                  angle: -math.pi,
+                  child: SizedBox(
+                      height: 25,
+                      width: 25,
+                      child: SvgPicture.asset(AssetsProvider.chevron))),
+            ),
           ),
           Center(
             child: Text(

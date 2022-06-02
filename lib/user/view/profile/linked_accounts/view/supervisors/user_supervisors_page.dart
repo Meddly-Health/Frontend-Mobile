@@ -20,26 +20,43 @@ class UserSupervisorsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: FadeIn(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Stack(
-            children: [
-              Column(
-                children: const [
-                  Padding(
-                    padding: defaultPadding,
-                    child: PageTitle(title: 'Supervisores'),
-                  ),
-                  _Supervisors(),
-                ],
-              ),
-              const CustomDraggableScrollableSheet(
-                type: CustomDraggableScrollableSheetType.supervisor,
-              ),
-            ],
+    return BlocListener<UserBloc, UserState>(
+      listener: (context, state) {
+        if (state.status == UserStatus.error) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              getSnackBar(context, state.errorMessage!, SnackBarType.error));
+        }
+        if (state.status == UserStatus.success) {
+          ScaffoldMessenger.of(context).showSnackBar(getSnackBar(
+              context, 'Operación realizada con éxito.', SnackBarType.success));
+        }
+      },
+      child: Scaffold(
+        body: FadeIn(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    Padding(
+                      padding: defaultPadding,
+                      child: PageTitle(
+                        title: 'Supervisores',
+                        onPop: () {
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        },
+                      ),
+                    ),
+                    const _Supervisors(),
+                  ],
+                ),
+                const CustomDraggableScrollableSheet(
+                  type: CustomDraggableScrollableSheetType.supervisor,
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -52,13 +69,6 @@ class _Supervisors extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (fakeUsers.isEmpty) {
-      return const Expanded(
-          child: NoData(
-        message: 'No añadiste ningún supervisor',
-      ));
-    }
-
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state.currentUser!.supervisors == null ||
@@ -83,7 +93,7 @@ class _Supervisors extends StatelessWidget {
                 ),
                 const SizedBox(width: 16),
                 Text(
-                  '${fakeUsers[index].firstName} ${fakeUsers[index].lastName}',
+                  '${state.currentUser!.supervisors![index].firstName} ${state.currentUser!.supervisors![index].lastName}',
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
                 const Spacer(),

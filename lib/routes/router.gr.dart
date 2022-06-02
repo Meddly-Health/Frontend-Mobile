@@ -41,6 +41,14 @@ class _$AppRouter extends RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
+    LoadingRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const LoadingPage(),
+          durationInMilliseconds: 100,
+          opaque: true,
+          barrierDismissible: false);
+    },
     HomeRouter.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
@@ -160,6 +168,7 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(LoginRoute.name, path: 'login'),
         RouteConfig(SignUpRoute.name, path: 'signup'),
         RouteConfig(WelcomeRoute.name, path: 'welcome'),
+        RouteConfig(LoadingRoute.name, path: 'loading'),
         RouteConfig(HomeRouter.name, path: 'home', children: [
           RouteConfig('#redirect',
               path: '',
@@ -225,6 +234,14 @@ class WelcomeRoute extends PageRouteInfo<void> {
   const WelcomeRoute() : super(WelcomeRoute.name, path: 'welcome');
 
   static const String name = 'WelcomeRoute';
+}
+
+/// generated route for
+/// [LoadingPage]
+class LoadingRoute extends PageRouteInfo<void> {
+  const LoadingRoute() : super(LoadingRoute.name, path: 'loading');
+
+  static const String name = 'LoadingRoute';
 }
 
 /// generated route for

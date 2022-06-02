@@ -12,6 +12,7 @@ import 'package:meddly/user/view/profile/settings/view/user_settings_page.dart';
 import 'package:meddly/user/view/profile/user_profile_page.dart';
 import 'package:meddly/user/view/form/view/user_form_page.dart';
 import 'package:meddly/welcome/view/welcome_page.dart';
+import '../auth/view/loading_page.dart';
 import '../home/view/home_page.dart';
 import '../sign_up/view/view.dart';
 
@@ -31,6 +32,7 @@ const List<AutoRoute> routes = [
   AutoRoute(path: 'login', page: LoginPage),
   AutoRoute(path: 'signup', page: SignUpPage),
   AutoRoute(path: 'welcome', page: WelcomePage),
+  AutoRoute(path: 'loading', page: LoadingPage),
   AutoRoute(
     path: 'home',
     name: 'HomeRouter',
