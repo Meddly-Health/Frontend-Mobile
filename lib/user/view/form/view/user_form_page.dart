@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:authentication_repository/authentication_repository.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,13 +18,12 @@ class UserUpdatePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => UserFormCubit(
-          userRepository: RepositoryProvider.of<UserRepository>(context),
-          authenticationRepository:
-              RepositoryProvider.of<AuthenticationRepository>(context))
-        ..init(),
-      child: BlocListener<UserFormCubit, UserFormState>(
+        userRepository: RepositoryProvider.of<UserRepository>(context),
+        userBloc: BlocProvider.of<UserBloc>(context),
+      )..init(),
+      child: BlocListener<UserBloc, UserState>(
         listener: (context, state) {
-          if (state.userStatus == UserStatus.loading) {
+          if (state.status == UserStatus.loading) {
             showDialog(
               context: context,
               builder: (BuildContext context) {
@@ -33,23 +31,30 @@ class UserUpdatePage extends StatelessWidget {
               },
             );
           }
-
-          if (state.status.isSubmissionSuccess) {
-            AutoRouter.of(context).pushAndPopUntil(const HomeRouter(),
-                predicate: ((route) => false));
-          } else if (state.status.isSubmissionFailure ||
-              state.userStatus == UserStatus.error) {
+          if (state.status == UserStatus.error) {
             ScaffoldMessenger.of(context).showSnackBar(
               getSnackBar(context, state.errorMessage!, SnackBarType.error),
             );
           }
         },
-        child: Scaffold(
-          resizeToAvoidBottomInset: true,
-          appBar: AppBar(),
-          body: GestureDetector(
-              onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-              child: const _UserDataPageBody()),
+        child: BlocListener<UserFormCubit, UserFormState>(
+          listener: (context, state) {
+            if (state.status.isSubmissionSuccess) {
+              AutoRouter.of(context).pushAndPopUntil(const HomeRouter(),
+                  predicate: ((route) => false));
+            } else if (state.status.isSubmissionFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                getSnackBar(context, state.errorMessage!, SnackBarType.error),
+              );
+            }
+          },
+          child: Scaffold(
+            resizeToAvoidBottomInset: true,
+            appBar: AppBar(),
+            body: GestureDetector(
+                onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+                child: const _UserDataPageBody()),
+          ),
         ),
       ),
     );
@@ -63,9 +68,9 @@ class _UserDataPageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserFormCubit, UserFormState>(
+    return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        if (state.userStatus == UserStatus.loading) {
+        if (state.status == UserStatus.loading) {
           return const Center(child: CircularProgressIndicator());
         }
 

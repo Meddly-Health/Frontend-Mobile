@@ -4,7 +4,6 @@ part of 'user_form_cubit.dart';
 class UserFormState extends Equatable {
   final FormzStatus status;
   final Name name;
-  final UserStatus userStatus;
   final LastName lastName;
   final BirthDate birthDate;
   final Heigth height;
@@ -28,7 +27,6 @@ class UserFormState extends Equatable {
       this.height = const Heigth.pure(),
       this.weight = const Weight.pure(),
       this.sex,
-      this.userStatus = UserStatus.initial,
       this.errorMessage,
       this.enabled = true});
 
@@ -42,31 +40,30 @@ class UserFormState extends Equatable {
         weight,
         sex,
         errorMessage,
-        userStatus,
         enabled
       ];
 
-  UserFormState copyWith(
-      {FormzStatus? status,
-      Name? name,
-      LastName? lastName,
-      BirthDate? birthDate,
-      Heigth? height,
-      Weight? weight,
-      Sex? sex,
-      String? errorMessage,
-      bool? enabled,
-      UserStatus? userStatus}) {
+  UserFormState copyWith({
+    FormzStatus? status,
+    Name? name,
+    LastName? lastName,
+    BirthDate? birthDate,
+    Heigth? height,
+    Weight? weight,
+    Sex? sex,
+    String? errorMessage,
+    bool? enabled,
+  }) {
     return UserFormState(
-        status: status ?? this.status,
-        name: name ?? this.name,
-        lastName: lastName ?? this.lastName,
-        birthDate: birthDate ?? this.birthDate,
-        height: height ?? this.height,
-        weight: weight ?? this.weight,
-        sex: sex ?? this.sex,
-        enabled: enabled ?? this.enabled,
-        errorMessage: errorMessage ?? this.errorMessage,
-        userStatus: userStatus ?? this.userStatus);
+      status: status ?? this.status,
+      name: name ?? this.name,
+      lastName: lastName ?? this.lastName,
+      birthDate: birthDate ?? this.birthDate,
+      height: height ?? this.height,
+      weight: weight ?? this.weight,
+      sex: sex ?? this.sex,
+      enabled: enabled ?? this.enabled,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
   }
 }

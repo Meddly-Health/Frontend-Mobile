@@ -28,3 +28,50 @@ class UserAddSupervised extends UserEvent {
     required this.code,
   });
 }
+
+class UserNameChanged extends UserEvent {
+  final String value;
+  UserNameChanged({
+    required this.value,
+  });
+}
+
+class UserLastNameChanged extends UserEvent {
+  final String value;
+  UserLastNameChanged({
+    required this.value,
+  });
+}
+
+class UserBirthdateChanged extends UserEvent {
+  final DateTime value;
+  UserBirthdateChanged({
+    required this.value,
+  });
+}
+
+class UserFormEnable extends UserEvent {
+  final bool value;
+  UserFormEnable({
+    required this.value,
+  });
+}
+
+class UserWeightChanged extends UserEvent {
+  final double value;
+  UserWeightChanged({
+    required this.value,
+  });
+}
+
+class UserHeightChanged extends UserEvent {
+  final int value;
+  UserHeightChanged({
+    required this.value,
+  });
+}
+
+class UserSexChanged extends UserEvent {
+  final Sex sex;
+  UserSexChanged({required this.sex});
+}

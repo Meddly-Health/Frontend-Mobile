@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../helpers/assets_provider.dart';
+import '../blocs.dart';
 
 class Avatar extends StatelessWidget {
   const Avatar({Key? key, this.radius = 35}) : super(key: key);
@@ -13,10 +14,17 @@ class Avatar extends StatelessWidget {
     return CircleAvatar(
       backgroundColor: Theme.of(context).colorScheme.secondary,
       radius: radius,
-      child: SizedBox(
-          height: radius * 2,
-          width: radius * 2,
-          child: SvgPicture.asset(AssetsProvider.avatarTest)),
+      child: BlocBuilder<UserBloc, UserState>(
+        builder: (context, state) {
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(999),
+            child: SizedBox(
+                height: radius * 2,
+                width: radius * 2,
+                child: SvgPicture.asset(state.currentUser!.avatar!)),
+          );
+        },
+      ),
     );
   }
 }
