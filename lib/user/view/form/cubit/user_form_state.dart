@@ -8,9 +8,10 @@ class UserFormState extends Equatable {
   final LastName lastName;
   final BirthDate birthDate;
   final Heigth height;
-  final Weigth weight;
+  final Weight weight;
   final Sex? sex;
   final String? errorMessage;
+  final bool enabled;
 
   bool get isValid =>
       name.valid &&
@@ -25,10 +26,11 @@ class UserFormState extends Equatable {
       this.lastName = const LastName.pure(),
       this.birthDate = const BirthDate.pure(),
       this.height = const Heigth.pure(),
-      this.weight = const Weigth.pure(),
+      this.weight = const Weight.pure(),
       this.sex,
       this.userStatus = UserStatus.initial,
-      this.errorMessage});
+      this.errorMessage,
+      this.enabled = true});
 
   @override
   List<Object?> get props => [
@@ -40,7 +42,8 @@ class UserFormState extends Equatable {
         weight,
         sex,
         errorMessage,
-        userStatus
+        userStatus,
+        enabled
       ];
 
   UserFormState copyWith(
@@ -49,9 +52,10 @@ class UserFormState extends Equatable {
       LastName? lastName,
       BirthDate? birthDate,
       Heigth? height,
-      Weigth? weight,
+      Weight? weight,
       Sex? sex,
       String? errorMessage,
+      bool? enabled,
       UserStatus? userStatus}) {
     return UserFormState(
         status: status ?? this.status,
@@ -61,6 +65,7 @@ class UserFormState extends Equatable {
         height: height ?? this.height,
         weight: weight ?? this.weight,
         sex: sex ?? this.sex,
+        enabled: enabled ?? this.enabled,
         errorMessage: errorMessage ?? this.errorMessage,
         userStatus: userStatus ?? this.userStatus);
   }

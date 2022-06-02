@@ -32,7 +32,9 @@ class LoginPage extends StatelessWidget {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: AppBar(),
-          body: const _LoginPageBody(),
+          body: GestureDetector(
+              onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+              child: const _LoginPageBody()),
         ),
       ),
     );

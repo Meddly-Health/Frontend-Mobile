@@ -36,17 +36,17 @@ void main() {
   var validBirthDateDate = DateTime.parse('1980-01-01');
   var validBirtDate = BirthDate.dirty(validBirthDateDate);
 
-  const invalidHeightValue = -3.0;
+  const invalidHeightValue = -3;
   const invalidHeight = Heigth.dirty(invalidHeightValue);
 
-  const validHeightValue = 1.70;
+  const validHeightValue = 170;
   const validHeight = Heigth.dirty(validHeightValue);
 
   const invalidWeightValue = -3.0;
-  const invalidWeight = Weigth.dirty(invalidWeightValue);
+  const invalidWeight = Weight.dirty(invalidWeightValue);
 
   const validWeightValue = 50.0;
-  const validWeight = Weigth.dirty(validWeightValue);
+  const validWeight = Weight.dirty(validWeightValue);
 
   const invalidSex = 'invalid';
   const validSex = Sex.masculino;

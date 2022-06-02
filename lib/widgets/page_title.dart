@@ -7,9 +7,11 @@ import 'dart:math' as math;
 import '../helpers/assets_provider.dart';
 
 class PageTitle extends StatelessWidget {
-  const PageTitle({Key? key, required this.title}) : super(key: key);
+  const PageTitle({Key? key, required this.title, this.onPop})
+      : super(key: key);
 
   final String title;
+  final Function? onPop;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +22,11 @@ class PageTitle extends StatelessWidget {
         children: [
           GestureDetector(
             behavior: HitTestBehavior.translucent,
-            onTap: () {
+            onTap: () async {
               HapticFeedback.lightImpact();
+              if (onPop != null) {
+                await onPop!();
+              }
               AutoRouter.of(context).pop();
             },
             child: Transform.rotate(

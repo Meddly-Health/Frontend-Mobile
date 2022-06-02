@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meddly/helpers/assets_provider.dart';
@@ -8,8 +9,8 @@ import '../../../../blocs.dart';
 import '../../../../helpers/helpers.dart';
 import '../../../models/models.dart';
 
-class UserUpdateForm extends StatelessWidget {
-  const UserUpdateForm({Key? key}) : super(key: key);
+class UserForm extends StatelessWidget {
+  const UserForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -85,11 +86,14 @@ class _SexDropDown extends StatelessWidget {
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.secondary,
             borderRadius: BorderRadius.circular(10),
+            border: state.enabled
+                ? null
+                : Border.all(color: Theme.of(context).colorScheme.onSecondary),
           ),
           width: MediaQuery.of(context).size.width,
           child: DropdownButtonHideUnderline(
               child: DropdownButton<Sex>(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(10),
             elevation: 0,
             hint: const Text('Seleccione un sexo'),
             value: state.sex,
@@ -117,17 +121,17 @@ class _SexDropDown extends StatelessWidget {
                 value: Sex.otro,
               ),
             ],
-            onChanged: (Sex? value) {
-              context.read<UserFormCubit>().sexChanged(value);
-            },
+            onChanged: !state.enabled
+                ? null
+                : (Sex? value) {
+                    context.read<UserFormCubit>().sexChanged(value);
+                  },
           )),
         );
       },
     );
   }
 }
-
-// TODO: Show error if the user is not over 18.
 
 class _DatePicker extends StatelessWidget {
   const _DatePicker({
@@ -138,12 +142,17 @@ class _DatePicker extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
+        if (!context.read<UserFormCubit>().state.enabled) return;
+        HapticFeedback.lightImpact();
+
         var _dateTime = await showDatePicker(
-            context: context,
-            initialEntryMode: DatePickerEntryMode.calendarOnly,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(1900),
-            lastDate: DateTime.now());
+          context: context,
+          initialEntryMode: DatePickerEntryMode.calendarOnly,
+          initialDatePickerMode: DatePickerMode.year,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(1900),
+          lastDate: DateTime.now(),
+        );
 
         if (_dateTime != null) {
           context.read<UserFormCubit>().birthDateChanged(_dateTime);
@@ -154,39 +163,52 @@ class _DatePicker extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                height: 60,
-                padding: defaultPadding,
-                width: MediaQuery.of(context).size.width,
+              Container(
                 decoration: BoxDecoration(
-                  border: state.birthDate.valid || state.birthDate.value == null
-                      ? null
-                      : Border.all(color: Theme.of(context).colorScheme.error),
                   color: Theme.of(context).colorScheme.secondary,
                   borderRadius: BorderRadius.circular(10),
+                  border: state.enabled
+                      ? null
+                      : Border.all(
+                          color:
+                              Theme.of(context).colorScheme.secondaryContainer),
                 ),
-                child: Row(
-                  children: [
-                    Text(
-                      state.birthDate.value == null
-                          ? 'Selecciona una fecha'
-                          : formatDate(state.birthDate.value!),
-                      style: state.birthDate.value == null
-                          ? Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .color!
-                                  .withOpacity(0.5))
-                          : Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    const Spacer(),
-                    SizedBox(
-                        height: 20,
-                        width: 20,
-                        child: SvgPicture.asset(AssetsProvider.calendarIcon))
-                  ],
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  height: 60,
+                  padding: defaultPadding,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    border:
+                        state.birthDate.valid || state.birthDate.value == null
+                            ? null
+                            : Border.all(
+                                color: Theme.of(context).colorScheme.error),
+                    color: Theme.of(context).colorScheme.secondary,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        state.birthDate.value == null
+                            ? 'Selecciona una fecha'
+                            : formatDate(state.birthDate.value!),
+                        style: state.birthDate.value == null
+                            ? Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                color: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .color!
+                                    .withOpacity(0.5))
+                            : Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      const Spacer(),
+                      SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: SvgPicture.asset(AssetsProvider.calendarIcon))
+                    ],
+                  ),
                 ),
               ),
               state.birthDate.valid || state.birthDate.value == null
@@ -220,6 +242,7 @@ class _NameField extends StatelessWidget {
         bool showErrorText = state.name.value.isNotEmpty && state.name.invalid;
 
         return TextFormField(
+            enabled: state.enabled,
             key: const Key('user_name'),
             textInputAction: TextInputAction.next,
             onChanged: (String? value) {
@@ -230,6 +253,12 @@ class _NameField extends StatelessWidget {
             textCapitalization: TextCapitalization.words,
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
+              disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.secondaryContainer,
+                ),
+              ),
               hintText: 'Ej: Juan Nicolás',
               hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context)
@@ -294,6 +323,7 @@ class _LastNameField extends StatelessWidget {
             state.lastName.value.isNotEmpty && state.lastName.invalid;
 
         return TextFormField(
+            enabled: state.enabled,
             key: const Key('user_last_name'),
             textInputAction: TextInputAction.next,
             onChanged: (String? value) {
@@ -313,6 +343,12 @@ class _LastNameField extends StatelessWidget {
                   ),
               filled: true,
               fillColor: Theme.of(context).colorScheme.secondary,
+              disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.secondaryContainer,
+                ),
+              ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
               ),
@@ -367,18 +403,25 @@ class _WeightField extends StatelessWidget {
         bool showErrorText = state.weight.value == 0.0 && state.weight.invalid;
 
         return TextFormField(
+            enabled: state.enabled,
             key: const Key('user_weight'),
             textInputAction: TextInputAction.next,
             controller: context.read<UserFormCubit>().weightController,
             onChanged: (String? value) {
-              double? weight = double.tryParse(value!);
+              if (value!.isEmpty) {
+                return context.read<UserFormCubit>().weightChanged(-1);
+              }
 
+              if (value.contains(',')) {
+                value = value.replaceAll(',', '.');
+              }
+
+              double? weight = double.tryParse(value);
               weight ??= 0;
 
               context.read<UserFormCubit>().weightChanged(weight);
             },
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            inputFormatters: const [],
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
                 hintText: 'Ej: 80',
@@ -392,6 +435,12 @@ class _WeightField extends StatelessWidget {
                 fillColor: Theme.of(context).colorScheme.secondary,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
+                ),
+                disabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                  ),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -433,15 +482,11 @@ class _WeightField extends StatelessWidget {
                             .bodyMedium!
                             .copyWith(fontWeight: FontWeight.w500),
                       ),
-                      if (state.weight.valid &&
-                          state.weight.value > 0 &&
-                          state.weight.value < 1000)
+                      if (state.weight.valid)
                         SizedBox(
                           height: 30,
                           width: 30,
-                          child: showCheckIcon(
-                              state.weight.valid && state.weight.value > 0,
-                              context),
+                          child: showCheckIcon(state.weight.valid, context),
                         )
                     ]),
                 suffixIconConstraints: const BoxConstraints(
@@ -463,17 +508,22 @@ class _HeightField extends StatelessWidget {
         bool showErrorText = state.height.value == 0.0 && state.height.invalid;
 
         return TextFormField(
+            enabled: state.enabled,
             key: const Key('user_height'),
             textInputAction: TextInputAction.next,
             onChanged: (String? value) {
-              double? height = double.tryParse(value!);
+              if (value!.isEmpty) {
+                return context.read<UserFormCubit>().heightChanged(-1);
+              }
+
+              int? height = int.tryParse(value);
 
               height ??= 0;
 
               context.read<UserFormCubit>().heightChanged(height);
             },
             controller: context.read<UserFormCubit>().heightController,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            keyboardType: TextInputType.number,
             inputFormatters: const [],
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
@@ -488,6 +538,12 @@ class _HeightField extends StatelessWidget {
               fillColor: Theme.of(context).colorScheme.secondary,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
+              ),
+              disabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10),
+                borderSide: BorderSide(
+                  color: Theme.of(context).colorScheme.secondaryContainer,
+                ),
               ),
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -532,9 +588,7 @@ class _HeightField extends StatelessWidget {
                     SizedBox(
                       height: 30,
                       width: 30,
-                      child: showCheckIcon(
-                          state.height.valid && state.height.value > 0,
-                          context),
+                      child: showCheckIcon(state.height.valid, context),
                     )
                   ]),
               suffixIconConstraints: const BoxConstraints(

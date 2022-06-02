@@ -10,7 +10,7 @@ import 'package:meddly/user/repository/respository.dart';
 import 'package:meddly/user/view/form/view/user_form.dart';
 import 'package:meddly/widgets/widgets.dart';
 
-import '../../blocs.dart';
+import '../../../../blocs.dart';
 
 class UserUpdatePage extends StatelessWidget {
   const UserUpdatePage({Key? key}) : super(key: key);
@@ -45,7 +45,7 @@ class UserUpdatePage extends StatelessWidget {
           }
         },
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
+          resizeToAvoidBottomInset: true,
           appBar: AppBar(),
           body: GestureDetector(
               onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
@@ -73,8 +73,10 @@ class _UserDataPageBody extends StatelessWidget {
           return Container(
             padding: defaultPadding,
             child: SingleChildScrollView(
+              controller: ScrollController(),
               child: FadeIn(
                 child: Column(
+                    mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
@@ -82,10 +84,10 @@ class _UserDataPageBody extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       const SizedBox(height: 16),
-                      const UserUpdateForm(),
+                      const UserForm(),
                       const SizedBox(height: 16),
                       const _OmitOrSave(),
-                      const SizedBox(height: 16),
+                      const SizedBox(height: 16)
                     ]),
               ),
             ),
@@ -119,7 +121,7 @@ class _OmitOrSave extends StatelessWidget {
             ),
             child: Center(
               child:
-                  Text('Omitir', style: Theme.of(context).textTheme.bodyLarge),
+                  Text('Omitir', style: Theme.of(context).textTheme.bodyMedium),
             ),
           ),
         ),
@@ -144,7 +146,7 @@ class _OmitOrSave extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text('Guardar',
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: Colors.white,
                           )),
                 ),

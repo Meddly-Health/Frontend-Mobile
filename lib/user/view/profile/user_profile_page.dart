@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,54 +19,57 @@ class UserProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: defaultPadding,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Mi Perfil',
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(height: 16),
-            const _ProfileNameEmail(),
-            const SizedBox(height: 35),
-            Column(
-              children: [
-                IconAndTextTileItem(
-                  onTap: () =>
-                      context.router.push(const UserLinkedAccountsRoute()),
-                  label: 'Cuentas vinculadas',
-                  asset: AssetsProvider.linkedUsersIcon,
-                ),
-                const SizedBox(height: 35),
-                IconAndTextTileItem(
-                  onTap: () {},
-                  label: 'Notificaciones',
-                  asset: AssetsProvider.notificationsIcon,
-                ),
-                const SizedBox(height: 35),
-                IconAndTextTileItem(
-                  onTap: () => context.router.push(const UserSettingsRoute()),
-                  label: 'Configuración',
-                  asset: AssetsProvider.settingsIcon,
-                ),
-                const SizedBox(height: 35),
-                IconAndTextTileItem(
-                  onTap: () {},
-                  label: 'Preguntas frecuentes',
-                  asset: AssetsProvider.interrogationIcon,
-                ),
-                const SizedBox(height: 35),
-                IconAndTextTileItem(
-                  onTap: () =>
-                      context.read<AuthBloc>().add(AuthLogoutRequestedEvent()),
-                  label: 'Cerrar sesión',
-                  asset: AssetsProvider.logoutIcon,
-                ),
-              ],
-            )
-          ],
+      body: FadeIn(
+        child: Container(
+          padding: defaultPadding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Mi perfil',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(height: 16),
+              const _ProfileNameEmail(),
+              const SizedBox(height: 35),
+              Column(
+                children: [
+                  IconAndTextTileItem(
+                    onTap: () =>
+                        context.router.push(const UserLinkedAccountsRoute()),
+                    label: 'Cuentas vinculadas',
+                    asset: AssetsProvider.linkedUsersIcon,
+                  ),
+                  const SizedBox(height: 35),
+                  IconAndTextTileItem(
+                    onTap: () {},
+                    label: 'Notificaciones',
+                    asset: AssetsProvider.notificationsIcon,
+                  ),
+                  const SizedBox(height: 35),
+                  IconAndTextTileItem(
+                    onTap: () => context.router.push(const UserSettingsRoute()),
+                    label: 'Configuración',
+                    asset: AssetsProvider.settingsIcon,
+                  ),
+                  const SizedBox(height: 35),
+                  IconAndTextTileItem(
+                    onTap: () {},
+                    label: 'Preguntas frecuentes',
+                    asset: AssetsProvider.interrogationIcon,
+                  ),
+                  const SizedBox(height: 35),
+                  IconAndTextTileItem(
+                    onTap: () => context
+                        .read<AuthBloc>()
+                        .add(AuthLogoutRequestedEvent()),
+                    label: 'Cerrar sesión',
+                    asset: AssetsProvider.logoutIcon,
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );
@@ -90,10 +94,7 @@ class _ProfileNameEmail extends StatelessWidget {
         height: 70,
         child: Row(
           children: [
-            const CircleAvatar(
-              backgroundColor: Color(0xff95D6A4),
-              radius: 35,
-            ),
+            const Avatar(),
             const SizedBox(width: 16),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

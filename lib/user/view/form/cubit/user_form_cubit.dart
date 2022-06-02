@@ -24,7 +24,7 @@ class UserFormCubit extends Cubit<UserFormState> {
   final TextEditingController heightController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
 
-  void init() async {
+  void init([bool enableValue = true]) async {
     emit(state.copyWith(userStatus: UserStatus.loading));
     var response =
         await _userRepository.getUser(_authenticationRepository.currentUser.id);
@@ -34,6 +34,7 @@ class UserFormCubit extends Cubit<UserFormState> {
             userStatus: UserStatus.error, errorMessage: l.message)), (User r) {
       emit(
         state.copyWith(
+            enabled: enableValue,
             userStatus: UserStatus.success,
             name: r.firstName != null
                 ? Name.dirty(r.firstName!)
@@ -45,17 +46,19 @@ class UserFormCubit extends Cubit<UserFormState> {
                 ? BirthDate.dirty(r.birth!)
                 : const BirthDate.pure(),
             height: r.height != null
-                ? Heigth.dirty(r.height!)
+                ? Heigth.dirty(r.height?.toInt())
                 : const Heigth.pure(),
             weight: r.weight != null
-                ? Weigth.dirty(r.weight!)
-                : const Weigth.pure(),
+                ? Weight.dirty(r.weight!)
+                : const Weight.pure(),
             sex: r.sex),
       );
 
       nameController.text = r.firstName ?? '';
       lastNameController.text = r.lastName ?? '';
-      if (r.height != null) heightController.text = r.height.toString();
+      if (r.height != null) {
+        heightController.text = r.height!.toInt().toString();
+      }
       if (r.weight != null) weightController.text = r.weight.toString();
     });
   }
@@ -106,30 +109,42 @@ class UserFormCubit extends Cubit<UserFormState> {
     ));
   }
 
-  void weightChanged(double value) {
-    final weight = Weigth.dirty(value);
-    emit(state.copyWith(
-        weight: weight,
-        status: Formz.validate([
-          weight,
-          state.lastName,
-          state.name,
-          state.birthDate,
-          state.height
-        ])));
+  void enableForm(bool value) {
+    emit(state.copyWith(enabled: value));
   }
 
-  void heightChanged(double value) {
-    final heigth = Heigth.dirty(value);
-    emit(state.copyWith(
-        height: heigth,
-        status: Formz.validate([
-          heigth,
-          state.lastName,
-          state.name,
-          state.weight,
-          state.birthDate
-        ])));
+  void weightChanged(double? value) {
+    if (value != -1) {
+      final weight = Weight.dirty(value);
+      emit(state.copyWith(
+          weight: weight,
+          status: Formz.validate([
+            weight,
+            state.lastName,
+            state.name,
+            state.birthDate,
+            state.height
+          ])));
+    } else {
+      emit(state.copyWith(weight: const Weight.pure()));
+    }
+  }
+
+  void heightChanged(int? value) {
+    if (value != -1) {
+      final heigth = Heigth.dirty(value);
+      emit(state.copyWith(
+          height: heigth,
+          status: Formz.validate([
+            heigth,
+            state.lastName,
+            state.name,
+            state.weight,
+            state.birthDate
+          ])));
+    } else {
+      emit(state.copyWith(height: const Heigth.pure()));
+    }
   }
 
   void sexChanged(Sex? value) {
@@ -144,13 +159,14 @@ class UserFormCubit extends Cubit<UserFormState> {
         ])));
   }
 
-  void saveUserData() async {
+  Future<void> saveUserData() async {
+    if (!state.isValid) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     User user = User(
         firstName: state.name.value,
         lastName: state.lastName.value,
         birth: state.birthDate.value,
-        height: state.height.value,
+        height: state.height.value?.toDouble(),
         weight: state.weight.value,
         sex: state.sex);
 

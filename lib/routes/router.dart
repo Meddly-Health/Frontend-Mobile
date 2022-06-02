@@ -10,7 +10,7 @@ import 'package:meddly/user/view/profile/personal_info/view/user_personal_info_p
 import 'package:meddly/user/view/profile/settings/view/delete/delete_user_page.dart';
 import 'package:meddly/user/view/profile/settings/view/user_settings_page.dart';
 import 'package:meddly/user/view/profile/user_profile_page.dart';
-import 'package:meddly/user/view/user_update_page.dart';
+import 'package:meddly/user/view/form/view/user_form_page.dart';
 import 'package:meddly/welcome/view/welcome_page.dart';
 import '../home/view/home_page.dart';
 import '../sign_up/view/view.dart';
@@ -21,10 +21,12 @@ import '../user/view/profile/linked_accounts/view/supervisors/user_supervisors_p
 part 'router.gr.dart';
 
 @CustomAutoRouter(
-    routes: routes,
-    replaceInRouteName: 'Page,Route',
-    transitionsBuilder: TransitionsBuilders.noTransition,
-    durationInMilliseconds: 200)
+  routes: routes,
+  replaceInRouteName: 'Page,Route',
+  durationInMilliseconds: 200,
+  transitionsBuilder: TransitionsBuilders.noTransition,
+  reverseDurationInMilliseconds: 100,
+)
 class AppRouter extends _$AppRouter {}
 
 const List<AutoRoute> routes = [

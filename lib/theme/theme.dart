@@ -18,6 +18,12 @@ class ThemeManager {
         elevation: 0,
         color: scaffoldBackgroundColorLight,
       ),
+      dialogTheme: DialogTheme(
+        backgroundColor: scaffoldBackgroundColorLight,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+      ),
       colorScheme: const ColorScheme.light().copyWith(
           primary: primaryLight,
           secondary: secondaryLight,

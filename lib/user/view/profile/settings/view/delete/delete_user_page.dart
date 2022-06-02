@@ -1,6 +1,7 @@
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:meddly/blocs.dart';
@@ -42,6 +43,7 @@ class DeleteUserPage extends StatelessWidget {
             Button(
                 enabled: true,
                 onPressed: () {
+                  HapticFeedback.lightImpact();
                   showDialog(
                     barrierDismissible: false,
                     context: context,
@@ -71,7 +73,7 @@ class DeleteUserPage extends StatelessWidget {
                           },
                           child: AlertDialog(
                               backgroundColor:
-                                  Theme.of(context).colorScheme.background,
+                                  Theme.of(context).scaffoldBackgroundColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),
@@ -83,7 +85,9 @@ class DeleteUserPage extends StatelessWidget {
                                 BlocBuilder<LoginCubit, LoginState>(
                                   builder: (context, state) {
                                     return GestureDetector(
+                                        behavior: HitTestBehavior.translucent,
                                         onTap: () {
+                                          HapticFeedback.lightImpact();
                                           if (!state
                                               .status.isSubmissionInProgress) {
                                             context.router.pop();
