@@ -126,7 +126,7 @@ void main() {
           when(() => userRepository.getUser(any()))
               .thenAnswer((_) async => Right(user));
         },
-        act: (bloc) => bloc.add(UserInit()),
+        act: (bloc) => bloc.add(UserGet()),
         expect: () => <UserState>[
           const UserState(status: UserStatus.loading),
           UserState(status: UserStatus.success, currentUser: user),
@@ -144,7 +144,7 @@ void main() {
           when(() => userRepository.getUser(any()))
               .thenAnswer((_) async => Left(UserException(message: 'ops!')));
         },
-        act: (bloc) => bloc.add(UserInit()),
+        act: (bloc) => bloc.add(UserGet()),
         expect: () => <UserState>[
           const UserState(status: UserStatus.loading),
           const UserState(status: UserStatus.error, errorMessage: 'ops!'),

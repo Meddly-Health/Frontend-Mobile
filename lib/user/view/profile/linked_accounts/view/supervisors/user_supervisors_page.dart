@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meddly/helpers/constants.dart';
 import 'package:meddly/user/view/profile/linked_accounts/widgets/custom_draggable_scrollable_sheet.dart';
 import 'package:meddly/widgets/widgets.dart';
 
+import '../../../../../../blocs.dart';
 import '../../../../../../helpers/assets_provider.dart';
 import '../../../../../models/user.dart';
 
@@ -32,7 +34,9 @@ class UserSupervisorsPage extends StatelessWidget {
                 _Supervisors(),
               ],
             ),
-            const CustomDraggableScrollableSheet(),
+            const CustomDraggableScrollableSheet(
+              type: CustomDraggableScrollableSheetType.supervisor,
+            ),
           ],
         ),
       ),
@@ -52,31 +56,43 @@ class _Supervisors extends StatelessWidget {
       ));
     }
 
-    return ListView.builder(
-      shrinkWrap: true,
-      padding: defaultPadding,
-      itemCount: fakeUsers.length,
-      itemBuilder: (context, index) => Container(
-        padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Row(
-          children: [
-            const CircleAvatar(
-              backgroundColor: Color(0xff95D6A4),
-              radius: 24,
+    return BlocBuilder<UserBloc, UserState>(
+      builder: (context, state) {
+        if (state.currentUser!.supervisors == null ||
+            state.currentUser!.supervisors!.isEmpty) {
+          return const Expanded(
+            child: NoData(
+              message: 'No añadiste ningún supervisor',
             ),
-            const SizedBox(width: 16),
-            Text(
-              '${fakeUsers[index].firstName} ${fakeUsers[index].lastName}',
-              style: Theme.of(context).textTheme.bodyMedium,
+          );
+        }
+        return ListView.builder(
+          shrinkWrap: true,
+          padding: defaultPadding,
+          itemCount: state.currentUser!.supervisors!.length,
+          itemBuilder: (context, index) => Container(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Row(
+              children: [
+                const CircleAvatar(
+                  backgroundColor: Color(0xff95D6A4),
+                  radius: 24,
+                ),
+                const SizedBox(width: 16),
+                Text(
+                  '${fakeUsers[index].firstName} ${fakeUsers[index].lastName}',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                const Spacer(),
+                SizedBox(
+                    height: 20,
+                    width: 20,
+                    child: SvgPicture.asset(AssetsProvider.trashIcon))
+              ],
             ),
-            const Spacer(),
-            SizedBox(
-                height: 20,
-                width: 20,
-                child: SvgPicture.asset(AssetsProvider.trashIcon))
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

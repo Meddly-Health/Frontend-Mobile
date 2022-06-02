@@ -49,6 +49,11 @@ class UserPersonalInfoPage extends StatelessWidget {
                     PageTitle(
                       title: 'Mi Perfil',
                       onPop: () async {
+                        if (context
+                            .read<UserFormCubit>()
+                            .state
+                            .status
+                            .isSubmissionInProgress) return;
                         await context.read<UserFormCubit>().saveUserData();
                       },
                     ),

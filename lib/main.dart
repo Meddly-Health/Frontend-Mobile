@@ -4,7 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meddly/blocs.dart';
-import 'package:meddly/user/api/mongo_user_api.dart';
+import 'package:meddly/user/api/fastapi_user_api.dart';
 import 'package:meddly/user/repository/respository.dart';
 import 'theme/theme.dart';
 
@@ -22,7 +22,7 @@ void main() async {
   var authenticationRepository =
       AuthenticationRepository(languageCode: LanguageCode.es);
 
-  var mongoUserApi = MongoUserApi(
+  var mongoUserApi = FastApiUserApi(
       authenticationRepository: authenticationRepository, dio: Dio());
 
   var userRepository = UserRepository(userApi: mongoUserApi);

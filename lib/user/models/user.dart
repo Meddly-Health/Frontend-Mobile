@@ -14,8 +14,8 @@ class User extends Equatable {
   @JsonKey(name: 'updated_at')
   final DateTime? updatedAt;
   final List<String>? diseases;
-  final List<String>? supervisors;
-  final List<String>? supervisedBy;
+  final List<User>? supervisors;
+  final List<User>? supervised;
   @JsonKey(name: 'first_name')
   final String? firstName;
   @JsonKey(name: 'last_name')
@@ -25,6 +25,7 @@ class User extends Equatable {
   final Sex? sex;
   final DateTime? birth;
   final User? supervising;
+  final String? invitation;
 
   const User(
       {this.id,
@@ -33,12 +34,13 @@ class User extends Equatable {
       this.updatedAt,
       this.diseases,
       this.supervisors,
-      this.supervisedBy,
+      this.supervised,
       this.firstName,
       this.lastName,
       this.height,
       this.weight,
       this.sex,
+      this.invitation,
       this.birth,
       this.supervising});
 
@@ -52,13 +54,14 @@ class User extends Equatable {
     DateTime? createdAt,
     DateTime? updatedAt,
     List<String>? diseases,
-    List<String>? supervisors,
-    List<String>? supervisedBy,
+    List<User>? supervisors,
+    List<User>? supervised,
     String? firstName,
     String? lastName,
     double? height,
     double? weight,
     Sex? sex,
+    String? invitation,
     User? supervising,
     DateTime? birth,
   }) {
@@ -69,13 +72,14 @@ class User extends Equatable {
         updatedAt: updatedAt ?? this.updatedAt,
         diseases: diseases ?? this.diseases,
         supervisors: supervisors ?? this.supervisors,
-        supervisedBy: supervisedBy ?? this.supervisedBy,
+        supervised: supervised ?? this.supervised,
         firstName: firstName ?? this.firstName,
         lastName: lastName ?? this.lastName,
         height: height ?? this.height,
         weight: weight ?? this.weight,
         sex: sex ?? this.sex,
         birth: birth ?? this.birth,
+        invitation: invitation ?? this.invitation,
         supervising: supervising ?? this.supervising);
   }
 
@@ -87,7 +91,7 @@ class User extends Equatable {
         updatedAt,
         diseases,
         supervisors,
-        supervisedBy,
+        supervised,
         firstName,
         lastName,
         height,

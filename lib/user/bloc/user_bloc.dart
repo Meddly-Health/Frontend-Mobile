@@ -17,13 +17,28 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   UserBloc(this.userRepository, this.authenticationRepository)
       : super(const UserState()) {
-    on<UserInit>(_onUserLoading);
+    on<UserGet>(_onUserGet);
 
     on<UserDelete>(_onUserDelete);
 
     on<UserUpdate>(_onUserUpdate);
 
     on<UserChangedSupervisor>(_onUserChangedSupervisor);
+
+    on<UserAddSupervised>(_onUserAddSupervised);
+  }
+
+  FutureOr<void> _onUserAddSupervised(
+      UserAddSupervised event, Emitter<UserState> emit) async {
+    emit(state.copyWith(status: UserStatus.loading));
+
+    var response = await userRepository.acceptInvitation(event.code);
+
+    response.fold(
+      (UserException l) => emit(
+          state.copyWith(status: UserStatus.error, errorMessage: l.message)),
+      (_) => add(UserGet()),
+    );
   }
 
   FutureOr<void> _onUserUpdate(
@@ -58,7 +73,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     );
   }
 
-  FutureOr<void> _onUserLoading(UserInit event, Emitter<UserState> emit) async {
+  FutureOr<void> _onUserGet(UserGet event, Emitter<UserState> emit) async {
     emit(state.copyWith(status: UserStatus.loading));
 
     var response =

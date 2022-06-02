@@ -4,7 +4,7 @@ part of 'user_bloc.dart';
 @immutable
 abstract class UserEvent {}
 
-class UserInit extends UserEvent {}
+class UserGet extends UserEvent {}
 
 class UserDelete extends UserEvent {}
 
@@ -19,5 +19,12 @@ class UserChangedSupervisor extends UserEvent {
   final User user;
   UserChangedSupervisor({
     required this.user,
+  });
+}
+
+class UserAddSupervised extends UserEvent {
+  final String code;
+  UserAddSupervised({
+    required this.code,
   });
 }

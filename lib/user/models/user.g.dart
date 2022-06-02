@@ -19,16 +19,17 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
           ?.map((e) => e as String)
           .toList(),
       supervisors: (json['supervisors'] as List<dynamic>?)
-          ?.map((e) => e as String)
+          ?.map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
-      supervisedBy: (json['supervisedBy'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      supervised: (json['supervised'] as List<dynamic>?)
+          ?.map((e) => User.fromJson(e as Map<String, dynamic>))
           .toList(),
       firstName: json['first_name'] as String?,
       lastName: json['last_name'] as String?,
       height: (json['height'] as num?)?.toDouble(),
       weight: (json['weight'] as num?)?.toDouble(),
       sex: $enumDecodeNullable(_$SexEnumMap, json['sex']),
+      invitation: json['invitation'] as String?,
       birth: json['birth'] == null
           ? null
           : DateTime.parse(json['birth'] as String),
@@ -44,7 +45,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'updated_at': instance.updatedAt?.toIso8601String(),
       'diseases': instance.diseases,
       'supervisors': instance.supervisors,
-      'supervisedBy': instance.supervisedBy,
+      'supervised': instance.supervised,
       'first_name': instance.firstName,
       'last_name': instance.lastName,
       'height': instance.height,
@@ -52,6 +53,7 @@ Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'sex': _$SexEnumMap[instance.sex],
       'birth': instance.birth?.toIso8601String(),
       'supervising': instance.supervising,
+      'invitation': instance.invitation,
     };
 
 const _$SexEnumMap = {

@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:meddly/helpers/constants.dart';
 
 import 'package:dartz/dartz.dart';
+import 'package:meddly/helpers/helpers.dart';
 import 'package:meddly/user/models/user.dart';
 
 import 'api.dart';
@@ -13,11 +14,11 @@ import 'api.dart';
 /// @see [User]
 /// @see [UserException]
 
-class MongoUserApi extends UserApi {
+class FastApiUserApi extends UserApi {
   final Dio _dio;
   final auth.AuthenticationRepository _authenticationRepository;
 
-  MongoUserApi({required authenticationRepository, required Dio dio})
+  FastApiUserApi({required authenticationRepository, required Dio dio})
       : _authenticationRepository = authenticationRepository,
         _dio = dio
           ..options.baseUrl = baseUrl
@@ -83,6 +84,29 @@ class MongoUserApi extends UserApi {
 
       if (response.statusCode == 201) {
         return Right(User.fromJson(response.data));
+      } else {
+        return Left(UserException.fromStatusCode(response.statusCode!));
+      }
+    } on DioError catch (e) {
+      return Left(UserException.fromDioError(e));
+    } catch (e) {
+      return Left(UserException());
+    }
+  }
+
+  @override
+  Future<Either<UserException, Nothing>> acceptInvitation(String code) async {
+    try {
+      String token = await _authenticationRepository.getAuthToken();
+
+      Response response = await _dio.post('/supervisors/invitation',
+          queryParameters: {'code': code},
+          options: Options(
+            headers: {'Authorization': 'Bearer $token'},
+          ));
+
+      if (response.statusCode == 200) {
+        return const Right(Nothing());
       } else {
         return Left(UserException.fromStatusCode(response.statusCode!));
       }
