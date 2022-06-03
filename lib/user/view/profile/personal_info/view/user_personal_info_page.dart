@@ -1,4 +1,5 @@
 import 'package:animate_do/animate_do.dart';
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,10 +10,23 @@ import 'package:meddly/helpers/assets_provider.dart';
 import 'package:meddly/helpers/constants.dart';
 import 'package:meddly/user/repository/respository.dart';
 import '../../../../../widgets/widgets.dart';
+import '../../../../models/user.dart';
 import '../../../form/view/user_form.dart';
 
-class UserPersonalInfoPage extends StatelessWidget {
+class UserPersonalInfoPage extends StatefulWidget {
   const UserPersonalInfoPage({Key? key}) : super(key: key);
+
+  @override
+  State<UserPersonalInfoPage> createState() => _UserPersonalInfoPageState();
+}
+
+class _UserPersonalInfoPageState extends State<UserPersonalInfoPage> {
+  late final User? currentUser;
+  @override
+  void initState() {
+    currentUser = context.read<UserBloc>().state.currentUser;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,21 +37,29 @@ class UserPersonalInfoPage extends StatelessWidget {
         child: Container(
           padding: defaultPadding.copyWith(bottom: 0, top: 0),
           child: SingleChildScrollView(
-            child: BlocProvider(
-              create: (context) => UserFormCubit(
-                  userBloc: BlocProvider.of<UserBloc>(context),
-                  userRepository:
-                      RepositoryProvider.of<UserRepository>(context))
-                ..init(false),
-              child: BlocListener<UserBloc, UserState>(
-                listener: (context, state) {
-                  if (state.status == UserStatus.error) {
-                    ScaffoldMessenger.of(context).showSnackBar(getSnackBar(
-                        context,
-                        'Error al modificar el perfil.',
-                        SnackBarType.error));
-                  }
-                },
+            child: BlocListener<UserBloc, UserState>(
+              listener: ((context, state) {
+                if (state.status == UserStatus.error) {
+                  ScaffoldMessenger.of(context).showSnackBar(getSnackBar(
+                      context,
+                      'Error al modificar el perfil.',
+                      SnackBarType.error));
+                }
+                if (state.status == UserStatus.success) {
+                  ScaffoldMessenger.of(context).showSnackBar(getSnackBar(
+                      context,
+                      'Perfil modificado con éxito.',
+                      SnackBarType.success));
+                }
+              }),
+              child: BlocProvider(
+                create: (context) => UserFormCubit(
+                    userRepository:
+                        RepositoryProvider.of<UserRepository>(context),
+                    authenticationRepository:
+                        RepositoryProvider.of<AuthenticationRepository>(
+                            context))
+                  ..init(false, currentUser),
                 child: Builder(builder: (context) {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -53,9 +75,7 @@ class UserPersonalInfoPage extends StatelessWidget {
                       const SizedBox(height: 16),
                       BlocBuilder<UserBloc, UserState>(
                         builder: (context, state) {
-                          if (state.status == UserStatus.success) {
-                            return const _UserForm();
-                          } else if (state.status == UserStatus.loading) {
+                          if (state.status == UserStatus.loading) {
                             return Center(
                                 child: SizedBox(
                               height: 50,
@@ -64,16 +84,17 @@ class UserPersonalInfoPage extends StatelessWidget {
                                 color: Theme.of(context).colorScheme.primary,
                               ),
                             ));
-                          } else {
-                            return Center(
-                              child: SizedBox(
-                                height: 300,
-                                width: MediaQuery.of(context).size.width,
-                                child: const NoData(
-                                    message: 'No se puede cargar el perfil.'),
+                          }
+
+                          if (state.status == UserStatus.error) {
+                            return const Center(
+                              child: NoData(
+                                message:
+                                    'Error al cargar la información del usuario.',
                               ),
                             );
                           }
+                          return const _UserForm();
                         },
                       )
                     ],
@@ -99,60 +120,50 @@ class _UserForm extends StatelessWidget {
       builder: (context, state) {
         return Column(
           children: [
-            AnimatedContainer(
-              width: MediaQuery.of(context).size.width,
-              height: state.enabled ? 55 : 0,
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              duration: const Duration(milliseconds: 100),
-              child: SingleChildScrollView(
-                physics: const NeverScrollableScrollPhysics(),
-                child: BlocBuilder<UserBloc, UserState>(
-                  builder: (userBlocContext, userState) {
-                    return Button(
-                        enabled: state.enabled,
-                        onPressed: () async {
-                          HapticFeedback.heavyImpact();
-                          if (context
-                              .read<UserFormCubit>()
-                              .state
-                              .status
-                              .isSubmissionInProgress) {
-                            return;
-                          }
-
-                          await context.read<UserFormCubit>().saveUserData();
-
-                          context.read<UserFormCubit>().enableForm(false);
-
-                          if (context
-                              .read<UserFormCubit>()
-                              .state
-                              .status
-                              .isSubmissionSuccess) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                getSnackBar(
-                                    context,
-                                    'Perfil modificado con éxito.',
-                                    SnackBarType.success));
-                          }
-                        },
-                        animate: userState.status == UserStatus.loading,
-                        enabledColor: Theme.of(context).colorScheme.primary,
-                        disbaledColor:
-                            Theme.of(context).colorScheme.secondaryContainer,
-                        labelColor: Theme.of(context).colorScheme.secondary,
-                        label: 'Guardar cambios',
-                        keyString: '');
-                  },
-                ),
-              ),
-            ),
+            const _SaveButton(),
             state.enabled ? const SizedBox(height: 16) : Container(),
             const UserForm(),
           ],
+        );
+      },
+    );
+  }
+}
+
+class _SaveButton extends StatelessWidget {
+  const _SaveButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UserFormCubit, UserFormState>(
+      builder: (context, state) {
+        return AnimatedContainer(
+          width: MediaQuery.of(context).size.width,
+          height: state.enabled ? 55 : 0,
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.primary,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          duration: const Duration(milliseconds: 100),
+          child: SingleChildScrollView(
+            physics: const NeverScrollableScrollPhysics(),
+            child: BlocBuilder<UserFormCubit, UserFormState>(
+              builder: (userBlocContext, userState) {
+                return Button(
+                    enabled: state.enabled,
+                    onPressed: () => _saveUserData(context),
+                    animate: userState.status.isSubmissionInProgress,
+                    enabledColor: Theme.of(context).colorScheme.primary,
+                    disbaledColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
+                    labelColor: Theme.of(context).colorScheme.secondary,
+                    label: 'Guardar cambios',
+                    keyString: '');
+              },
+            ),
+          ),
         );
       },
     );
@@ -234,5 +245,20 @@ class _UserAvatar extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+void _saveUserData(BuildContext context) async {
+  if (context.read<UserFormCubit>().state.status.isSubmissionInProgress) {
+    return;
+  }
+  HapticFeedback.lightImpact();
+
+  await context.read<UserFormCubit>().saveUserData();
+
+  context.read<UserFormCubit>().enableForm(false);
+
+  if (context.read<UserFormCubit>().state.status.isSubmissionSuccess) {
+    context.read<UserBloc>().add(UserGet());
   }
 }

@@ -9,7 +9,7 @@ import 'package:meddly/user/view/profile/linked_accounts/view/supervised/user_su
 import 'package:meddly/user/view/profile/personal_info/view/user_personal_info_page.dart';
 import 'package:meddly/user/view/profile/settings/view/delete/delete_user_page.dart';
 import 'package:meddly/user/view/profile/settings/view/user_settings_page.dart';
-import 'package:meddly/user/view/profile/user_profile_page.dart';
+import 'package:meddly/user/view/profile/view/user_profile_page.dart';
 import 'package:meddly/user/view/form/view/user_form_page.dart';
 import 'package:meddly/welcome/view/welcome_page.dart';
 import '../auth/view/loading_page.dart';

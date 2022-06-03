@@ -2,56 +2,66 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:form_helper/form_helper.dart';
 import 'package:formz/formz.dart';
-import 'package:meddly/user/bloc/user_bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:meddly/user/api/user_api.dart';
+import 'package:meddly/user/repository/respository.dart';
 
 import '../../../models/user.dart';
 
 part 'user_form_state.dart';
 
 class UserFormCubit extends Cubit<UserFormState> {
-  UserFormCubit({required userRepository, required UserBloc userBloc})
-      : _userBloc = userBloc,
+  UserFormCubit({required userRepository, required authenticationRepository})
+      : _userRepository = userRepository,
         super(const UserFormState());
 
-  final UserBloc _userBloc;
+  final UserRepository _userRepository;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController heightController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
 
-  void init([bool enableValue = true]) async {
-    var currentUser = _userBloc.state.currentUser;
-    if (currentUser == null) {
-      emit(UserFormState(enabled: enableValue));
-    } else {
-      emit(state.copyWith(
-          enabled: enableValue,
-          name: currentUser.firstName != null
-              ? Name.dirty(currentUser.firstName!)
-              : const Name.pure(),
-          lastName: currentUser.lastName != null
-              ? LastName.dirty(currentUser.lastName!)
-              : const LastName.pure(),
-          birthDate: currentUser.birth != null
-              ? BirthDate.dirty(currentUser.birth!)
-              : const BirthDate.pure(),
-          height: currentUser.height != null
-              ? Heigth.dirty(currentUser.height?.toInt())
-              : const Heigth.pure(),
-          weight: currentUser.weight != null
-              ? Weight.dirty(currentUser.weight!)
-              : const Weight.pure(),
-          sex: currentUser.sex));
+  void init([bool enableValue = true, User? currentUser]) async {
+    emit(state.copyWith(enabled: enableValue));
 
-      nameController.text = _userBloc.state.currentUser!.firstName ?? '';
-      lastNameController.text = _userBloc.state.currentUser!.lastName ?? '';
-      if (_userBloc.state.currentUser!.height != null) {
-        heightController.text = currentUser.height!.toInt().toString();
-      }
-      if (_userBloc.state.currentUser!.weight != null) {
-        weightController.text = _userBloc.state.currentUser!.weight.toString();
-      }
+    if (currentUser == null) return;
+
+    var name = currentUser.firstName != null
+        ? Name.dirty(currentUser.firstName!)
+        : const Name.pure();
+    var lastName = currentUser.lastName != null
+        ? LastName.dirty(currentUser.lastName!)
+        : const LastName.pure();
+
+    var birthDate = currentUser.birth != null
+        ? BirthDate.dirty(currentUser.birth!)
+        : const BirthDate.pure();
+
+    var height = currentUser.height != null
+        ? Heigth.dirty(currentUser.height?.toInt())
+        : const Heigth.pure();
+
+    var weight = currentUser.weight != null
+        ? Weight.dirty(currentUser.weight!)
+        : const Weight.pure();
+
+    emit(
+      state.copyWith(
+          name: name,
+          lastName: lastName,
+          birthDate: birthDate,
+          height: height,
+          weight: weight,
+          sex: currentUser.sex),
+    );
+
+    nameController.text = currentUser.firstName ?? '';
+    lastNameController.text = currentUser.lastName ?? '';
+    if (currentUser.height != null) {
+      heightController.text = currentUser.height!.toInt().toString();
+    }
+    if (currentUser.weight != null) {
+      weightController.text = currentUser.weight.toString();
     }
   }
 
@@ -162,12 +172,12 @@ class UserFormCubit extends Cubit<UserFormState> {
         weight: state.weight.value,
         sex: state.sex);
 
-    _userBloc.add(UserUpdate(user: user));
-    if (_userBloc.state.status == UserStatus.success) {
-      emit(state.copyWith(status: FormzStatus.submissionSuccess));
-    }
-    if (_userBloc.state.status == UserStatus.error) {
-      emit(state.copyWith(status: FormzStatus.submissionFailure));
-    }
+    var response = await _userRepository.updateUser(user);
+
+    response.fold(
+        (UserException l) => emit(state.copyWith(
+            errorMessage: l.message, status: FormzStatus.submissionFailure)),
+        (User r) =>
+            emit(state.copyWith(status: FormzStatus.submissionSuccess)));
   }
 }
