@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
-import 'package:meddly/helpers/helpers.dart';
 
 import '../models/models.dart';
 

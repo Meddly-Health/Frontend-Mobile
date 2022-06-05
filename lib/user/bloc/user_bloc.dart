@@ -5,11 +5,9 @@ import 'package:authentication_repository/authentication_repository.dart'
 import 'package:bloc/bloc.dart';
 import 'package:form_helper/form_helper.dart';
 import 'package:formz/formz.dart';
-import 'package:meddly/user/api/user_api.dart';
-import 'package:meddly/user/models/user.dart';
-import 'package:meddly/user/repository/respository.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'user_event.dart';
 part 'user_state.dart';
@@ -27,21 +25,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UserUpdate>(_onUserUpdate);
 
     on<UserChangedSupervisor>(_onUserChangedSupervisor);
-
-    on<UserAddSupervised>(_onUserAddSupervised);
-  }
-
-  FutureOr<void> _onUserAddSupervised(
-      UserAddSupervised event, Emitter<UserState> emit) async {
-    emit(state.copyWith(status: UserStatus.loading));
-
-    var response = await userRepository.acceptInvitation(event.code);
-
-    response.fold(
-      (UserException l) => emit(
-          state.copyWith(status: UserStatus.error, errorMessage: l.message)),
-      (_) => add(UserGet()),
-    );
   }
 
   FutureOr<void> _onUserUpdate(

@@ -2,11 +2,9 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meddly/user/api/user_api.dart';
 import 'package:meddly/user/bloc/user_bloc.dart';
-import 'package:meddly/user/models/user.dart';
-import 'package:meddly/user/repository/user_repository.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:user_repository/user_repository.dart';
 
 class MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {}

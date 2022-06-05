@@ -3,20 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:meddly/helpers/constants.dart';
-import 'package:meddly/user/view/profile/linked_accounts/widgets/custom_draggable_scrollable_sheet.dart';
+import 'package:meddly/supervisors/view/widgets/custom_draggable_scrollable_sheet.dart';
 import 'package:meddly/widgets/widgets.dart';
 
 import '../../../../../../blocs.dart';
 import '../../../../../../helpers/assets_provider.dart';
-import '../../../../../models/user.dart';
 
-List<User> fakeUsers = const [
-  // User(id: '1', firstName: 'Juan', lastName: 'Perez'),
-  // User(id: '2', firstName: 'Matias', lastName: 'Perez'),
-];
-
-class UserSupervisorsPage extends StatelessWidget {
-  const UserSupervisorsPage({Key? key}) : super(key: key);
+class SupervisorsPage extends StatelessWidget {
+  const SupervisorsPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:form_helper/form_helper.dart';
 import 'package:formz/formz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meddly/user/api/user_api.dart';
-import 'package:meddly/user/repository/respository.dart';
-
-import '../../../models/user.dart';
+import 'package:user_repository/user_repository.dart';
 
 part 'user_form_state.dart';
 

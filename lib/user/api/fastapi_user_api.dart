@@ -5,10 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:meddly/helpers/constants.dart';
 
 import 'package:dartz/dartz.dart';
-import 'package:meddly/helpers/helpers.dart';
-import 'package:meddly/user/models/user.dart';
-
-import 'api.dart';
+import 'package:user_repository/user_repository.dart';
 
 /// MongoDB userApi.
 /// @see [User]

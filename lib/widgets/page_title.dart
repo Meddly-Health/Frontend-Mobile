@@ -32,7 +32,7 @@ class PageTitle extends StatelessWidget {
             child: Container(
               height: 48,
               width: 48,
-              alignment: Alignment.center,
+              alignment: Alignment.centerLeft,
               child: Transform.rotate(
                   angle: -math.pi,
                   child: SizedBox(

@@ -57,10 +57,10 @@ class _$AppRouter extends RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
-    UserUpdateRoute.name: (routeData) {
+    UserFormRoute.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
-          child: const UserUpdatePage(),
+          child: const UserFormPage(),
           durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
@@ -137,18 +137,18 @@ class _$AppRouter extends RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
-    UserSupervisorsRoute.name: (routeData) {
+    SupervisorsRoute.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
-          child: const UserSupervisorsPage(),
+          child: const SupervisorsPage(),
           durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
     },
-    UserSupervisedRoute.name: (routeData) {
+    SupervisedRoute.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
-          child: const UserSupervisedPage(),
+          child: const SupervisedPage(),
           durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
@@ -200,15 +200,15 @@ class _$AppRouter extends RootStackRouter {
                     path: 'user/settings', parent: UserRouter.name),
                 RouteConfig(UserLinkedAccountsRoute.name,
                     path: 'user/linked_accounts', parent: UserRouter.name),
-                RouteConfig(UserSupervisorsRoute.name,
+                RouteConfig(SupervisorsRoute.name,
                     path: 'user/supervisors', parent: UserRouter.name),
-                RouteConfig(UserSupervisedRoute.name,
+                RouteConfig(SupervisedRoute.name,
                     path: 'user/supervised', parent: UserRouter.name),
                 RouteConfig(DeleteUserRoute.name,
                     path: 'user/delete', parent: UserRouter.name)
               ])
         ]),
-        RouteConfig(UserUpdateRoute.name, path: 'user_data')
+        RouteConfig(UserFormRoute.name, path: 'user_data')
       ];
 }
 
@@ -254,11 +254,11 @@ class HomeRouter extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [UserUpdatePage]
-class UserUpdateRoute extends PageRouteInfo<void> {
-  const UserUpdateRoute() : super(UserUpdateRoute.name, path: 'user_data');
+/// [UserFormPage]
+class UserFormRoute extends PageRouteInfo<void> {
+  const UserFormRoute() : super(UserFormRoute.name, path: 'user_data');
 
-  static const String name = 'UserUpdateRoute';
+  static const String name = 'UserFormRoute';
 }
 
 /// generated route for
@@ -339,21 +339,21 @@ class UserLinkedAccountsRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [UserSupervisorsPage]
-class UserSupervisorsRoute extends PageRouteInfo<void> {
-  const UserSupervisorsRoute()
-      : super(UserSupervisorsRoute.name, path: 'user/supervisors');
+/// [SupervisorsPage]
+class SupervisorsRoute extends PageRouteInfo<void> {
+  const SupervisorsRoute()
+      : super(SupervisorsRoute.name, path: 'user/supervisors');
 
-  static const String name = 'UserSupervisorsRoute';
+  static const String name = 'SupervisorsRoute';
 }
 
 /// generated route for
-/// [UserSupervisedPage]
-class UserSupervisedRoute extends PageRouteInfo<void> {
-  const UserSupervisedRoute()
-      : super(UserSupervisedRoute.name, path: 'user/supervised');
+/// [SupervisedPage]
+class SupervisedRoute extends PageRouteInfo<void> {
+  const SupervisedRoute()
+      : super(SupervisedRoute.name, path: 'user/supervised');
 
-  static const String name = 'UserSupervisedRoute';
+  static const String name = 'SupervisedRoute';
 }
 
 /// generated route for

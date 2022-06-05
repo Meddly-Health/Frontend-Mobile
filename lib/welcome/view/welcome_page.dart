@@ -29,14 +29,14 @@ class WelcomePage extends StatelessWidget {
           child: SizedBox(
             child: SafeArea(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Spacer(flex: 1),
+                  Container(),
                   BlocBuilder<WelcomeCubit, WelcomeState>(
                     builder: (context, state) {
                       return Container(
                         margin: const EdgeInsets.only(top: 30),
-                        height: MediaQuery.of(context).size.height / 1.5,
+                        height: MediaQuery.of(context).size.height / 1.9,
                         child: PageView.builder(
                           controller:
                               context.read<WelcomeCubit>().pageController,
@@ -47,7 +47,6 @@ class WelcomePage extends StatelessWidget {
                       );
                     },
                   ),
-                  const Spacer(flex: 3),
                   Column(
                     children: [
                       BlocBuilder<WelcomeCubit, WelcomeState>(

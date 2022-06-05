@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meddly/blocs.dart';
 import 'package:meddly/user/api/fastapi_user_api.dart';
-import 'package:meddly/user/repository/respository.dart';
+import 'package:user_repository/user_repository.dart';
 import 'theme/theme.dart';
 
 import 'bloc_observer.dart';
@@ -24,19 +24,25 @@ void main() async {
       var authenticationRepository =
           AuthenticationRepository(languageCode: LanguageCode.es);
 
-      var mongoUserApi = FastApiUserApi(
+      var fastApiUserApi = FastApiUserApi(
           authenticationRepository: authenticationRepository, dio: Dio());
 
-      var userRepository = UserRepository(userApi: mongoUserApi);
+      var userRepository = UserRepository(userApi: fastApiUserApi);
+
       var authBloc =
           AuthBloc(authenticationRepository: authenticationRepository);
       var userBloc = UserBloc(userRepository, authenticationRepository);
+      var supervisorsBloc = SupervisorsBloc(
+          userRepository: userRepository,
+          authenticationRepository: authenticationRepository);
+
       runApp(MyApp(
         authenticationRepository: authenticationRepository,
         authBloc: authBloc,
         connectivityBloc: connectivityBloc,
         userRepository: userRepository,
         userBloc: userBloc,
+        supervisorsBloc: supervisorsBloc,
       ));
     },
     blocObserver: MyBlocObserver(),
@@ -49,6 +55,7 @@ class MyApp extends StatelessWidget {
       required this.authenticationRepository,
       required this.authBloc,
       required this.userBloc,
+      required this.supervisorsBloc,
       required this.connectivityBloc,
       required this.userRepository})
       : super(key: key);
@@ -57,6 +64,7 @@ class MyApp extends StatelessWidget {
   final ConnectivityBloc connectivityBloc;
   final UserRepository userRepository;
   final UserBloc userBloc;
+  final SupervisorsBloc supervisorsBloc;
 
   final _router = AppRouter();
 
@@ -73,7 +81,8 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider.value(value: authBloc),
           BlocProvider.value(value: connectivityBloc),
-          BlocProvider.value(value: userBloc)
+          BlocProvider.value(value: userBloc),
+          BlocProvider.value(value: supervisorsBloc),
         ],
         child: MaterialApp.router(
           theme: ThemeManager.lightTheme,

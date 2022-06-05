@@ -22,13 +22,6 @@ class UserChangedSupervisor extends UserEvent {
   });
 }
 
-class UserAddSupervised extends UserEvent {
-  final String code;
-  UserAddSupervised({
-    required this.code,
-  });
-}
-
 class UserNameChanged extends UserEvent {
   final String value;
   UserNameChanged({

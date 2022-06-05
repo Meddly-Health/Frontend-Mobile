@@ -24,10 +24,6 @@ String formatDate(DateTime date) {
   return '${date.day}/${date.month}/${date.year}';
 }
 
-class Nothing {
-  const Nothing();
-}
-
 var maskFormatter = MaskTextInputFormatter(
     mask: "###-####-###'",
     filter: {'#': RegExp(r'[A-Z0-9]')},

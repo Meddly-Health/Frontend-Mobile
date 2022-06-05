@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meddly/helpers/assets_provider.dart';
 import 'package:meddly/helpers/constants.dart';
+import 'package:user_repository/user_repository.dart';
 
 import '../../../../blocs.dart';
 import '../../../../helpers/helpers.dart';
-import '../../../models/models.dart';
 
 class UserForm extends StatelessWidget {
   const UserForm({Key? key}) : super(key: key);

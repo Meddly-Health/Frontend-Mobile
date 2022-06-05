@@ -8,9 +8,8 @@ import 'package:formz/formz.dart';
 import 'package:meddly/blocs.dart';
 import 'package:meddly/helpers/assets_provider.dart';
 import 'package:meddly/helpers/constants.dart';
-import 'package:meddly/user/repository/respository.dart';
+import 'package:user_repository/user_repository.dart';
 import '../../../../../widgets/widgets.dart';
-import '../../../../models/user.dart';
 import '../../../form/view/user_form.dart';
 
 class UserPersonalInfoPage extends StatefulWidget {
@@ -46,10 +45,10 @@ class _UserPersonalInfoPageState extends State<UserPersonalInfoPage> {
                       SnackBarType.error));
                 }
                 if (state.status == UserStatus.success) {
-                  ScaffoldMessenger.of(context).showSnackBar(getSnackBar(
-                      context,
-                      'Perfil modificado con éxito.',
-                      SnackBarType.success));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    getSnackBar(context, 'Perfil guardado correctamente.',
+                        SnackBarType.success),
+                  );
                 }
               }),
               child: BlocProvider(
@@ -66,7 +65,7 @@ class _UserPersonalInfoPageState extends State<UserPersonalInfoPage> {
                     children: [
                       const SizedBox(height: 16),
                       const PageTitle(
-                        title: 'Mi Perfil',
+                        title: 'Mi perfil',
                       ),
                       const SizedBox(height: 35),
                       const _UserAvatar(),
@@ -87,10 +86,14 @@ class _UserPersonalInfoPageState extends State<UserPersonalInfoPage> {
                           }
 
                           if (state.status == UserStatus.error) {
-                            return const Center(
-                              child: NoData(
-                                message:
-                                    'Error al cargar la información del usuario.',
+                            return Center(
+                              child: SizedBox(
+                                height: 200,
+                                width: MediaQuery.of(context).size.width,
+                                child: const NoData(
+                                  message:
+                                      'Error al cargar la información del usuario.',
+                                ),
                               ),
                             );
                           }
@@ -217,30 +220,24 @@ class _UserAvatar extends StatelessWidget {
         children: [
           const Avatar(radius: 50),
           const SizedBox(height: 16),
-          Container(
-            padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primary,
-                borderRadius: BorderRadius.circular(10)),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                    height: 14,
-                    width: 14,
-                    child: SvgPicture.asset(
-                      AssetsProvider.refresh,
-                      color: Theme.of(context).colorScheme.secondary,
-                    )),
-                const SizedBox(width: 10),
-                Text(
-                  'Cambiar avatar',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.secondary,
-                      fontWeight: FontWeight.normal),
-                ),
-              ],
-            ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                  height: 14,
+                  width: 14,
+                  child: SvgPicture.asset(
+                    AssetsProvider.refresh,
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                  )),
+              const SizedBox(width: 10),
+              Text(
+                'Cambiar avatar',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                    fontWeight: FontWeight.normal),
+              ),
+            ],
           ),
         ],
       ),

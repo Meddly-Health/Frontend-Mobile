@@ -4,8 +4,9 @@ import 'package:meddly/calendar/view/calendar_page.dart';
 import 'package:meddly/diagnosis/view/diagnosis_page.dart';
 import 'package:meddly/measurements/view/measurements_page.dart';
 import 'package:meddly/medicine/view/medicine_page.dart';
-import 'package:meddly/user/view/profile/linked_accounts/view/user_linked_accounts_page.dart';
-import 'package:meddly/user/view/profile/linked_accounts/view/supervised/user_supervised_page.dart';
+import 'package:meddly/supervisors/view/supervised_page.dart';
+import 'package:meddly/supervisors/view/supervisors_page.dart';
+import 'package:meddly/supervisors/view/user_linked_accounts_page.dart';
 import 'package:meddly/user/view/profile/personal_info/view/user_personal_info_page.dart';
 import 'package:meddly/user/view/profile/settings/view/delete/delete_user_page.dart';
 import 'package:meddly/user/view/profile/settings/view/user_settings_page.dart';
@@ -17,7 +18,6 @@ import '../home/view/home_page.dart';
 import '../sign_up/view/view.dart';
 
 import '../login/view/view.dart';
-import '../user/view/profile/linked_accounts/view/supervisors/user_supervisors_page.dart';
 
 part 'router.gr.dart';
 
@@ -51,12 +51,12 @@ const List<AutoRoute> routes = [
           AutoRoute(path: 'user/personal_info', page: UserPersonalInfoPage),
           AutoRoute(path: 'user/settings', page: UserSettingsPage),
           AutoRoute(path: 'user/linked_accounts', page: UserLinkedAccountsPage),
-          AutoRoute(path: 'user/supervisors', page: UserSupervisorsPage),
-          AutoRoute(path: 'user/supervised', page: UserSupervisedPage),
+          AutoRoute(path: 'user/supervisors', page: SupervisorsPage),
+          AutoRoute(path: 'user/supervised', page: SupervisedPage),
           AutoRoute(path: 'user/delete', page: DeleteUserPage),
         ],
       ),
     ],
   ),
-  AutoRoute(path: 'user_data', page: UserUpdatePage),
+  AutoRoute(path: 'user_data', page: UserFormPage),
 ];

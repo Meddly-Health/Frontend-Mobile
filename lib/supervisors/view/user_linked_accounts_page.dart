@@ -38,8 +38,7 @@ class UserLinkedAccountsPage extends StatelessWidget {
               IconAndTextTileItem(
                   label: 'Supervisores',
                   asset: AssetsProvider.linkedUsersIcon,
-                  onTap: () =>
-                      context.router.push(const UserSupervisorsRoute())),
+                  onTap: () => context.router.push(const SupervisorsRoute())),
               const SizedBox(height: 30),
               Text(
                 'Los supervisados son usuarios a los cuales tú puedes acceder a su seguimiento.',
@@ -54,8 +53,7 @@ class UserLinkedAccountsPage extends StatelessWidget {
               IconAndTextTileItem(
                   label: 'Supervisados',
                   asset: AssetsProvider.linkedUsersIcon,
-                  onTap: () =>
-                      context.router.push(const UserSupervisedRoute())),
+                  onTap: () => context.router.push(const SupervisedRoute())),
             ],
           ),
         ),

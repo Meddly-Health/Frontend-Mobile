@@ -1,8 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:meddly/helpers/helpers.dart';
 
-import '../api/api.dart';
-import '../models/models.dart';
+import 'api/api.dart';
+import 'models/models.dart';
 
 class UserRepository {
   final UserApi _userApi;

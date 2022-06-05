@@ -6,14 +6,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:meddly/helpers/constants.dart';
 import 'package:meddly/routes/router.dart';
-import 'package:meddly/user/repository/respository.dart';
 import 'package:meddly/user/view/form/view/user_form.dart';
 import 'package:meddly/widgets/widgets.dart';
+import 'package:user_repository/user_repository.dart';
 
 import '../../../../blocs.dart';
 
-class UserUpdatePage extends StatelessWidget {
-  const UserUpdatePage({Key? key}) : super(key: key);
+class UserFormPage extends StatelessWidget {
+  const UserFormPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,14 +25,6 @@ class UserUpdatePage extends StatelessWidget {
       )..init(),
       child: BlocListener<UserBloc, UserState>(
         listener: (context, state) {
-          if (state.status == UserStatus.loading) {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) {
-                return const Center(child: CircularProgressIndicator());
-              },
-            );
-          }
           if (state.status == UserStatus.error) {
             ScaffoldMessenger.of(context).showSnackBar(
               getSnackBar(context, state.errorMessage!, SnackBarType.error),
@@ -42,7 +34,7 @@ class UserUpdatePage extends StatelessWidget {
         child: BlocListener<UserFormCubit, UserFormState>(
           listener: (context, state) {
             if (state.status.isSubmissionSuccess) {
-              AutoRouter.of(context).pushAndPopUntil(const HomeRouter(),
+              AutoRouter.of(context).pushAndPopUntil(const LoadingRoute(),
                   predicate: ((route) => false));
             } else if (state.status.isSubmissionFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -83,17 +75,18 @@ class _UserDataPageBody extends StatelessWidget {
               controller: ScrollController(),
               child: FadeIn(
                 child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Por favor, completa tus datos personales',
+                        'Por favor, completa tus datos.',
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
                       const SizedBox(height: 16),
                       const UserForm(),
                       const SizedBox(height: 16),
-                      const _OmitOrSave(),
+                      const _SaveUserData(),
                       const SizedBox(height: 16)
                     ]),
               ),
@@ -105,8 +98,8 @@ class _UserDataPageBody extends StatelessWidget {
   }
 }
 
-class _OmitOrSave extends StatelessWidget {
-  const _OmitOrSave({
+class _SaveUserData extends StatelessWidget {
+  const _SaveUserData({
     Key? key,
   }) : super(key: key);
 
@@ -114,24 +107,6 @@ class _OmitOrSave extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        GestureDetector(
-          onTap: () {
-            AutoRouter.of(context).pushAndPopUntil(const HomeRouter(),
-                predicate: ((route) => false));
-          },
-          child: Container(
-            width: 150,
-            height: 60,
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Center(
-              child:
-                  Text('Omitir', style: Theme.of(context).textTheme.bodyMedium),
-            ),
-          ),
-        ),
         const Spacer(),
         BlocBuilder<UserFormCubit, UserFormState>(
           builder: (context, state) {
