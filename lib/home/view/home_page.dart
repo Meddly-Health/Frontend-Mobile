@@ -39,7 +39,10 @@ class HomePage extends StatelessWidget {
                 return _BottomNavBar(
                     currentIndex: tabsRouter.activeIndex,
                     setActiveIndex: (int? index) {
-                      tabsRouter.setActiveIndex(index!);
+                      if (tabsRouter.activeIndex != index) {
+                        tabsRouter.setActiveIndex(index!);
+                      }
+                      AutoRouter.of(context).pop();
                     });
               });
         },
@@ -75,23 +78,53 @@ class _BottomNavBar extends StatelessWidget {
               children: [
                 _BottomNavBarItem(
                     icon: AssetsProvider.calendarIcon,
-                    onTap: () => setActiveIndex(0),
+                    onTap: () {
+                      if (currentIndex != 0) {
+                        setActiveIndex(0);
+                      } else {
+                        AutoRouter.of(context).pop();
+                      }
+                    },
                     isPressed: currentIndex == 0),
                 _BottomNavBarItem(
                     icon: AssetsProvider.diagnosisIcon,
-                    onTap: () => setActiveIndex(1),
+                    onTap: () {
+                      if (currentIndex != 1) {
+                        setActiveIndex(1);
+                      } else {
+                        AutoRouter.of(context).pop();
+                      }
+                    },
                     isPressed: currentIndex == 1),
                 _BottomNavBarItem(
                     icon: AssetsProvider.pulseIcon,
-                    onTap: () => setActiveIndex(2),
+                    onTap: () {
+                      if (currentIndex != 2) {
+                        setActiveIndex(2);
+                      } else {
+                        AutoRouter.of(context).pop();
+                      }
+                    },
                     isPressed: currentIndex == 2),
                 _BottomNavBarItem(
                     icon: AssetsProvider.pillIcon,
-                    onTap: () => setActiveIndex(3),
+                    onTap: () {
+                      if (currentIndex != 3) {
+                        setActiveIndex(3);
+                      } else {
+                        AutoRouter.of(context).pop();
+                      }
+                    },
                     isPressed: currentIndex == 3),
                 _BottomNavBarItem(
                     icon: AssetsProvider.profileIcon,
-                    onTap: () => setActiveIndex(4),
+                    onTap: () {
+                      if (currentIndex != 4) {
+                        setActiveIndex(4);
+                      } else {
+                        AutoRouter.of(context).pop();
+                      }
+                    },
                     isPressed: currentIndex == 4)
               ],
             ),

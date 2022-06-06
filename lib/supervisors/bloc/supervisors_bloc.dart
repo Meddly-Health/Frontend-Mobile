@@ -24,6 +24,8 @@ class SupervisorsBloc extends Bloc<SupervisorsEvent, SupervisorsState> {
 
   FutureOr<void> _onGetSupervisors(
       GetSupervisors event, Emitter<SupervisorsState> emit) async {
+    emit(state.copyWith(status: SupervisorsStatus.loading));
+
     var response =
         await _userRepository.getUser(_authenticationRepository.currentUser.id);
 

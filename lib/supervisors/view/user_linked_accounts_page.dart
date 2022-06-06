@@ -1,6 +1,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meddly/blocs.dart';
 import 'package:meddly/helpers/assets_provider.dart';
 import 'package:meddly/helpers/constants.dart';
 import 'package:meddly/routes/router.dart';
@@ -38,7 +40,10 @@ class UserLinkedAccountsPage extends StatelessWidget {
               IconAndTextTileItem(
                   label: 'Supervisores',
                   asset: AssetsProvider.linkedUsersIcon,
-                  onTap: () => context.router.push(const SupervisorsRoute())),
+                  onTap: () {
+                    context.read<SupervisorsBloc>().add(GetSupervisors());
+                    context.router.push(const SupervisorsRoute());
+                  }),
               const SizedBox(height: 30),
               Text(
                 'Los supervisados son usuarios a los cuales tú puedes acceder a su seguimiento.',
@@ -53,7 +58,10 @@ class UserLinkedAccountsPage extends StatelessWidget {
               IconAndTextTileItem(
                   label: 'Supervisados',
                   asset: AssetsProvider.linkedUsersIcon,
-                  onTap: () => context.router.push(const SupervisedRoute())),
+                  onTap: () {
+                    context.read<SupervisorsBloc>().add(GetSupervisors());
+                    context.router.push(const SupervisedRoute());
+                  }),
             ],
           ),
         ),
