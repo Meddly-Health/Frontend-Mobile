@@ -20,6 +20,40 @@ class SupervisorsBloc extends Bloc<SupervisorsEvent, SupervisorsState> {
     on<GetSupervisors>(_onGetSupervisors);
 
     on<AddSupervised>(_onAddSupervised);
+
+    on<DeleteSupervised>(_onDeleteSupervised);
+
+    on<DeleteSupervisor>(_onDeleteSupervisor);
+  }
+
+  FutureOr<void> _onDeleteSupervised(
+      DeleteSupervised event, Emitter<SupervisorsState> emit) async {
+    emit(state.copyWith(status: SupervisorsStatus.loading));
+    var response = await _userRepository.deleteSupervised(event.id);
+
+    response.fold(
+      (l) => emit(state.copyWith(
+          status: SupervisorsStatus.error, errorMessage: l.message)),
+      (r) {
+        emit(state.copyWith(status: SupervisorsStatus.deleted));
+        add(GetSupervisors());
+      },
+    );
+  }
+
+  FutureOr<void> _onDeleteSupervisor(
+      DeleteSupervisor event, Emitter<SupervisorsState> emit) async {
+    emit(state.copyWith(status: SupervisorsStatus.loading));
+    var response = await _userRepository.deleteSupervisor(event.id);
+
+    response.fold(
+      (l) => emit(state.copyWith(
+          status: SupervisorsStatus.error, errorMessage: l.message)),
+      (r) {
+        emit(state.copyWith(status: SupervisorsStatus.deleted));
+        add(GetSupervisors());
+      },
+    );
   }
 
   FutureOr<void> _onGetSupervisors(
@@ -50,7 +84,11 @@ class SupervisorsBloc extends Bloc<SupervisorsEvent, SupervisorsState> {
     response.fold(
       (UserException l) => emit(state.copyWith(
           status: SupervisorsStatus.error, errorMessage: l.message)),
-      (_) => emit(state.copyWith(status: SupervisorsStatus.success)),
+      (_) {
+        emit(state.copyWith(status: SupervisorsStatus.added));
+
+        add(GetSupervisors());
+      },
     );
   }
 }

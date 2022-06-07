@@ -10,3 +10,15 @@ class AddSupervised extends SupervisorsEvent {
 
   AddSupervised(this.code);
 }
+
+class DeleteSupervised extends SupervisorsEvent {
+  final String id;
+
+  DeleteSupervised(this.id);
+}
+
+class DeleteSupervisor extends SupervisorsEvent {
+  final String id;
+
+  DeleteSupervisor(this.id);
+}

@@ -5,16 +5,21 @@ import 'package:user_repository/user_repository.dart';
 import '../../../helpers/assets_provider.dart';
 
 class DismissTile extends StatelessWidget {
-  const DismissTile({Key? key, required this.user, required this.onDismiss})
+  const DismissTile({Key? key, required this.user, required this.onDismissed})
       : super(key: key);
 
   final User user;
-  final Function onDismiss;
+  final Function onDismissed;
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
       direction: DismissDirection.endToStart,
+      onDismissed: (DismissDirection direction) {
+        if (direction == DismissDirection.endToStart) {
+          onDismissed();
+        }
+      },
       background: Container(
         color: Theme.of(context).colorScheme.error,
         child: Align(

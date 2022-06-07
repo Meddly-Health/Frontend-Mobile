@@ -7,26 +7,32 @@ abstract class UserApi {
   /// Get user by id
   ///
   /// returns either a [User] or a [UserException]
-
   Future<Either<UserException, User>> getUser(String id);
 
   /// Update user
   ///
   /// returns either a [User] or a [UserException]
-
   Future<Either<UserException, User>> updateUser(User user);
 
   /// Delete user
   ///
   /// returns either a [User] or a [UserException]
-
   Future<Either<UserException, User>> deleteUser(String id);
 
   /// Accepts a supervisor's invitation
   ///
   /// returns either a [Nothing] or a [UserException]
-
   Future<Either<UserException, Nothing>> acceptInvitation(String code);
+
+  /// Deletes a supervised user
+  ///
+  /// returns either a [Nothing] or a [UserException]
+  Future<Either<UserException, Nothing>> deleteSupervisor(String id);
+
+  /// Deletes a supervised user
+  ///
+  /// returns either a [Nothing] or a [UserException]
+  Future<Either<UserException, Nothing>> deleteSupervised(String id);
 }
 
 /// [UserException] is thrown when user api fails

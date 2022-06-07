@@ -28,7 +28,19 @@ class UserRepository {
 
   /// Accepts a supervisors invitation
   ///
-  /// returns either a [User] or a [UserException]
+  /// returns either a [Nothing] or a [UserException]
   Future<Either<UserException, Nothing>> acceptInvitation(String code) async =>
       await _userApi.acceptInvitation(code);
+
+  /// Deletes a supervised user
+  ///
+  /// returns either a [Nothing] or a [UserException]
+  Future<Either<UserException, Nothing>> deleteSupervisor(String id) async =>
+      await _userApi.deleteSupervisor(id);
+
+  /// Deletes a supervised user
+  ///
+  /// returns either a [Nothing] or a [UserException]
+  Future<Either<UserException, Nothing>> deleteSupervised(String id) async =>
+      await _userApi.deleteSupervised(id);
 }

@@ -37,4 +37,4 @@ class SupervisorsState extends Equatable {
       ];
 }
 
-enum SupervisorsStatus { initial, loading, success, error }
+enum SupervisorsStatus { initial, loading, success, error, added, deleted }

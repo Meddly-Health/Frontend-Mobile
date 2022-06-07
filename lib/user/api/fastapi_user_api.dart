@@ -31,6 +31,7 @@ class FastApiUserApi extends UserApi {
           ));
 
       if (response.statusCode == 200) {
+        print(response.data);
         return Right(User.fromJson(response.data));
       } else {
         return Left(UserException.fromStatusCode(response.statusCode!));
@@ -98,6 +99,50 @@ class FastApiUserApi extends UserApi {
 
       Response response = await _dio.post('/supervisors/invitation',
           queryParameters: {'code': code},
+          options: Options(
+            headers: {'Authorization': 'Bearer $token'},
+          ));
+
+      if (response.statusCode == 200) {
+        return const Right(Nothing());
+      } else {
+        return Left(UserException.fromStatusCode(response.statusCode!));
+      }
+    } on DioError catch (e) {
+      return Left(UserException.fromDioError(e));
+    } catch (e) {
+      return Left(UserException());
+    }
+  }
+
+  @override
+  Future<Either<UserException, Nothing>> deleteSupervised(String id) async {
+    try {
+      String token = await _authenticationRepository.getAuthToken();
+
+      Response response = await _dio.delete('/supervisors/supervised/$id',
+          options: Options(
+            headers: {'Authorization': 'Bearer $token'},
+          ));
+
+      if (response.statusCode == 200) {
+        return const Right(Nothing());
+      } else {
+        return Left(UserException.fromStatusCode(response.statusCode!));
+      }
+    } on DioError catch (e) {
+      return Left(UserException.fromDioError(e));
+    } catch (e) {
+      return Left(UserException());
+    }
+  }
+
+  @override
+  Future<Either<UserException, Nothing>> deleteSupervisor(String id) async {
+    try {
+      String token = await _authenticationRepository.getAuthToken();
+
+      Response response = await _dio.delete('/supervisors/supervisor/$id',
           options: Options(
             headers: {'Authorization': 'Bearer $token'},
           ));

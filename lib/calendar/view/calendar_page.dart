@@ -17,8 +17,7 @@ class CalendarPage extends StatelessWidget {
       child: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
           if (state.status != UserStatus.success) {
-            return Center(
-                child: Spinner(color: Theme.of(context).colorScheme.primary));
+            return const Center(child: Loading());
           }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,

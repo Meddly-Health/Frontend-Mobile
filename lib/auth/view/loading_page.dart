@@ -28,13 +28,18 @@ class _LoadingPageState extends State<LoadingPage> {
           body: BlocConsumer<UserBloc, UserState>(
             listener: (context, state) {
               if (state.status == UserStatus.success) {
-                context.router.replace(const HomeRouter());
+                if (state.currentUser!.firstName == null) {
+                  // TODO: Setup....
+                  context.router.replace(const UserFormRoute());
+                } else {
+                  context.router.replace(const HomeRouter());
+                }
               }
             },
             builder: (context, state) {
               // TODO: Change loading page ....
-              return Center(
-                  child: Spinner(color: Theme.of(context).colorScheme.primary));
+
+              return const Center(child: Loading());
             },
           ),
         );

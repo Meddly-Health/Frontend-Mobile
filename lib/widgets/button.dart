@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'spinner.dart';
+import 'loading.dart';
 
 class Button extends StatelessWidget {
   const Button({
@@ -38,12 +38,10 @@ class Button extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           child: Center(
             child: animate
-                ? SizedBox(
+                ? const SizedBox(
                     height: 20,
                     width: 20,
-                    child: Spinner(
-                      color: labelColor,
-                    ),
+                    child: Loading(),
                   )
                 : Text(label,
                     style: Theme.of(context).textTheme.labelMedium!.copyWith(

@@ -6,7 +6,7 @@ enum Sex { masculino, femenino, otro }
 
 @JsonSerializable()
 class User extends Equatable {
-  @JsonKey(name: 'user_id')
+  @JsonKey(name: '_id')
   final String? id;
   final String? email;
   @JsonKey(defaultValue: 'assets/avatar/default.svg')

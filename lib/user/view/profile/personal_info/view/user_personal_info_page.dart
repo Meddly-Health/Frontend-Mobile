@@ -75,13 +75,11 @@ class _UserPersonalInfoPageState extends State<UserPersonalInfoPage> {
                       BlocBuilder<UserBloc, UserState>(
                         builder: (context, state) {
                           if (state.status == UserStatus.loading) {
-                            return Center(
+                            return const Center(
                                 child: SizedBox(
                               height: 50,
                               width: 50,
-                              child: Spinner(
-                                color: Theme.of(context).colorScheme.primary,
-                              ),
+                              child: Loading(),
                             ));
                           }
 
