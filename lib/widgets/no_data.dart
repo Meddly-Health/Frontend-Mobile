@@ -14,12 +14,12 @@ class NoData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        const Spacer(),
+        const SizedBox(height: 35),
         SvgPicture.asset(AssetsProvider.openBox),
         const SizedBox(height: 16),
         Text(message, style: Theme.of(context).textTheme.bodyMedium),
-        const Spacer(),
       ],
     );
   }

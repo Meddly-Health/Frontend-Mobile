@@ -187,9 +187,7 @@ class _Supervised extends StatelessWidget {
       }
 
       if (state.supervised == null || state.supervised!.isEmpty) {
-        return const Expanded(
-          child: NoData(message: 'No añadiste ningún supervisado'),
-        );
+        return const NoData(message: 'No añadiste ningún supervisado');
       }
 
       return ListView.builder(

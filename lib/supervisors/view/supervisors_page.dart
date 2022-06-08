@@ -37,49 +37,54 @@ class SupervisorsPage extends StatelessWidget {
               getSnackBar(context, state.errorMessage!, SnackBarType.error));
         }
       },
-      child: Scaffold(
-        body: GestureDetector(
-          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: FadeIn(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  Container(
-                    padding: defaultPadding,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        PageTitle(
-                          title: 'Supervisores',
-                          onPop: () {
-                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          },
-                        ),
-                        const SizedBox(height: 25),
-                        Text(
-                          'Comparta su seguimiento y progreso con amigos o familiares, copiando el siguiente código. Válido para un único paciente.',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .color!
-                                        .withOpacity(0.5),
-                                  ),
-                          textAlign: TextAlign.justify,
-                        ),
-                        const _CodeFormFieldSupervisors(),
-                        Text(
-                          'Supervisores activos',
-                          style: Theme.of(context).textTheme.titleSmall,
-                        )
-                      ],
+      child: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+          body: FadeIn(
+            child: SingleChildScrollView(
+              child: SizedBox(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: defaultPadding,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          PageTitle(
+                            title: 'Supervisores',
+                            onPop: () {
+                              ScaffoldMessenger.of(context)
+                                  .hideCurrentSnackBar();
+                            },
+                          ),
+                          const SizedBox(height: 25),
+                          Text(
+                            'Comparta su seguimiento y progreso con amigos o familiares, copiando el siguiente código. Válido para un único paciente.',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  color: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .color!
+                                      .withOpacity(0.5),
+                                ),
+                            textAlign: TextAlign.justify,
+                          ),
+                          const _CodeFormFieldSupervisors(),
+                          Text(
+                            'Supervisores activos',
+                            style: Theme.of(context).textTheme.titleSmall,
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                  const _Supervisors(),
-                ],
+                    const _Supervisors(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -103,10 +108,8 @@ class _Supervisors extends StatelessWidget {
         }
 
         if (state.supervisors == null || state.supervisors!.isEmpty) {
-          return const Expanded(
-            child: NoData(
-              message: 'No añadiste ningún supervisor',
-            ),
+          return const NoData(
+            message: 'No añadiste ningún supervisor',
           );
         }
 
