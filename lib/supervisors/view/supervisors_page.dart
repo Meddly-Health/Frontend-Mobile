@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:meddly/helpers/constants.dart';
-import 'package:meddly/supervisors/view/widgets/dismiss_tile.dart';
-import 'package:meddly/widgets/widgets.dart';
+import '../../helpers/constants.dart';
+import 'widgets/dismiss_tile.dart';
+import '../../widgets/widgets.dart';
 
 import '../../../../../../blocs.dart';
 import '../../../../../../helpers/assets_provider.dart';

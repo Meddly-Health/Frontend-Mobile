@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import 'package:meddly/blocs.dart';
+import '../../../../../../blocs.dart';
 
-import 'package:meddly/helpers/constants.dart';
-import 'package:meddly/login/view/login_form.dart';
+import '../../../../../../helpers/constants.dart';
+import '../../../../../../login/view/login_form.dart';
 
 import '../../../../../../widgets/widgets.dart';
 

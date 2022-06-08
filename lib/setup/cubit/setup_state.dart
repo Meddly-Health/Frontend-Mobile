@@ -1,7 +1,7 @@
-part of 'user_form_cubit.dart';
+part of 'setup_cubit.dart';
 
 @immutable
-class UserFormState extends Equatable {
+class SetupState extends Equatable {
   final FormzStatus status;
   final Name name;
   final LastName lastName;
@@ -19,7 +19,7 @@ class UserFormState extends Equatable {
       (weight.valid || weight.pure) &&
       (height.valid || birthDate.pure);
 
-  const UserFormState(
+  const SetupState(
       {this.status = FormzStatus.pure,
       this.name = const Name.pure(),
       this.lastName = const LastName.pure(),
@@ -43,7 +43,7 @@ class UserFormState extends Equatable {
         enabled
       ];
 
-  UserFormState copyWith({
+  SetupState copyWith({
     FormzStatus? status,
     Name? name,
     LastName? lastName,
@@ -54,7 +54,7 @@ class UserFormState extends Equatable {
     String? errorMessage,
     bool? enabled,
   }) {
-    return UserFormState(
+    return SetupState(
       status: status ?? this.status,
       name: name ?? this.name,
       lastName: lastName ?? this.lastName,

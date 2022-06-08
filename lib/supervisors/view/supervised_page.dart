@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:meddly/helpers/constants.dart';
+import '../../helpers/constants.dart';
 
 import '../../../../../../blocs.dart';
 import '../../../../../../helpers/assets_provider.dart';

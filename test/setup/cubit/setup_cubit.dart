@@ -50,7 +50,7 @@ void main() {
   const invalidSex = 'invalid';
   const validSex = Sex.masculino;
 
-  group('UserFormCubit', () {
+  group('SetupCubit', () {
     late UserRepository userRepository;
     late AuthenticationRepository authenticationRepository;
     late User user;
@@ -62,32 +62,32 @@ void main() {
     });
 
     group('nameChanged', () {
-      blocTest<UserFormCubit, UserFormState>(
+      blocTest<SetupCubit, SetupState>(
         'emits [invalid] when name is invalid',
-        build: () => UserFormCubit(
+        build: () => SetupCubit(
             userRepository: userRepository,
             authenticationRepository: authenticationRepository),
         act: (cubit) => cubit.nameChanged(invalidNameString),
-        expect: () => const <UserFormState>[
-          UserFormState(name: invalidName, status: FormzStatus.invalid),
+        expect: () => const <SetupState>[
+          SetupState(name: invalidName, status: FormzStatus.invalid),
         ],
       );
 
-      blocTest<UserFormCubit, UserFormState>(
+      blocTest<SetupCubit, SetupState>(
         'emits [invalid] when name is invalid and lastName,birthDate,sex, weight, height are valid',
-        build: () => UserFormCubit(
+        build: () => SetupCubit(
             userRepository: userRepository,
             authenticationRepository: authenticationRepository),
         act: (cubit) => cubit.nameChanged(invalidNameString),
-        seed: () => UserFormState(
+        seed: () => SetupState(
           lastName: validLastName,
           birthDate: validBirtDate,
           sex: validSex,
           height: validHeight,
           weight: validWeight,
         ),
-        expect: () => <UserFormState>[
-          UserFormState(
+        expect: () => <SetupState>[
+          SetupState(
               lastName: validLastName,
               birthDate: validBirtDate,
               sex: validSex,
@@ -97,12 +97,12 @@ void main() {
               status: FormzStatus.invalid),
         ],
       );
-      blocTest<UserFormCubit, UserFormState>(
+      blocTest<SetupCubit, SetupState>(
         'emits [valid] when name is valid and name,birthDate,sex,weight,height are valid',
-        build: () => UserFormCubit(
+        build: () => SetupCubit(
             userRepository: userRepository,
             authenticationRepository: authenticationRepository),
-        seed: () => UserFormState(
+        seed: () => SetupState(
           lastName: validLastName,
           birthDate: validBirtDate,
           sex: validSex,
@@ -110,8 +110,8 @@ void main() {
           weight: validWeight,
         ),
         act: (cubit) => cubit.nameChanged(validNameString),
-        expect: () => <UserFormState>[
-          UserFormState(
+        expect: () => <SetupState>[
+          SetupState(
               lastName: validLastName,
               name: validName,
               birthDate: validBirtDate,
@@ -124,32 +124,32 @@ void main() {
     });
 
     group('lastNameChanged', () {
-      blocTest<UserFormCubit, UserFormState>(
+      blocTest<SetupCubit, SetupState>(
         'emits [invalid] when name is invalid',
-        build: () => UserFormCubit(
+        build: () => SetupCubit(
             userRepository: userRepository,
             authenticationRepository: authenticationRepository),
         act: (cubit) => cubit.lastNameChanged(invalidLastNameString),
-        expect: () => const <UserFormState>[
-          UserFormState(lastName: invalidLastName, status: FormzStatus.invalid),
+        expect: () => const <SetupState>[
+          SetupState(lastName: invalidLastName, status: FormzStatus.invalid),
         ],
       );
 
-      blocTest<UserFormCubit, UserFormState>(
+      blocTest<SetupCubit, SetupState>(
         'emits [invalid] when lastName is invalid and name,birthDate,sex, weight, height are valid',
-        build: () => UserFormCubit(
+        build: () => SetupCubit(
             userRepository: userRepository,
             authenticationRepository: authenticationRepository),
         act: (cubit) => cubit.lastNameChanged(invalidLastNameString),
-        seed: () => UserFormState(
+        seed: () => SetupState(
           birthDate: validBirtDate,
           name: validName,
           sex: validSex,
           height: validHeight,
           weight: validWeight,
         ),
-        expect: () => <UserFormState>[
-          UserFormState(
+        expect: () => <SetupState>[
+          SetupState(
               lastName: invalidLastName,
               birthDate: validBirtDate,
               name: validName,
@@ -159,12 +159,12 @@ void main() {
               status: FormzStatus.invalid),
         ],
       );
-      blocTest<UserFormCubit, UserFormState>(
+      blocTest<SetupCubit, SetupState>(
         'emits [valid] when lastName is valid and name,birthDate,sex,weight,height are valid',
-        build: () => UserFormCubit(
+        build: () => SetupCubit(
             userRepository: userRepository,
             authenticationRepository: authenticationRepository),
-        seed: () => UserFormState(
+        seed: () => SetupState(
           birthDate: validBirtDate,
           name: validName,
           sex: validSex,
@@ -172,8 +172,8 @@ void main() {
           weight: validWeight,
         ),
         act: (cubit) => cubit.lastNameChanged(validLastNameString),
-        expect: () => <UserFormState>[
-          UserFormState(
+        expect: () => <SetupState>[
+          SetupState(
               lastName: validLastName,
               name: validName,
               birthDate: validBirtDate,
@@ -186,42 +186,41 @@ void main() {
     });
 
     group('sexChanged', () {
-      blocTest<UserFormCubit, UserFormState>('changes when sex is selected',
+      blocTest<SetupCubit, SetupState>('changes when sex is selected',
           act: (cubit) => cubit.sexChanged(validSex),
-          build: () => UserFormCubit(
+          build: () => SetupCubit(
               userRepository: userRepository,
               authenticationRepository: authenticationRepository),
-          expect: () => <UserFormState>[const UserFormState(sex: validSex)]);
+          expect: () => <SetupState>[const SetupState(sex: validSex)]);
     });
 
     group('birthDateChanged', () {
-      blocTest<UserFormCubit, UserFormState>(
+      blocTest<SetupCubit, SetupState>(
         'emits [invalid] when birthdate is invalid',
-        build: () => UserFormCubit(
+        build: () => SetupCubit(
             userRepository: userRepository,
             authenticationRepository: authenticationRepository),
         act: (cubit) => cubit.birthDateChanged(invalidBirthDateDate),
-        expect: () => <UserFormState>[
-          UserFormState(
-              birthDate: invalidBirtDate, status: FormzStatus.invalid),
+        expect: () => <SetupState>[
+          SetupState(birthDate: invalidBirtDate, status: FormzStatus.invalid),
         ],
       );
 
-      blocTest<UserFormCubit, UserFormState>(
+      blocTest<SetupCubit, SetupState>(
         'emits [invalid] when birthdate is invalid and name,lastName,sex, weight, height are valid',
-        build: () => UserFormCubit(
+        build: () => SetupCubit(
             userRepository: userRepository,
             authenticationRepository: authenticationRepository),
         act: (cubit) => cubit.birthDateChanged(invalidBirthDateDate),
-        seed: () => const UserFormState(
+        seed: () => const SetupState(
           name: validName,
           lastName: validLastName,
           sex: validSex,
           height: validHeight,
           weight: validWeight,
         ),
-        expect: () => <UserFormState>[
-          UserFormState(
+        expect: () => <SetupState>[
+          SetupState(
               lastName: validLastName,
               birthDate: invalidBirtDate,
               name: validName,
@@ -232,21 +231,21 @@ void main() {
         ],
       );
 
-      blocTest<UserFormCubit, UserFormState>(
+      blocTest<SetupCubit, SetupState>(
         'emits [valid] when birthdate is valid and name,lastName,sex, weight, height are valid',
-        build: () => UserFormCubit(
+        build: () => SetupCubit(
             userRepository: userRepository,
             authenticationRepository: authenticationRepository),
         act: (cubit) => cubit.birthDateChanged(validBirthDateDate),
-        seed: () => const UserFormState(
+        seed: () => const SetupState(
           name: validName,
           lastName: validLastName,
           sex: validSex,
           height: validHeight,
           weight: validWeight,
         ),
-        expect: () => <UserFormState>[
-          UserFormState(
+        expect: () => <SetupState>[
+          SetupState(
               lastName: validLastName,
               birthDate: validBirtDate,
               name: validName,
@@ -259,32 +258,32 @@ void main() {
     });
 
     group('weightChanged', () {
-      blocTest<UserFormCubit, UserFormState>(
+      blocTest<SetupCubit, SetupState>(
         'emits [invalid] when weight is invalid',
-        build: () => UserFormCubit(
+        build: () => SetupCubit(
             userRepository: userRepository,
             authenticationRepository: authenticationRepository),
         act: (cubit) => cubit.weightChanged(invalidWeightValue),
-        expect: () => const <UserFormState>[
-          UserFormState(weight: invalidWeight, status: FormzStatus.invalid),
+        expect: () => const <SetupState>[
+          SetupState(weight: invalidWeight, status: FormzStatus.invalid),
         ],
       );
 
-      blocTest<UserFormCubit, UserFormState>(
+      blocTest<SetupCubit, SetupState>(
         'emits [invalid] when weight is invalid and name,lastname,birthDate,sex,height are valid',
-        build: () => UserFormCubit(
+        build: () => SetupCubit(
             userRepository: userRepository,
             authenticationRepository: authenticationRepository),
         act: (cubit) => cubit.weightChanged(invalidWeightValue),
-        seed: () => UserFormState(
+        seed: () => SetupState(
           birthDate: validBirtDate,
           name: validName,
           lastName: validLastName,
           sex: validSex,
           height: validHeight,
         ),
-        expect: () => <UserFormState>[
-          UserFormState(
+        expect: () => <SetupState>[
+          SetupState(
               lastName: validLastName,
               birthDate: validBirtDate,
               name: validName,
@@ -294,12 +293,12 @@ void main() {
               status: FormzStatus.invalid),
         ],
       );
-      blocTest<UserFormCubit, UserFormState>(
+      blocTest<SetupCubit, SetupState>(
         'emits [valid] when weight is valid and name,lastName,birthDate,sex,height are valid',
-        build: () => UserFormCubit(
+        build: () => SetupCubit(
             userRepository: userRepository,
             authenticationRepository: authenticationRepository),
-        seed: () => UserFormState(
+        seed: () => SetupState(
           birthDate: validBirtDate,
           name: validName,
           lastName: validLastName,
@@ -307,8 +306,8 @@ void main() {
           height: validHeight,
         ),
         act: (cubit) => cubit.weightChanged(validWeightValue),
-        expect: () => <UserFormState>[
-          UserFormState(
+        expect: () => <SetupState>[
+          SetupState(
               lastName: validLastName,
               name: validName,
               birthDate: validBirtDate,
@@ -320,32 +319,32 @@ void main() {
       );
     });
     group('heightChanged', () {
-      blocTest<UserFormCubit, UserFormState>(
+      blocTest<SetupCubit, SetupState>(
         'emits [invalid] when height is invalid',
-        build: () => UserFormCubit(
+        build: () => SetupCubit(
             userRepository: userRepository,
             authenticationRepository: authenticationRepository),
         act: (cubit) => cubit.heightChanged(invalidHeightValue),
-        expect: () => const <UserFormState>[
-          UserFormState(height: invalidHeight, status: FormzStatus.invalid),
+        expect: () => const <SetupState>[
+          SetupState(height: invalidHeight, status: FormzStatus.invalid),
         ],
       );
 
-      blocTest<UserFormCubit, UserFormState>(
+      blocTest<SetupCubit, SetupState>(
         'emits [invalid] when height is invalid and name,lastname,birthDate,sex,weight are valid',
-        build: () => UserFormCubit(
+        build: () => SetupCubit(
             userRepository: userRepository,
             authenticationRepository: authenticationRepository),
         act: (cubit) => cubit.heightChanged(invalidHeightValue),
-        seed: () => UserFormState(
+        seed: () => SetupState(
           birthDate: validBirtDate,
           name: validName,
           lastName: validLastName,
           sex: validSex,
           weight: validWeight,
         ),
-        expect: () => <UserFormState>[
-          UserFormState(
+        expect: () => <SetupState>[
+          SetupState(
               lastName: validLastName,
               birthDate: validBirtDate,
               name: validName,
@@ -355,12 +354,12 @@ void main() {
               status: FormzStatus.invalid),
         ],
       );
-      blocTest<UserFormCubit, UserFormState>(
+      blocTest<SetupCubit, SetupState>(
         'emits [valid] when height is valid and name,lastName,birthDate,sex,weight are valid',
-        build: () => UserFormCubit(
+        build: () => SetupCubit(
             userRepository: userRepository,
             authenticationRepository: authenticationRepository),
-        seed: () => UserFormState(
+        seed: () => SetupState(
           birthDate: validBirtDate,
           name: validName,
           lastName: validLastName,
@@ -368,8 +367,8 @@ void main() {
           weight: validWeight,
         ),
         act: (cubit) => cubit.heightChanged(validHeightValue),
-        expect: () => <UserFormState>[
-          UserFormState(
+        expect: () => <SetupState>[
+          SetupState(
               lastName: validLastName,
               name: validName,
               birthDate: validBirtDate,
@@ -382,14 +381,14 @@ void main() {
     });
 
     group('save', () {
-      blocTest<UserFormCubit, UserFormState>(
+      blocTest<SetupCubit, SetupState>(
           'emits [submissionInProgress][submissionSuccess] when form is successful.',
           setUp: () {
             registerFallbackValue(user);
             when(() => userRepository.updateUser(any()))
                 .thenAnswer((_) async => Right(user));
           },
-          seed: () => UserFormState(
+          seed: () => SetupState(
                 birthDate: validBirtDate,
                 name: validName,
                 lastName: validLastName,
@@ -397,12 +396,12 @@ void main() {
                 height: validHeight,
                 weight: validWeight,
               ),
-          build: () => UserFormCubit(
+          build: () => SetupCubit(
               userRepository: userRepository,
               authenticationRepository: authenticationRepository),
           act: (cubit) => cubit.saveUserData(),
-          expect: () => <UserFormState>[
-                UserFormState(
+          expect: () => <SetupState>[
+                SetupState(
                     birthDate: validBirtDate,
                     name: validName,
                     lastName: validLastName,
@@ -410,7 +409,7 @@ void main() {
                     height: validHeight,
                     weight: validWeight,
                     status: FormzStatus.submissionInProgress),
-                UserFormState(
+                SetupState(
                     birthDate: validBirtDate,
                     name: validName,
                     lastName: validLastName,
@@ -420,14 +419,14 @@ void main() {
                     status: FormzStatus.submissionSuccess)
               ]);
 
-      blocTest<UserFormCubit, UserFormState>(
+      blocTest<SetupCubit, SetupState>(
           'emits [submissionInProgress][submissionFailure] when form failed.',
           setUp: () {
             registerFallbackValue(user);
             when(() => userRepository.updateUser(any()))
                 .thenAnswer((_) async => Left(UserException(message: 'ops!')));
           },
-          seed: () => UserFormState(
+          seed: () => SetupState(
                 birthDate: validBirtDate,
                 name: validName,
                 lastName: validLastName,
@@ -435,12 +434,12 @@ void main() {
                 height: validHeight,
                 weight: validWeight,
               ),
-          build: () => UserFormCubit(
+          build: () => SetupCubit(
               userRepository: userRepository,
               authenticationRepository: authenticationRepository),
           act: (cubit) => cubit.saveUserData(),
-          expect: () => <UserFormState>[
-                UserFormState(
+          expect: () => <SetupState>[
+                SetupState(
                     birthDate: validBirtDate,
                     name: validName,
                     lastName: validLastName,
@@ -448,7 +447,7 @@ void main() {
                     height: validHeight,
                     weight: validWeight,
                     status: FormzStatus.submissionInProgress),
-                UserFormState(
+                SetupState(
                     birthDate: validBirtDate,
                     name: validName,
                     lastName: validLastName,

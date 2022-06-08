@@ -5,10 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:meddly/helpers/assets_provider.dart';
-import 'package:meddly/helpers/constants.dart';
-import 'package:meddly/routes/router.dart';
-import 'package:meddly/welcome/cubit/welcome_cubit.dart';
+import '../../helpers/assets_provider.dart';
+import '../../helpers/constants.dart';
+import '../../routes/router.dart';
+import '../cubit/welcome_cubit.dart';
 
 List pages = [
   _PageViewBody.diagnosis(),

@@ -1,18 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:meddly/calendar/view/calendar_page.dart';
-import 'package:meddly/diagnosis/view/diagnosis_page.dart';
-import 'package:meddly/measurements/view/measurements_page.dart';
-import 'package:meddly/medicine/view/medicine_page.dart';
-import 'package:meddly/supervisors/view/supervised_page.dart';
-import 'package:meddly/supervisors/view/supervisors_page.dart';
-import 'package:meddly/supervisors/view/user_linked_accounts_page.dart';
-import 'package:meddly/user/view/profile/personal_info/view/user_personal_info_page.dart';
-import 'package:meddly/user/view/profile/settings/view/delete/delete_user_page.dart';
-import 'package:meddly/user/view/profile/settings/view/user_settings_page.dart';
-import 'package:meddly/user/view/profile/view/user_profile_page.dart';
-import 'package:meddly/user/view/form/view/user_form_page.dart';
-import 'package:meddly/welcome/view/welcome_page.dart';
+import '../calendar/view/calendar_page.dart';
+import '../diagnosis/view/diagnosis_page.dart';
+import '../measurements/view/measurements_page.dart';
+import '../medicine/view/medicine_page.dart';
+import '../setup/view/setup_page.dart';
+import '../supervisors/view/supervised_page.dart';
+import '../supervisors/view/supervisors_page.dart';
+import '../supervisors/view/user_linked_accounts_page.dart';
+import '../user/view/profile/personal_info/view/user_personal_info_page.dart';
+import '../user/view/profile/settings/view/delete/delete_user_page.dart';
+import '../user/view/profile/settings/view/user_settings_page.dart';
+import '../user/view/profile/view/user_profile_page.dart';
+import '../welcome/view/welcome_page.dart';
 import '../auth/view/loading_page.dart';
 import '../home/view/home_page.dart';
 import '../sign_up/view/view.dart';
@@ -58,5 +58,5 @@ const List<AutoRoute> routes = [
       ),
     ],
   ),
-  AutoRoute(path: 'user_data', page: UserFormPage),
+  AutoRoute(path: 'setup', page: SetupPage),
 ];

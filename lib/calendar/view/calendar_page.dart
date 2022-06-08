@@ -1,8 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meddly/helpers/constants.dart';
-import 'package:meddly/widgets/widgets.dart';
+import '../../helpers/constants.dart';
+import '../../widgets/widgets.dart';
 import 'package:user_repository/user_repository.dart';
 
 import '../../blocs.dart';

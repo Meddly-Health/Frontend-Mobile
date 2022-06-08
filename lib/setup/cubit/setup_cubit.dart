@@ -5,18 +5,21 @@ import 'package:formz/formz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:user_repository/user_repository.dart';
 
-part 'user_form_state.dart';
+part 'setup_state.dart';
 
-class UserFormCubit extends Cubit<UserFormState> {
-  UserFormCubit({required userRepository, required authenticationRepository})
-      : _userRepository = userRepository,
-        super(const UserFormState());
+class SetupCubit extends Cubit<SetupState> {
+  SetupCubit({
+    required userRepository,
+    required authenticationRepository,
+  })  : _userRepository = userRepository,
+        super(const SetupState());
 
   final UserRepository _userRepository;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController heightController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
+  PageController? pageController;
 
   void init([bool enableValue = true, User? currentUser]) async {
     emit(state.copyWith(enabled: enableValue));
@@ -159,7 +162,6 @@ class UserFormCubit extends Cubit<UserFormState> {
   }
 
   Future<void> saveUserData() async {
-    if (!state.isValid) return;
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     User user = User(
         firstName: state.name.value,
@@ -173,8 +175,14 @@ class UserFormCubit extends Cubit<UserFormState> {
 
     response.fold(
         (UserException l) => emit(state.copyWith(
-            errorMessage: l.message, status: FormzStatus.submissionFailure)),
-        (User r) =>
-            emit(state.copyWith(status: FormzStatus.submissionSuccess)));
+            errorMessage: l.message,
+            status: FormzStatus.submissionFailure)), (User r) {
+      emit(state.copyWith(status: FormzStatus.submissionSuccess));
+      if (pageController != null && pageController!.hasClients) {
+        pageController!.nextPage(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut);
+      }
+    });
   }
 }

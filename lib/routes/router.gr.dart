@@ -57,10 +57,10 @@ class _$AppRouter extends RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
-    UserFormRoute.name: (routeData) {
+    SetupRoute.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
-          child: const UserFormPage(),
+          child: const SetupPage(),
           durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
@@ -208,7 +208,7 @@ class _$AppRouter extends RootStackRouter {
                     path: 'user/delete', parent: UserRouter.name)
               ])
         ]),
-        RouteConfig(UserFormRoute.name, path: 'user_data')
+        RouteConfig(SetupRoute.name, path: 'setup')
       ];
 }
 
@@ -254,11 +254,11 @@ class HomeRouter extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [UserFormPage]
-class UserFormRoute extends PageRouteInfo<void> {
-  const UserFormRoute() : super(UserFormRoute.name, path: 'user_data');
+/// [SetupPage]
+class SetupRoute extends PageRouteInfo<void> {
+  const SetupRoute() : super(SetupRoute.name, path: 'setup');
 
-  static const String name = 'UserFormRoute';
+  static const String name = 'SetupRoute';
 }
 
 /// generated route for

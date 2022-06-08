@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
-import 'package:meddly/widgets/widgets.dart';
+import '../../widgets/widgets.dart';
 import '../../helpers/assets_provider.dart';
 import '../../helpers/constants.dart';
 import '../../routes/router.dart';

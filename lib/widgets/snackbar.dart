@@ -1,8 +1,8 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:meddly/helpers/constants.dart';
-import 'package:meddly/theme/theme.dart';
+import '../helpers/constants.dart';
+import '../theme/theme.dart';
 
 import '../helpers/assets_provider.dart';
 

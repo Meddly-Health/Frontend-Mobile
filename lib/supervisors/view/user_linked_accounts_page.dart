@@ -2,11 +2,11 @@ import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meddly/blocs.dart';
-import 'package:meddly/helpers/assets_provider.dart';
-import 'package:meddly/helpers/constants.dart';
-import 'package:meddly/routes/router.dart';
-import 'package:meddly/widgets/widgets.dart';
+import '../../blocs.dart';
+import '../../helpers/assets_provider.dart';
+import '../../helpers/constants.dart';
+import '../../routes/router.dart';
+import '../../widgets/widgets.dart';
 
 class UserLinkedAccountsPage extends StatelessWidget {
   const UserLinkedAccountsPage({Key? key}) : super(key: key);

@@ -3,8 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meddly/blocs.dart';
-import 'package:meddly/user/api/fastapi_user_api.dart';
+import 'blocs.dart';
+import 'user/api/fastapi_user_api.dart';
 import 'package:user_repository/user_repository.dart';
 import 'theme/theme.dart';
 
@@ -35,6 +35,9 @@ void main() async {
       var supervisorsBloc = SupervisorsBloc(
           userRepository: userRepository,
           authenticationRepository: authenticationRepository);
+      var setupCubit = SetupCubit(
+          authenticationRepository: authenticationRepository,
+          userRepository: userRepository);
 
       runApp(MyApp(
         authenticationRepository: authenticationRepository,
@@ -43,6 +46,7 @@ void main() async {
         userRepository: userRepository,
         userBloc: userBloc,
         supervisorsBloc: supervisorsBloc,
+        setupCubit: setupCubit,
       ));
     },
     blocObserver: MyBlocObserver(),
@@ -57,7 +61,8 @@ class MyApp extends StatelessWidget {
       required this.userBloc,
       required this.supervisorsBloc,
       required this.connectivityBloc,
-      required this.userRepository})
+      required this.userRepository,
+      required this.setupCubit})
       : super(key: key);
   final AuthenticationRepository authenticationRepository;
   final AuthBloc authBloc;
@@ -65,6 +70,7 @@ class MyApp extends StatelessWidget {
   final UserRepository userRepository;
   final UserBloc userBloc;
   final SupervisorsBloc supervisorsBloc;
+  final SetupCubit setupCubit;
 
   final _router = AppRouter();
 
@@ -83,6 +89,7 @@ class MyApp extends StatelessWidget {
           BlocProvider.value(value: connectivityBloc),
           BlocProvider.value(value: userBloc),
           BlocProvider.value(value: supervisorsBloc),
+          BlocProvider.value(value: setupCubit),
         ],
         child: MaterialApp.router(
           theme: ThemeManager.lightTheme,
@@ -91,7 +98,7 @@ class MyApp extends StatelessWidget {
           routerDelegate: _router.delegate(initialRoutes: [
             authenticationRepository.currentUser.isEmpty
                 ? const WelcomeRoute()
-                : const LoadingRoute(),
+                : const SetupRoute(),
           ]),
         ),
       ),
