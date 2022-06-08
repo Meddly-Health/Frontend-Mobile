@@ -41,10 +41,10 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "66c035523f1129c42ec31ccdc314e23b89b340a3"
+      resolved-ref: "9cb40e3bc057617753ca1983b4a4cfc59543d324"
       url: "https://github.com/lorensala/authentication_repository.git"
     source: git
-    version: "1.1.4"
+    version: "1.1.5"
   auto_route:
     dependency: "direct main"
     description:
@@ -148,10 +148,10 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "20a392185155c91b14fab5dc8e5f1376f73dbca1"
+      resolved-ref: ef7ece71417443fb9a160b1c4e320e7d64e06f41
       url: "https://github.com/lorensala/cache.git"
     source: git
-    version: "1.0.0"
+    version: "1.1.0"
   characters:
     dependency: transitive
     description:
@@ -200,7 +200,7 @@ packages:
       name: connectivity_plus
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.3.2"
+    version: "2.3.3"
   connectivity_plus_linux:
     dependency: transitive
     description:
@@ -214,7 +214,7 @@ packages:
       name: connectivity_plus_macos
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.2"
+    version: "1.2.3"
   connectivity_plus_platform_interface:
     dependency: transitive
     description:
@@ -455,7 +455,7 @@ packages:
       name: google_sign_in
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.3.2"
+    version: "5.3.3"
   google_sign_in_android:
     dependency: transitive
     description:
@@ -483,7 +483,7 @@ packages:
       name: google_sign_in_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.1+2"
+    version: "0.10.1+3"
   graphs:
     dependency: transitive
     description:

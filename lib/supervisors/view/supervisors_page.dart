@@ -150,7 +150,7 @@ class _CodeFormFieldSupervisorsState extends State<_CodeFormFieldSupervisors> {
         FocusManager.instance.primaryFocus?.unfocus();
         BlocProvider.of<SupervisorsBloc>(context)
             .add(AddSupervised(_controller.text));
-        BlocProvider.of<UserBloc>(context).add(UserGet());
+        BlocProvider.of<UserBloc>(context).add(GetUser());
       }
     });
     super.initState();

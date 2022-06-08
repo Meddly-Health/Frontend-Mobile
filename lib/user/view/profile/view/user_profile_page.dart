@@ -60,9 +60,10 @@ class UserProfilePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 35),
                   IconAndTextTileItem(
-                    onTap: () => context
-                        .read<AuthBloc>()
-                        .add(AuthLogoutRequestedEvent()),
+                    onTap: () {
+                      context.read<AuthBloc>().add(AuthLogoutRequestedEvent());
+                      context.read<UserBloc>().add(Logout());
+                    },
                     label: 'Cerrar sesión',
                     asset: AssetsProvider.logoutIcon,
                   ),
@@ -103,7 +104,7 @@ class _ProfileNameEmail extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      '${state.currentUser!.firstName} ${state.currentUser!.lastName}',
+                      '${state.currentUser?.firstName} ${state.currentUser?.lastName}',
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                     Text(

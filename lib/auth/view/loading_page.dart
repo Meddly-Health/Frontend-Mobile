@@ -16,33 +16,31 @@ class LoadingPage extends StatefulWidget {
 class _LoadingPageState extends State<LoadingPage> {
   @override
   void initState() {
-    context.read<UserBloc>().add(UserGet());
+    context.read<UserBloc>().add(GetUser());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserBloc, UserState>(
-      builder: (context, state) {
-        return Scaffold(
-          body: BlocConsumer<UserBloc, UserState>(
-            listener: (context, state) {
-              if (state.status == UserStatus.success) {
-                if (state.currentUser!.firstName == null) {
-                  context.router.replace(const SetupRoute());
-                } else {
-                  context.router.replace(const HomeRouter());
-                }
+    return Builder(builder: (context) {
+      return Scaffold(
+        body: BlocConsumer<UserBloc, UserState>(
+          listener: (context, state) {
+            if (state.status == UserStatus.success) {
+              if (state.currentUser!.firstName == null) {
+                context.router.replace(const SetupRoute());
+              } else {
+                context.router.replace(const HomeRouter());
               }
-            },
-            builder: (context, state) {
-              // TODO: Change loading page ....
+            }
+          },
+          builder: (context, state) {
+            // TODO: Change loading page ....
 
-              return const Center(child: Loading());
-            },
-          ),
-        );
-      },
-    );
+            return const Center(child: Loading());
+          },
+        ),
+      );
+    });
   }
 }

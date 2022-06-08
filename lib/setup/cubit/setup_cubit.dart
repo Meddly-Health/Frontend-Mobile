@@ -8,10 +8,10 @@ import 'package:user_repository/user_repository.dart';
 part 'setup_state.dart';
 
 class SetupCubit extends Cubit<SetupState> {
-  SetupCubit({
-    required userRepository,
-    required authenticationRepository,
-  })  : _userRepository = userRepository,
+  SetupCubit(
+    userRepository,
+    authenticationRepository,
+  )   : _userRepository = userRepository,
         super(const SetupState());
 
   final UserRepository _userRepository;

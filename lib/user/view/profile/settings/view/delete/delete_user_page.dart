@@ -130,5 +130,5 @@ void _deleteAccount(BuildContext context) {
         getSnackBar(context, 'No hay conexión a internet', SnackBarType.error));
     return;
   }
-  context.read<UserBloc>().add(UserDelete());
+  context.read<UserBloc>().add(DeleteUser());
 }

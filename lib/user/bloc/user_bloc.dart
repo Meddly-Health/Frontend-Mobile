@@ -18,13 +18,22 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
   UserBloc(this.userRepository, this.authenticationRepository)
       : super(const UserState()) {
-    on<UserGet>(_onUserGet);
+    on<GetUser>(_onGetUser);
 
-    on<UserDelete>(_onUserDelete);
+    on<DeleteUser>(_onUserDelete);
 
     on<UserUpdate>(_onUserUpdate);
 
-    on<UserChangedSupervisor>(_onUserChangedSupervisor);
+    // on<UserChangedSupervisor>(_onUserChangedSupervisor);
+
+    on<Logout>(_onLogout);
+  }
+
+  FutureOr<void> _onLogout(Logout event, Emitter<UserState> emit) async {
+    emit(state.copyWith(status: UserStatus.loading));
+    await authenticationRepository.logOut();
+    emit(state.copyWith(
+        status: UserStatus.success, currentUser: const User(id: '')));
   }
 
   FutureOr<void> _onUserUpdate(
@@ -46,7 +55,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   }
 
   FutureOr<void> _onUserDelete(
-      UserDelete event, Emitter<UserState> emit) async {
+      DeleteUser event, Emitter<UserState> emit) async {
     emit(state.copyWith(status: UserStatus.loading));
 
     var response = await userRepository
@@ -59,23 +68,18 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     );
   }
 
-  FutureOr<void> _onUserGet(UserGet event, Emitter<UserState> emit) async {
-    emit(state.copyWith(status: UserStatus.loading));
+  FutureOr<void> _onGetUser(GetUser event, Emitter<UserState> emit) async {
+    if (authenticationRepository.currentUser.id != '') {
+      emit(state.copyWith(status: UserStatus.loading));
+      var response =
+          await userRepository.getUser(authenticationRepository.currentUser.id);
 
-    var response =
-        await userRepository.getUser(authenticationRepository.currentUser.id);
-
-    response.fold(
-      (UserException l) => emit(
-          state.copyWith(status: UserStatus.error, errorMessage: l.message)),
-      (User r) =>
-          emit(state.copyWith(status: UserStatus.success, currentUser: r)),
-    );
-  }
-
-  void _onUserChangedSupervisor(
-      UserChangedSupervisor event, Emitter<UserState> emit) {
-    User userUpdate = state.currentUser!.copyWith(supervising: event.user);
-    emit(state.copyWith(currentUser: userUpdate));
+      response.fold(
+        (UserException l) => emit(
+            state.copyWith(status: UserStatus.error, errorMessage: l.message)),
+        (User r) =>
+            emit(state.copyWith(status: UserStatus.success, currentUser: r)),
+      );
+    }
   }
 }

@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:authentication_repository/authentication_repository.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -23,47 +24,70 @@ class SetupPage extends StatefulWidget {
 
 class _SetupPageState extends State<SetupPage> {
   late final PageController pageController;
+  late final User? currentUser;
 
   @override
   void initState() {
     pageController = PageController();
-    context.read<SetupCubit>().pageController = pageController;
+    context.read<UserBloc>().add(GetUser());
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: SafeArea(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.end,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Padding(
-              padding: defaultPadding,
-              child: Text('Bienvenido a Meddly!',
-                  style: Theme.of(context).textTheme.titleLarge),
-            ),
-            Expanded(
-              child: PageView(
-                controller: pageController,
-                physics: const NeverScrollableScrollPhysics(),
-                children: const [
-                  _SetupView(child: _NameAndLastName()),
-                  _SetupView(child: _GenderView()),
-                  _SetupView(child: _BirthDateView()),
-                  _SetupView(child: _FinishView())
+    return BlocProvider(
+      create: (context) => SetupCubit(
+          RepositoryProvider.of<UserRepository>(context),
+          RepositoryProvider.of<AuthenticationRepository>(context))
+        ..pageController = pageController
+        ..init(true, context.read<UserBloc>().state.currentUser),
+      child: Scaffold(
+        appBar: AppBar(),
+        body: BlocBuilder<UserBloc, UserState>(
+          builder: (context, state) {
+            if (state.status == UserStatus.loading) {
+              return const Center(child: Loading());
+            }
+
+            return GestureDetector(
+              onTap: () => FocusScope.of(context).unfocus(),
+              child: SafeArea(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: defaultPadding,
+                    child: Text('Bienvenido a Meddly!',
+                        style: Theme.of(context).textTheme.titleLarge),
+                  ),
+                  Expanded(
+                    child: PageView(
+                      controller: pageController,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: const [
+                        _SetupView(child: _NameAndLastName()),
+                        _SetupView(child: _GenderView()),
+                        _SetupView(child: _BirthDateView()),
+                        _SetupView(child: _FinishView())
+                      ],
+                    ),
+                  ),
                 ],
-              ),
-            ),
-          ],
-        )),
+              )),
+            );
+          },
+        ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
   }
 }
 

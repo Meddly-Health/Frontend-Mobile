@@ -22,7 +22,7 @@ class UserState extends Equatable {
 
   UserState copyWith(
       {User? currentUser,
-      UserStatus? status,
+      required UserStatus status,
       String? errorMessage,
       FormzStatus? formStatus,
       Name? name,
@@ -33,8 +33,8 @@ class UserState extends Equatable {
       Sex? sex,
       bool? enabled}) {
     return UserState(
-      currentUser: currentUser ?? this.currentUser,
-      status: status ?? this.status,
+      currentUser: currentUser,
+      status: status,
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }

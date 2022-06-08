@@ -35,9 +35,6 @@ void main() async {
       var supervisorsBloc = SupervisorsBloc(
           userRepository: userRepository,
           authenticationRepository: authenticationRepository);
-      var setupCubit = SetupCubit(
-          authenticationRepository: authenticationRepository,
-          userRepository: userRepository);
 
       runApp(MyApp(
         authenticationRepository: authenticationRepository,
@@ -46,7 +43,6 @@ void main() async {
         userRepository: userRepository,
         userBloc: userBloc,
         supervisorsBloc: supervisorsBloc,
-        setupCubit: setupCubit,
       ));
     },
     blocObserver: MyBlocObserver(),
@@ -61,8 +57,7 @@ class MyApp extends StatelessWidget {
       required this.userBloc,
       required this.supervisorsBloc,
       required this.connectivityBloc,
-      required this.userRepository,
-      required this.setupCubit})
+      required this.userRepository})
       : super(key: key);
   final AuthenticationRepository authenticationRepository;
   final AuthBloc authBloc;
@@ -70,7 +65,6 @@ class MyApp extends StatelessWidget {
   final UserRepository userRepository;
   final UserBloc userBloc;
   final SupervisorsBloc supervisorsBloc;
-  final SetupCubit setupCubit;
 
   final _router = AppRouter();
 
@@ -89,7 +83,6 @@ class MyApp extends StatelessWidget {
           BlocProvider.value(value: connectivityBloc),
           BlocProvider.value(value: userBloc),
           BlocProvider.value(value: supervisorsBloc),
-          BlocProvider.value(value: setupCubit),
         ],
         child: MaterialApp.router(
           theme: ThemeManager.lightTheme,
@@ -98,7 +91,7 @@ class MyApp extends StatelessWidget {
           routerDelegate: _router.delegate(initialRoutes: [
             authenticationRepository.currentUser.isEmpty
                 ? const WelcomeRoute()
-                : const SetupRoute(),
+                : const LoadingRoute(),
           ]),
         ),
       ),
