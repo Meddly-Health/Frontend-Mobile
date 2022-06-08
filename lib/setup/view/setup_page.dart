@@ -34,6 +34,7 @@ class _SetupPageState extends State<SetupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: SafeArea(
@@ -135,15 +136,7 @@ class _BirthDateView extends StatelessWidget {
           },
         ),
         const SizedBox(height: 16),
-        Button(
-            enabled: true,
-            onPressed: () {},
-            animate: false,
-            enabledColor: Theme.of(context).colorScheme.secondaryContainer,
-            disbaledColor: Theme.of(context).colorScheme.secondaryContainer,
-            labelColor: Theme.of(context).colorScheme.secondary,
-            label: 'Omitir',
-            keyString: 'omit')
+        const _OmitButton()
       ],
     );
   }
@@ -161,7 +154,7 @@ class _GenderView extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Hola \$user.firstName, ¿eres hombre o mujer?',
+          'Hola ${context.read<SetupCubit>().state.name.value}, ¿eres hombre o mujer?',
           style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 12),
@@ -239,21 +232,30 @@ class _GenderView extends StatelessWidget {
           },
         ),
         const SizedBox(height: 16),
-        Button(
-            enabled: true,
-            onPressed: () {
-              context.read<SetupCubit>().pageController!.nextPage(
-                  duration: const Duration(milliseconds: 200),
-                  curve: Curves.easeInOut);
-            },
-            animate: false,
-            enabledColor: Theme.of(context).colorScheme.secondaryContainer,
-            disbaledColor: Theme.of(context).colorScheme.secondaryContainer,
-            labelColor: Theme.of(context).colorScheme.secondary,
-            label: 'Omitir',
-            keyString: 'omit')
+        const _OmitButton(),
       ],
     );
+  }
+}
+
+class _OmitButton extends StatelessWidget {
+  const _OmitButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        padding: defaultPadding,
+        alignment: Alignment.center,
+        child: Text.rich(TextSpan(
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                context.read<SetupCubit>().pageController!.nextPage(
+                    duration: const Duration(milliseconds: 200),
+                    curve: Curves.easeInOut);
+              },
+            text: 'Omitir')));
   }
 }
 

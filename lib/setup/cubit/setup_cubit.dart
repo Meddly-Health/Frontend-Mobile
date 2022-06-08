@@ -180,8 +180,9 @@ class SetupCubit extends Cubit<SetupState> {
       emit(state.copyWith(status: FormzStatus.submissionSuccess));
       if (pageController != null && pageController!.hasClients) {
         pageController!.nextPage(
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut);
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeInOut,
+        );
       }
     });
   }
