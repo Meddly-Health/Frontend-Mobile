@@ -6,10 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:formz/formz.dart';
-import 'package:meddly/helpers/helpers.dart';
+import 'package:lottie/lottie.dart';
+import 'package:meddly/helpers/assets_provider.dart';
 import 'package:user_repository/user_repository.dart';
 
 import 'package:meddly/blocs.dart';
+import 'package:meddly/helpers/helpers.dart';
 import 'package:meddly/routes/router.dart';
 import 'package:meddly/setup/view/widgets/birthdate_field.dart';
 
@@ -72,12 +74,43 @@ class _SetupPageState extends State<SetupPage> {
                     child: PageView(
                       controller: pageController,
                       physics: const NeverScrollableScrollPhysics(),
-                      children: const [
-                        _SetupView(child: _NameAndLastName()),
-                        _SetupView(child: _GenderView()),
-                        _SetupView(child: _BirthDateView()),
-                        _SetupView(child: _AvatarView()),
-                        _SetupView(child: _FinishView()),
+                      children: [
+                        const _SetupView(
+                          child: _NameAndLastName(),
+                          lottie: AssetsProvider.medic4,
+                        ),
+                        const _SetupView(
+                            child: _GenderView(),
+                            lottie: AssetsProvider.medic2),
+                        const _SetupView(
+                          child: _BirthDateView(),
+                          lottie: AssetsProvider.medic1,
+                        ),
+                        const _SetupView(
+                            child: _AvatarView(),
+                            lottie: AssetsProvider.medic5),
+                        Stack(
+                          children: [
+                            const _SetupView(
+                                child: _FinishView(),
+                                lottie: AssetsProvider.medic3),
+                            Positioned(
+                                top: 0,
+                                child: SizedBox(
+                                    height: 100,
+                                    width: 100,
+                                    child: Lottie.asset(
+                                        AssetsProvider.fireworks))),
+                            Positioned(
+                                top: 0,
+                                right: 0,
+                                child: SizedBox(
+                                    height: 200,
+                                    width: 200,
+                                    child: Lottie.asset(
+                                        AssetsProvider.fireworks))),
+                          ],
+                        ),
                       ],
                     ),
                   ),
@@ -264,8 +297,8 @@ class _AvatarView extends StatelessWidget {
             return Button(
                 enabled: true,
                 onPressed: () {
-                  context.router.pushAndPopUntil(const LoadingRoute(),
-                      predicate: (route) => false);
+                  // context.router.pushAndPopUntil(const LoadingRoute(),
+                  //     predicate: (route) => false);
                 },
                 animate: false,
                 enabledColor: Theme.of(context).colorScheme.primary,
@@ -562,9 +595,11 @@ class _SetupView extends StatelessWidget {
   const _SetupView({
     Key? key,
     required this.child,
+    this.lottie,
   }) : super(key: key);
 
   final Widget child;
+  final String? lottie;
 
   @override
   Widget build(BuildContext context) {
@@ -577,11 +612,12 @@ class _SetupView extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
+              alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: Colors.pink,
               ),
               height: MediaQuery.of(context).size.height / 3.5,
+              child: lottie == null ? null : Lottie.asset(lottie!),
             ),
             const SizedBox(height: 16),
             child

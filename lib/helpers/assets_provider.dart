@@ -102,4 +102,13 @@ class AssetsProvider {
   static const String avatar6_8 = 'assets/avatar/avatar6-8.svg';
   static const String avatar6_9 = 'assets/avatar/avatar6-9.svg';
   static const String defaultAvatar = 'assets/avatar/default.svg';
+
+  // Lotties
+  static const String trashLottie = 'assets/lottie/trash.json';
+  static const String medic1 = 'assets/lottie/medic1.json';
+  static const String medic2 = 'assets/lottie/medic2.json';
+  static const String medic3 = 'assets/lottie/medic3.json';
+  static const String medic4 = 'assets/lottie/medic4.json';
+  static const String medic5 = 'assets/lottie/medic5.json';
+  static const String fireworks = 'assets/lottie/fireworks.json';
 }

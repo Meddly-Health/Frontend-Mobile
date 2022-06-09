@@ -1,5 +1,7 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:user_repository/user_repository.dart';
 
 import '../../../helpers/assets_provider.dart';
@@ -22,17 +24,15 @@ class DismissTile extends StatelessWidget {
       },
       background: Container(
         color: Theme.of(context).colorScheme.error,
-        child: Align(
+        child: const Align(
           alignment: Alignment.centerRight,
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16),
             child: SizedBox(
-                height: 25,
-                width: 25,
-                child: SvgPicture.asset(
-                  AssetsProvider.trashIcon,
-                  color: Theme.of(context).colorScheme.secondary,
-                )),
+              height: 30,
+              width: 30,
+              child: _TrashAnimation(),
+            ),
           ),
         ),
       ),
@@ -63,5 +63,43 @@ class DismissTile extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _TrashAnimation extends StatefulWidget {
+  const _TrashAnimation({Key? key}) : super(key: key);
+
+  @override
+  State<_TrashAnimation> createState() => __TrashAnimationState();
+}
+
+class __TrashAnimationState extends State<_TrashAnimation>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    _controller = AnimationController(vsync: this);
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ZoomIn(
+      duration: const Duration(milliseconds: 100),
+      child: Lottie.asset(AssetsProvider.trashLottie, controller: _controller,
+          onLoaded: (composition) async {
+        _controller
+          ..duration = composition.duration
+          ..forward();
+      }),
+    );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }

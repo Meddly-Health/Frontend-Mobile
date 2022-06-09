@@ -1,9 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../routes/router.dart';
 
 import '../../../../blocs.dart';
@@ -36,38 +34,33 @@ class UserProfilePage extends StatelessWidget {
                 Column(
                   children: [
                     IconAndTextTileItem(
-                      onTap: () =>
-                          context.router.push(const UserLinkedAccountsRoute()),
+                      onTap: () {},
                       label: 'Información básica',
-                      asset: AssetsProvider.linkedUsersIcon,
+                      asset: AssetsProvider.eyeCrossed,
                     ),
                     const SizedBox(height: 35),
                     IconAndTextTileItem(
-                      onTap: () =>
-                          context.router.push(const UserLinkedAccountsRoute()),
+                      onTap: () {},
                       label: 'Información personal',
-                      asset: AssetsProvider.linkedUsersIcon,
+                      asset: AssetsProvider.eyeCrossed,
                     ),
                     const SizedBox(height: 35),
                     IconAndTextTileItem(
-                      onTap: () =>
-                          context.router.push(const UserLinkedAccountsRoute()),
+                      onTap: () {},
                       label: 'Antecedentes médicos',
-                      asset: AssetsProvider.linkedUsersIcon,
+                      asset: AssetsProvider.eyeCrossed,
                     ),
                     const SizedBox(height: 35),
                     IconAndTextTileItem(
-                      onTap: () =>
-                          context.router.push(const UserLinkedAccountsRoute()),
+                      onTap: () {},
                       label: 'Alergias',
-                      asset: AssetsProvider.linkedUsersIcon,
+                      asset: AssetsProvider.eyeCrossed,
                     ),
                     const SizedBox(height: 35),
                     IconAndTextTileItem(
-                      onTap: () =>
-                          context.router.push(const UserLinkedAccountsRoute()),
+                      onTap: () {},
                       label: 'Cambiar avatar',
-                      asset: AssetsProvider.linkedUsersIcon,
+                      asset: AssetsProvider.eyeCrossed,
                     ),
                     const SizedBox(height: 35),
                     IconAndTextTileItem(
@@ -128,8 +121,8 @@ class _ProfileNameEmail extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        HapticFeedback.lightImpact();
-        context.router.push(const UserPersonalInfoRoute());
+        // HapticFeedback.lightImpact();
+        // context.router.push(const UserPersonalInfoRoute());
       },
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
@@ -163,10 +156,6 @@ class _ProfileNameEmail extends StatelessWidget {
               },
             ),
             const Spacer(),
-            SizedBox(
-                height: 25,
-                width: 25,
-                child: SvgPicture.asset(AssetsProvider.chevron))
           ],
         ),
       ),
