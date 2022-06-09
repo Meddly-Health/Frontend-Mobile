@@ -55,7 +55,7 @@ class SupervisedPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 25),
                     Text(
-                      'Ingrese aquí el código de verificación que recibió por correo electrónico o mensaje de texto. Al continuar, usted acepta nuestros términos y ha leído nuestra política de privacidad.',
+                      'Comparta su seguimiento y progreso con amigos o familiares, copiando el siguiente código. Válido para un único paciente.',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             color: Theme.of(context)
                                 .textTheme
