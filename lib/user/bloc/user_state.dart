@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'user_bloc.dart';
 
 @immutable
@@ -6,37 +5,28 @@ class UserState extends Equatable {
   final User? currentUser;
   final UserStatus status;
   final String? errorMessage;
+  final User? supervising;
 
   const UserState({
     this.currentUser,
     this.status = UserStatus.initial,
     this.errorMessage,
+    this.supervising,
   });
 
   @override
-  List<Object?> get props => [
-        currentUser,
-        status,
-        errorMessage,
-      ];
+  List<Object?> get props => [currentUser, status, errorMessage, supervising];
 
   UserState copyWith(
       {User? currentUser,
       required UserStatus status,
       String? errorMessage,
-      FormzStatus? formStatus,
-      Name? name,
-      LastName? lastName,
-      BirthDate? birthDate,
-      Heigth? height,
-      Weight? weight,
-      Sex? sex,
-      bool? enabled}) {
+      User? supervising}) {
     return UserState(
-      currentUser: currentUser,
-      status: status,
-      errorMessage: errorMessage ?? this.errorMessage,
-    );
+        currentUser: currentUser ?? this.currentUser,
+        status: status,
+        errorMessage: errorMessage ?? this.errorMessage,
+        supervising: supervising ?? this.supervising);
   }
 }
 

@@ -43,13 +43,17 @@ class SupervisorsPage extends StatelessWidget {
           body: FadeIn(
             child: SingleChildScrollView(
               child: SizedBox(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height -
+                    defaultPadding.vertical -
+                    100 -
+                    kToolbarHeight,
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     Container(
                       padding: defaultPadding,
                       child: Column(
+                        mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           PageTitle(

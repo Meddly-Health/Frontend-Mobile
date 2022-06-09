@@ -65,27 +65,26 @@ class User extends Equatable {
     double? weight,
     Sex? sex,
     String? invitation,
-    User? supervising,
     DateTime? birth,
     String? avatar,
   }) {
     return User(
-        id: id ?? this.id,
-        email: email ?? this.email,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-        diseases: diseases ?? this.diseases,
-        supervisors: supervisors ?? this.supervisors,
-        supervised: supervised ?? this.supervised,
-        firstName: firstName ?? this.firstName,
-        lastName: lastName ?? this.lastName,
-        height: height ?? this.height,
-        weight: weight ?? this.weight,
-        sex: sex ?? this.sex,
-        birth: birth ?? this.birth,
-        avatar: avatar ?? this.avatar,
-        invitation: invitation ?? this.invitation,
-        supervising: supervising ?? this.supervising);
+      id: id ?? this.id,
+      email: email ?? this.email,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      diseases: diseases ?? this.diseases,
+      supervisors: supervisors ?? this.supervisors,
+      supervised: supervised ?? this.supervised,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      height: height ?? this.height,
+      weight: weight ?? this.weight,
+      sex: sex ?? this.sex,
+      birth: birth ?? this.birth,
+      avatar: avatar ?? this.avatar,
+      invitation: invitation ?? this.invitation,
+    );
   }
 
   @override
@@ -102,7 +101,6 @@ class User extends Equatable {
         height,
         weight,
         sex,
-        supervising,
         birth
       ];
 }

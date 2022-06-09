@@ -4,8 +4,6 @@ import 'package:authentication_repository/authentication_repository.dart'
     as auth;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:form_helper/form_helper.dart';
-import 'package:formz/formz.dart';
 import 'package:meta/meta.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -24,7 +22,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
 
     on<UserUpdate>(_onUserUpdate);
 
-    // on<UserChangedSupervisor>(_onUserChangedSupervisor);
+    on<UserChangedSupervisor>(_onUserChangedSupervisor);
 
     on<Logout>(_onLogout);
   }
@@ -80,6 +78,17 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         (User r) =>
             emit(state.copyWith(status: UserStatus.success, currentUser: r)),
       );
+    }
+  }
+
+  FutureOr<void> _onUserChangedSupervisor(
+      UserChangedSupervisor event, Emitter<UserState> emit) async {
+    emit(state.copyWith(status: UserStatus.loading));
+
+    try {
+      emit(state.copyWith(status: UserStatus.success, supervising: event.user));
+    } catch (e) {
+      emit(state.copyWith(status: UserStatus.error));
     }
   }
 }

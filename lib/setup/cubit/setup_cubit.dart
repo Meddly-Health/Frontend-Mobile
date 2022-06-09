@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:form_helper/form_helper.dart';
 import 'package:formz/formz.dart';
 import 'package:equatable/equatable.dart';
+import 'package:meddly/helpers/constants.dart';
 import 'package:user_repository/user_repository.dart';
 
 part 'setup_state.dart';
@@ -77,6 +78,22 @@ class SetupCubit extends Cubit<SetupState> {
           state.height,
           state.birthDate
         ]),
+      ),
+    );
+  }
+
+  void hairColorChanged(Color value) {
+    emit(
+      state.copyWith(
+        hairColor: value,
+      ),
+    );
+  }
+
+  void skinColorChanged(Color value) {
+    emit(
+      state.copyWith(
+        skinColor: value,
       ),
     );
   }

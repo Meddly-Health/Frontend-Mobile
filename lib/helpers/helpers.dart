@@ -2,6 +2,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:meddly/helpers/constants.dart';
+import 'package:user_repository/user_repository.dart';
 
 import '../theme/theme.dart';
 import 'assets_provider.dart';
@@ -59,4 +61,34 @@ String getMonthName(int month) {
     default:
       return '';
   }
+}
+
+String getAvatarAsset(Color? skinColor, Color? hairColor, Sex? sex) {
+  if (skinColor == null && hairColor == null) {
+    return AssetsProvider.defaultAvatar;
+  }
+
+  int hair = 0;
+  int skin = 0;
+
+  if (skinColor == lightSkin) {
+    skin = 1;
+  }
+  if (skinColor == mediumSkin) {
+    skin = 2;
+  }
+  if (skinColor == darkSkin) {
+    skin = 3;
+  }
+  if (hairColor == brunette) {
+    hair = 1;
+  }
+  if (hairColor == brown) {
+    hair = 2;
+  }
+  if (hairColor == blonde) {
+    hair = 3;
+  }
+
+  return 'assets/avatar/avatar$hair-$skin.svg';
 }

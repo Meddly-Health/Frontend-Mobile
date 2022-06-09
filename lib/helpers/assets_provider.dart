@@ -1,5 +1,6 @@
 class AssetsProvider {
   static const String avatarTest = 'assets/svg/avatar-test.svg';
+  static const String bell = 'assets/svg/bell.svg';
   static const String calendarIcon = 'assets/svg/calendar-icon.svg';
   static const String chevron = 'assets/svg/chevron.svg';
   static const String copy = 'assets/svg/copy.svg';

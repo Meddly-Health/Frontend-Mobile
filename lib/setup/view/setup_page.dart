@@ -4,11 +4,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:formz/formz.dart';
+import 'package:meddly/helpers/helpers.dart';
+import 'package:user_repository/user_repository.dart';
+
 import 'package:meddly/blocs.dart';
 import 'package:meddly/routes/router.dart';
 import 'package:meddly/setup/view/widgets/birthdate_field.dart';
-import 'package:user_repository/user_repository.dart';
 
 import '../../helpers/constants.dart';
 import '../../widgets/widgets.dart';
@@ -33,6 +36,8 @@ class _SetupPageState extends State<SetupPage> {
 
     super.initState();
   }
+
+  // TODO: Add haptics everywere.
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +76,8 @@ class _SetupPageState extends State<SetupPage> {
                         _SetupView(child: _NameAndLastName()),
                         _SetupView(child: _GenderView()),
                         _SetupView(child: _BirthDateView()),
-                        _SetupView(child: _FinishView())
+                        _SetupView(child: _AvatarView()),
+                        _SetupView(child: _FinishView()),
                       ],
                     ),
                   ),
@@ -122,6 +128,184 @@ class _FinishView extends StatelessWidget {
           },
         )
       ],
+    );
+  }
+}
+
+class _AvatarView extends StatelessWidget {
+  const _AvatarView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Selecciona tu avatar',
+          style: Theme.of(context).textTheme.titleMedium,
+        ),
+        const SizedBox(height: 16),
+        Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Color de piel',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 16),
+                BlocBuilder<SetupCubit, SetupState>(
+                  builder: (context, state) {
+                    return Row(
+                      children: [
+                        _AvatarColor(
+                            onTap: () {
+                              context
+                                  .read<SetupCubit>()
+                                  .skinColorChanged(lightSkin);
+                            },
+                            color: lightSkin,
+                            isPressed: state.skinColor == lightSkin),
+                        const SizedBox(width: 16),
+                        _AvatarColor(
+                            onTap: () {
+                              context
+                                  .read<SetupCubit>()
+                                  .skinColorChanged(mediumSkin);
+                            },
+                            color: mediumSkin,
+                            isPressed: state.skinColor == mediumSkin),
+                        const SizedBox(width: 16),
+                        _AvatarColor(
+                            onTap: () {
+                              context
+                                  .read<SetupCubit>()
+                                  .skinColorChanged(darkSkin);
+                            },
+                            color: darkSkin,
+                            isPressed: state.skinColor == darkSkin),
+                      ],
+                    );
+                  },
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  'Color de pelo',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(height: 16),
+                BlocBuilder<SetupCubit, SetupState>(
+                  builder: (context, state) {
+                    return Row(
+                      children: [
+                        _AvatarColor(
+                            onTap: () {
+                              context
+                                  .read<SetupCubit>()
+                                  .hairColorChanged(brunette);
+                            },
+                            color: brunette,
+                            isPressed: state.hairColor == brunette),
+                        const SizedBox(width: 16),
+                        _AvatarColor(
+                            onTap: () {
+                              context
+                                  .read<SetupCubit>()
+                                  .hairColorChanged(brown);
+                            },
+                            color: brown,
+                            isPressed: state.hairColor == brown),
+                        const SizedBox(width: 16),
+                        _AvatarColor(
+                            onTap: () {
+                              context
+                                  .read<SetupCubit>()
+                                  .hairColorChanged(blonde);
+                            },
+                            color: blonde,
+                            isPressed: state.hairColor == blonde),
+                      ],
+                    );
+                  },
+                ),
+              ],
+            ),
+            const Spacer(),
+            CircleAvatar(
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+              radius: 50,
+              child: BlocBuilder<SetupCubit, SetupState>(
+                builder: (context, state) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(999),
+                    child: SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: SvgPicture.asset(getAvatarAsset(
+                            state.skinColor, state.hairColor, state.sex))),
+                  );
+                },
+              ),
+            )
+          ],
+        ),
+        const SizedBox(height: 35),
+        BlocBuilder<SetupCubit, SetupState>(
+          builder: (context, state) {
+            return Button(
+                enabled: true,
+                onPressed: () {
+                  context.router.pushAndPopUntil(const LoadingRoute(),
+                      predicate: (route) => false);
+                },
+                animate: false,
+                enabledColor: Theme.of(context).colorScheme.primary,
+                disbaledColor: Theme.of(context).colorScheme.secondaryContainer,
+                labelColor: Theme.of(context).colorScheme.secondary,
+                label: 'Siguiente',
+                keyString: 'omit');
+          },
+        ),
+        const SizedBox(height: 16),
+        const _OmitButton()
+      ],
+    );
+  }
+}
+
+class _AvatarColor extends StatelessWidget {
+  const _AvatarColor({
+    Key? key,
+    required this.color,
+    required this.isPressed,
+    required this.onTap,
+  }) : super(key: key);
+
+  final Color color;
+  final bool isPressed;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<SetupCubit, SetupState>(
+      builder: (context, state) {
+        return GestureDetector(
+          onTap: onTap,
+          child: CircleAvatar(
+              radius: 28,
+              backgroundColor: isPressed ? null : Colors.transparent,
+              child: CircleAvatar(radius: 25, backgroundColor: color)),
+        );
+      },
     );
   }
 }
@@ -182,11 +366,49 @@ class _GenderView extends StatelessWidget {
           style: Theme.of(context).textTheme.titleMedium,
         ),
         const SizedBox(height: 12),
-        Text('¿Por qué mostramos sólo estas dos opciones?',
+        Text.rich(TextSpan(
+            recognizer: TapGestureRecognizer()
+              ..onTap = () {
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          title: Text(
+                            '¿Por qué mostramos sólo estas dos opciones?',
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                          content: Text(
+                            'Por supuesto que, hay más identidades de género que sólo hombres y mujeres. Sin embargo, actualmente Meddly sólo puede diferenciar entre hombre y mujer para realizar los diagnósticos. Meddly aún está aprendiendo sobre el impacto de otras identidades de género en el área de la salud. En este apartado debe completar seleccionando su sexo al nacer.',
+                            style: Theme.of(context).textTheme.bodyMedium,
+                            textAlign: TextAlign.justify,
+                          ),
+                          actionsPadding: defaultPadding,
+                          actions: [
+                            GestureDetector(
+                              onTap: () => Navigator.of(context).pop(),
+                              child: Container(
+                                padding: defaultPadding,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color:
+                                        Theme.of(context).colorScheme.primary),
+                                child: Text('Entendido',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary)),
+                              ),
+                            ),
+                          ],
+                        ));
+              },
+            text: '¿Por qué mostramos sólo estas dos opciones?',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).colorScheme.primary,
                   fontWeight: FontWeight.w600,
-                )),
+                ))),
         const SizedBox(height: 25),
         BlocBuilder<SetupCubit, SetupState>(
           builder: (context, state) {
@@ -200,7 +422,7 @@ class _GenderView extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: state.sex != null && state.sex! == Sex.masculino
-                      ? Theme.of(context).colorScheme.primary
+                      ? Theme.of(context).colorScheme.secondaryContainer
                       : Theme.of(context).colorScheme.secondary,
                 ),
                 child: Text('Hombre',
@@ -225,7 +447,7 @@ class _GenderView extends StatelessWidget {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   color: state.sex != null && state.sex! == Sex.femenino
-                      ? Theme.of(context).colorScheme.primary
+                      ? Theme.of(context).colorScheme.secondaryContainer
                       : Theme.of(context).colorScheme.secondary,
                 ),
                 child: Text('Mujer',

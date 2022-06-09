@@ -58,7 +58,6 @@ class _UserPersonalInfoPageState extends State<UserPersonalInfoPage> {
                     const SizedBox(height: 35),
                     const _UserAvatar(),
                     const SizedBox(height: 16),
-                    // const _PersonalInfoAndEdit(),
                     const SizedBox(height: 16),
                     BlocBuilder<UserBloc, UserState>(
                       builder: (context, state) {

@@ -21,55 +21,96 @@ class UserProfilePage extends StatelessWidget {
     return Scaffold(
       body: FadeIn(
         child: Container(
-          padding: defaultPadding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Mi perfil',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              const SizedBox(height: 16),
-              const _ProfileNameEmail(),
-              const SizedBox(height: 35),
-              Column(
-                children: [
-                  IconAndTextTileItem(
-                    onTap: () =>
-                        context.router.push(const UserLinkedAccountsRoute()),
-                    label: 'Cuentas vinculadas',
-                    asset: AssetsProvider.linkedUsersIcon,
-                  ),
-                  const SizedBox(height: 35),
-                  IconAndTextTileItem(
-                    onTap: () {},
-                    label: 'Notificaciones',
-                    asset: AssetsProvider.notificationsIcon,
-                  ),
-                  const SizedBox(height: 35),
-                  IconAndTextTileItem(
-                    onTap: () => context.router.push(const UserSettingsRoute()),
-                    label: 'Configuración',
-                    asset: AssetsProvider.settingsIcon,
-                  ),
-                  const SizedBox(height: 35),
-                  IconAndTextTileItem(
-                    onTap: () {},
-                    label: 'Preguntas frecuentes',
-                    asset: AssetsProvider.interrogationIcon,
-                  ),
-                  const SizedBox(height: 35),
-                  IconAndTextTileItem(
-                    onTap: () {
-                      context.read<AuthBloc>().add(AuthLogoutRequestedEvent());
-                      context.read<UserBloc>().add(Logout());
-                    },
-                    label: 'Cerrar sesión',
-                    asset: AssetsProvider.logoutIcon,
-                  ),
-                ],
-              )
-            ],
+          padding: defaultPadding.copyWith(bottom: 0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Mi perfil',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const SizedBox(height: 16),
+                const _ProfileNameEmail(),
+                const SizedBox(height: 35),
+                Column(
+                  children: [
+                    IconAndTextTileItem(
+                      onTap: () =>
+                          context.router.push(const UserLinkedAccountsRoute()),
+                      label: 'Información básica',
+                      asset: AssetsProvider.linkedUsersIcon,
+                    ),
+                    const SizedBox(height: 35),
+                    IconAndTextTileItem(
+                      onTap: () =>
+                          context.router.push(const UserLinkedAccountsRoute()),
+                      label: 'Información personal',
+                      asset: AssetsProvider.linkedUsersIcon,
+                    ),
+                    const SizedBox(height: 35),
+                    IconAndTextTileItem(
+                      onTap: () =>
+                          context.router.push(const UserLinkedAccountsRoute()),
+                      label: 'Antecedentes médicos',
+                      asset: AssetsProvider.linkedUsersIcon,
+                    ),
+                    const SizedBox(height: 35),
+                    IconAndTextTileItem(
+                      onTap: () =>
+                          context.router.push(const UserLinkedAccountsRoute()),
+                      label: 'Alergias',
+                      asset: AssetsProvider.linkedUsersIcon,
+                    ),
+                    const SizedBox(height: 35),
+                    IconAndTextTileItem(
+                      onTap: () =>
+                          context.router.push(const UserLinkedAccountsRoute()),
+                      label: 'Cambiar avatar',
+                      asset: AssetsProvider.linkedUsersIcon,
+                    ),
+                    const SizedBox(height: 35),
+                    IconAndTextTileItem(
+                      onTap: () =>
+                          context.router.push(const UserLinkedAccountsRoute()),
+                      label: 'Cuentas vinculadas',
+                      asset: AssetsProvider.linkedUsersIcon,
+                    ),
+                    const SizedBox(height: 35),
+                    IconAndTextTileItem(
+                      onTap: () {},
+                      label: 'Notificaciones',
+                      asset: AssetsProvider.notificationsIcon,
+                    ),
+                    const SizedBox(height: 35),
+                    IconAndTextTileItem(
+                      onTap: () =>
+                          context.router.push(const UserSettingsRoute()),
+                      label: 'Configuración',
+                      asset: AssetsProvider.settingsIcon,
+                    ),
+                    const SizedBox(height: 35),
+                    IconAndTextTileItem(
+                      onTap: () {},
+                      label: 'Preguntas frecuentes',
+                      asset: AssetsProvider.interrogationIcon,
+                    ),
+                    const SizedBox(height: 35),
+                    IconAndTextTileItem(
+                      onTap: () {
+                        context
+                            .read<AuthBloc>()
+                            .add(AuthLogoutRequestedEvent());
+                        context.read<UserBloc>().add(Logout());
+                      },
+                      label: 'Cerrar sesión',
+                      asset: AssetsProvider.logoutIcon,
+                    ),
+                    const SizedBox(height: 35),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -108,7 +149,7 @@ class _ProfileNameEmail extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleSmall,
                     ),
                     Text(
-                      '${state.currentUser!.email}',
+                      '${state.currentUser?.email}',
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           fontWeight: FontWeight.w500,
                           color: Theme.of(context)
