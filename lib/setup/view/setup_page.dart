@@ -75,13 +75,13 @@ class _SetupPageState extends State<SetupPage> {
                       controller: pageController,
                       physics: const NeverScrollableScrollPhysics(),
                       children: [
-                        const _SetupView(
-                          child: _NameAndLastName(),
-                          lottie: AssetsProvider.medic4,
-                        ),
-                        const _SetupView(
-                            child: _GenderView(),
-                            lottie: AssetsProvider.medic2),
+                        // const _SetupView(
+                        //   child: _NameAndLastName(),
+                        //   lottie: AssetsProvider.medic4,
+                        // ),
+                        // const _SetupView(
+                        //     child: _GenderView(),
+                        //     lottie: AssetsProvider.medic2),
                         const _SetupView(
                           child: _BirthDateView(),
                           lottie: AssetsProvider.medic1,

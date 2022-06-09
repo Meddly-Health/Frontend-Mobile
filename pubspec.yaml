@@ -48,6 +48,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
+  flutter_holo_date_picker: ^1.0.3
   flutter_svg: ^1.0.3
   form_helper:
     git:

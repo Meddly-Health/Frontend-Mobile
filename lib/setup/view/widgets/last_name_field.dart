@@ -19,9 +19,14 @@ class LastNameField extends StatelessWidget {
         return TextFormField(
             enabled: state.enabled,
             key: const Key('user_last_name'),
-            textInputAction: TextInputAction.next,
+            textInputAction: TextInputAction.done,
             onChanged: (String? value) {
               context.read<SetupCubit>().lastNameChanged(value!);
+            },
+            onFieldSubmitted: (_) {
+              context.read<SetupCubit>().pageController!.nextPage(
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut);
             },
             textCapitalization: TextCapitalization.words,
             controller: context.read<SetupCubit>().lastNameController,

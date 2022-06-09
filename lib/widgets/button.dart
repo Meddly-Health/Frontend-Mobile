@@ -38,10 +38,12 @@ class Button extends StatelessWidget {
           duration: const Duration(milliseconds: 200),
           child: Center(
             child: animate
-                ? const SizedBox(
+                ? SizedBox(
                     height: 20,
                     width: 20,
-                    child: Loading(),
+                    child: Loading(
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
                   )
                 : Text(label,
                     style: Theme.of(context).textTheme.labelMedium!.copyWith(

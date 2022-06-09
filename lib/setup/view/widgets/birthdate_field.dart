@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../blocs.dart';
@@ -20,14 +21,15 @@ class BirthDateField extends StatelessWidget {
         if (!context.read<SetupCubit>().state.enabled) return;
         HapticFeedback.lightImpact();
 
-        var _dateTime = await showDatePicker(
-          context: context,
-          initialEntryMode: DatePickerEntryMode.calendarOnly,
-          initialDatePickerMode: DatePickerMode.year,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(1900),
-          lastDate: DateTime.now(),
-        );
+        var _dateTime = await DatePicker.showSimpleDatePicker(context,
+            titleText: 'Seleccione una fecha',
+            initialDate: DateTime.now(),
+            firstDate: DateTime(1900),
+            dateFormat: 'dd-MMMM-yyyy',
+            locale: DateTimePickerLocale.es,
+            confirmText: 'Aceptar',
+            cancelText: 'Cancelar',
+            itemTextStyle: Theme.of(context).textTheme.bodyMedium);
 
         if (_dateTime != null) {
           context.read<SetupCubit>().birthDateChanged(_dateTime);
