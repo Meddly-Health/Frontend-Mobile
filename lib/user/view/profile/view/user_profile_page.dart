@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../routes/router.dart';
 
@@ -36,13 +37,13 @@ class UserProfilePage extends StatelessWidget {
                     IconAndTextTileItem(
                       onTap: () {},
                       label: 'Información básica',
-                      asset: AssetsProvider.eyeCrossed,
+                      asset: AssetsProvider.userInfo,
                     ),
                     const SizedBox(height: 35),
                     IconAndTextTileItem(
                       onTap: () {},
                       label: 'Información personal',
-                      asset: AssetsProvider.eyeCrossed,
+                      asset: AssetsProvider.eye,
                     ),
                     const SizedBox(height: 35),
                     // IconAndTextTileItem(
@@ -60,7 +61,7 @@ class UserProfilePage extends StatelessWidget {
                     IconAndTextTileItem(
                       onTap: () {},
                       label: 'Cambiar avatar',
-                      asset: AssetsProvider.eyeCrossed,
+                      asset: AssetsProvider.changeAvatar,
                     ),
                     const SizedBox(height: 35),
                     IconAndTextTileItem(
@@ -121,8 +122,8 @@ class _ProfileNameEmail extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
-        // HapticFeedback.lightImpact();
-        // context.router.push(const UserPersonalInfoRoute());
+        HapticFeedback.lightImpact();
+        context.router.push(const SetupRoute());
       },
       child: SizedBox(
         width: MediaQuery.of(context).size.width,

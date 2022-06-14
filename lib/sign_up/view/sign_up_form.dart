@@ -190,7 +190,7 @@ class _EmailField extends StatelessWidget {
             keyboardType: TextInputType.emailAddress,
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
-              hintText: 'Correo Electrónico',
+              hintText: 'Correo electrónico',
               hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context)
                         .colorScheme
@@ -262,7 +262,7 @@ class _PasswordField extends StatelessWidget {
             },
             keyboardType: TextInputType.text,
             style: Theme.of(context).textTheme.bodyMedium,
-            obscureText: true,
+            obscureText: state.isPasswordObscure,
             decoration: InputDecoration(
               hintText: 'Contraseña',
               hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -309,9 +309,30 @@ class _PasswordField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon: showCheckIcon(state.password.valid, context),
+              suffixIcon: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () =>
+                        context.read<SignUpCubit>().togglePasswordVisibility(),
+                    child: Container(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: SvgPicture.asset(
+                        state.isPasswordObscure
+                            ? AssetsProvider.eyeCrossed
+                            : AssetsProvider.eye,
+                        color: Theme.of(context).colorScheme.secondaryContainer,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: showCheckIcon(state.password.valid, context),
+                  ),
+                ],
+              ),
               suffixIconConstraints: const BoxConstraints(
-                  maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
+                  maxHeight: 30, maxWidth: 70, minHeight: 30, minWidth: 70),
             ));
       },
     );
@@ -339,9 +360,9 @@ class _ConfirmedPasswordField extends StatelessWidget {
             },
             keyboardType: TextInputType.text,
             style: Theme.of(context).textTheme.bodyMedium,
-            obscureText: true,
+            obscureText: state.isPasswordObscure,
             decoration: InputDecoration(
-              hintText: 'Confirmar Contraseña',
+              hintText: 'Confirmar contraseña',
               hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context)
                         .colorScheme
@@ -385,9 +406,28 @@ class _ConfirmedPasswordField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon: showCheckIcon(state.confirmedPassword.valid, context),
+              suffixIcon: Row(children: [
+                GestureDetector(
+                  onTap: () =>
+                      context.read<SignUpCubit>().togglePasswordVisibility(),
+                  child: Container(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: SvgPicture.asset(
+                      state.isPasswordObscure
+                          ? AssetsProvider.eyeCrossed
+                          : AssetsProvider.eye,
+                      color: Theme.of(context).colorScheme.secondaryContainer,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                    height: 30,
+                    width: 30,
+                    child:
+                        showCheckIcon(state.confirmedPassword.valid, context))
+              ]),
               suffixIconConstraints: const BoxConstraints(
-                  maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
+                  maxHeight: 30, maxWidth: 70, minHeight: 30, minWidth: 70),
             ));
       },
     );

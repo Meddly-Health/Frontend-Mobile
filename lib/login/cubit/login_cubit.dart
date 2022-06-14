@@ -84,6 +84,6 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   void togglePasswordVisibility() {
-    emit(state.copyWith(isPasswordVisible: !state.isPasswordObscure));
+    emit(state.copyWith(isPasswordObscure: !state.isPasswordObscure));
   }
 }

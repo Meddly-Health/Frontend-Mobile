@@ -29,24 +29,26 @@ class AvatarPage extends StatelessWidget {
               .copyWith(fontWeight: FontWeight.w600),
         ),
         const SizedBox(height: 16),
-        Expanded(
-          child: BlocBuilder<SetupCubit, SetupState>(
-            builder: (context, state) {
-              return Center(
-                child: CircleAvatar(
-                  backgroundColor: Theme.of(context).colorScheme.secondary,
-                  radius: double.infinity,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(999),
-                    child: SvgPicture.asset(getAvatarAsset(state.skinColor,
-                        state.hairColor, state.sex, state.avatarType)),
+        if (MediaQuery.of(context).size.height > 720)
+          Expanded(
+            child: BlocBuilder<SetupCubit, SetupState>(
+              builder: (context, state) {
+                return Center(
+                  child: CircleAvatar(
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    radius: double.infinity,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(999),
+                      child: SvgPicture.asset(getAvatarAsset(state.skinColor,
+                          state.hairColor, state.sex, state.avatarType)),
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           ),
-        ),
-        const SizedBox(height: 16),
+        if (MediaQuery.of(context).size.height > 720)
+          const SizedBox(height: 16),
         Text(
           'Tipo de avatar',
           style: Theme.of(context)
@@ -104,7 +106,7 @@ class AvatarPage extends StatelessWidget {
             );
           },
         ),
-        const SizedBox(height: 35),
+        const Spacer(),
         BlocBuilder<SetupCubit, SetupState>(
           builder: (context, state) {
             return Button(

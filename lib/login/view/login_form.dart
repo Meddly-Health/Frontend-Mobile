@@ -152,7 +152,7 @@ class _EmailField extends StatelessWidget {
             keyboardType: TextInputType.emailAddress,
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
-              hintText: 'Correo Electrónico',
+              hintText: 'Correo electrónico',
               hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context)
                         .colorScheme

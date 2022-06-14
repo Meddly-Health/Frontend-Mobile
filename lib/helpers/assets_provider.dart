@@ -40,6 +40,8 @@ class AssetsProvider {
   static const String treatment = 'assets/svg/treatment.svg';
   static const String valid = 'assets/svg/valid.svg';
   static const String paste = 'assets/svg/paste.svg';
+  static const String userInfo = 'assets/svg/user-info.svg';
+  static const String changeAvatar = 'assets/svg/change-avatar.svg';
 
   /// Avatars
   static const String avatar1 = 'assets/avatar/avatar1.svg';

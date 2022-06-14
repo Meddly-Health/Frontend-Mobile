@@ -33,14 +33,14 @@ class LoginState extends Equatable {
       Password? password,
       FormzStatus? status,
       String? errorMessage,
-      bool? isPasswordVisible,
+      bool? isPasswordObscure,
       bool? isGoogleSignIn}) {
     return LoginState(
         email: email ?? this.email,
         password: password ?? this.password,
         status: status ?? this.status,
         errorMessage: errorMessage ?? this.errorMessage,
-        isPasswordObscure: isPasswordVisible ?? isPasswordObscure,
+        isPasswordObscure: isPasswordObscure ?? this.isPasswordObscure,
         isGoogleSignIn: isGoogleSignIn ?? this.isGoogleSignIn);
   }
 }

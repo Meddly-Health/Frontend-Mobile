@@ -14,6 +14,10 @@ class SignUpCubit extends Cubit<SignUpState> {
   void termsAcceptedChanged(bool value) =>
       emit(state.copyWith(termsAccepted: value));
 
+  void togglePasswordVisibility() {
+    emit(state.copyWith(isPasswordObscure: !state.isPasswordObscure));
+  }
+
   void emailChanged(String value) {
     final email = Email.dirty(value);
     emit(state.copyWith(
