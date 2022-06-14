@@ -1,12 +1,15 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:date_picker_timeline/date_picker_widget.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:meddly/calendar/view/widgets/supervised_container.dart';
 import 'package:meddly/helpers/assets_provider.dart';
+import 'package:meddly/routes/router.dart';
 import '../../helpers/constants.dart';
 import '../../widgets/widgets.dart';
-import 'package:user_repository/user_repository.dart';
-import 'dart:math' as math;
 
 import '../../blocs.dart';
 
@@ -29,22 +32,46 @@ class CalendarPage extends StatelessWidget {
               const SizedBox(height: 16),
               const _NameAndAvatar(),
               const SizedBox(height: 16),
-              Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primary,
-                  borderRadius: BorderRadius.circular(8),
+              const _Line(),
+              const SizedBox(height: 16),
+              const _SupervisedText(),
+              const SizedBox(height: 16),
+              if (state.currentUser != null &&
+                  state.supervising != null &&
+                  state.supervising!.isNotEmpty)
+                Column(
+                  children: [
+                    SupervisedContainer(
+                      supervised: state.supervising!,
+                    ),
+                    const SizedBox(height: 16),
+                  ],
                 ),
-                height: 5,
-                width: MediaQuery.of(context).size.width / 2,
+              DatePicker(
+                DateTime.now(),
+                height: 90,
+                locale: 'es_SP',
+                daysCount: 365,
+                initialSelectedDate: DateTime.now(),
+                selectionColor: Theme.of(context).colorScheme.primary,
+                selectedTextColor: Colors.white,
+                dateTextStyle: Theme.of(context)
+                    .textTheme
+                    .bodyLarge!
+                    .copyWith(fontWeight: FontWeight.bold),
+                dayTextStyle: Theme.of(context)
+                    .textTheme
+                    .bodySmall!
+                    .copyWith(fontWeight: FontWeight.w500),
+                monthTextStyle: Theme.of(context)
+                    .textTheme
+                    .bodySmall!
+                    .copyWith(fontWeight: FontWeight.w500),
+                onDateChange: (date) {
+                  // New date selected
+                },
               ),
               const SizedBox(height: 16),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  _SupervisorDropdownButton(),
-                  _DateDropdownButton(),
-                ],
-              )
             ],
           );
         },
@@ -53,8 +80,8 @@ class CalendarPage extends StatelessWidget {
   }
 }
 
-class _DateDropdownButton extends StatelessWidget {
-  const _DateDropdownButton({
+class _SupervisedText extends StatelessWidget {
+  const _SupervisedText({
     Key? key,
   }) : super(key: key);
 
@@ -62,118 +89,49 @@ class _DateDropdownButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        return Container(
-            padding: defaultPadding.copyWith(top: 5, bottom: 5),
-            width: (MediaQuery.of(context).size.width / 2) - 20,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                    elevation: 0,
-                    value:
-                        DateTime.now().toUtc().toIso8601String().split('T')[0],
-                    hint: Text(
-                        DateTime.now().toUtc().toIso8601String().split('T')[0],
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: Theme.of(context).colorScheme.secondary)),
-                    borderRadius: BorderRadius.circular(20),
-                    icon: Transform.rotate(
-                      angle: math.pi / 2,
-                      child: SvgPicture.asset(
-                        AssetsProvider.chevron,
-                        height: 12,
-                        width: 12,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                    ),
-                    dropdownColor: Theme.of(context).colorScheme.primary,
-                    iconDisabledColor: Colors.transparent,
-                    iconEnabledColor: Theme.of(context).colorScheme.secondary,
-                    items: const [],
-                    onChanged: (String? date) {})));
+        return Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(
+                  text: state.supervising != null && state.supervising!.isEmpty
+                      ? 'No estas supervisando a nadie. '
+                      : 'Estas supervisando a alguien. ',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .color!
+                          .withOpacity(0.5))),
+              TextSpan(
+                  text: 'Cambiar',
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      AutoRouter.of(context)
+                          .push(const SelectSupervisedRoute());
+                    },
+                  style: Theme.of(context).textTheme.bodyMedium!)
+            ],
+          ),
+        );
       },
     );
   }
 }
 
-class _SupervisorDropdownButton extends StatelessWidget {
-  const _SupervisorDropdownButton({
+class _Line extends StatelessWidget {
+  const _Line({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserBloc, UserState>(
-      builder: (context, state) {
-        return Container(
-            padding: defaultPadding.copyWith(top: 5, bottom: 5),
-            width: (MediaQuery.of(context).size.width / 2) - 20,
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primary,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: DropdownButtonHideUnderline(
-                child: DropdownButton<User>(
-                    value: state.supervising,
-                    hint: Text('Mis datos',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: Theme.of(context).colorScheme.secondary)),
-                    borderRadius: BorderRadius.circular(20),
-                    icon: state.currentUser != null &&
-                            state.currentUser!.supervised!.isEmpty
-                        ? Container()
-                        : Transform.rotate(
-                            angle: math.pi / 2,
-                            child: SvgPicture.asset(AssetsProvider.chevron,
-                                height: 12,
-                                width: 12,
-                                color: Theme.of(context).colorScheme.secondary),
-                          ),
-                    dropdownColor: Theme.of(context).colorScheme.primary,
-                    iconDisabledColor: Colors.transparent,
-                    items: state.currentUser?.supervised == null
-                        ? []
-                        : [
-                            DropdownMenuItem(
-                              child: Text(
-                                'Mis datos',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondary),
-                              ),
-                              value: state.currentUser,
-                            ),
-                            ...?state.currentUser?.supervised!
-                                .map((user) => DropdownMenuItem(
-                                      child: Text(
-                                        user.firstName!,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium!
-                                            .copyWith(
-                                                color: Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary),
-                                      ),
-                                      value: user,
-                                    ))
-                                .toList(),
-                          ],
-                    onChanged: (User? user) {
-                      if (user == null) {
-                        return;
-                      }
-                      context
-                          .read<UserBloc>()
-                          .add(UserChangedSupervisor(user: user));
-                    })));
-      },
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      height: 5,
+      width: MediaQuery.of(context).size.width / 2,
     );
   }
 }
@@ -192,6 +150,7 @@ class _NameAndAvatar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
+              flex: 2,
               child: AutoSizeText(
                 state.currentUser?.firstName != null
                     ? 'Buenos días, ${state.currentUser?.firstName}'
@@ -201,6 +160,7 @@ class _NameAndAvatar extends StatelessWidget {
                 maxFontSize: Theme.of(context).textTheme.titleLarge!.fontSize!,
               ),
             ),
+            const Spacer(flex: 1),
             const Avatar()
           ],
         );

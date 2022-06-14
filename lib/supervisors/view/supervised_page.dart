@@ -181,9 +181,7 @@ class _Supervised extends StatelessWidget {
     return BlocBuilder<SupervisorsBloc, SupervisorsState>(
         builder: (context, state) {
       if (state.status == SupervisorsStatus.loading) {
-        return const Expanded(
-          child: Center(child: Loading()),
-        );
+        return const Center(child: Loading());
       }
 
       if (state.supervised == null || state.supervised!.isEmpty) {

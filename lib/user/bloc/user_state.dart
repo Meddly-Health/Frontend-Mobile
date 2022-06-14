@@ -9,10 +9,11 @@ class UserState extends Equatable {
 
   const UserState({
     this.currentUser,
-    this.status = UserStatus.initial,
+    UserStatus? status,
     this.errorMessage,
-    this.supervising,
-  });
+    User? supervising,
+  })  : status = status ?? UserStatus.initial,
+        supervising = supervising ?? User.empty;
 
   @override
   List<Object?> get props => [currentUser, status, errorMessage, supervising];

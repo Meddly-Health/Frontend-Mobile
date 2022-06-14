@@ -51,6 +51,14 @@ class User extends Equatable {
 
   Map<String, dynamic> toJson() => _$UserToJson(this);
 
+  static const empty = User();
+
+  /// Convenience getter to determine whether the current user is empty.
+  bool get isEmpty => this == User.empty;
+
+  /// Convenience getter to determine whether the current user is not empty.
+  bool get isNotEmpty => this != User.empty;
+
   User copyWith({
     String? id,
     String? email,

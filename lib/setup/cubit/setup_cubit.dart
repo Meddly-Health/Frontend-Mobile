@@ -4,6 +4,7 @@ import 'package:form_helper/form_helper.dart';
 import 'package:formz/formz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meddly/helpers/constants.dart';
+import 'package:meddly/helpers/helpers.dart';
 import 'package:user_repository/user_repository.dart';
 
 part 'setup_state.dart';
@@ -46,6 +47,14 @@ class SetupCubit extends Cubit<SetupState> {
         ? Weight.dirty(currentUser.weight!)
         : const Weight.pure();
 
+    nameController.text = currentUser.firstName ?? '';
+    lastNameController.text = currentUser.lastName ?? '';
+    if (currentUser.height != null) {
+      heightController.text = currentUser.height!.toInt().toString();
+    }
+    if (currentUser.weight != null) {
+      weightController.text = currentUser.weight.toString();
+    }
     emit(
       state.copyWith(
           name: name,
@@ -55,15 +64,10 @@ class SetupCubit extends Cubit<SetupState> {
           weight: weight,
           sex: currentUser.sex),
     );
+  }
 
-    nameController.text = currentUser.firstName ?? '';
-    lastNameController.text = currentUser.lastName ?? '';
-    if (currentUser.height != null) {
-      heightController.text = currentUser.height!.toInt().toString();
-    }
-    if (currentUser.weight != null) {
-      weightController.text = currentUser.weight.toString();
-    }
+  void avatarType(int type) {
+    emit(state.copyWith(avatarType: type));
   }
 
   void nameChanged(String value) {
@@ -184,6 +188,8 @@ class SetupCubit extends Cubit<SetupState> {
         firstName: state.name.value,
         lastName: state.lastName.value,
         birth: state.birthDate.value,
+        avatar: getAvatarAsset(
+            state.skinColor, state.hairColor, state.sex, state.avatarType),
         height: state.height.value?.toDouble(),
         weight: state.weight.value,
         sex: state.sex);

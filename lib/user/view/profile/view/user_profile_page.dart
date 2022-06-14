@@ -45,18 +45,18 @@ class UserProfilePage extends StatelessWidget {
                       asset: AssetsProvider.eyeCrossed,
                     ),
                     const SizedBox(height: 35),
-                    IconAndTextTileItem(
-                      onTap: () {},
-                      label: 'Antecedentes médicos',
-                      asset: AssetsProvider.eyeCrossed,
-                    ),
-                    const SizedBox(height: 35),
-                    IconAndTextTileItem(
-                      onTap: () {},
-                      label: 'Alergias',
-                      asset: AssetsProvider.eyeCrossed,
-                    ),
-                    const SizedBox(height: 35),
+                    // IconAndTextTileItem(
+                    //   onTap: () {},
+                    //   label: 'Antecedentes médicos',
+                    //   asset: AssetsProvider.eyeCrossed,
+                    // ),
+                    // const SizedBox(height: 35),
+                    // IconAndTextTileItem(
+                    //   onTap: () {},
+                    //   label: 'Alergias',
+                    //   asset: AssetsProvider.eyeCrossed,
+                    // ),
+                    // const SizedBox(height: 35),
                     IconAndTextTileItem(
                       onTap: () {},
                       label: 'Cambiar avatar',

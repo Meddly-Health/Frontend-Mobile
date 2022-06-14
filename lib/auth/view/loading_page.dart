@@ -17,6 +17,7 @@ class _LoadingPageState extends State<LoadingPage> {
   @override
   void initState() {
     context.read<UserBloc>().add(GetUser());
+    context.read<SupervisorsBloc>().add(GetSupervisors());
     super.initState();
   }
 

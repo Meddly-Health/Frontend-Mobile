@@ -20,8 +20,8 @@ class Avatar extends StatelessWidget {
           return ClipRRect(
             borderRadius: BorderRadius.circular(999),
             child: SizedBox(
-                height: radius * 2,
-                width: radius * 2,
+                height: radius * 25,
+                width: radius * 25,
                 child: SvgPicture.asset(state.currentUser != null &&
                         state.currentUser!.avatar != null
                     ? state.currentUser!.avatar!

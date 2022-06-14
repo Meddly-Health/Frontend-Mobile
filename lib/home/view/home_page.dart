@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
                     leading: const AutoBackButton(),
                   ),
               routes: const [
-                CalendarRoute(),
+                CalendarRouter(),
                 DiagnosisRoute(),
                 MeasurementesRoute(),
                 MedicineRoute(),

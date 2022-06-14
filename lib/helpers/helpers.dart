@@ -63,32 +63,45 @@ String getMonthName(int month) {
   }
 }
 
-String getAvatarAsset(Color? skinColor, Color? hairColor, Sex? sex) {
-  if (skinColor == null && hairColor == null) {
+String getAvatarAsset(
+  Color? skinColor,
+  Color? hairColor,
+  Sex? sex,
+  int? avatarType,
+) {
+  if (skinColor == null && hairColor == null && avatarType == null) {
     return AssetsProvider.defaultAvatar;
   }
 
-  int hair = 0;
-  int skin = 0;
+  int secondParameter = 1;
 
-  if (skinColor == lightSkin) {
-    skin = 1;
+  if (skinColor == lightSkin && hairColor == brunette) {
+    secondParameter = 1;
   }
-  if (skinColor == mediumSkin) {
-    skin = 2;
+  if (skinColor == lightSkin && hairColor == brown) {
+    secondParameter = 2;
   }
-  if (skinColor == darkSkin) {
-    skin = 3;
+  if (skinColor == lightSkin && hairColor == blonde) {
+    secondParameter = 3;
   }
-  if (hairColor == brunette) {
-    hair = 1;
+  if (skinColor == mediumSkin && hairColor == brunette) {
+    secondParameter = 4;
   }
-  if (hairColor == brown) {
-    hair = 2;
+  if (skinColor == mediumSkin && hairColor == brown) {
+    secondParameter = 5;
   }
-  if (hairColor == blonde) {
-    hair = 3;
+  if (skinColor == mediumSkin && hairColor == blonde) {
+    secondParameter = 6;
+  }
+  if (skinColor == darkSkin && hairColor == brunette) {
+    secondParameter = 7;
+  }
+  if (skinColor == darkSkin && hairColor == brown) {
+    secondParameter = 8;
+  }
+  if (skinColor == darkSkin && hairColor == blonde) {
+    secondParameter = 9;
   }
 
-  return 'assets/avatar/avatar$hair-$skin.svg';
+  return 'assets/avatar/avatar$avatarType-$secondParameter.svg';
 }

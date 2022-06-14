@@ -89,10 +89,10 @@ class _$AppRouter extends RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
-    CalendarRoute.name: (routeData) {
+    CalendarRouter.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
-          child: const CalendarPage(),
+          child: const EmptyRouterPage(),
           durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
@@ -101,6 +101,22 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const EmptyRouterPage(),
+          durationInMilliseconds: 100,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    CalendarRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const CalendarPage(),
+          durationInMilliseconds: 100,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    SelectSupervisedRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const SelectSupervisedPage(),
           durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
@@ -181,8 +197,21 @@ class _$AppRouter extends RootStackRouter {
               path: 'measurements', parent: HomeRouter.name),
           RouteConfig(MedicineRoute.name,
               path: 'medicine', parent: HomeRouter.name),
-          RouteConfig(CalendarRoute.name,
-              path: 'calendar', parent: HomeRouter.name),
+          RouteConfig(CalendarRouter.name,
+              path: 'calendar',
+              parent: HomeRouter.name,
+              children: [
+                RouteConfig('#redirect',
+                    path: '',
+                    parent: CalendarRouter.name,
+                    redirectTo: 'calendar',
+                    fullMatch: true),
+                RouteConfig(CalendarRoute.name,
+                    path: 'calendar', parent: CalendarRouter.name),
+                RouteConfig(SelectSupervisedRoute.name,
+                    path: 'calendar/select_supervised',
+                    parent: CalendarRouter.name)
+              ]),
           RouteConfig(UserRouter.name,
               path: 'user',
               parent: HomeRouter.name,
@@ -287,11 +316,12 @@ class MedicineRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [CalendarPage]
-class CalendarRoute extends PageRouteInfo<void> {
-  const CalendarRoute() : super(CalendarRoute.name, path: 'calendar');
+/// [EmptyRouterPage]
+class CalendarRouter extends PageRouteInfo<void> {
+  const CalendarRouter({List<PageRouteInfo>? children})
+      : super(CalendarRouter.name, path: 'calendar', initialChildren: children);
 
-  static const String name = 'CalendarRoute';
+  static const String name = 'CalendarRouter';
 }
 
 /// generated route for
@@ -301,6 +331,23 @@ class UserRouter extends PageRouteInfo<void> {
       : super(UserRouter.name, path: 'user', initialChildren: children);
 
   static const String name = 'UserRouter';
+}
+
+/// generated route for
+/// [CalendarPage]
+class CalendarRoute extends PageRouteInfo<void> {
+  const CalendarRoute() : super(CalendarRoute.name, path: 'calendar');
+
+  static const String name = 'CalendarRoute';
+}
+
+/// generated route for
+/// [SelectSupervisedPage]
+class SelectSupervisedRoute extends PageRouteInfo<void> {
+  const SelectSupervisedRoute()
+      : super(SelectSupervisedRoute.name, path: 'calendar/select_supervised');
+
+  static const String name = 'SelectSupervisedRoute';
 }
 
 /// generated route for

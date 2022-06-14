@@ -41,12 +41,8 @@ class SupervisorsPage extends StatelessWidget {
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
           body: FadeIn(
-            child: SingleChildScrollView(
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height -
-                    defaultPadding.vertical -
-                    100 -
-                    kToolbarHeight,
+            child: SizedBox(
+              child: SingleChildScrollView(
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -106,9 +102,7 @@ class _Supervisors extends StatelessWidget {
     return BlocBuilder<SupervisorsBloc, SupervisorsState>(
       builder: (context, state) {
         if (state.status == SupervisorsStatus.loading) {
-          return const Expanded(
-            child: Center(child: Loading()),
-          );
+          return const Center(child: Loading());
         }
 
         if (state.supervisors == null || state.supervisors!.isEmpty) {
@@ -223,13 +217,11 @@ class _CodeFormFieldSupervisorsState extends State<_CodeFormFieldSupervisors> {
                   }
                 },
                 child: SvgPicture.asset(
-                  AssetsProvider.copy,
+                  AssetsProvider.paste,
+                  height: 18,
+                  width: 18,
                   color: Theme.of(context).colorScheme.secondaryContainer,
                 ),
-              ),
-              suffixIconConstraints: const BoxConstraints(
-                maxHeight: 18,
-                maxWidth: 18,
               ),
             ),
           ),

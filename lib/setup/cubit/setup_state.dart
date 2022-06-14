@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'setup_cubit.dart';
 
 @immutable
@@ -14,6 +13,7 @@ class SetupState extends Equatable {
   final bool enabled;
   final Color skinColor;
   final Color hairColor;
+  final int avatarType;
 
   bool get isValid =>
       name.valid &&
@@ -22,18 +22,20 @@ class SetupState extends Equatable {
       (weight.valid || weight.pure) &&
       (height.valid || birthDate.pure);
 
-  const SetupState(
-      {this.status = FormzStatus.pure,
-      this.name = const Name.pure(),
-      this.lastName = const LastName.pure(),
-      this.birthDate = const BirthDate.pure(),
-      this.height = const Heigth.pure(),
-      this.weight = const Weight.pure(),
-      this.sex,
-      this.errorMessage,
-      this.enabled = true,
-      this.skinColor = lightSkin,
-      this.hairColor = brunette});
+  const SetupState({
+    this.status = FormzStatus.pure,
+    this.name = const Name.pure(),
+    this.lastName = const LastName.pure(),
+    this.birthDate = const BirthDate.pure(),
+    this.height = const Heigth.pure(),
+    this.weight = const Weight.pure(),
+    this.sex,
+    this.errorMessage,
+    this.enabled = true,
+    this.skinColor = lightSkin,
+    this.hairColor = brunette,
+    this.avatarType = 1,
+  });
 
   @override
   List<Object?> get props => [
@@ -47,22 +49,23 @@ class SetupState extends Equatable {
         errorMessage,
         enabled,
         hairColor,
-        skinColor
+        skinColor,
+        avatarType
       ];
 
-  SetupState copyWith({
-    FormzStatus? status,
-    Name? name,
-    LastName? lastName,
-    BirthDate? birthDate,
-    Heigth? height,
-    Weight? weight,
-    Sex? sex,
-    String? errorMessage,
-    bool? enabled,
-    Color? skinColor,
-    Color? hairColor,
-  }) {
+  SetupState copyWith(
+      {FormzStatus? status,
+      Name? name,
+      LastName? lastName,
+      BirthDate? birthDate,
+      Heigth? height,
+      Weight? weight,
+      Sex? sex,
+      String? errorMessage,
+      bool? enabled,
+      Color? skinColor,
+      Color? hairColor,
+      int? avatarType}) {
     return SetupState(
       status: status ?? this.status,
       name: name ?? this.name,
@@ -75,6 +78,7 @@ class SetupState extends Equatable {
       enabled: enabled ?? this.enabled,
       skinColor: skinColor ?? this.skinColor,
       hairColor: hairColor ?? this.hairColor,
+      avatarType: avatarType ?? this.avatarType,
     );
   }
 }
