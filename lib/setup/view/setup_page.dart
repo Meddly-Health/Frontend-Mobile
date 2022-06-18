@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -124,14 +126,22 @@ class _PageViewChild extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      var bodyHeight = MediaQuery.of(context).size.height -
-          Scaffold.of(context).appBarMaxHeight! -
-          defaultPadding.vertical -
-          kBottomNavigationBarHeight;
+      var bodyHeight = 0.0;
+      if (Platform.isAndroid) {
+        bodyHeight = MediaQuery.of(context).size.height -
+            Scaffold.of(context).appBarMaxHeight! -
+            defaultPadding.vertical;
+      } else if (Platform.isIOS) {
+        bodyHeight = MediaQuery.of(context).size.height -
+            Scaffold.of(context).appBarMaxHeight! -
+            defaultPadding.vertical -
+            kBottomNavigationBarHeight;
+      }
       return SingleChildScrollView(
         child: Container(
           padding: defaultPadding,
           height: bodyHeight,
+          color: Colors.red,
           child: child,
         ),
       );

@@ -31,7 +31,10 @@ class HeightWeightPage extends StatelessWidget {
         BlocBuilder<SetupCubit, SetupState>(
           builder: (context, state) {
             return Button(
-                enabled: state.height.valid && state.weight.valid,
+                enabled: state.height.valid &&
+                    state.height.value != null &&
+                    state.weight.valid &&
+                    state.weight.value != null,
                 onPressed: () {
                   if (state.status.isSubmissionInProgress) return;
                   if (state.height.valid && state.weight.valid) {
