@@ -1,5 +1,4 @@
 import 'package:animate_do/animate_do.dart';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meddly/calendar/view/widgets/supervised_container.dart';
@@ -58,8 +57,6 @@ class _SelectSupervisedPageState extends State<SelectSupervisedPage> {
                                     context.read<UserBloc>().add(
                                         UserChangedSupervisor(
                                             user: supervised));
-
-                                    context.router.pop();
                                   },
                                   child: Padding(
                                     padding:

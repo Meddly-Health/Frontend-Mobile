@@ -141,7 +141,6 @@ class _PageViewChild extends StatelessWidget {
         child: Container(
           padding: defaultPadding,
           height: bodyHeight,
-          color: Colors.red,
           child: child,
         ),
       );

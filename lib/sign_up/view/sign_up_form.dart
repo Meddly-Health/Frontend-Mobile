@@ -147,19 +147,15 @@ class _SignUpButton extends StatelessWidget {
             ),
             duration: const Duration(milliseconds: 200),
             child: Center(
-              child: state.status.isSubmissionInProgress &&
-                      !state.isGoogleSignIn
-                  ? SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        strokeWidth: 2,
-                      ),
-                    )
-                  : Text('Regístrate',
-                      style: Theme.of(context).textTheme.labelMedium),
+              child:
+                  state.status.isSubmissionInProgress && !state.isGoogleSignIn
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: Loading(),
+                        )
+                      : Text('Regístrate',
+                          style: Theme.of(context).textTheme.labelMedium),
             ),
           ),
         );
@@ -311,6 +307,11 @@ class _PasswordField extends StatelessWidget {
                   : Theme.of(context).textTheme.bodyMedium,
               suffixIcon: Row(
                 children: [
+                  SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: showCheckIcon(state.password.valid, context),
+                  ),
                   GestureDetector(
                     onTap: () =>
                         context.read<SignUpCubit>().togglePasswordVisibility(),
@@ -323,11 +324,6 @@ class _PasswordField extends StatelessWidget {
                         color: Theme.of(context).colorScheme.secondaryContainer,
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                    width: 30,
-                    child: showCheckIcon(state.password.valid, context),
                   ),
                 ],
               ),
@@ -407,6 +403,11 @@ class _ConfirmedPasswordField extends StatelessWidget {
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
               suffixIcon: Row(children: [
+                SizedBox(
+                    height: 30,
+                    width: 30,
+                    child:
+                        showCheckIcon(state.confirmedPassword.valid, context)),
                 GestureDetector(
                   onTap: () =>
                       context.read<SignUpCubit>().togglePasswordVisibility(),
@@ -419,12 +420,7 @@ class _ConfirmedPasswordField extends StatelessWidget {
                       color: Theme.of(context).colorScheme.secondaryContainer,
                     ),
                   ),
-                ),
-                SizedBox(
-                    height: 30,
-                    width: 30,
-                    child:
-                        showCheckIcon(state.confirmedPassword.valid, context))
+                )
               ]),
               suffixIconConstraints: const BoxConstraints(
                   maxHeight: 30, maxWidth: 70, minHeight: 30, minWidth: 70),

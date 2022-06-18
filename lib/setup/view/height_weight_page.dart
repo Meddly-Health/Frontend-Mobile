@@ -5,7 +5,7 @@ import 'package:formz/formz.dart';
 import 'package:lottie/lottie.dart';
 import 'package:meddly/setup/view/widgets/height_field.dart';
 import 'package:meddly/setup/view/widgets/widgets.dart';
-import 'package:meddly/setup/view/widgets/wight_field.dart';
+import 'package:meddly/setup/view/widgets/weight_field.dart';
 
 import '../../blocs.dart';
 import '../../helpers/assets_provider.dart';

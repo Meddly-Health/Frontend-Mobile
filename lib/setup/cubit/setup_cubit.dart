@@ -188,8 +188,8 @@ class SetupCubit extends Cubit<SetupState> {
   Future<void> saveUserData() async {
     emit(state.copyWith(status: FormzStatus.submissionInProgress));
     User user = User(
-        firstName: state.name.value,
-        lastName: state.lastName.value,
+        firstName: state.name.value.capitalize(),
+        lastName: state.lastName.value.capitalize(),
         birth: state.birthDate.value,
         avatar: getAvatarAsset(
             state.skinColor, state.hairColor, state.sex, state.avatarType),

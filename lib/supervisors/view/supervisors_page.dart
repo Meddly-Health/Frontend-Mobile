@@ -26,6 +26,7 @@ class SupervisorsPage extends StatelessWidget {
           );
         }
         if (state.status == SupervisorsStatus.added) {
+          FocusManager.instance.primaryFocus?.unfocus();
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             getSnackBar(
@@ -33,6 +34,7 @@ class SupervisorsPage extends StatelessWidget {
           );
         }
         if (state.status == SupervisorsStatus.error) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
               getSnackBar(context, state.errorMessage!, SnackBarType.error));
         }
@@ -144,13 +146,16 @@ class _CodeFormFieldSupervisorsState extends State<_CodeFormFieldSupervisors> {
   void initState() {
     _controller = TextEditingController();
     _controller.addListener(() {
-      if (_controller.text.length == 12) {
-        FocusManager.instance.primaryFocus?.unfocus();
+      if (context.read<SupervisorsBloc>().state.status ==
+          SupervisorsStatus.loading) {
+        return;
+      } else if (_controller.text.length == 12) {
         BlocProvider.of<SupervisorsBloc>(context)
             .add(AddSupervised(_controller.text));
         BlocProvider.of<UserBloc>(context).add(GetUser());
       }
     });
+
     super.initState();
   }
 

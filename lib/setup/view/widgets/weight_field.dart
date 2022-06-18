@@ -85,30 +85,19 @@ class WeightField extends StatelessWidget {
                 floatingLabelStyle: state.errorMessage == null
                     ? Theme.of(context).textTheme.bodyMedium
                     : Theme.of(context).textTheme.bodyMedium,
-                suffixIcon: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'kg',
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyMedium!
-                            .copyWith(fontWeight: FontWeight.w500),
-                      ),
-                      if (state.weight.valid)
-                        SizedBox(
-                          height: 30,
-                          width: 30,
-                          child: state.enabled
-                              ? showCheckIcon(
-                                  state.weight.valid &&
-                                      state.weight.value != null,
-                                  context)
-                              : Container(),
-                        )
-                    ]),
+                suffixIcon: Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: showCheckIcon(
+                      state.weight.valid && state.weight.value != null,
+                      context),
+                ),
+                suffixText: 'kg',
+                suffixStyle: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(fontWeight: FontWeight.w500),
                 suffixIconConstraints: const BoxConstraints(
-                    maxHeight: 30, maxWidth: 60, minHeight: 30, minWidth: 60)));
+                    maxHeight: 30, maxWidth: 38, minHeight: 30, minWidth: 38)));
       },
     );
   }

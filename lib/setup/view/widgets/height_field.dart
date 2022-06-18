@@ -83,28 +83,18 @@ class HeightField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'cm',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontWeight: FontWeight.w500),
-                    ),
-                    SizedBox(
-                      height: 30,
-                      width: 30,
-                      child: state.enabled
-                          ? showCheckIcon(
-                              state.height.valid && state.height.value != null,
-                              context)
-                          : Container(),
-                    )
-                  ]),
+              suffixIcon: Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: showCheckIcon(
+                      state.height.valid && state.height.value != null,
+                      context)),
+              suffixText: 'cm',
+              suffixStyle: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(fontWeight: FontWeight.w500),
               suffixIconConstraints: const BoxConstraints(
-                  maxHeight: 30, maxWidth: 60, minHeight: 30, minWidth: 60),
+                  maxHeight: 30, maxWidth: 38, minHeight: 30, minWidth: 38),
             ));
       },
     );
