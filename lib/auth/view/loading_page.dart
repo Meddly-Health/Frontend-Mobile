@@ -29,7 +29,7 @@ class _LoadingPageState extends State<LoadingPage> {
           listener: (context, state) {
             if (state.status == UserStatus.success) {
               if (state.currentUser!.firstName == null) {
-                context.router.replace(const SetupRoute());
+                context.router.replace(SetupRoute());
               } else {
                 context.router.replace(const HomeRouter());
               }

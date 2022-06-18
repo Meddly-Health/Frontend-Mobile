@@ -3,17 +3,18 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meddly/setup/view/avatar_page.dart';
-import 'package:meddly/setup/view/birthdate_page.dart';
 import 'package:meddly/setup/view/finish_page.dart';
-import 'package:meddly/setup/view/gender_page.dart';
-import 'package:meddly/setup/view/name_and_lastname_page.dart';
+import 'package:meddly/setup/view/height_weight_page.dart';
 import 'package:user_repository/user_repository.dart';
 
 import 'package:meddly/blocs.dart';
 
 import '../../helpers/constants.dart';
 import '../../widgets/widgets.dart';
+import 'avatar_page.dart';
+import 'birthdate_page.dart';
+import 'gender_page.dart';
+import 'name_and_lastname_page.dart';
 
 class SetupPage extends StatefulWidget {
   const SetupPage({Key? key, this.title = 'Bienvenido a Meddly!'})
@@ -86,6 +87,8 @@ class _SetupPageState extends State<SetupPage> {
                                             child: NameAndLastNamePage()),
                                         _PageViewChild(child: GenderPage()),
                                         _PageViewChild(child: BirthDatePage()),
+                                        _PageViewChild(
+                                            child: HeightWeightPage()),
                                         _PageViewChild(child: AvatarPage()),
                                         _PageViewChild(child: FinishPage()),
                                       ],

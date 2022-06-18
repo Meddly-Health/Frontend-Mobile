@@ -123,7 +123,7 @@ class _ProfileNameEmail extends StatelessWidget {
       behavior: HitTestBehavior.translucent,
       onTap: () {
         HapticFeedback.lightImpact();
-        context.router.push(const SetupRoute());
+        context.router.push(SetupRoute());
       },
       child: SizedBox(
         width: MediaQuery.of(context).size.width,

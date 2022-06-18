@@ -23,10 +23,10 @@ import '../login/view/view.dart';
 part 'router.gr.dart';
 
 @CustomAutoRouter(
-  routes: routes,
-  replaceInRouteName: 'Page,Route',
-  durationInMilliseconds: 100,
-)
+    routes: routes,
+    replaceInRouteName: 'Page,Route',
+    durationInMilliseconds: 300,
+    transitionsBuilder: TransitionsBuilders.noTransition)
 class AppRouter extends _$AppRouter {}
 
 const List<AutoRoute> routes = [

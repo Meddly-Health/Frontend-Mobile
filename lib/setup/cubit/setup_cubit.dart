@@ -49,20 +49,23 @@ class SetupCubit extends Cubit<SetupState> {
 
     nameController.text = currentUser.firstName ?? '';
     lastNameController.text = currentUser.lastName ?? '';
+
     if (currentUser.height != null) {
       heightController.text = currentUser.height!.toInt().toString();
     }
     if (currentUser.weight != null) {
       weightController.text = currentUser.weight.toString();
     }
+
     emit(
       state.copyWith(
-          name: name,
-          lastName: lastName,
-          birthDate: birthDate,
-          height: height,
-          weight: weight,
-          sex: currentUser.sex),
+        name: name,
+        lastName: lastName,
+        birthDate: birthDate,
+        height: height,
+        weight: weight,
+        sex: currentUser.sex,
+      ),
     );
   }
 

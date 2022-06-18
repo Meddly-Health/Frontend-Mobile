@@ -21,7 +21,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const LoginPage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -29,7 +30,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const SignUpPage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -37,7 +39,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const WelcomePage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -45,7 +48,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const LoadingPage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -53,15 +57,19 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const HomePage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
     SetupRoute.name: (routeData) {
+      final args = routeData.argsAs<SetupRouteArgs>(
+          orElse: () => const SetupRouteArgs());
       return CustomPage<dynamic>(
           routeData: routeData,
-          child: const SetupPage(),
-          durationInMilliseconds: 100,
+          child: SetupPage(key: args.key, title: args.title),
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -69,7 +77,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const DiagnosisPage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -77,7 +86,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const MeasurementesPage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -85,7 +95,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const MedicinePage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -93,7 +104,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const EmptyRouterPage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -101,7 +113,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const EmptyRouterPage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -109,7 +122,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const CalendarPage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -117,7 +131,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const SelectSupervisedPage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -125,7 +140,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const UserProfilePage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -133,7 +149,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const UserPersonalInfoPage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -141,7 +158,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const UserSettingsPage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -149,7 +167,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const UserLinkedAccountsPage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -157,7 +176,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const SupervisorsPage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -165,7 +185,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const SupervisedPage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     },
@@ -173,7 +194,8 @@ class _$AppRouter extends RootStackRouter {
       return CustomPage<dynamic>(
           routeData: routeData,
           child: const DeleteUserPage(),
-          durationInMilliseconds: 100,
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
           opaque: true,
           barrierDismissible: false);
     }
@@ -284,10 +306,25 @@ class HomeRouter extends PageRouteInfo<void> {
 
 /// generated route for
 /// [SetupPage]
-class SetupRoute extends PageRouteInfo<void> {
-  const SetupRoute() : super(SetupRoute.name, path: 'setup');
+class SetupRoute extends PageRouteInfo<SetupRouteArgs> {
+  SetupRoute({Key? key, String title = 'Bienvenido a Meddly!'})
+      : super(SetupRoute.name,
+            path: 'setup', args: SetupRouteArgs(key: key, title: title));
 
   static const String name = 'SetupRoute';
+}
+
+class SetupRouteArgs {
+  const SetupRouteArgs({this.key, this.title = 'Bienvenido a Meddly!'});
+
+  final Key? key;
+
+  final String title;
+
+  @override
+  String toString() {
+    return 'SetupRouteArgs{key: $key, title: $title}';
+  }
 }
 
 /// generated route for

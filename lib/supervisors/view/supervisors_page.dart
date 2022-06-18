@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:meddly/supervisors/view/widgets/dismiss_tile_loading.dart';
 import '../../helpers/constants.dart';
 import 'widgets/dismiss_tile.dart';
 import '../../widgets/widgets.dart';
@@ -103,7 +102,7 @@ class _Supervisors extends StatelessWidget {
     return BlocBuilder<SupervisorsBloc, SupervisorsState>(
       builder: (context, state) {
         if (state.status == SupervisorsStatus.loading) {
-          return const DismissTileLoading();
+          return const _Loading();
         }
 
         if (state.supervisors == null || state.supervisors!.isEmpty) {
@@ -228,6 +227,22 @@ class _CodeFormFieldSupervisorsState extends State<_CodeFormFieldSupervisors> {
           ),
         );
       },
+    );
+  }
+}
+
+class _Loading extends StatelessWidget {
+  const _Loading({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: const [
+        DismissTileLoading(),
+        DismissTileLoading(),
+      ],
     );
   }
 }

@@ -26,26 +26,25 @@ class User extends Equatable {
   final double? weight;
   final Sex? sex;
   final DateTime? birth;
-  final User? supervising;
   final String? invitation;
 
-  const User(
-      {this.id,
-      this.email,
-      this.createdAt,
-      this.updatedAt,
-      this.diseases,
-      this.supervisors,
-      this.supervised,
-      this.firstName,
-      this.lastName,
-      this.height,
-      this.weight,
-      this.sex,
-      this.invitation,
-      this.birth,
-      this.avatar,
-      this.supervising});
+  const User({
+    this.id,
+    this.email,
+    this.createdAt,
+    this.updatedAt,
+    this.diseases,
+    this.supervisors,
+    this.supervised,
+    this.firstName,
+    this.lastName,
+    this.height,
+    this.weight,
+    this.sex,
+    this.invitation,
+    this.birth,
+    this.avatar,
+  });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

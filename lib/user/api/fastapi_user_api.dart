@@ -19,6 +19,8 @@ class FastApiUserApi extends UserApi {
       : _authenticationRepository = authenticationRepository,
         _dio = dio
           ..options.baseUrl = baseUrl
+          ..options.connectTimeout = connectTimeout
+          ..options.receiveTimeout = receiveTimeout
           ..options.contentType = 'application/json';
 
   @override
@@ -31,7 +33,6 @@ class FastApiUserApi extends UserApi {
           ));
 
       if (response.statusCode == 200) {
-        print(response.data);
         return Right(User.fromJson(response.data));
       } else {
         return Left(UserException.fromStatusCode(response.statusCode!));
@@ -80,7 +81,7 @@ class FastApiUserApi extends UserApi {
             headers: {'Authorization': 'Bearer $token'},
           ));
 
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         return Right(User.fromJson(response.data));
       } else {
         return Left(UserException.fromStatusCode(response.statusCode!));

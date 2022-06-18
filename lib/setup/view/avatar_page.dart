@@ -31,6 +31,7 @@ class AvatarPage extends StatelessWidget {
         const SizedBox(height: 16),
         if (MediaQuery.of(context).size.height > 720)
           Expanded(
+            flex: 4,
             child: BlocBuilder<SetupCubit, SetupState>(
               builder: (context, state) {
                 return Center(

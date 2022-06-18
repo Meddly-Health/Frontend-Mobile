@@ -25,8 +25,8 @@ class SignUpPage extends StatelessWidget {
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state.user.isNotEmpty) {
-            AutoRouter.of(context).pushAndPopUntil(const SetupRoute(),
-                predicate: ((route) => false));
+            AutoRouter.of(context)
+                .pushAndPopUntil(SetupRoute(), predicate: ((route) => false));
           }
         },
         child: Scaffold(
