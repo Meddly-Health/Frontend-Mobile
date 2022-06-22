@@ -10,7 +10,6 @@ class WelcomeState {
 
   WelcomeState copyWith({
     int? currentPage,
-    PageController? pageController,
   }) {
     return WelcomeState(
       currentPage: currentPage ?? this.currentPage,

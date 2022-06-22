@@ -2,6 +2,7 @@ import 'package:animate_do/animate_do.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
@@ -24,14 +25,15 @@ class SignUpPage extends StatelessWidget {
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state.user.isNotEmpty) {
-            AutoRouter.of(context).pushAndPopUntil(const UserUpdateRoute(),
-                predicate: ((route) => false));
+            AutoRouter.of(context)
+                .pushAndPopUntil(SetupRoute(), predicate: ((route) => false));
           }
         },
         child: Scaffold(
-          resizeToAvoidBottomInset: false,
           appBar: AppBar(),
-          body: const _SignUpPageBody(),
+          body: GestureDetector(
+              onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+              child: const _SignUpPageBody()),
         ),
       ),
     );
@@ -127,8 +129,11 @@ class _AlreadyHaveAnAccountText extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       key: const Key('signUpTextButton'),
-      onTap: () => AutoRouter.of(context)
-          .pushAndPopUntil(const LoginRoute(), predicate: (route) => false),
+      onTap: () {
+        HapticFeedback.lightImpact();
+        AutoRouter.of(context)
+            .pushAndPopUntil(const LoginRoute(), predicate: (route) => false);
+      },
       child: Text.rich(TextSpan(children: [
         TextSpan(
             text: '¿Ya tienes cuenta? ',

@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
 
+var font = 'Be Vietnam Pro';
+
 class ThemeManager {
   static ThemeData lightTheme = ThemeData.light().copyWith(
       scaffoldBackgroundColor: scaffoldBackgroundColorLight,
+      bottomAppBarColor: secondaryLight,
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          backgroundColor: secondaryLight,
+          elevation: 0,
+          unselectedLabelStyle: const TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black),
+          selectedLabelStyle: const TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black)),
       appBarTheme: AppBarTheme(
-          toolbarHeight: 0, elevation: 0, color: scaffoldBackgroundColorLight),
+        toolbarHeight: 0,
+        elevation: 0,
+        color: scaffoldBackgroundColorLight,
+      ),
+      dialogTheme: DialogTheme(
+        backgroundColor: scaffoldBackgroundColorLight,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+      ),
       colorScheme: const ColorScheme.light().copyWith(
           primary: primaryLight,
           secondary: secondaryLight,
@@ -20,15 +39,27 @@ Color scaffoldBackgroundColorLight = const Color(0xffF5F5F5);
 Color errorLight = const Color(0xffFF5158);
 
 extension ColorSchemeExtension on ColorScheme {
-  Color get validColor => const Color(0xff50C878);
+  Color get validColor => const Color(0xff3BBD9F);
 }
 
-TextTheme textTheme = Typography.whiteMountainView.copyWith(
-  titleLarge: const TextStyle(fontSize: 28, color: Colors.black),
-  titleMedium: const TextStyle(fontSize: 24, color: Colors.black),
-  titleSmall: const TextStyle(fontSize: 20, color: Colors.black),
-  labelMedium: const TextStyle(fontSize: 16, color: Colors.white),
-  bodySmall: const TextStyle(fontSize: 14, color: Colors.black),
-  bodyMedium: const TextStyle(fontSize: 16, color: Colors.black),
-  bodyLarge: const TextStyle(fontSize: 18, color: Colors.black),
+TextTheme textTheme = TextTheme(
+  titleLarge: TextStyle(
+      fontSize: 28,
+      fontFamily: font,
+      color: Colors.black,
+      fontWeight: FontWeight.bold),
+  titleMedium: TextStyle(
+      fontSize: 24,
+      fontFamily: font,
+      color: Colors.black,
+      fontWeight: FontWeight.bold),
+  titleSmall: TextStyle(
+      fontSize: 20,
+      fontFamily: font,
+      color: Colors.black,
+      fontWeight: FontWeight.bold),
+  labelMedium: TextStyle(fontSize: 16, fontFamily: font, color: Colors.white),
+  bodySmall: TextStyle(fontSize: 14, fontFamily: font, color: Colors.black),
+  bodyMedium: TextStyle(fontSize: 16, fontFamily: font, color: Colors.black),
+  bodyLarge: TextStyle(fontSize: 18, fontFamily: font, color: Colors.black),
 );

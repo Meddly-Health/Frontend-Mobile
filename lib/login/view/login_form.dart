@@ -1,11 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
+
 import 'package:meddly/connectivity/bloc/connectivity_bloc.dart';
 import 'package:meddly/widgets/snackbar.dart';
-import '../../helpers/assets_provider.dart';
 
+import '../../helpers/assets_provider.dart';
 import '../cubit/login_cubit.dart';
 
 class LoginForm extends StatelessWidget {
@@ -41,7 +44,10 @@ class _GoogleLogginButton extends StatelessWidget {
       builder: (context, state) {
         return GestureDetector(
           key: const Key('google_login_button'),
-          onTap: () => _loginWithGoogle(context, state),
+          onTap: () {
+            HapticFeedback.lightImpact();
+            _loginWithGoogle(context, state);
+          },
           child: AnimatedContainer(
             height: 55,
             duration: const Duration(milliseconds: 200),
@@ -89,7 +95,10 @@ class _LogginButton extends StatelessWidget {
       builder: (context, state) {
         return GestureDetector(
           key: const Key('login_button'),
-          onTap: () => _loginWithCredentials(context, state),
+          onTap: () {
+            HapticFeedback.lightImpact();
+            _loginWithCredentials(context, state);
+          },
           child: AnimatedContainer(
               height: 55,
               decoration: BoxDecoration(
@@ -143,7 +152,7 @@ class _EmailField extends StatelessWidget {
             keyboardType: TextInputType.emailAddress,
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
-              hintText: 'Correo Electrónico',
+              hintText: 'Correo electrónico',
               hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context)
                         .colorScheme
@@ -209,8 +218,10 @@ class _PasswordField extends StatelessWidget {
           onChanged: (String? value) {
             context.read<LoginCubit>().passwordChanged(value!);
           },
-          onFieldSubmitted: (String? value) =>
-              _loginWithCredentials(context, state),
+          onFieldSubmitted: (String? value) {
+            HapticFeedback.lightImpact();
+            _loginWithCredentials(context, state);
+          },
           keyboardType: TextInputType.text,
           style: Theme.of(context).textTheme.bodyMedium,
           obscureText: state.isPasswordObscure,

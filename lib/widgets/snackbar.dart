@@ -1,8 +1,10 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:meddly/helpers/constants.dart';
-import 'package:meddly/theme/theme.dart';
+import '../helpers/constants.dart';
+import '../theme/theme.dart';
 
 import '../helpers/assets_provider.dart';
 
@@ -13,42 +15,10 @@ SnackBar getSnackBar(BuildContext context, String message, SnackBarType type,
     dismissDirection = DismissDirection.down]) {
   switch (type) {
     case SnackBarType.error:
-      return SnackBar(
-          shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10), topRight: Radius.circular(10))),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          backgroundColor: Theme.of(context).colorScheme.error,
-          duration: duration,
-          content: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 20,
-                width: 20,
-                child: SvgPicture.asset(
-                  AssetsProvider.exclamation,
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: AutoSizeText(
-                  message,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall!
-                      .copyWith(color: Colors.white),
-                ),
-              ),
-            ],
-          ));
+      return _getErrorSnackbar(context, message);
+
     case SnackBarType.success:
-      return SnackBar(
-        content: Container(),
-      );
+      return _getSuccessSnackbar(context, message);
 
     case SnackBarType.warning:
       return SnackBar(
@@ -94,4 +64,85 @@ SnackBar getSnackBar(BuildContext context, String message, SnackBarType type,
             ],
           ));
   }
+}
+
+SnackBar _getSuccessSnackbar(BuildContext context, String message) {
+  return SnackBar(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    backgroundColor: Theme.of(context).colorScheme.validColor,
+    behavior: SnackBarBehavior.floating,
+    elevation: 0,
+    content: Container(
+      width: MediaQuery.of(context).size.width,
+      height: 35,
+      decoration:
+          BoxDecoration(color: Theme.of(context).colorScheme.validColor),
+      child: Row(
+        children: [
+          ElasticIn(
+            delay: const Duration(milliseconds: 200),
+            controller: (controller) async {
+              await Future.delayed(const Duration(milliseconds: 300));
+              HapticFeedback.lightImpact();
+            },
+            child: SizedBox(
+                height: 25,
+                width: 25,
+                child: SvgPicture.asset(
+                  AssetsProvider.success,
+                  color: Theme.of(context).colorScheme.secondary,
+                )),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: AutoSizeText(message,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall!
+                    .copyWith(color: Theme.of(context).colorScheme.secondary)),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+SnackBar _getErrorSnackbar(BuildContext context, String message) {
+  return SnackBar(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+    backgroundColor: Theme.of(context).colorScheme.error,
+    behavior: SnackBarBehavior.floating,
+    elevation: 0,
+    content: Container(
+      width: MediaQuery.of(context).size.width,
+      height: 35,
+      decoration: BoxDecoration(color: Theme.of(context).colorScheme.error),
+      child: Row(
+        children: [
+          Swing(
+            delay: const Duration(milliseconds: 200),
+            controller: (controller) async {
+              await Future.delayed(const Duration(milliseconds: 300));
+              HapticFeedback.lightImpact();
+            },
+            child: SizedBox(
+                height: 25,
+                width: 25,
+                child: SvgPicture.asset(
+                  AssetsProvider.exclamation,
+                  color: Theme.of(context).colorScheme.secondary,
+                )),
+          ),
+          const SizedBox(width: 16),
+          Expanded(
+            child: AutoSizeText(message,
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall!
+                    .copyWith(color: Theme.of(context).colorScheme.secondary)),
+          ),
+        ],
+      ),
+    ),
+  );
 }

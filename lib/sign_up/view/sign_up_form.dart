@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
@@ -46,11 +47,13 @@ class _TermsAndConditions extends StatelessWidget {
       BlocBuilder<SignUpCubit, SignUpState>(
         builder: (context, state) {
           return Checkbox(
+              materialTapTargetSize: MaterialTapTargetSize.padded,
               activeColor: Theme.of(context).colorScheme.primary,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(3)),
               value: state.termsAccepted,
               onChanged: (bool? value) {
+                HapticFeedback.lightImpact();
                 context.read<SignUpCubit>().termsAcceptedChanged(value!);
               });
         },
@@ -79,7 +82,10 @@ class _GoogleLogginButton extends StatelessWidget {
       builder: (context, state) {
         return GestureDetector(
           key: const Key('google_login_button'),
-          onTap: () => _loginWithGoogle(context, state),
+          onTap: () {
+            HapticFeedback.lightImpact();
+            _loginWithGoogle(context, state);
+          },
           child: Container(
             height: 55,
             decoration: BoxDecoration(
@@ -126,7 +132,10 @@ class _SignUpButton extends StatelessWidget {
       builder: (context, state) {
         return GestureDetector(
           key: const Key('sign_up_button'),
-          onTap: () => _signInWithEmailAndPassword(context, state),
+          onTap: () {
+            HapticFeedback.lightImpact();
+            _signInWithEmailAndPassword(context, state);
+          },
           child: AnimatedContainer(
             height: 55,
             decoration: BoxDecoration(
@@ -138,19 +147,15 @@ class _SignUpButton extends StatelessWidget {
             ),
             duration: const Duration(milliseconds: 200),
             child: Center(
-              child: state.status.isSubmissionInProgress &&
-                      !state.isGoogleSignIn
-                  ? SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        strokeWidth: 2,
-                      ),
-                    )
-                  : Text('Iniciar Sesión',
-                      style: Theme.of(context).textTheme.labelMedium),
+              child:
+                  state.status.isSubmissionInProgress && !state.isGoogleSignIn
+                      ? const SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: Loading(),
+                        )
+                      : Text('Regístrate',
+                          style: Theme.of(context).textTheme.labelMedium),
             ),
           ),
         );
@@ -181,7 +186,7 @@ class _EmailField extends StatelessWidget {
             keyboardType: TextInputType.emailAddress,
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
-              hintText: 'Correo Electrónico',
+              hintText: 'Correo electrónico',
               hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context)
                         .colorScheme
@@ -253,7 +258,7 @@ class _PasswordField extends StatelessWidget {
             },
             keyboardType: TextInputType.text,
             style: Theme.of(context).textTheme.bodyMedium,
-            obscureText: true,
+            obscureText: state.isPasswordObscure,
             decoration: InputDecoration(
               hintText: 'Contraseña',
               hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
@@ -300,9 +305,30 @@ class _PasswordField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon: showCheckIcon(state.password.valid, context),
+              suffixIcon: Row(
+                children: [
+                  SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: showCheckIcon(state.password.valid, context),
+                  ),
+                  GestureDetector(
+                    onTap: () =>
+                        context.read<SignUpCubit>().togglePasswordVisibility(),
+                    child: Container(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: SvgPicture.asset(
+                        state.isPasswordObscure
+                            ? AssetsProvider.eyeCrossed
+                            : AssetsProvider.eye,
+                        color: Theme.of(context).colorScheme.secondaryContainer,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               suffixIconConstraints: const BoxConstraints(
-                  maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
+                  maxHeight: 30, maxWidth: 70, minHeight: 30, minWidth: 70),
             ));
       },
     );
@@ -330,9 +356,9 @@ class _ConfirmedPasswordField extends StatelessWidget {
             },
             keyboardType: TextInputType.text,
             style: Theme.of(context).textTheme.bodyMedium,
-            obscureText: true,
+            obscureText: state.isPasswordObscure,
             decoration: InputDecoration(
-              hintText: 'Confirmar Contraseña',
+              hintText: 'Confirmar contraseña',
               hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context)
                         .colorScheme
@@ -376,9 +402,28 @@ class _ConfirmedPasswordField extends StatelessWidget {
               floatingLabelStyle: state.errorMessage == null
                   ? Theme.of(context).textTheme.bodyMedium
                   : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon: showCheckIcon(state.confirmedPassword.valid, context),
+              suffixIcon: Row(children: [
+                SizedBox(
+                    height: 30,
+                    width: 30,
+                    child:
+                        showCheckIcon(state.confirmedPassword.valid, context)),
+                GestureDetector(
+                  onTap: () =>
+                      context.read<SignUpCubit>().togglePasswordVisibility(),
+                  child: Container(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: SvgPicture.asset(
+                      state.isPasswordObscure
+                          ? AssetsProvider.eyeCrossed
+                          : AssetsProvider.eye,
+                      color: Theme.of(context).colorScheme.secondaryContainer,
+                    ),
+                  ),
+                )
+              ]),
               suffixIconConstraints: const BoxConstraints(
-                  maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
+                  maxHeight: 30, maxWidth: 70, minHeight: 30, minWidth: 70),
             ));
       },
     );

@@ -2,11 +2,9 @@ import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:meddly/user/api/user_api.dart';
 import 'package:meddly/user/bloc/user_bloc.dart';
-import 'package:meddly/user/models/user.dart';
-import 'package:meddly/user/repository/user_repository.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:user_repository/user_repository.dart';
 
 class MockAuthenticationRepository extends Mock
     implements AuthenticationRepository {}
@@ -20,12 +18,14 @@ void main() {
     late UserRepository userRepository;
     late AuthenticationRepository authenticationRepository;
     late User user;
+    late User userUpdated;
     late AuthUser authUser;
 
     setUp(() {
       userRepository = MockUserRepository();
       authenticationRepository = MockAuthenticationRepository();
       user = const User(firstName: 'Lorenzo', lastName: 'Perez');
+      userUpdated = const User(firstName: 'Lorenzo', lastName: 'Sala');
       authUser = MockAuthUser();
     });
     group('update', () {
@@ -36,12 +36,12 @@ void main() {
         setUp: () {
           registerFallbackValue(user);
           when(() => userRepository.updateUser(any()))
-              .thenAnswer((_) async => Right(user));
+              .thenAnswer((_) async => Right(userUpdated));
         },
-        act: (bloc) => bloc.add(UserUpdate()),
+        act: (bloc) => bloc.add(UserUpdate(user: userUpdated)),
         expect: () => <UserState>[
           UserState(status: UserStatus.loading, currentUser: user),
-          UserState(status: UserStatus.success, currentUser: user),
+          UserState(status: UserStatus.success, currentUser: userUpdated),
         ],
       );
 
@@ -54,7 +54,7 @@ void main() {
           when(() => userRepository.updateUser(any()))
               .thenAnswer((_) async => Left(UserException(message: 'ops!')));
         },
-        act: (bloc) => bloc.add(UserUpdate()),
+        act: (bloc) => bloc.add(UserUpdate(user: userUpdated)),
         expect: () => <UserState>[
           UserState(status: UserStatus.loading, currentUser: user),
           UserState(
@@ -82,7 +82,7 @@ void main() {
             when(() => userRepository.deleteUser(any<String>()))
                 .thenAnswer((_) async => Right(user));
           },
-          act: (bloc) => bloc.add(UserDelete()),
+          act: (bloc) => bloc.add(DeleteUser()),
           expect: () => <UserState>[
                 UserState(status: UserStatus.loading, currentUser: user),
                 UserState(status: UserStatus.success, currentUser: user),
@@ -102,7 +102,7 @@ void main() {
             when(() => authenticationRepository.currentUser)
                 .thenAnswer((_) => authUser);
           },
-          act: (bloc) => bloc.add(UserDelete()),
+          act: (bloc) => bloc.add(DeleteUser()),
           expect: () => <UserState>[
                 UserState(status: UserStatus.loading, currentUser: user),
                 UserState(
@@ -114,7 +114,7 @@ void main() {
 
     group('load', () {
       blocTest<UserBloc, UserState>(
-        'emits [loading, success] when user is deleted',
+        'emits [loading, success] when user is added',
         build: () => UserBloc(userRepository, authenticationRepository),
         setUp: () {
           when(() => authUser.id).thenAnswer((_) => 'id');
@@ -124,7 +124,7 @@ void main() {
           when(() => userRepository.getUser(any()))
               .thenAnswer((_) async => Right(user));
         },
-        act: (bloc) => bloc.add(UserLoading()),
+        act: (bloc) => bloc.add(GetUser()),
         expect: () => <UserState>[
           const UserState(status: UserStatus.loading),
           UserState(status: UserStatus.success, currentUser: user),
@@ -132,7 +132,7 @@ void main() {
       );
 
       blocTest<UserBloc, UserState>(
-        'emits [loading, error] when user is not deleted',
+        'emits [loading, error] when user is not not added',
         build: () => UserBloc(userRepository, authenticationRepository),
         setUp: () {
           when(() => authUser.id).thenAnswer((_) => 'id');
@@ -142,7 +142,7 @@ void main() {
           when(() => userRepository.getUser(any()))
               .thenAnswer((_) async => Left(UserException(message: 'ops!')));
         },
-        act: (bloc) => bloc.add(UserLoading()),
+        act: (bloc) => bloc.add(GetUser()),
         expect: () => <UserState>[
           const UserState(status: UserStatus.loading),
           const UserState(status: UserStatus.error, errorMessage: 'ops!'),

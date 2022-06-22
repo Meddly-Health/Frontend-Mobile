@@ -1,13 +1,20 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:meddly/helpers/assets_provider.dart';
-import 'package:meddly/helpers/constants.dart';
-import 'package:meddly/routes/router.dart';
-import 'package:meddly/welcome/cubit/welcome_cubit.dart';
+import '../../helpers/assets_provider.dart';
+import '../../helpers/constants.dart';
+import '../../routes/router.dart';
+import '../cubit/welcome_cubit.dart';
+
+List pages = [
+  _PageViewBody.diagnosis(),
+  _PageViewBody.pills(),
+  _PageViewBody.treatment(),
+];
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -22,27 +29,24 @@ class WelcomePage extends StatelessWidget {
           child: SizedBox(
             child: SafeArea(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Spacer(flex: 1),
+                  Container(),
                   BlocBuilder<WelcomeCubit, WelcomeState>(
                     builder: (context, state) {
                       return Container(
                         margin: const EdgeInsets.only(top: 30),
-                        height: MediaQuery.of(context).size.height / 1.5,
-                        child: PageView(
+                        height: MediaQuery.of(context).size.height / 1.9,
+                        child: PageView.builder(
                           controller:
                               context.read<WelcomeCubit>().pageController,
-                          children: [
-                            _PageViewBody.diagnosis(),
-                            _PageViewBody.pills(),
-                            _PageViewBody.treatment(),
-                          ],
+                          itemBuilder: (BuildContext context, int index) {
+                            return pages[index % 3];
+                          },
                         ),
                       );
                     },
                   ),
-                  const Spacer(flex: 3),
                   Column(
                     children: [
                       BlocBuilder<WelcomeCubit, WelcomeState>(
@@ -84,15 +88,20 @@ class _PageIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      width: 10,
-      height: 10,
-      decoration: BoxDecoration(
-        color:
-            currentPage ? Theme.of(context).colorScheme.primary : Colors.grey,
-        borderRadius: BorderRadius.circular(999),
-      ),
-      duration: const Duration(milliseconds: 300),
+    return BlocBuilder<WelcomeCubit, WelcomeState>(
+      builder: (context, state) {
+        return AnimatedContainer(
+          width: currentPage ? 20 : 10,
+          height: 10,
+          decoration: BoxDecoration(
+            color: currentPage
+                ? Theme.of(context).colorScheme.primary
+                : Colors.grey,
+            borderRadius: BorderRadius.circular(999),
+          ),
+          duration: const Duration(milliseconds: 300),
+        );
+      },
     );
   }
 }
@@ -140,7 +149,10 @@ class _PageViewBody extends StatelessWidget {
           const SizedBox(height: 30),
           Text(
             title,
-            style: Theme.of(context).textTheme.titleSmall,
+            style: Theme.of(context)
+                .textTheme
+                .titleSmall!
+                .copyWith(fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 10),
           Text(
@@ -164,6 +176,7 @@ class _WelcomeButton extends StatelessWidget {
     return GestureDetector(
       key: const Key('login_button'),
       onTap: () {
+        HapticFeedback.lightImpact();
         AutoRouter.of(context)
             .pushAndPopUntil(const LoginRoute(), predicate: (route) => false);
       },

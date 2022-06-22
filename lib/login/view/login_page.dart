@@ -2,10 +2,11 @@ import 'package:animate_do/animate_do.dart';
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
-import 'package:meddly/widgets/widgets.dart';
+import '../../widgets/widgets.dart';
 import '../../helpers/assets_provider.dart';
 import '../../helpers/constants.dart';
 import '../../routes/router.dart';
@@ -24,14 +25,16 @@ class LoginPage extends StatelessWidget {
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state.user.isNotEmpty) {
-            AutoRouter.of(context).pushAndPopUntil(const HomeRoute(),
+            AutoRouter.of(context).pushAndPopUntil(const LoadingRoute(),
                 predicate: ((route) => false));
           }
         },
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: AppBar(),
-          body: const _LoginPageBody(),
+          body: GestureDetector(
+              onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+              child: const _LoginPageBody()),
         ),
       ),
     );
@@ -126,8 +129,11 @@ class _DontHaveAnAccountText extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       key: testingKey,
-      onTap: () => AutoRouter.of(context)
-          .pushAndPopUntil(const SignUpRoute(), predicate: (route) => false),
+      onTap: () {
+        HapticFeedback.lightImpact();
+        AutoRouter.of(context)
+            .pushAndPopUntil(const SignUpRoute(), predicate: (route) => false);
+      },
       child: Text.rich(TextSpan(children: [
         TextSpan(
             text: '¿No tienes cuenta? ',
