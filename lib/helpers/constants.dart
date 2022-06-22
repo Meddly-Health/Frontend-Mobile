@@ -13,5 +13,8 @@ const brunette = Color(0xff0A0503);
 const brown = Color(0xffAA5509);
 const blonde = Color(0xffF6B704);
 
+const lightGrey = Color(0xffEEEEEE);
+const darkGrey = Color(0xffD9D9D9);
+
 const connectTimeout = 60 * 1000;
 const receiveTimeout = 60 * 1000;
