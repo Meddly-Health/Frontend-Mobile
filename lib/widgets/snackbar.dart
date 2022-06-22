@@ -1,5 +1,7 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../helpers/constants.dart';
 import '../theme/theme.dart';
@@ -72,18 +74,25 @@ SnackBar _getSuccessSnackbar(BuildContext context, String message) {
     elevation: 0,
     content: Container(
       width: MediaQuery.of(context).size.width,
-      height: 30,
+      height: 35,
       decoration:
           BoxDecoration(color: Theme.of(context).colorScheme.validColor),
       child: Row(
         children: [
-          SizedBox(
-              height: 21,
-              width: 21,
-              child: SvgPicture.asset(
-                AssetsProvider.success,
-                color: Theme.of(context).colorScheme.secondary,
-              )),
+          ElasticIn(
+            delay: const Duration(milliseconds: 200),
+            controller: (controller) async {
+              await Future.delayed(const Duration(milliseconds: 300));
+              HapticFeedback.lightImpact();
+            },
+            child: SizedBox(
+                height: 25,
+                width: 25,
+                child: SvgPicture.asset(
+                  AssetsProvider.success,
+                  color: Theme.of(context).colorScheme.secondary,
+                )),
+          ),
           const SizedBox(width: 16),
           Expanded(
             child: AutoSizeText(message,
@@ -106,17 +115,24 @@ SnackBar _getErrorSnackbar(BuildContext context, String message) {
     elevation: 0,
     content: Container(
       width: MediaQuery.of(context).size.width,
-      height: 30,
+      height: 35,
       decoration: BoxDecoration(color: Theme.of(context).colorScheme.error),
       child: Row(
         children: [
-          SizedBox(
-              height: 21,
-              width: 21,
-              child: SvgPicture.asset(
-                AssetsProvider.exclamation,
-                color: Theme.of(context).colorScheme.secondary,
-              )),
+          Swing(
+            delay: const Duration(milliseconds: 200),
+            controller: (controller) async {
+              await Future.delayed(const Duration(milliseconds: 300));
+              HapticFeedback.lightImpact();
+            },
+            child: SizedBox(
+                height: 25,
+                width: 25,
+                child: SvgPicture.asset(
+                  AssetsProvider.exclamation,
+                  color: Theme.of(context).colorScheme.secondary,
+                )),
+          ),
           const SizedBox(width: 16),
           Expanded(
             child: AutoSizeText(message,

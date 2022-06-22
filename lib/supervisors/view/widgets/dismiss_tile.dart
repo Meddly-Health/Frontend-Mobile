@@ -36,8 +36,8 @@ class DismissTile extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.all(16),
                 child: SizedBox(
-                  height: 30,
-                  width: 30,
+                  height: 40,
+                  width: 40,
                   child: _TrashAnimation(),
                 ),
               ),
@@ -52,9 +52,11 @@ class DismissTile extends StatelessWidget {
             child: ListTile(
               leading: CircleAvatar(
                 radius: 30,
-                backgroundColor: Theme.of(context).colorScheme.primary,
+                backgroundColor: user.avatar == null
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.secondary,
                 child: SvgPicture.asset(
-                  AssetsProvider.defaultAvatar,
+                  user.avatar ?? AssetsProvider.defaultAvatar,
                 ),
               ),
               title: Text(user.firstName!,
@@ -149,8 +151,7 @@ class __TrashAnimationState extends State<_TrashAnimation>
 
   @override
   Widget build(BuildContext context) {
-    return ZoomIn(
-      duration: const Duration(milliseconds: 100),
+    return ElasticIn(
       child: Lottie.asset(AssetsProvider.trashLottie, controller: _controller,
           onLoaded: (composition) async {
         _controller
