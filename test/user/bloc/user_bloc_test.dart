@@ -114,7 +114,7 @@ void main() {
 
     group('load', () {
       blocTest<UserBloc, UserState>(
-        'emits [loading, success] when user is deleted',
+        'emits [loading, success] when user is added',
         build: () => UserBloc(userRepository, authenticationRepository),
         setUp: () {
           when(() => authUser.id).thenAnswer((_) => 'id');
@@ -132,7 +132,7 @@ void main() {
       );
 
       blocTest<UserBloc, UserState>(
-        'emits [loading, error] when user is not deleted',
+        'emits [loading, error] when user is not not added',
         build: () => UserBloc(userRepository, authenticationRepository),
         setUp: () {
           when(() => authUser.id).thenAnswer((_) => 'id');

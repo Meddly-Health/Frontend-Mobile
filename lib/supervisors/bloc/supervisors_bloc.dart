@@ -36,7 +36,8 @@ class SupervisorsBloc extends Bloc<SupervisorsEvent, SupervisorsState> {
           status: SupervisorsStatus.error, errorMessage: l.message)),
       (r) {
         emit(state.copyWith(status: SupervisorsStatus.deleted));
-        add(GetSupervisors());
+        // TODO: change.
+        // add(GetSupervisors());
       },
     );
   }
@@ -51,7 +52,8 @@ class SupervisorsBloc extends Bloc<SupervisorsEvent, SupervisorsState> {
           status: SupervisorsStatus.error, errorMessage: l.message)),
       (r) {
         emit(state.copyWith(status: SupervisorsStatus.deleted));
-        add(GetSupervisors());
+        // TODO: change.
+        // add(GetSupervisors());
       },
     );
   }
@@ -64,7 +66,8 @@ class SupervisorsBloc extends Bloc<SupervisorsEvent, SupervisorsState> {
         await _userRepository.getUser(_authenticationRepository.currentUser.id);
 
     response.fold(
-      (error) => emit(const SupervisorsState(status: SupervisorsStatus.error)),
+      (error) => emit(SupervisorsState(
+          status: SupervisorsStatus.error, errorMessage: error.message)),
       (user) {
         emit(SupervisorsState(
           status: SupervisorsStatus.success,
@@ -86,8 +89,8 @@ class SupervisorsBloc extends Bloc<SupervisorsEvent, SupervisorsState> {
           status: SupervisorsStatus.error, errorMessage: l.message)),
       (_) {
         emit(state.copyWith(status: SupervisorsStatus.added));
-
-        add(GetSupervisors());
+        // TODO: poner este evento en otro lado.
+        // add(GetSupervisors());
       },
     );
   }
