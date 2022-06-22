@@ -24,6 +24,7 @@ class SupervisedPage extends StatelessWidget {
             getSnackBar(context, 'Supervisado eliminado con éxito.',
                 SnackBarType.success),
           );
+          context.read<SupervisorsBloc>().add(GetSupervisors());
         }
         if (state.status == SupervisorsStatus.added) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -31,6 +32,7 @@ class SupervisedPage extends StatelessWidget {
             getSnackBar(context, 'Supervisado añadido con éxito.',
                 SnackBarType.success),
           );
+          context.read<SupervisorsBloc>().add(GetSupervisors());
         }
         if (state.status == SupervisorsStatus.error) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
