@@ -24,6 +24,7 @@ class SupervisorsPage extends StatelessWidget {
             getSnackBar(context, 'Supervisor eliminado con éxito.',
                 SnackBarType.success),
           );
+          context.read<SupervisorsBloc>().add(GetSupervisors());
         }
         if (state.status == SupervisorsStatus.added) {
           FocusManager.instance.primaryFocus?.unfocus();
@@ -32,6 +33,7 @@ class SupervisorsPage extends StatelessWidget {
             getSnackBar(
                 context, 'Supervisor añadido con éxito.', SnackBarType.success),
           );
+          context.read<SupervisorsBloc>().add(GetSupervisors());
         }
         if (state.status == SupervisorsStatus.error) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();

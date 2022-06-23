@@ -36,8 +36,6 @@ class SupervisorsBloc extends Bloc<SupervisorsEvent, SupervisorsState> {
           status: SupervisorsStatus.error, errorMessage: l.message)),
       (r) {
         emit(state.copyWith(status: SupervisorsStatus.deleted));
-        // TODO: change.
-        // add(GetSupervisors());
       },
     );
   }
@@ -52,8 +50,6 @@ class SupervisorsBloc extends Bloc<SupervisorsEvent, SupervisorsState> {
           status: SupervisorsStatus.error, errorMessage: l.message)),
       (r) {
         emit(state.copyWith(status: SupervisorsStatus.deleted));
-        // TODO: change.
-        // add(GetSupervisors());
       },
     );
   }
@@ -89,8 +85,6 @@ class SupervisorsBloc extends Bloc<SupervisorsEvent, SupervisorsState> {
           status: SupervisorsStatus.error, errorMessage: l.message)),
       (_) {
         emit(state.copyWith(status: SupervisorsStatus.added));
-        // TODO: poner este evento en otro lado.
-        // add(GetSupervisors());
       },
     );
   }
