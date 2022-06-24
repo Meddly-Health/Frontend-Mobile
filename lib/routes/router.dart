@@ -9,7 +9,6 @@ import '../setup/view/setup_page.dart';
 import '../supervisors/view/supervised_page.dart';
 import '../supervisors/view/supervisors_page.dart';
 import '../supervisors/view/user_linked_accounts_page.dart';
-import '../user/view/profile/personal_info/view/user_personal_info_page.dart';
 import '../user/view/profile/settings/view/delete/delete_user_page.dart';
 import '../user/view/profile/settings/view/user_settings_page.dart';
 import '../user/view/profile/view/user_profile_page.dart';
@@ -59,7 +58,7 @@ const List<AutoRoute> routes = [
         page: EmptyRouterPage,
         children: [
           AutoRoute(path: 'user/profile', page: UserProfilePage, initial: true),
-          AutoRoute(path: 'user/personal_info', page: UserPersonalInfoPage),
+          // AutoRoute(path: 'user/personal_info', page: UserPersonalInfoPage),
           AutoRoute(path: 'user/settings', page: UserSettingsPage),
           AutoRoute(path: 'user/linked_accounts', page: UserLinkedAccountsPage),
           AutoRoute(path: 'user/supervisors', page: SupervisorsPage),

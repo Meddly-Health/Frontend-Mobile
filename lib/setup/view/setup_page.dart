@@ -1,12 +1,9 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:io';
 
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meddly/setup/view/finish_page.dart';
-import 'package:meddly/setup/view/height_weight_page.dart';
 import 'package:user_repository/user_repository.dart';
 
 import 'package:meddly/blocs.dart';
@@ -15,7 +12,9 @@ import '../../helpers/constants.dart';
 import '../../widgets/widgets.dart';
 import 'avatar_page.dart';
 import 'birthdate_page.dart';
+import 'finish_page.dart';
 import 'gender_page.dart';
+import 'height_weight_page.dart';
 import 'name_and_lastname_page.dart';
 
 class SetupPage extends StatefulWidget {
@@ -35,7 +34,7 @@ class _SetupPageState extends State<SetupPage> {
   @override
   void initState() {
     pageController = PageController();
-    context.read<UserBloc>().add(GetUser());
+    context.read<UserBloc>().add(const GetUser());
 
     super.initState();
   }
@@ -44,66 +43,50 @@ class _SetupPageState extends State<SetupPage> {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        return Scaffold(
-            appBar: AppBar(),
-            body: state.status != UserStatus.success
-                ? const Center(child: Loading())
-                : BlocProvider(
+        return state.maybeWhen(
+            orElse: () => Scaffold(
+                  appBar: AppBar(),
+                  body: const Center(
+                    child: Loading(),
+                  ),
+                ),
+            success: (user, _) => Scaffold(
+                  appBar: AppBar(),
+                  body: BlocProvider(
                     create: (context) => SetupCubit(
                         RepositoryProvider.of<UserRepository>(context),
                         RepositoryProvider.of<AuthenticationRepository>(
                             context))
                       ..pageController = pageController
-                      ..init(true, context.read<UserBloc>().state.currentUser),
-                    child: Scaffold(
-                      appBar: AppBar(),
-                      body: BlocBuilder<UserBloc, UserState>(
-                        builder: (context, state) {
-                          if (state.status == UserStatus.loading) {
-                            return const Center(child: Loading());
-                          }
-
-                          return GestureDetector(
-                            onTap: () => FocusScope.of(context).unfocus(),
-                            child: SafeArea(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  // Padding(
-                                  //   padding:
-                                  //       defaultPadding.copyWith(bottom: 16),
-                                  //   child: Text('Completa con tus datos',
-                                  //       style: Theme.of(context)
-                                  //           .textTheme
-                                  //           .titleLarge),
-                                  // ),
-                                  Expanded(
-                                    child: PageView(
-                                      controller: pageController,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      children: const [
-                                        _PageViewChild(
-                                            child: NameAndLastNamePage()),
-                                        _PageViewChild(child: GenderPage()),
-                                        _PageViewChild(child: BirthDatePage()),
-                                        _PageViewChild(
-                                            child: HeightWeightPage()),
-                                        _PageViewChild(child: AvatarPage()),
-                                        _PageViewChild(child: FinishPage()),
-                                      ],
-                                    ),
-                                  ),
+                      ..init(true, user),
+                    child: GestureDetector(
+                      onTap: () => FocusScope.of(context).unfocus(),
+                      child: SafeArea(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Expanded(
+                              child: PageView(
+                                controller: pageController,
+                                physics: const NeverScrollableScrollPhysics(),
+                                children: const [
+                                  _PageViewChild(child: NameAndLastNamePage()),
+                                  _PageViewChild(child: GenderPage()),
+                                  _PageViewChild(child: BirthDatePage()),
+                                  _PageViewChild(child: HeightWeightPage()),
+                                  _PageViewChild(child: AvatarPage()),
+                                  _PageViewChild(child: FinishPage()),
                                 ],
                               ),
                             ),
-                          );
-                        },
+                          ],
+                        ),
                       ),
                     ),
-                  ));
+                  ),
+                ));
       },
     );
   }
@@ -134,8 +117,7 @@ class _PageViewChild extends StatelessWidget {
       } else if (Platform.isIOS) {
         bodyHeight = MediaQuery.of(context).size.height -
             Scaffold.of(context).appBarMaxHeight! -
-            defaultPadding.vertical -
-            kBottomNavigationBarHeight;
+            defaultPadding.vertical;
       }
       return SingleChildScrollView(
         child: Container(

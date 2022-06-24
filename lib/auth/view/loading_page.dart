@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meddly/calendar/view/widgets/supervised_container.dart';
 import 'package:meddly/helpers/constants.dart';
 import 'package:meddly/routes/router.dart';
+import 'package:meddly/widgets/widgets.dart';
 
 import '../../blocs.dart';
 
@@ -17,7 +18,7 @@ class LoadingPage extends StatefulWidget {
 class _LoadingPageState extends State<LoadingPage> {
   @override
   void initState() {
-    context.read<UserBloc>().add(GetUser());
+    context.read<UserBloc>().add(const GetUser());
     context.read<SupervisorsBloc>().add(GetSupervisors());
     super.initState();
   }
@@ -28,13 +29,20 @@ class _LoadingPageState extends State<LoadingPage> {
       return Scaffold(
         body: BlocConsumer<UserBloc, UserState>(
           listener: (context, state) {
-            if (state.status == UserStatus.success) {
-              if (state.currentUser!.firstName == null) {
-                context.router.replace(SetupRoute());
-              } else {
-                context.router.replace(const HomeRouter());
-              }
-            }
+            state.maybeWhen(
+                orElse: () {},
+                success: (user, _) {
+                  if (user!.firstName == null) {
+                    context.router.replace(SetupRoute());
+                  } else {
+                    context.router.replace(const HomeRouter());
+                  }
+                },
+                error: (String errorMessage) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    getSnackBar(context, errorMessage, SnackBarType.error),
+                  );
+                });
           },
           builder: (context, state) {
             return SingleChildScrollView(

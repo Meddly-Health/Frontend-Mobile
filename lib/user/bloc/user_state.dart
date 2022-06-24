@@ -1,34 +1,14 @@
 part of 'user_bloc.dart';
 
-@immutable
-class UserState extends Equatable {
-  final User? currentUser;
-  final UserStatus status;
-  final String? errorMessage;
-  final User? supervising;
-
-  const UserState({
-    this.currentUser,
-    UserStatus? status,
-    this.errorMessage,
+@freezed
+class UserState with _$UserState {
+  const factory UserState.initial() = _InitialState;
+  const factory UserState.loading() = _LoadingState;
+  const factory UserState.success({
+    User? currentUser,
     User? supervising,
-  })  : status = status ?? UserStatus.initial,
-        supervising = supervising ?? User.empty;
-
-  @override
-  List<Object?> get props => [currentUser, status, errorMessage, supervising];
-
-  UserState copyWith(
-      {User? currentUser,
-      required UserStatus status,
-      String? errorMessage,
-      User? supervising}) {
-    return UserState(
-        currentUser: currentUser ?? this.currentUser,
-        status: status,
-        errorMessage: errorMessage ?? this.errorMessage,
-        supervising: supervising ?? this.supervising);
-  }
+  }) = _SuccessState;
+  const factory UserState.error(String errorMessage) = _ErrorState;
 }
 
 enum UserStatus { initial, loading, success, error }

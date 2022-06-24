@@ -102,7 +102,12 @@ class _CodeFormFieldSupervisedState extends State<_CodeFormFieldSupervised> {
   @override
   void initState() {
     _controller = TextEditingController();
-    _controller.text = context.read<UserBloc>().state.currentUser!.invitation!;
+    context.read<UserBloc>().state.maybeWhen(
+        orElse: () => null,
+        success: (user, _) {
+          _controller.text = user!.invitation!;
+        });
+
     super.initState();
   }
 

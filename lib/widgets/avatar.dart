@@ -17,16 +17,18 @@ class Avatar extends StatelessWidget {
       radius: radius,
       child: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
-          return ClipRRect(
-            borderRadius: BorderRadius.circular(999),
-            child: SizedBox(
-                height: radius * 25,
-                width: radius * 25,
-                child: SvgPicture.asset(state.currentUser != null &&
-                        state.currentUser!.avatar != null
-                    ? state.currentUser!.avatar!
-                    : AssetsProvider.defaultAvatar)),
-          );
+          return state.maybeWhen(
+              success: (user, _) => ClipRRect(
+                    borderRadius: BorderRadius.circular(999),
+                    child: SizedBox(
+                        height: radius * 25,
+                        width: radius * 25,
+                        child: SvgPicture.asset(
+                            user != null && user.avatar != null
+                                ? user.avatar!
+                                : AssetsProvider.defaultAvatar)),
+                  ),
+              orElse: () => Container());
         },
       ),
     );

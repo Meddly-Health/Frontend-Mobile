@@ -66,12 +66,12 @@ class DeleteUserPage extends StatelessWidget {
                           },
                           child: BlocListener<UserBloc, UserState>(
                             listener: (context, state) {
-                              if (state.status == UserStatus.error) {
+                              state.whenOrNull(error: (errorMessage) {
                                 context.router.pop();
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    getSnackBar(context, state.errorMessage!,
+                                    getSnackBar(context, errorMessage,
                                         SnackBarType.error));
-                              }
+                              });
                             },
                             child: AlertDialog(
                                 backgroundColor:
@@ -130,5 +130,5 @@ void _deleteAccount(BuildContext context) {
         getSnackBar(context, 'No hay conexión a internet', SnackBarType.error));
     return;
   }
-  context.read<UserBloc>().add(DeleteUser());
+  context.read<UserBloc>().add(const DeleteUser());
 }

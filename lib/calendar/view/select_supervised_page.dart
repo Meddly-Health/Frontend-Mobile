@@ -55,8 +55,7 @@ class _SelectSupervisedPageState extends State<SelectSupervisedPage> {
                             .map((supervised) => GestureDetector(
                                   onTap: () {
                                     context.read<UserBloc>().add(
-                                        UserChangedSupervisor(
-                                            user: supervised));
+                                        UserEvent.changeSupervisor(supervised));
                                   },
                                   child: Padding(
                                     padding:

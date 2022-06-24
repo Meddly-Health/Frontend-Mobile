@@ -94,8 +94,8 @@ class UserProfilePage extends StatelessWidget {
                       onTap: () {
                         context
                             .read<AuthBloc>()
-                            .add(AuthLogoutRequestedEvent());
-                        context.read<UserBloc>().add(Logout());
+                            .add(const AuthLogoutRequestedEvent());
+                        context.read<UserBloc>().add(const Logout());
                       },
                       label: 'Cerrar sesión',
                       asset: AssetsProvider.logoutIcon,
@@ -134,26 +134,31 @@ class _ProfileNameEmail extends StatelessWidget {
             const SizedBox(width: 16),
             BlocBuilder<UserBloc, UserState>(
               builder: (context, state) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      '${state.currentUser?.firstName} ${state.currentUser?.lastName}',
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
-                    Text(
-                      '${state.currentUser?.email}',
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontWeight: FontWeight.w500,
-                          color: Theme.of(context)
-                              .textTheme
-                              .bodySmall!
-                              .color!
-                              .withOpacity(0.5)),
-                    ),
-                  ],
-                );
+                return state.maybeWhen(
+                    orElse: () => Container(),
+                    success: (user, _) => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '${user?.firstName} ${user?.lastName}',
+                              style: Theme.of(context).textTheme.titleSmall,
+                            ),
+                            Text(
+                              '${user?.email}',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall!
+                                  .copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodySmall!
+                                          .color!
+                                          .withOpacity(0.5)),
+                            ),
+                          ],
+                        ));
               },
             ),
             const Spacer(),
