@@ -47,8 +47,7 @@ class SetupCubit extends Cubit<SetupState> {
         ? Weight.dirty(currentUser.weight!)
         : const Weight.pure();
 
-    var avatar = currentUser.avatar != null &&
-            currentUser.avatar != AssetsProvider.defaultAvatar
+    var avatar = currentUser.avatar != null
         ? currentUser.avatar!
         : AssetsProvider.defaultAvatar;
 

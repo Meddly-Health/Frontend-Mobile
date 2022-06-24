@@ -9,7 +9,7 @@ part of 'user.dart';
 _$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       id: json['_id'] as String?,
       email: json['email'] as String?,
-      avatar: json['avatar'] as String? ?? 'assets/avatar/default.svg',
+      avatar: json['avatar'] as String? ?? 'assets/avatar/avatar0-1-1.svg',
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),

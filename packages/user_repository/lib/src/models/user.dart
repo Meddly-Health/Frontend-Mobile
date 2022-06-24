@@ -12,7 +12,8 @@ class User with _$User {
   const factory User({
     @JsonKey(name: '_id') final String? id,
     final String? email,
-    @JsonKey(defaultValue: 'assets/avatar/default.svg') final String? avatar,
+    @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg')
+        final String? avatar,
     @JsonKey(name: 'created_at') final DateTime? createdAt,
     @JsonKey(name: 'updated_at') final DateTime? updatedAt,
     final List<String>? diseases,

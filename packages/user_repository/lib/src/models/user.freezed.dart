@@ -23,7 +23,7 @@ mixin _$User {
   @JsonKey(name: '_id')
   String? get id => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
-  @JsonKey(defaultValue: 'assets/avatar/default.svg')
+  @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg')
   String? get avatar => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
@@ -54,7 +54,7 @@ abstract class $UserCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: '_id') String? id,
       String? email,
-      @JsonKey(defaultValue: 'assets/avatar/default.svg') String? avatar,
+      @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg') String? avatar,
       @JsonKey(name: 'created_at') DateTime? createdAt,
       @JsonKey(name: 'updated_at') DateTime? updatedAt,
       List<String>? diseases,
@@ -168,7 +168,7 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: '_id') String? id,
       String? email,
-      @JsonKey(defaultValue: 'assets/avatar/default.svg') String? avatar,
+      @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg') String? avatar,
       @JsonKey(name: 'created_at') DateTime? createdAt,
       @JsonKey(name: 'updated_at') DateTime? updatedAt,
       List<String>? diseases,
@@ -281,7 +281,7 @@ class _$_User extends _User {
   const _$_User(
       {@JsonKey(name: '_id') this.id,
       this.email,
-      @JsonKey(defaultValue: 'assets/avatar/default.svg') this.avatar,
+      @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg') this.avatar,
       @JsonKey(name: 'created_at') this.createdAt,
       @JsonKey(name: 'updated_at') this.updatedAt,
       final List<String>? diseases,
@@ -307,7 +307,7 @@ class _$_User extends _User {
   @override
   final String? email;
   @override
-  @JsonKey(defaultValue: 'assets/avatar/default.svg')
+  @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg')
   final String? avatar;
   @override
   @JsonKey(name: 'created_at')
@@ -422,16 +422,22 @@ class _$_User extends _User {
 
 abstract class _User extends User {
   const factory _User(
-      {@JsonKey(name: '_id') final String? id,
+      {@JsonKey(name: '_id')
+          final String? id,
       final String? email,
-      @JsonKey(defaultValue: 'assets/avatar/default.svg') final String? avatar,
-      @JsonKey(name: 'created_at') final DateTime? createdAt,
-      @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+      @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg')
+          final String? avatar,
+      @JsonKey(name: 'created_at')
+          final DateTime? createdAt,
+      @JsonKey(name: 'updated_at')
+          final DateTime? updatedAt,
       final List<String>? diseases,
       final List<User>? supervisors,
       final List<User>? supervised,
-      @JsonKey(name: 'first_name') final String? firstName,
-      @JsonKey(name: 'last_name') final String? lastName,
+      @JsonKey(name: 'first_name')
+          final String? firstName,
+      @JsonKey(name: 'last_name')
+          final String? lastName,
       final double? height,
       final double? weight,
       final Sex? sex,
@@ -447,7 +453,7 @@ abstract class _User extends User {
   @override
   String? get email => throw _privateConstructorUsedError;
   @override
-  @JsonKey(defaultValue: 'assets/avatar/default.svg')
+  @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg')
   String? get avatar => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'created_at')

@@ -58,7 +58,10 @@ class HeightWeightPage extends StatelessWidget {
                           state.weight.value != null,
                       onPressed: () {
                         if (state.status.isSubmissionInProgress) return;
-                        if (state.height.valid && state.weight.valid) {
+                        if (state.height.valid &&
+                            state.height.value != null &&
+                            state.weight.valid &&
+                            state.weight.value != null) {
                           HapticFeedback.lightImpact();
                           context.read<SetupCubit>().saveUserData();
                         }

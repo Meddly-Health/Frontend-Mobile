@@ -44,7 +44,7 @@ class AssetsProvider {
   static const String changeAvatar = 'assets/svg/change-avatar.svg';
 
   // Avatars
-  static const String defaultAvatar = 'assets/avatar/default.svg';
+  static const String defaultAvatar = 'assets/avatar/avatar0-1-1.svg';
 
   // Lotties
   static const String trashLottie = 'assets/lottie/trash.json';
