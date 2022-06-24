@@ -11,7 +11,7 @@ class DiagnosisPage extends StatelessWidget {
         child: ElevatedButton(
             onPressed: () {
               ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context,
-                  'El evento ha ocurrido con exito ', SnackBarType.error));
+                  'El evento ha ocurrido con exito ', SnackBarType.success));
             },
             child: const Text('snackbar')),
       ),
