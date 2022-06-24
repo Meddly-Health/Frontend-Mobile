@@ -76,7 +76,9 @@ class _ProfileItems extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         IconAndTextTileItem(
-          onTap: () {},
+          onTap: () {
+            context.router.push(const UserPersonalInfoRoute());
+          },
           label: 'Información personal',
           asset: AssetsProvider.userPersonal,
         ),
@@ -177,7 +179,17 @@ class _ProfileNameEmail extends StatelessWidget {
               },
             ),
             const Spacer(),
-            SvgPicture.asset(AssetsProvider.edit)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: SvgPicture.asset(
+                AssetsProvider.edit,
+                height: 24,
+                color: Theme.of(context)
+                    .colorScheme
+                    .secondaryContainer
+                    .withOpacity(0.8),
+              ),
+            )
           ],
         ),
       ),

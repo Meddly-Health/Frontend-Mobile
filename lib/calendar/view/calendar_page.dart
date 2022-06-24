@@ -1,6 +1,5 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,30 +43,30 @@ class CalendarPage extends StatelessWidget {
                             const SizedBox(height: 16),
                           ],
                         ),
-                      DatePicker(
-                        DateTime.now(),
-                        height: 90,
-                        locale: 'es_SP',
-                        daysCount: 365,
-                        initialSelectedDate: DateTime.now(),
-                        selectionColor: Theme.of(context).colorScheme.primary,
-                        selectedTextColor: Colors.white,
-                        dateTextStyle: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(fontWeight: FontWeight.bold),
-                        dayTextStyle: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(fontWeight: FontWeight.w500),
-                        monthTextStyle: Theme.of(context)
-                            .textTheme
-                            .bodySmall!
-                            .copyWith(fontWeight: FontWeight.w500),
-                        onDateChange: (date) {
-                          // New date selected
-                        },
-                      ),
+                      // DatePicker(
+                      //   DateTime.now(),
+                      //   height: 90,
+                      //   locale: 'es_SP',
+                      //   daysCount: 365,
+                      //   initialSelectedDate: DateTime.now(),
+                      //   selectionColor: Theme.of(context).colorScheme.primary,
+                      //   selectedTextColor: Colors.white,
+                      //   dateTextStyle: Theme.of(context)
+                      //       .textTheme
+                      //       .bodyLarge!
+                      //       .copyWith(fontWeight: FontWeight.bold),
+                      //   dayTextStyle: Theme.of(context)
+                      //       .textTheme
+                      //       .bodySmall!
+                      //       .copyWith(fontWeight: FontWeight.w500),
+                      //   monthTextStyle: Theme.of(context)
+                      //       .textTheme
+                      //       .bodySmall!
+                      //       .copyWith(fontWeight: FontWeight.w500),
+                      //   onDateChange: (date) {
+                      //     // New date selected
+                      //   },
+                      // ),
                       const SizedBox(height: 16),
                     ],
                   ));

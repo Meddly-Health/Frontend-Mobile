@@ -2,10 +2,10 @@ import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../helpers/assets_provider.dart';
-import '../../../../../helpers/constants.dart';
-import '../../../../../routes/router.dart';
-import '../../../../../widgets/widgets.dart';
+import '../../helpers/assets_provider.dart';
+import '../../helpers/constants.dart';
+import '../../routes/router.dart';
+import '../../widgets/widgets.dart';
 
 class UserSettingsPage extends StatelessWidget {
   const UserSettingsPage({Key? key}) : super(key: key);

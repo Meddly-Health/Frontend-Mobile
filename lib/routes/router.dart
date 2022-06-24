@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:meddly/calendar/view/select_supervised_page.dart';
 import 'package:meddly/user/view/profile/basic_info/user_basic_info_page.dart';
+import 'package:meddly/user/view/profile/personal_info/view/user_personal_info_page.dart';
 import '../calendar/view/calendar_page.dart';
 import '../diagnosis/view/diagnosis_page.dart';
 import '../measurements/view/measurements_page.dart';
@@ -10,8 +11,8 @@ import '../setup/view/setup_page.dart';
 import '../supervisors/view/supervised_page.dart';
 import '../supervisors/view/supervisors_page.dart';
 import '../supervisors/view/user_linked_accounts_page.dart';
-import '../user/view/profile/settings/view/delete/delete_user_page.dart';
-import '../user/view/profile/settings/view/user_settings_page.dart';
+import '../settings/view/delete/delete_user_page.dart';
+import '../settings/view/user_settings_page.dart';
 import '../user/view/profile/view/user_profile_page.dart';
 import '../welcome/view/welcome_page.dart';
 import '../auth/view/loading_page.dart';
@@ -60,6 +61,7 @@ const List<AutoRoute> routes = [
         children: [
           AutoRoute(path: 'user/profile', page: UserProfilePage, initial: true),
           AutoRoute(path: 'user/basic_info', page: UserBasicInfoPage),
+          AutoRoute(path: 'user/basic_info', page: UserPersonalInfoPage),
           AutoRoute(path: 'user/settings', page: UserSettingsPage),
           AutoRoute(path: 'user/linked_accounts', page: UserLinkedAccountsPage),
           AutoRoute(path: 'user/supervisors', page: SupervisorsPage),

@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
-import '../../../../../../blocs.dart';
+import '../../../blocs.dart';
 
-import '../../../../../../helpers/constants.dart';
-import '../../../../../../login/view/login_form.dart';
+import '../../../helpers/constants.dart';
+import '../../../login/view/login_form.dart';
 
-import '../../../../../../widgets/widgets.dart';
+import '../../../widgets/widgets.dart';
 
 class DeleteUserPage extends StatelessWidget {
   const DeleteUserPage({Key? key}) : super(key: key);
