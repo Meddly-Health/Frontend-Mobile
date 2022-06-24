@@ -18,27 +18,25 @@ class SupervisedPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<SupervisorsBloc, SupervisorsState>(
       listener: (context, state) {
-        if (state.status == SupervisorsStatus.deleted) {
+        state.whenOrNull(deleted: () {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             getSnackBar(context, 'Supervisado eliminado con éxito.',
                 SnackBarType.success),
           );
-          context.read<SupervisorsBloc>().add(GetSupervisors());
-        }
-        if (state.status == SupervisorsStatus.added) {
+          context.read<SupervisorsBloc>().add(const GetSupervisors());
+        }, added: () {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             getSnackBar(context, 'Supervisado añadido con éxito.',
                 SnackBarType.success),
           );
-          context.read<SupervisorsBloc>().add(GetSupervisors());
-        }
-        if (state.status == SupervisorsStatus.error) {
+          context.read<SupervisorsBloc>().add(const GetSupervisors());
+        }, error: (errorMessage) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
-              getSnackBar(context, state.errorMessage!, SnackBarType.error));
-        }
+              getSnackBar(context, errorMessage, SnackBarType.error));
+        });
       },
       child: Scaffold(
         body: SingleChildScrollView(
@@ -189,25 +187,26 @@ class _Supervised extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SupervisorsBloc, SupervisorsState>(
         builder: (context, state) {
-      if (state.status == SupervisorsStatus.loading) {
-        return const _Loading();
-      }
-
-      if (state.supervised == null || state.supervised!.isEmpty) {
-        return const NoData(message: 'No añadiste ningún supervisado');
-      }
-
-      return ListView.builder(
-        shrinkWrap: true,
-        itemCount: state.supervised?.length,
-        itemBuilder: (context, index) => DismissTile(
-          user: state.supervised![index],
-          onDismissed: () {
-            context.read<SupervisorsBloc>().add(
-                  DeleteSupervised(state.supervised![index].id!),
-                );
-          },
-        ),
+      return state.maybeWhen(
+        orElse: () => const NoData(message: 'No añadiste ningún supervisado'),
+        loading: () => const _Loading(),
+        success: (_, supervised) {
+          if (supervised!.isEmpty) {
+            return const NoData(message: 'No añadiste ningún supervisado');
+          }
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: supervised.length,
+            itemBuilder: (context, index) => DismissTile(
+              user: supervised[index],
+              onDismissed: () {
+                context.read<SupervisorsBloc>().add(
+                      DeleteSupervised(id: supervised[index].id!),
+                    );
+              },
+            ),
+          );
+        },
       );
     });
   }

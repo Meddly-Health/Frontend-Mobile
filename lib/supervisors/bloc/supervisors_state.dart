@@ -1,40 +1,15 @@
 part of 'supervisors_bloc.dart';
 
-@immutable
-class SupervisorsState extends Equatable {
-  final List<User>? supervisors;
-  final List<User>? supervised;
-  final SupervisorsStatus status;
-  final String? errorMessage;
-
-  const SupervisorsState({
-    this.supervisors,
-    this.supervised,
-    this.errorMessage,
-    this.status = SupervisorsStatus.initial,
-  });
-
-  SupervisorsState copyWith({
+@freezed
+class SupervisorsState with _$SupervisorsState {
+  const factory SupervisorsState.initial() = _InitialState;
+  const factory SupervisorsState.loading() = _LoadingState;
+  const factory SupervisorsState.success({
     List<User>? supervisors,
     List<User>? supervised,
-    required SupervisorsStatus status,
-    String? errorMessage,
-  }) {
-    return SupervisorsState(
-      supervisors: supervisors ?? this.supervisors,
-      supervised: supervised ?? this.supervised,
-      status: status,
-      errorMessage: errorMessage ?? this.errorMessage,
-    );
-  }
-
-  @override
-  List<Object?> get props => [
-        supervisors,
-        supervised,
-        status,
-        errorMessage,
-      ];
+  }) = _SuccessState;
+  const factory SupervisorsState.error({required String errorMessage}) =
+      _ErrorState;
+  const factory SupervisorsState.deleted() = _DeletedState;
+  const factory SupervisorsState.added() = _AddedState;
 }
-
-enum SupervisorsStatus { initial, loading, success, error, added, deleted }

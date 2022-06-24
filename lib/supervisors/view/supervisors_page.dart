@@ -18,28 +18,25 @@ class SupervisorsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<SupervisorsBloc, SupervisorsState>(
       listener: (context, state) {
-        if (state.status == SupervisorsStatus.deleted) {
+        state.whenOrNull(deleted: () {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             getSnackBar(context, 'Supervisor eliminado con éxito.',
                 SnackBarType.success),
           );
-          context.read<SupervisorsBloc>().add(GetSupervisors());
-        }
-        if (state.status == SupervisorsStatus.added) {
-          FocusManager.instance.primaryFocus?.unfocus();
+          context.read<SupervisorsBloc>().add(const GetSupervisors());
+        }, added: () {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
             getSnackBar(
                 context, 'Supervisor añadido con éxito.', SnackBarType.success),
           );
-          context.read<SupervisorsBloc>().add(GetSupervisors());
-        }
-        if (state.status == SupervisorsStatus.error) {
+          context.read<SupervisorsBloc>().add(const GetSupervisors());
+        }, error: (errorMessage) {
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(
-              getSnackBar(context, state.errorMessage!, SnackBarType.error));
-        }
+              getSnackBar(context, errorMessage, SnackBarType.error));
+        });
       },
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -105,27 +102,29 @@ class _Supervisors extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SupervisorsBloc, SupervisorsState>(
       builder: (context, state) {
-        if (state.status == SupervisorsStatus.loading) {
-          return const _Loading();
-        }
-
-        if (state.supervisors == null || state.supervisors!.isEmpty) {
-          return const NoData(
-            message: 'No añadiste ningún supervisor',
-          );
-        }
-
-        return ListView.builder(
-          shrinkWrap: true,
-          itemCount: state.supervisors!.length,
-          itemBuilder: (context, index) => DismissTile(
-              user: state.supervisors![index],
-              onDismissed: () {
-                context
-                    .read<SupervisorsBloc>()
-                    .add(DeleteSupervisor(state.supervisors![index].id!));
-              }),
-        );
+        return state.maybeWhen(
+            orElse: () => const NoData(
+                  message: 'No añadiste ningún supervisor',
+                ),
+            loading: () => const _Loading(),
+            success: (supervisors, _) {
+              if (supervisors!.isEmpty) {
+                return const NoData(
+                  message: 'No añadiste ningún supervisor',
+                );
+              }
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: supervisors.length,
+                itemBuilder: (context, index) => DismissTile(
+                    user: supervisors[index],
+                    onDismissed: () {
+                      context
+                          .read<SupervisorsBloc>()
+                          .add(DeleteSupervisor(id: supervisors[index].id!));
+                    }),
+              );
+            });
       },
     );
   }
@@ -148,16 +147,16 @@ class _CodeFormFieldSupervisorsState extends State<_CodeFormFieldSupervisors> {
   void initState() {
     _controller = TextEditingController();
     _controller.addListener(() {
-      if (context.read<SupervisorsBloc>().state.status ==
-          SupervisorsStatus.loading) {
-        return;
-      } else if (_controller.text.length == 12) {
-        BlocProvider.of<SupervisorsBloc>(context)
-            .add(AddSupervised(_controller.text));
-        BlocProvider.of<UserBloc>(context).add(GetUser());
-      }
+      context.read<SupervisorsBloc>().state.maybeWhen(
+          orElse: () {},
+          success: (_, __) {
+            if (_controller.text.length == 12) {
+              BlocProvider.of<SupervisorsBloc>(context)
+                  .add(AddSupervised(code: _controller.text));
+              BlocProvider.of<UserBloc>(context).add(const GetUser());
+            }
+          });
     });
-
     super.initState();
   }
 

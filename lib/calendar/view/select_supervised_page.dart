@@ -17,7 +17,7 @@ class SelectSupervisedPage extends StatefulWidget {
 class _SelectSupervisedPageState extends State<SelectSupervisedPage> {
   @override
   void initState() {
-    context.read<SupervisorsBloc>().add(GetSupervisors());
+    context.read<SupervisorsBloc>().add(const GetSupervisors());
     super.initState();
   }
 
@@ -36,37 +36,40 @@ class _SelectSupervisedPageState extends State<SelectSupervisedPage> {
                 const SizedBox(height: 16),
                 BlocBuilder<SupervisorsBloc, SupervisorsState>(
                   builder: (context, state) {
-                    var supervised = state.supervised;
-                    if (state.status == SupervisorsStatus.loading) {
-                      return const _LoadingSupervised();
-                    }
-
-                    if (state.supervised!.isEmpty) {
-                      return const Center(
-                        child:
-                            NoData(message: 'No hay supervisados disponibles'),
-                      );
-                    }
-
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ...supervised!
-                            .map((supervised) => GestureDetector(
-                                  onTap: () {
-                                    context.read<UserBloc>().add(
-                                        UserEvent.changeSupervisor(supervised));
-                                  },
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 5),
-                                    child: SupervisedContainer(
-                                        supervised: supervised),
-                                  ),
-                                ))
-                            .toList()
-                      ],
-                    );
+                    return state.maybeWhen(
+                        orElse: () => const Center(
+                              child: NoData(
+                                  message: 'No hay supervisados disponibles'),
+                            ),
+                        loading: () => const _LoadingSupervised(),
+                        success: (_, supervised) {
+                          if (supervised!.isEmpty) {
+                            return const Center(
+                              child: NoData(
+                                  message: 'No hay supervisados disponibles'),
+                            );
+                          }
+                          return Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ...supervised
+                                  .map((supervised) => GestureDetector(
+                                        onTap: () {
+                                          context.read<UserBloc>().add(
+                                              UserEvent.changeSupervisor(
+                                                  supervised));
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 5),
+                                          child: SupervisedContainer(
+                                              supervised: supervised),
+                                        ),
+                                      ))
+                                  .toList()
+                            ],
+                          );
+                        });
                   },
                 ),
               ],
