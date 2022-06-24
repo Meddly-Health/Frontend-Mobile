@@ -24,10 +24,12 @@ class LoginPage extends StatelessWidget {
           LoginCubit(RepositoryProvider.of<AuthenticationRepository>(context)),
       child: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
-          if (state.user.isNotEmpty) {
-            AutoRouter.of(context).pushAndPopUntil(const LoadingRoute(),
-                predicate: ((route) => false));
-          }
+          state.when(
+            unauthenticated: () {},
+            authenticated: (AuthUser user) => AutoRouter.of(context)
+                .pushAndPopUntil(const LoadingRoute(),
+                    predicate: ((route) => false)),
+          );
         },
         child: Scaffold(
           resizeToAvoidBottomInset: false,

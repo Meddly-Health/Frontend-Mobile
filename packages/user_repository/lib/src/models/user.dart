@@ -9,6 +9,9 @@ enum Sex { masculino, femenino, otro }
 class User with _$User {
   const User._();
 
+  @JsonSerializable(
+      explicitToJson:
+          true) // TODO: Fijarse si esto sirve para la lista de tratamientos.
   const factory User({
     @JsonKey(name: '_id') final String? id,
     final String? email,

@@ -1,19 +1,7 @@
 part of 'auth_bloc.dart';
 
-abstract class AuthEvent extends Equatable {
-  const AuthEvent();
-
-  @override
-  List<Object> get props => [];
-}
-
-class AuthLogoutRequestedEvent extends AuthEvent {}
-
-class AuthUserChanged extends AuthEvent {
-  final AuthUser user;
-
-  const AuthUserChanged(this.user);
-
-  @override
-  List<Object> get props => [user];
+@freezed
+class AuthEvent with _$AuthEvent {
+  const factory AuthEvent.logoutRequestedEvent() = AuthLogoutRequestedEvent;
+  const factory AuthEvent.userChanged(AuthUser user) = AuthUserChanged;
 }
