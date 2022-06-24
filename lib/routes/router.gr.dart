@@ -145,6 +145,15 @@ class _$AppRouter extends RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
+    UserBasicInfoRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const UserBasicInfoPage(),
+          transitionsBuilder: TransitionsBuilders.noTransition,
+          durationInMilliseconds: 300,
+          opaque: true,
+          barrierDismissible: false);
+    },
     UserSettingsRoute.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
@@ -236,6 +245,8 @@ class _$AppRouter extends RootStackRouter {
                     fullMatch: true),
                 RouteConfig(UserProfileRoute.name,
                     path: 'user/profile', parent: UserRouter.name),
+                RouteConfig(UserBasicInfoRoute.name,
+                    path: 'user/basic_info', parent: UserRouter.name),
                 RouteConfig(UserSettingsRoute.name,
                     path: 'user/settings', parent: UserRouter.name),
                 RouteConfig(UserLinkedAccountsRoute.name,
@@ -382,6 +393,15 @@ class UserProfileRoute extends PageRouteInfo<void> {
   const UserProfileRoute() : super(UserProfileRoute.name, path: 'user/profile');
 
   static const String name = 'UserProfileRoute';
+}
+
+/// generated route for
+/// [UserBasicInfoPage]
+class UserBasicInfoRoute extends PageRouteInfo<void> {
+  const UserBasicInfoRoute()
+      : super(UserBasicInfoRoute.name, path: 'user/basic_info');
+
+  static const String name = 'UserBasicInfoRoute';
 }
 
 /// generated route for

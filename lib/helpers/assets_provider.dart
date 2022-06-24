@@ -2,6 +2,7 @@ class AssetsProvider {
   static const String avatarTest = 'assets/svg/avatar-test.svg';
   static const String bell = 'assets/svg/bell.svg';
   static const String calendarIcon = 'assets/svg/calendar-icon.svg';
+  static const String calendarIconSolid = 'assets/svg/calendar-icon-solid.svg';
   static const String chevron = 'assets/svg/chevron.svg';
   static const String copy = 'assets/svg/copy.svg';
   static const String cross = 'assets/svg/cross.svg';
@@ -29,7 +30,7 @@ class AssetsProvider {
   static const String pills = 'assets/svg/pills.svg';
   static const String profileIcon = 'assets/svg/profile-icon.svg';
   static const String pulseIcon = 'assets/svg/pulse-icon.svg';
-  static const String reciveIcon = 'assets/svg/recive-icon.svg';
+  static const String receiptIcon = 'assets/svg/receipt-icon.svg';
   static const String refresh = 'assets/svg/refresh.svg';
   static const String rulerIcon = 'assets/svg/ruler-icon.svg';
   static const String settingsIcon = 'assets/svg/settings-icon.svg';
@@ -42,6 +43,7 @@ class AssetsProvider {
   static const String paste = 'assets/svg/paste.svg';
   static const String userInfo = 'assets/svg/user-info.svg';
   static const String changeAvatar = 'assets/svg/change-avatar.svg';
+  static const String userPersonal = 'assets/svg/user-personal.svg';
 
   // Avatars
   static const String defaultAvatar = 'assets/avatar/avatar0-1-1.svg';
