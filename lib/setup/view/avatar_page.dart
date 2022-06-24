@@ -6,7 +6,6 @@ import 'package:formz/formz.dart';
 
 import '../../blocs.dart';
 import '../../helpers/constants.dart';
-import '../../helpers/helpers.dart';
 import '../../widgets/widgets.dart';
 import 'widgets/widgets.dart';
 
@@ -28,36 +27,7 @@ class AvatarPage extends StatelessWidget {
               .titleMedium!
               .copyWith(fontWeight: FontWeight.w600),
         ),
-        const SizedBox(height: 16),
-        if (MediaQuery.of(context).size.height > 720)
-          Expanded(
-            flex: 4,
-            child: BlocBuilder<SetupCubit, SetupState>(
-              builder: (context, state) {
-                return Center(
-                  child: CircleAvatar(
-                    backgroundColor: Theme.of(context).colorScheme.secondary,
-                    radius: double.infinity,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(999),
-                      child: SvgPicture.asset(getAvatarAsset(state.skinColor,
-                          state.hairColor, state.sex, state.avatarType)),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        if (MediaQuery.of(context).size.height > 720)
-          const SizedBox(height: 16),
-        Text(
-          'Tipo de avatar',
-          style: Theme.of(context)
-              .textTheme
-              .bodyLarge!
-              .copyWith(fontWeight: FontWeight.w600),
-        ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 35),
         BlocBuilder<SetupCubit, SetupState>(
           builder: (context, state) {
             return Wrap(
@@ -108,21 +78,47 @@ class AvatarPage extends StatelessWidget {
           },
         ),
         const Spacer(),
+        const SizedBox(height: 16),
         BlocBuilder<SetupCubit, SetupState>(
           builder: (context, state) {
-            return Button(
-                enabled: true,
-                onPressed: () {
-                  if (state.status.isSubmissionInProgress) return;
-                  HapticFeedback.lightImpact();
-                  context.read<SetupCubit>().saveUserData();
-                },
-                animate: state.status.isSubmissionInProgress,
-                enabledColor: Theme.of(context).colorScheme.primary,
-                disbaledColor: Theme.of(context).colorScheme.secondaryContainer,
-                labelColor: Theme.of(context).colorScheme.secondary,
-                label: 'Siguiente',
-                keyString: 'omit');
+            return Row(
+              children: [
+                Expanded(
+                  child: Button(
+                    enabled: true,
+                    onPressed: () {
+                      if (state.status.isSubmissionInProgress) return;
+                      context.read<SetupCubit>().pageController!.previousPage(
+                          duration: const Duration(milliseconds: 200),
+                          curve: Curves.easeInOut);
+                    },
+                    animate: false,
+                    enabledColor: Theme.of(context).colorScheme.primary,
+                    disbaledColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
+                    labelColor: Theme.of(context).colorScheme.secondary,
+                    label: 'Volver atrás',
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Button(
+                    enabled: true,
+                    onPressed: () {
+                      if (state.status.isSubmissionInProgress) return;
+                      HapticFeedback.lightImpact();
+                      context.read<SetupCubit>().saveUserData();
+                    },
+                    animate: state.status.isSubmissionInProgress,
+                    enabledColor: Theme.of(context).colorScheme.primary,
+                    disbaledColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
+                    labelColor: Theme.of(context).colorScheme.secondary,
+                    label: 'Siguiente',
+                  ),
+                ),
+              ],
+            );
           },
         ),
         const SizedBox(height: 16),
@@ -149,15 +145,17 @@ class _ColorCircle extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: CircleAvatar(
-          radius: 28,
+          radius: MediaQuery.of(context).size.width / 10,
           backgroundColor: isPressed ? null : Colors.transparent,
-          child: CircleAvatar(radius: 25, backgroundColor: color)),
+          child: CircleAvatar(
+              radius: (MediaQuery.of(context).size.width / 10) * 0.9,
+              backgroundColor: color)),
     );
   }
 }
 
 List<Widget> getAvatarTypes() {
-  var avatarTypes = [1, 2, 3, 4, 5, 6];
+  var avatarTypes = ['1', '2', '3', '4', '5', '6'];
 
   return avatarTypes.map((avatarType) {
     return BlocBuilder<SetupCubit, SetupState>(
@@ -167,13 +165,13 @@ List<Widget> getAvatarTypes() {
             context.read<SetupCubit>().avatarType(avatarType);
           },
           child: CircleAvatar(
-              radius: 28,
+              radius: MediaQuery.of(context).size.width / 8,
               backgroundColor:
-                  state.avatarType == avatarType ? null : Colors.transparent,
+                  state.avatar[20] == avatarType ? null : Colors.transparent,
               child: CircleAvatar(
-                  radius: 25,
-                  child:
-                      SvgPicture.asset('assets/avatar/avatar$avatarType.svg'),
+                  radius: (MediaQuery.of(context).size.width / 8) * 0.9,
+                  child: SvgPicture.asset(
+                      'assets/avatar/avatar$avatarType-${state.avatar[22]}-${state.avatar[24]}.svg'),
                   backgroundColor: Theme.of(context).colorScheme.secondary)),
         );
       },
@@ -183,16 +181,17 @@ List<Widget> getAvatarTypes() {
 
 List<Widget> getSkinColor() {
   var skinColors = [lightSkin, mediumSkin, darkSkin];
+  var skinColorStrings = ['1', '2', '3'];
 
-  return skinColors.map((skinColor) {
+  return skinColorStrings.map((skinColorString) {
     return BlocBuilder<SetupCubit, SetupState>(
       builder: (context, state) {
         return _ColorCircle(
             onTap: () {
-              context.read<SetupCubit>().skinColorChanged(skinColor);
+              context.read<SetupCubit>().skinColorChanged(skinColorString);
             },
-            color: skinColor,
-            isPressed: state.skinColor == skinColor);
+            color: skinColors[int.parse(skinColorString) - 1],
+            isPressed: state.avatar[22] == skinColorString);
       },
     );
   }).toList();
@@ -200,16 +199,17 @@ List<Widget> getSkinColor() {
 
 List<Widget> getHairColor() {
   var hairColors = [brunette, brown, blonde];
+  var hairColorsStrings = ['1', '2', '3'];
 
-  return hairColors.map((hairColor) {
+  return hairColorsStrings.map((hairColorString) {
     return BlocBuilder<SetupCubit, SetupState>(
       builder: (context, state) {
         return _ColorCircle(
             onTap: () {
-              context.read<SetupCubit>().hairColorChanged(hairColor);
+              context.read<SetupCubit>().hairColorChanged(hairColorString);
             },
-            color: hairColor,
-            isPressed: state.hairColor == hairColor);
+            color: hairColors[int.parse(hairColorString) - 1],
+            isPressed: state.avatar[24] == hairColorString);
       },
     );
   }).toList();

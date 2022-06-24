@@ -32,21 +32,46 @@ class BirthDatePage extends StatelessWidget {
         const Spacer(),
         BlocBuilder<SetupCubit, SetupState>(
           builder: (context, state) {
-            return Button(
-                enabled: state.birthDate.valid,
-                onPressed: () {
-                  if (state.status.isSubmissionInProgress) return;
-                  HapticFeedback.lightImpact();
-                  if (state.birthDate.valid) {
-                    context.read<SetupCubit>().saveUserData();
-                  }
-                },
-                animate: state.status.isSubmissionInProgress,
-                enabledColor: Theme.of(context).colorScheme.primary,
-                disbaledColor: Theme.of(context).colorScheme.secondaryContainer,
-                labelColor: Theme.of(context).colorScheme.secondary,
-                label: 'Siguiente',
-                keyString: 'next');
+            return Row(
+              children: [
+                Expanded(
+                  child: Button(
+                    enabled: true,
+                    onPressed: () {
+                      if (state.status.isSubmissionInProgress) return;
+                      context.read<SetupCubit>().pageController!.previousPage(
+                          duration: const Duration(milliseconds: 200),
+                          curve: Curves.easeInOut);
+                    },
+                    animate: false,
+                    enabledColor: Theme.of(context).colorScheme.primary,
+                    disbaledColor:
+                        Theme.of(context).colorScheme.secondaryContainer,
+                    labelColor: Theme.of(context).colorScheme.secondary,
+                    label: 'Volver atrás',
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Button(
+                      enabled: state.birthDate.valid,
+                      onPressed: () {
+                        if (state.status.isSubmissionInProgress) return;
+                        HapticFeedback.lightImpact();
+                        if (state.birthDate.valid) {
+                          context.read<SetupCubit>().saveUserData();
+                        }
+                      },
+                      animate: state.status.isSubmissionInProgress,
+                      enabledColor: Theme.of(context).colorScheme.primary,
+                      disbaledColor:
+                          Theme.of(context).colorScheme.secondaryContainer,
+                      labelColor: Theme.of(context).colorScheme.secondary,
+                      label: 'Siguiente',
+                      keyString: 'next'),
+                ),
+              ],
+            );
           },
         ),
         const SizedBox(height: 16),

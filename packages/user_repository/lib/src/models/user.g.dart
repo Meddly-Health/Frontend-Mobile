@@ -6,9 +6,10 @@ part of 'user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-User _$UserFromJson(Map<String, dynamic> json) => User(
+_$_User _$$_UserFromJson(Map<String, dynamic> json) => _$_User(
       id: json['_id'] as String?,
       email: json['email'] as String?,
+      avatar: json['avatar'] as String? ?? 'assets/avatar/default.svg',
       createdAt: json['created_at'] == null
           ? null
           : DateTime.parse(json['created_at'] as String),
@@ -29,15 +30,14 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       height: (json['height'] as num?)?.toDouble(),
       weight: (json['weight'] as num?)?.toDouble(),
       sex: $enumDecodeNullable(_$SexEnumMap, json['sex']),
-      invitation: json['invitation'] as String?,
       birth: json['birth'] == null
           ? null
           : DateTime.parse(json['birth'] as String),
-      avatar: json['avatar'] as String? ?? 'assets/avatar/default.svg',
+      invitation: json['invitation'] as String?,
     );
 
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
-      'user_id': instance.id,
+Map<String, dynamic> _$$_UserToJson(_$_User instance) => <String, dynamic>{
+      '_id': instance.id,
       'email': instance.email,
       'avatar': instance.avatar,
       'created_at': instance.createdAt?.toIso8601String(),

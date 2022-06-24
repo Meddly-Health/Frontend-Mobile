@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:form_helper/form_helper.dart';
 import 'package:formz/formz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meddly/helpers/constants.dart';
+import 'package:meddly/helpers/assets_provider.dart';
 import 'package:meddly/helpers/helpers.dart';
 import 'package:user_repository/user_repository.dart';
 
@@ -47,6 +47,11 @@ class SetupCubit extends Cubit<SetupState> {
         ? Weight.dirty(currentUser.weight!)
         : const Weight.pure();
 
+    var avatar = currentUser.avatar != null &&
+            currentUser.avatar != AssetsProvider.defaultAvatar
+        ? currentUser.avatar!
+        : AssetsProvider.defaultAvatar;
+
     nameController.text = currentUser.firstName ?? '';
     lastNameController.text = currentUser.lastName ?? '';
 
@@ -59,18 +64,14 @@ class SetupCubit extends Cubit<SetupState> {
 
     emit(
       state.copyWith(
-        name: name,
-        lastName: lastName,
-        birthDate: birthDate,
-        height: height,
-        weight: weight,
-        sex: currentUser.sex,
-      ),
+          name: name,
+          lastName: lastName,
+          birthDate: birthDate,
+          height: height,
+          weight: weight,
+          sex: currentUser.sex,
+          avatar: avatar),
     );
-  }
-
-  void avatarType(int type) {
-    emit(state.copyWith(avatarType: type));
   }
 
   void nameChanged(String value) {
@@ -89,18 +90,22 @@ class SetupCubit extends Cubit<SetupState> {
     );
   }
 
-  void hairColorChanged(Color value) {
+  void avatarType(String value) {
+    emit(state.copyWith(
+        avatar: state.avatar.replaceCharAt(state.avatar, 20, value)));
+  }
+
+  void hairColorChanged(String value) {
     emit(
       state.copyWith(
-        hairColor: value,
-      ),
+          avatar: state.avatar.replaceCharAt(state.avatar, 24, value)),
     );
   }
 
-  void skinColorChanged(Color value) {
+  void skinColorChanged(String value) {
     emit(
       state.copyWith(
-        skinColor: value,
+        avatar: state.avatar.replaceCharAt(state.avatar, 22, value),
       ),
     );
   }
@@ -191,8 +196,7 @@ class SetupCubit extends Cubit<SetupState> {
         firstName: state.name.value.capitalize(),
         lastName: state.lastName.value.capitalize(),
         birth: state.birthDate.value,
-        avatar: getAvatarAsset(
-            state.skinColor, state.hairColor, state.sex, state.avatarType),
+        avatar: state.avatar,
         height: state.height.value?.toDouble(),
         weight: state.weight.value,
         sex: state.sex);

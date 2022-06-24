@@ -12,7 +12,7 @@ class Button extends StatelessWidget {
     required this.disbaledColor,
     required this.labelColor,
     required this.label,
-    required this.keyString,
+    this.keyString,
   }) : super(key: key);
 
   final bool enabled;
@@ -22,12 +22,12 @@ class Button extends StatelessWidget {
   final Color disbaledColor;
   final Color labelColor;
   final String label;
-  final String keyString;
+  final String? keyString;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      key: Key(keyString),
+      key: Key(keyString ?? ''),
       onTap: onPressed,
       child: AnimatedContainer(
           height: 55,
