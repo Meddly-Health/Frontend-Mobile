@@ -21,25 +21,40 @@ User _$UserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$User {
   @JsonKey(name: '_id')
+  @HiveField(1)
   String? get id => throw _privateConstructorUsedError;
+  @HiveField(2)
   String? get email => throw _privateConstructorUsedError;
+  @HiveField(3, defaultValue: 'assets/avatar/avatar0-1-1.svg')
   @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg')
   String? get avatar => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
+  @HiveField(4)
   DateTime? get createdAt => throw _privateConstructorUsedError;
   @JsonKey(name: 'updated_at')
+  @HiveField(5)
   DateTime? get updatedAt => throw _privateConstructorUsedError;
+  @HiveField(6)
   List<String>? get diseases => throw _privateConstructorUsedError;
+  @HiveField(7)
   List<User>? get supervisors => throw _privateConstructorUsedError;
+  @HiveField(8)
   List<User>? get supervised => throw _privateConstructorUsedError;
   @JsonKey(name: 'first_name')
+  @HiveField(9)
   String? get firstName => throw _privateConstructorUsedError;
   @JsonKey(name: 'last_name')
+  @HiveField(10)
   String? get lastName => throw _privateConstructorUsedError;
+  @HiveField(11)
   double? get height => throw _privateConstructorUsedError;
+  @HiveField(12)
   double? get weight => throw _privateConstructorUsedError;
+  @HiveField(13)
   Sex? get sex => throw _privateConstructorUsedError;
+  @HiveField(14)
   DateTime? get birth => throw _privateConstructorUsedError;
+  @HiveField(15)
   String? get invitation => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -52,21 +67,42 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(name: '_id') String? id,
-      String? email,
-      @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg') String? avatar,
-      @JsonKey(name: 'created_at') DateTime? createdAt,
-      @JsonKey(name: 'updated_at') DateTime? updatedAt,
-      List<String>? diseases,
-      List<User>? supervisors,
-      List<User>? supervised,
-      @JsonKey(name: 'first_name') String? firstName,
-      @JsonKey(name: 'last_name') String? lastName,
-      double? height,
-      double? weight,
-      Sex? sex,
-      DateTime? birth,
-      String? invitation});
+      {@JsonKey(name: '_id')
+      @HiveField(1)
+          String? id,
+      @HiveField(2)
+          String? email,
+      @HiveField(3, defaultValue: 'assets/avatar/avatar0-1-1.svg')
+      @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg')
+          String? avatar,
+      @JsonKey(name: 'created_at')
+      @HiveField(4)
+          DateTime? createdAt,
+      @JsonKey(name: 'updated_at')
+      @HiveField(5)
+          DateTime? updatedAt,
+      @HiveField(6)
+          List<String>? diseases,
+      @HiveField(7)
+          List<User>? supervisors,
+      @HiveField(8)
+          List<User>? supervised,
+      @JsonKey(name: 'first_name')
+      @HiveField(9)
+          String? firstName,
+      @JsonKey(name: 'last_name')
+      @HiveField(10)
+          String? lastName,
+      @HiveField(11)
+          double? height,
+      @HiveField(12)
+          double? weight,
+      @HiveField(13)
+          Sex? sex,
+      @HiveField(14)
+          DateTime? birth,
+      @HiveField(15)
+          String? invitation});
 }
 
 /// @nodoc
@@ -166,21 +202,42 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$_UserCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(name: '_id') String? id,
-      String? email,
-      @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg') String? avatar,
-      @JsonKey(name: 'created_at') DateTime? createdAt,
-      @JsonKey(name: 'updated_at') DateTime? updatedAt,
-      List<String>? diseases,
-      List<User>? supervisors,
-      List<User>? supervised,
-      @JsonKey(name: 'first_name') String? firstName,
-      @JsonKey(name: 'last_name') String? lastName,
-      double? height,
-      double? weight,
-      Sex? sex,
-      DateTime? birth,
-      String? invitation});
+      {@JsonKey(name: '_id')
+      @HiveField(1)
+          String? id,
+      @HiveField(2)
+          String? email,
+      @HiveField(3, defaultValue: 'assets/avatar/avatar0-1-1.svg')
+      @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg')
+          String? avatar,
+      @JsonKey(name: 'created_at')
+      @HiveField(4)
+          DateTime? createdAt,
+      @JsonKey(name: 'updated_at')
+      @HiveField(5)
+          DateTime? updatedAt,
+      @HiveField(6)
+          List<String>? diseases,
+      @HiveField(7)
+          List<User>? supervisors,
+      @HiveField(8)
+          List<User>? supervised,
+      @JsonKey(name: 'first_name')
+      @HiveField(9)
+          String? firstName,
+      @JsonKey(name: 'last_name')
+      @HiveField(10)
+          String? lastName,
+      @HiveField(11)
+          double? height,
+      @HiveField(12)
+          double? weight,
+      @HiveField(13)
+          Sex? sex,
+      @HiveField(14)
+          DateTime? birth,
+      @HiveField(15)
+          String? invitation});
 }
 
 /// @nodoc
@@ -276,24 +333,47 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@HiveType(typeId: 1, adapterName: 'UserAdapater')
+@JsonSerializable(explicitToJson: true)
 class _$_User extends _User {
   const _$_User(
-      {@JsonKey(name: '_id') this.id,
-      this.email,
-      @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg') this.avatar,
-      @JsonKey(name: 'created_at') this.createdAt,
-      @JsonKey(name: 'updated_at') this.updatedAt,
-      final List<String>? diseases,
-      final List<User>? supervisors,
-      final List<User>? supervised,
-      @JsonKey(name: 'first_name') this.firstName,
-      @JsonKey(name: 'last_name') this.lastName,
-      this.height,
-      this.weight,
-      this.sex,
-      this.birth,
-      this.invitation})
+      {@JsonKey(name: '_id')
+      @HiveField(1)
+          this.id,
+      @HiveField(2)
+          this.email,
+      @HiveField(3, defaultValue: 'assets/avatar/avatar0-1-1.svg')
+      @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg')
+          this.avatar,
+      @JsonKey(name: 'created_at')
+      @HiveField(4)
+          this.createdAt,
+      @JsonKey(name: 'updated_at')
+      @HiveField(5)
+          this.updatedAt,
+      @HiveField(6)
+          final List<String>? diseases,
+      @HiveField(7)
+          final List<User>? supervisors,
+      @HiveField(8)
+          final List<User>? supervised,
+      @JsonKey(name: 'first_name')
+      @HiveField(9)
+          this.firstName,
+      @JsonKey(name: 'last_name')
+      @HiveField(10)
+          this.lastName,
+      @HiveField(11)
+          this.height,
+      @HiveField(12)
+          this.weight,
+      @HiveField(13)
+          this.sex,
+      @HiveField(14)
+          this.birth,
+      @HiveField(15)
+          this.invitation})
       : _diseases = diseases,
         _supervisors = supervisors,
         _supervised = supervised,
@@ -303,20 +383,26 @@ class _$_User extends _User {
 
   @override
   @JsonKey(name: '_id')
+  @HiveField(1)
   final String? id;
   @override
+  @HiveField(2)
   final String? email;
   @override
+  @HiveField(3, defaultValue: 'assets/avatar/avatar0-1-1.svg')
   @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg')
   final String? avatar;
   @override
   @JsonKey(name: 'created_at')
+  @HiveField(4)
   final DateTime? createdAt;
   @override
   @JsonKey(name: 'updated_at')
+  @HiveField(5)
   final DateTime? updatedAt;
   final List<String>? _diseases;
   @override
+  @HiveField(6)
   List<String>? get diseases {
     final value = _diseases;
     if (value == null) return null;
@@ -326,6 +412,7 @@ class _$_User extends _User {
 
   final List<User>? _supervisors;
   @override
+  @HiveField(7)
   List<User>? get supervisors {
     final value = _supervisors;
     if (value == null) return null;
@@ -335,6 +422,7 @@ class _$_User extends _User {
 
   final List<User>? _supervised;
   @override
+  @HiveField(8)
   List<User>? get supervised {
     final value = _supervised;
     if (value == null) return null;
@@ -344,19 +432,26 @@ class _$_User extends _User {
 
   @override
   @JsonKey(name: 'first_name')
+  @HiveField(9)
   final String? firstName;
   @override
   @JsonKey(name: 'last_name')
+  @HiveField(10)
   final String? lastName;
   @override
+  @HiveField(11)
   final double? height;
   @override
+  @HiveField(12)
   final double? weight;
   @override
+  @HiveField(13)
   final Sex? sex;
   @override
+  @HiveField(14)
   final DateTime? birth;
   @override
+  @HiveField(15)
   final String? invitation;
 
   @override
@@ -423,65 +518,95 @@ class _$_User extends _User {
 abstract class _User extends User {
   const factory _User(
       {@JsonKey(name: '_id')
+      @HiveField(1)
           final String? id,
-      final String? email,
+      @HiveField(2)
+          final String? email,
+      @HiveField(3, defaultValue: 'assets/avatar/avatar0-1-1.svg')
       @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg')
           final String? avatar,
       @JsonKey(name: 'created_at')
+      @HiveField(4)
           final DateTime? createdAt,
       @JsonKey(name: 'updated_at')
+      @HiveField(5)
           final DateTime? updatedAt,
-      final List<String>? diseases,
-      final List<User>? supervisors,
-      final List<User>? supervised,
+      @HiveField(6)
+          final List<String>? diseases,
+      @HiveField(7)
+          final List<User>? supervisors,
+      @HiveField(8)
+          final List<User>? supervised,
       @JsonKey(name: 'first_name')
+      @HiveField(9)
           final String? firstName,
       @JsonKey(name: 'last_name')
+      @HiveField(10)
           final String? lastName,
-      final double? height,
-      final double? weight,
-      final Sex? sex,
-      final DateTime? birth,
-      final String? invitation}) = _$_User;
+      @HiveField(11)
+          final double? height,
+      @HiveField(12)
+          final double? weight,
+      @HiveField(13)
+          final Sex? sex,
+      @HiveField(14)
+          final DateTime? birth,
+      @HiveField(15)
+          final String? invitation}) = _$_User;
   const _User._() : super._();
 
   factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
 
   @override
   @JsonKey(name: '_id')
+  @HiveField(1)
   String? get id => throw _privateConstructorUsedError;
   @override
+  @HiveField(2)
   String? get email => throw _privateConstructorUsedError;
   @override
+  @HiveField(3, defaultValue: 'assets/avatar/avatar0-1-1.svg')
   @JsonKey(defaultValue: 'assets/avatar/avatar0-1-1.svg')
   String? get avatar => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'created_at')
+  @HiveField(4)
   DateTime? get createdAt => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'updated_at')
+  @HiveField(5)
   DateTime? get updatedAt => throw _privateConstructorUsedError;
   @override
+  @HiveField(6)
   List<String>? get diseases => throw _privateConstructorUsedError;
   @override
+  @HiveField(7)
   List<User>? get supervisors => throw _privateConstructorUsedError;
   @override
+  @HiveField(8)
   List<User>? get supervised => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'first_name')
+  @HiveField(9)
   String? get firstName => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'last_name')
+  @HiveField(10)
   String? get lastName => throw _privateConstructorUsedError;
   @override
+  @HiveField(11)
   double? get height => throw _privateConstructorUsedError;
   @override
+  @HiveField(12)
   double? get weight => throw _privateConstructorUsedError;
   @override
+  @HiveField(13)
   Sex? get sex => throw _privateConstructorUsedError;
   @override
+  @HiveField(14)
   DateTime? get birth => throw _privateConstructorUsedError;
   @override
+  @HiveField(15)
   String? get invitation => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
