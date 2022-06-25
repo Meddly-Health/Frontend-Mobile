@@ -51,45 +51,42 @@ class _SupervisedPageState extends State<SupervisedPage> {
       },
       child: Scaffold(
         body: SingleChildScrollView(
-          child: Expanded(
-            child: FadeIn(
-              child: Column(
-                children: [
-                  Container(
-                    padding: defaultPadding,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        PageTitle(
-                          title: 'Supervisados',
-                          onPop: () {
-                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                          },
-                        ),
-                        const SizedBox(height: 25),
-                        Text(
-                          'Comparta su seguimiento y progreso con amigos o familiares, copiando el siguiente código. Válido para un único paciente.',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium!.copyWith(
-                                    color: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .color!
-                                        .withOpacity(0.5),
-                                  ),
-                          textAlign: TextAlign.justify,
-                        ),
-                        const _CodeFormFieldSupervised(),
-                        Text(
-                          'Supervisados activos',
-                          style: Theme.of(context).textTheme.titleSmall,
-                        ),
-                        const _Supervised(),
-                      ],
-                    ),
+          child: FadeIn(
+            child: Column(
+              children: [
+                Container(
+                  padding: defaultPadding,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      PageTitle(
+                        title: 'Supervisados',
+                        onPop: () {
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        },
+                      ),
+                      const SizedBox(height: 25),
+                      Text(
+                        'Comparta su seguimiento y progreso con amigos o familiares, copiando el siguiente código. Válido para un único paciente.',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .color!
+                                  .withOpacity(0.5),
+                            ),
+                        textAlign: TextAlign.justify,
+                      ),
+                      const _CodeFormFieldSupervised(),
+                      Text(
+                        'Supervisados activos',
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                      const _Supervised(),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

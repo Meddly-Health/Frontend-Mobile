@@ -91,7 +91,7 @@ class _SupervisedText extends StatelessWidget {
             TextSpan(
               children: [
                 TextSpan(
-                    text: supervising != null && supervising.isEmpty
+                    text: supervising == null
                         ? 'No estas supervisando a nadie. '
                         : 'Estas supervisando a alguien. ',
                     style: Theme.of(context).textTheme.bodyMedium!.copyWith(

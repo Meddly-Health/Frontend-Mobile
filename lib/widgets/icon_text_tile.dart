@@ -33,7 +33,7 @@ class IconAndTextTileItem extends StatelessWidget {
               height: 45,
               padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(15),
                 color: Theme.of(context).scaffoldBackgroundColor,
               ),
               alignment: Alignment.center,
@@ -47,8 +47,10 @@ class IconAndTextTileItem extends StatelessWidget {
           Expanded(
             child: AutoSizeText(
               label,
-              style:
-                  Theme.of(context).textTheme.bodyLarge!.copyWith(color: color),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: color, fontWeight: FontWeight.w400),
             ),
           ),
           const SizedBox(width: 16),

@@ -65,7 +65,12 @@ class WelcomePage extends StatelessWidget {
                         },
                       ),
                       const SizedBox(height: 20),
-                      const _WelcomeButton(),
+                      Row(
+                        children: const [
+                          Expanded(child: _LogInButton()),
+                          Expanded(child: _SignInButton()),
+                        ],
+                      )
                     ],
                   )
                 ],
@@ -91,13 +96,13 @@ class _PageIndicator extends StatelessWidget {
     return BlocBuilder<WelcomeCubit, WelcomeState>(
       builder: (context, state) {
         return AnimatedContainer(
-          width: currentPage ? 20 : 10,
+          width: currentPage ? 30 : 10,
           height: 10,
           decoration: BoxDecoration(
             color: currentPage
                 ? Theme.of(context).colorScheme.primary
                 : Colors.grey,
-            borderRadius: BorderRadius.circular(999),
+            borderRadius: BorderRadius.circular(20),
           ),
           duration: const Duration(milliseconds: 300),
         );
@@ -166,31 +171,71 @@ class _PageViewBody extends StatelessWidget {
   }
 }
 
-class _WelcomeButton extends StatelessWidget {
-  const _WelcomeButton({
+class _SignInButton extends StatelessWidget {
+  const _SignInButton({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      key: const Key('login_button'),
+      key: const Key('__sign_in_welcome__'),
+      onTap: () {
+        HapticFeedback.lightImpact();
+        AutoRouter.of(context)
+            .pushAndPopUntil(const SignUpRoute(), predicate: (route) => false);
+      },
+      child: Container(
+          height: 64,
+          margin: defaultPadding,
+          padding: defaultPadding,
+          decoration: BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                  width: 2, color: Theme.of(context).colorScheme.primary)),
+          child: Center(
+              child: Text(
+            'Regístrate',
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge!
+                .copyWith(color: Theme.of(context).colorScheme.primary),
+          ))),
+    );
+  }
+}
+
+class _LogInButton extends StatelessWidget {
+  const _LogInButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      key: const Key('__log_in_welcome__'),
       onTap: () {
         HapticFeedback.lightImpact();
         AutoRouter.of(context)
             .pushAndPopUntil(const LoginRoute(), predicate: (route) => false);
       },
       child: Container(
-          height: 55,
+          height: 64,
           margin: defaultPadding,
+          padding: defaultPadding,
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
           ),
           child: Center(
-            child: Text('Comenzar ahora',
-                style: Theme.of(context).textTheme.labelMedium),
-          )),
+              child: Text(
+            'Inicia sesión',
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge!
+                .copyWith(color: Theme.of(context).colorScheme.secondary),
+          ))),
     );
   }
 }

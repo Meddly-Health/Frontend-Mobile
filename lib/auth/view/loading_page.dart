@@ -46,87 +46,100 @@ class _LoadingPageState extends State<LoadingPage> {
                 });
           },
           builder: (context, state) {
-            return SingleChildScrollView(
-              child: Container(
-                padding: defaultPadding,
-                child: SafeArea(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              DefaultShimmer(
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width / 2,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: darkGrey,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              DefaultShimmer(
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width / 3,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: darkGrey,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const Spacer(),
-                          const DefaultShimmer(
-                            child: CircleAvatar(
-                              radius: 96 / 2,
-                              backgroundColor: darkGrey,
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 25),
-                      DefaultShimmer(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width / 1.3,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: darkGrey,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      DefaultShimmer(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width / 4,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: darkGrey,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      const _LoadingContainer(),
-                      const SizedBox(height: 16),
-                      const _LoadingContainer(),
-                      const SizedBox(height: 16),
-                      const _LoadingContainer(),
-                    ],
-                  ),
-                ),
-              ),
+            return const Center(
+              child: Loading(),
             );
           },
         ),
       );
     });
+  }
+}
+
+class _LoadingView extends StatelessWidget {
+  const _LoadingView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Container(
+        padding: defaultPadding,
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DefaultShimmer(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width / 2,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: darkGrey,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      DefaultShimmer(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width / 3,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: darkGrey,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  const DefaultShimmer(
+                    child: CircleAvatar(
+                      radius: 96 / 2,
+                      backgroundColor: darkGrey,
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 25),
+              DefaultShimmer(
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 1.3,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: darkGrey,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              DefaultShimmer(
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 4,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: darkGrey,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              const _LoadingContainer(),
+              const SizedBox(height: 16),
+              const _LoadingContainer(),
+              const SizedBox(height: 16),
+              const _LoadingContainer(),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

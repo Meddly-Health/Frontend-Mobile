@@ -34,8 +34,8 @@ class ThemeManager {
 }
 
 Color primaryLight = const Color(0xff516EB4);
-Color secondaryLight = const Color(0xffF9FEFF);
-Color scaffoldBackgroundColorLight = const Color(0xffF5F5F5);
+Color secondaryLight = const Color(0xffFFFFFF);
+Color scaffoldBackgroundColorLight = const Color(0xffF5F4F8);
 Color errorLight = const Color(0xffFF5158);
 
 extension ColorSchemeExtension on ColorScheme {
