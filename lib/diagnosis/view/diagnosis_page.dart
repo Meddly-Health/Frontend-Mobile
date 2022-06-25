@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:meddly/widgets/widgets.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:meddly/helpers/assets_provider.dart';
+import 'package:meddly/helpers/constants.dart';
 
 class DiagnosisPage extends StatelessWidget {
   const DiagnosisPage({Key? key}) : super(key: key);
@@ -8,12 +10,22 @@ class DiagnosisPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: ElevatedButton(
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(getSnackBar(context,
-                  'El evento ha ocurrido con exito ', SnackBarType.success));
-            },
-            child: const Text('snackbar')),
+        child: Container(
+          padding: defaultPadding,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                AssetsProvider.diagnosisVector,
+                width: MediaQuery.of(context).size.width,
+              ),
+              Text(
+                'Próximamente',
+                style: Theme.of(context).textTheme.bodyMedium,
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

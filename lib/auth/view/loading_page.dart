@@ -18,8 +18,10 @@ class LoadingPage extends StatefulWidget {
 class _LoadingPageState extends State<LoadingPage> {
   @override
   void initState() {
-    context.read<UserBloc>().add(const GetUser());
-    context.read<SupervisorsBloc>().add(GetSupervisors());
+    if (context.read<ConnectivityBloc>().state.isConnected) {
+      context.read<UserBloc>().add(const GetUser());
+      context.read<SupervisorsBloc>().add(const GetSupervisors());
+    }
     super.initState();
   }
 

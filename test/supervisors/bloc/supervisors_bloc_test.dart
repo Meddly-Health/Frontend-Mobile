@@ -54,7 +54,7 @@
 //           when(() => userRepository.getUser(any()))
 //               .thenAnswer((_) async => const Right(user));
 //         },
-//         act: (bloc) => bloc.add(GetSupervisors()),
+//         act: (bloc) => bloc.add(const GetSupervisors()),
 //         expect: () => [
 //               const SupervisorsState(status: SupervisorsStatus.loading),
 //               const SupervisorsState(status: SupervisorsStatus.success),
@@ -73,7 +73,7 @@
 //           when(() => userRepository.getUser(any())).thenAnswer(
 //               (_) async => Left(UserException(message: errorMessage)));
 //         },
-//         act: (bloc) => bloc.add(GetSupervisors()),
+//         act: (bloc) => bloc.add(const GetSupervisors()),
 //         expect: () => [
 //               const SupervisorsState(status: SupervisorsStatus.loading),
 //               const SupervisorsState(
@@ -90,7 +90,7 @@
 //           when(() => userRepository.acceptInvitation(code))
 //               .thenAnswer((_) async => const Right(Nothing()));
 //         },
-//         act: (bloc) => bloc.add(AddSupervised(code)),
+//         act: (bloc) => bloc.add(const AddSupervised(code)),
 //         expect: () => [
 //               const SupervisorsState(status: SupervisorsStatus.loading),
 //               const SupervisorsState(status: SupervisorsStatus.added),
@@ -105,7 +105,7 @@
 //           when(() => userRepository.acceptInvitation(code)).thenAnswer(
 //               (_) async => Left(UserException(message: errorMessage)));
 //         },
-//         act: (bloc) => bloc.add(AddSupervised(code)),
+//         act: (bloc) => bloc.add(const AddSupervised(code)),
 //         expect: () => [
 //               const SupervisorsState(status: SupervisorsStatus.loading),
 //               const SupervisorsState(
@@ -122,7 +122,7 @@
 //           when(() => userRepository.deleteSupervised('1'))
 //               .thenAnswer((_) async => const Right(Nothing()));
 //         },
-//         act: (bloc) => bloc.add(DeleteSupervised('1')),
+//         act: (bloc) => bloc.add(const DeleteSupervised('1')),
 //         expect: () => [
 //               const SupervisorsState(status: SupervisorsStatus.loading),
 //               const SupervisorsState(status: SupervisorsStatus.deleted),
@@ -138,7 +138,7 @@
 //           when(() => userRepository.deleteSupervised('1')).thenAnswer(
 //               (_) async => Left(UserException(message: errorMessage)));
 //         },
-//         act: (bloc) => bloc.add(DeleteSupervised('1')),
+//         act: (bloc) => bloc.add(const DeleteSupervised('1')),
 //         expect: () => [
 //               const SupervisorsState(status: SupervisorsStatus.loading),
 //               const SupervisorsState(
@@ -155,7 +155,7 @@
 //           when(() => userRepository.deleteSupervisor('1')).thenAnswer(
 //               (_) async => Left(UserException(message: errorMessage)));
 //         },
-//         act: (bloc) => bloc.add(DeleteSupervisor('1')),
+//         act: (bloc) => bloc.add(const DeleteSupervisor('1')),
 //         expect: () => [
 //               const SupervisorsState(status: SupervisorsStatus.loading),
 //               const SupervisorsState(
@@ -171,7 +171,7 @@
 //           when(() => userRepository.deleteSupervisor('1'))
 //               .thenAnswer((_) async => const Right(Nothing()));
 //         },
-//         act: (bloc) => bloc.add(DeleteSupervisor('1')),
+//         act: (bloc) => bloc.add(const DeleteSupervisor('1')),
 //         expect: () => [
 //               const SupervisorsState(status: SupervisorsStatus.loading),
 //               const SupervisorsState(status: SupervisorsStatus.deleted),

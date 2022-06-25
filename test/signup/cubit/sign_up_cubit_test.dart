@@ -1,4 +1,3 @@
-// ignore_for_file: prefer_const_constructors
 import 'package:authentication_repository/authentication_repository.dart';
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -49,7 +48,7 @@ void main() {
     });
 
     test('initial state is SignUpState', () {
-      expect(SignUpCubit(authenticationRepository).state, SignUpState());
+      expect(SignUpCubit(authenticationRepository).state, const SignUpState());
     });
 
     group('emailChanged', () {
@@ -65,7 +64,7 @@ void main() {
       blocTest<SignUpCubit, SignUpState>(
         'emits [valid] when email/password/confirmedPassword are valid',
         build: () => SignUpCubit(authenticationRepository),
-        seed: () => SignUpState(
+        seed: () => const SignUpState(
           password: validPassword,
           confirmedPassword: validConfirmedPassword,
         ),
@@ -100,7 +99,7 @@ void main() {
       blocTest<SignUpCubit, SignUpState>(
         'emits [valid] when email/password/confirmedPassword are valid',
         build: () => SignUpCubit(authenticationRepository),
-        seed: () => SignUpState(
+        seed: () => const SignUpState(
           email: validEmail,
           confirmedPassword: validConfirmedPassword,
         ),
@@ -119,7 +118,7 @@ void main() {
         'emits [valid] when confirmedPasswordChanged is called first and then '
         'passwordChanged is called',
         build: () => SignUpCubit(authenticationRepository),
-        seed: () => SignUpState(
+        seed: () => const SignUpState(
           email: validEmail,
         ),
         act: (cubit) => cubit
@@ -159,7 +158,8 @@ void main() {
       blocTest<SignUpCubit, SignUpState>(
         'emits [valid] when email/password/confirmedPassword are valid',
         build: () => SignUpCubit(authenticationRepository),
-        seed: () => SignUpState(email: validEmail, password: validPassword),
+        seed: () =>
+            const SignUpState(email: validEmail, password: validPassword),
         act: (cubit) => cubit.confirmedPasswordChanged(
           validConfirmedPasswordString,
         ),
@@ -177,7 +177,7 @@ void main() {
         'emits [valid] when passwordChanged is called first and then '
         'confirmedPasswordChanged is called',
         build: () => SignUpCubit(authenticationRepository),
-        seed: () => SignUpState(email: validEmail),
+        seed: () => const SignUpState(email: validEmail),
         act: (cubit) => cubit
           ..passwordChanged(validPasswordString)
           ..confirmedPasswordChanged(validConfirmedPasswordString),
@@ -211,7 +211,7 @@ void main() {
       blocTest<SignUpCubit, SignUpState>(
         'calls signUp with correct email/password/confirmedPassword',
         build: () => SignUpCubit(authenticationRepository),
-        seed: () => SignUpState(
+        seed: () => const SignUpState(
           status: FormzStatus.valid,
           email: validEmail,
           password: validPassword,
@@ -232,7 +232,7 @@ void main() {
         'emits [submissionInProgress, submissionSuccess] '
         'when signUp succeeds',
         build: () => SignUpCubit(authenticationRepository),
-        seed: () => SignUpState(
+        seed: () => const SignUpState(
           status: FormzStatus.valid,
           email: validEmail,
           password: validPassword,
@@ -267,7 +267,7 @@ void main() {
           ).thenThrow(Exception('oops'));
         },
         build: () => SignUpCubit(authenticationRepository),
-        seed: () => SignUpState(
+        seed: () => const SignUpState(
           status: FormzStatus.valid,
           email: validEmail,
           password: validPassword,

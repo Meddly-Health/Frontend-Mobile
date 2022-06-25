@@ -47,7 +47,6 @@ void main() {
   const validWeightValue = 50.0;
   const validWeight = Weight.dirty(validWeightValue);
 
-  const invalidSex = 'invalid';
   const validSex = Sex.masculino;
 
   group('SetupCubit', () {

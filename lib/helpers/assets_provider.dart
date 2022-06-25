@@ -44,6 +44,9 @@ class AssetsProvider {
   static const String userInfo = 'assets/svg/user-info.svg';
   static const String changeAvatar = 'assets/svg/change-avatar.svg';
   static const String userPersonal = 'assets/svg/user-personal.svg';
+  static const String supervisorsVector = 'assets/svg/supervisors-vector.svg';
+  static const String medicineVector = 'assets/svg/medicine-vector.svg';
+  static const String diagnosisVector = 'assets/svg/diagnosis-vector.svg';
 
   // Avatars
   static const String defaultAvatar = 'assets/avatar/avatar0-1-1.svg';

@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'blocs.dart';
 import 'user/api/fastapi_user_api.dart';
 import 'package:user_repository/user_repository.dart';
@@ -17,6 +18,8 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  await Hive.initFlutter();
+  Hive.registerAdapter(UserAdapater());
 
   BlocOverrides.runZoned(
     () {
@@ -50,15 +53,15 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  MyApp(
-      {Key? key,
-      required this.authenticationRepository,
-      required this.authBloc,
-      required this.userBloc,
-      required this.supervisorsBloc,
-      required this.connectivityBloc,
-      required this.userRepository})
-      : super(key: key);
+  MyApp({
+    Key? key,
+    required this.authenticationRepository,
+    required this.authBloc,
+    required this.userBloc,
+    required this.supervisorsBloc,
+    required this.connectivityBloc,
+    required this.userRepository,
+  }) : super(key: key);
   final AuthenticationRepository authenticationRepository;
   final AuthBloc authBloc;
   final ConnectivityBloc connectivityBloc;

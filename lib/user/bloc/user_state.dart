@@ -10,5 +10,3 @@ class UserState with _$UserState {
   }) = _SuccessState;
   const factory UserState.error(String errorMessage) = _ErrorState;
 }
-
-enum UserStatus { initial, loading, success, error }
