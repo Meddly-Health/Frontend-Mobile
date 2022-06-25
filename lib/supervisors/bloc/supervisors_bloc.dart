@@ -33,7 +33,7 @@ class SupervisorsBloc extends Bloc<SupervisorsEvent, SupervisorsState> {
 
     response.fold(
       (e) => emit(SupervisorsState.error(errorMessage: e.message)),
-      (_) => emit(const SupervisorsState.added()),
+      (_) => emit(const SupervisorsState.deleted()),
     );
   }
 
