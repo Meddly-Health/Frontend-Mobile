@@ -17,7 +17,7 @@ class DismissTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Dismissible(
@@ -92,7 +92,7 @@ class DismissTileLoading extends StatelessWidget {
             color: const Color(0xffEEEEEE),
             borderRadius: BorderRadius.circular(20)),
         width: MediaQuery.of(context).size.width,
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        margin: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
           children: [
             const DefaultShimmer(

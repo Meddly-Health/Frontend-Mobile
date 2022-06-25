@@ -11,8 +11,19 @@ import '../../../../../../helpers/assets_provider.dart';
 import '../../../../../../widgets/widgets.dart';
 import 'widgets/dismiss_tile.dart';
 
-class SupervisedPage extends StatelessWidget {
+class SupervisedPage extends StatefulWidget {
   const SupervisedPage({Key? key}) : super(key: key);
+
+  @override
+  State<SupervisedPage> createState() => _SupervisedPageState();
+}
+
+class _SupervisedPageState extends State<SupervisedPage> {
+  @override
+  void initState() {
+    context.read<SupervisorsBloc>().add(const GetSupervisors());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,42 +51,45 @@ class SupervisedPage extends StatelessWidget {
       },
       child: Scaffold(
         body: SingleChildScrollView(
-          child: FadeIn(
-            child: Column(
-              children: [
-                Container(
-                  padding: defaultPadding,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      PageTitle(
-                        title: 'Supervisados',
-                        onPop: () {
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        },
-                      ),
-                      const SizedBox(height: 25),
-                      Text(
-                        'Comparta su seguimiento y progreso con amigos o familiares, copiando el siguiente código. Válido para un único paciente.',
-                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              color: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .color!
-                                  .withOpacity(0.5),
-                            ),
-                        textAlign: TextAlign.justify,
-                      ),
-                      const _CodeFormFieldSupervised(),
-                      Text(
-                        'Supervisados activos',
-                        style: Theme.of(context).textTheme.titleSmall,
-                      )
-                    ],
+          child: Expanded(
+            child: FadeIn(
+              child: Column(
+                children: [
+                  Container(
+                    padding: defaultPadding,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        PageTitle(
+                          title: 'Supervisados',
+                          onPop: () {
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          },
+                        ),
+                        const SizedBox(height: 25),
+                        Text(
+                          'Comparta su seguimiento y progreso con amigos o familiares, copiando el siguiente código. Válido para un único paciente.',
+                          style:
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .color!
+                                        .withOpacity(0.5),
+                                  ),
+                          textAlign: TextAlign.justify,
+                        ),
+                        const _CodeFormFieldSupervised(),
+                        Text(
+                          'Supervisados activos',
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                        const _Supervised(),
+                      ],
+                    ),
                   ),
-                ),
-                const _Supervised(),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -188,14 +202,17 @@ class _Supervised extends StatelessWidget {
     return BlocBuilder<SupervisorsBloc, SupervisorsState>(
         builder: (context, state) {
       return state.maybeWhen(
-        orElse: () => const NoData(message: 'No añadiste ningún supervisado'),
+        orElse: () => const Center(
+            child: NoData(message: 'No añadiste ningún supervisado')),
         loading: () => const _Loading(),
         success: (_, supervised) {
           if (supervised!.isEmpty) {
-            return const NoData(message: 'No añadiste ningún supervisado');
+            return const Center(
+                child: NoData(message: 'No añadiste ningún supervisado'));
           }
           return ListView.builder(
             shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
             itemCount: supervised.length,
             itemBuilder: (context, index) => DismissTile(
               user: supervised[index],
