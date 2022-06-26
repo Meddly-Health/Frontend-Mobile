@@ -50,7 +50,7 @@ class IconAndTextTileItem extends StatelessWidget {
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium!
-                  .copyWith(color: color, fontWeight: FontWeight.w400),
+                  .copyWith(color: color, fontWeight: FontWeight.w500),
             ),
           ),
           const SizedBox(width: 16),
