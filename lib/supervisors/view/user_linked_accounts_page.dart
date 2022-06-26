@@ -134,7 +134,7 @@ class _Buttons extends StatelessWidget {
           _Button(
             title: 'Obtener mi código',
             description:
-                'Ingrese el código de supervisor que recibió por correo electrónico o mensaje de texto.',
+                'Comparta su seguimiento y progreso con amigos o familiares.',
             onTap: () {
               HapticFeedback.lightImpact();
               showModalBottomSheet(

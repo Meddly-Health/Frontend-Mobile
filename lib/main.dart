@@ -3,7 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:meddly/helpers/assets_provider.dart';
 import 'blocs.dart';
 import 'user/api/fastapi_user_api.dart';
 import 'package:user_repository/user_repository.dart';
@@ -20,6 +22,13 @@ void main() async {
   );
   await Hive.initFlutter();
   Hive.registerAdapter(UserAdapater());
+
+  Future.wait([
+    precachePicture(
+        ExactAssetPicture(
+            SvgPicture.svgStringDecoderBuilder, AssetsProvider.medicineVector),
+        null),
+  ]);
 
   BlocOverrides.runZoned(
     () {
