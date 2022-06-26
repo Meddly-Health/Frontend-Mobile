@@ -4,7 +4,7 @@ import 'package:form_helper/form_helper.dart';
 import 'package:formz/formz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meddly/helpers/assets_provider.dart';
-import 'package:meddly/helpers/helpers.dart';
+import 'package:meddly/helpers/extensions.dart';
 import 'package:user_repository/user_repository.dart';
 
 part 'setup_state.dart';

@@ -4,8 +4,8 @@ import 'package:user_repository/user_repository.dart';
 
 import '../../../../../blocs.dart';
 import '../../../../../helpers/constants.dart';
+import '../../../../../widgets/meddly_back_button.dart';
 import '../../../../../widgets/no_data.dart';
-import '../../../../../widgets/page_title.dart';
 
 class UserPersonalInfoPage extends StatelessWidget {
   const UserPersonalInfoPage({Key? key}) : super(key: key);
@@ -13,7 +13,10 @@ class UserPersonalInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Información personal'),
+        leading: const MeddlyBackButton(),
+      ),
       body: SafeArea(
         child: Container(
           padding: defaultPadding,
@@ -46,8 +49,6 @@ class _OnSuccess extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const PageTitle(title: 'Información personal'),
-        const SizedBox(height: 35),
         Text('Peso: $weight',
             style: Theme.of(context)
                 .textTheme

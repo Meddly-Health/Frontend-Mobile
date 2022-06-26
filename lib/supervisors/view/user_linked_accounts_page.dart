@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:meddly/routes/router.dart';
+import 'package:meddly/widgets/meddly_back_button.dart';
 
 import '../../blocs.dart';
 import '../../helpers/assets_provider.dart';
@@ -44,30 +44,25 @@ class UserLinkedAccountsPage extends StatelessWidget {
         });
       },
       child: Scaffold(
-        body: FadeIn(
-          child: SingleChildScrollView(
-            child: Container(
-              padding: defaultPadding,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PageTitle(
-                    title: 'Cuentas vinculadas',
-                    onPop: () {
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                    },
+        appBar: AppBar(
+          title: const Text('Cuentas vinculadas'),
+          leading: const MeddlyBackButton(),
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            padding: defaultPadding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: SvgPicture.asset(
+                    AssetsProvider.supervisorsVector,
+                    width: MediaQuery.of(context).size.height / 3,
                   ),
-                  const SizedBox(height: 30),
-                  Center(
-                    child: SvgPicture.asset(
-                      AssetsProvider.supervisorsVector,
-                      width: MediaQuery.of(context).size.height / 3,
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                  const _Buttons(),
-                ],
-              ),
+                ),
+                const SizedBox(height: 30),
+                const _Buttons(),
+              ],
             ),
           ),
         ),
@@ -268,7 +263,7 @@ class _Button extends StatelessWidget {
                           .textTheme
                           .bodyMedium!
                           .color!
-                          .withOpacity(0.5)),
+                          .withOpacity(0.4)),
                 ),
               ],
             ),

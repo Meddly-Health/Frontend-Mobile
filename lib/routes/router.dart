@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:meddly/calendar/view/select_supervised_page.dart';
@@ -26,9 +27,19 @@ part 'router.gr.dart';
 @CustomAutoRouter(
     routes: routes,
     replaceInRouteName: 'Page,Route',
-    durationInMilliseconds: 300,
-    transitionsBuilder: TransitionsBuilders.noTransition)
+    durationInMilliseconds: 100,
+    reverseDurationInMilliseconds: 100,
+    transitionsBuilder: transition)
 class AppRouter extends _$AppRouter {}
+
+Widget transition(BuildContext context, Animation<double> animation,
+    Animation<double> secondaryAnimation, Widget child) {
+  return FadeThroughTransition(
+    animation: animation,
+    secondaryAnimation: secondaryAnimation,
+    child: child,
+  );
+}
 
 const List<AutoRoute> routes = [
   AutoRoute(path: 'login', page: LoginPage),

@@ -14,8 +14,10 @@ class ThemeManager {
           selectedLabelStyle: const TextStyle(
               fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black)),
       appBarTheme: AppBarTheme(
-        toolbarHeight: 0,
+        toolbarHeight: kToolbarHeight,
         elevation: 0,
+        centerTitle: true,
+        titleTextStyle: textTheme.titleMedium,
         color: scaffoldBackgroundColorLight,
       ),
       dialogTheme: DialogTheme(

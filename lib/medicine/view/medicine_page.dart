@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -60,12 +61,12 @@ class _NewMedicineButton extends StatelessWidget {
                       .copyWith(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 8),
-                Text(
+                AutoSizeText(
                   'Agrega un nuevo medicamento para comenzar con su seguimiento.',
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       color: Theme.of(context)
                           .textTheme
-                          .bodySmall!
+                          .bodyMedium!
                           .color!
                           .withOpacity(0.4)),
                 ),

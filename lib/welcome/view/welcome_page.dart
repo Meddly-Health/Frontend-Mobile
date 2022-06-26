@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,56 +24,53 @@ class WelcomePage extends StatelessWidget {
       create: (context) => WelcomeCubit()..init(),
       child: Scaffold(
         appBar: AppBar(),
-        body: FadeIn(
-          child: SizedBox(
-            child: SafeArea(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Spacer(),
-                  BlocBuilder<WelcomeCubit, WelcomeState>(
-                    builder: (context, state) {
-                      return Expanded(
-                        flex: 5,
-                        child: PageView.builder(
-                          controller:
-                              context.read<WelcomeCubit>().pageController,
-                          itemBuilder: (BuildContext context, int index) {
-                            return pages[index % 3];
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                  const Spacer(),
-                  Column(
-                    children: [
-                      BlocBuilder<WelcomeCubit, WelcomeState>(
-                        builder: (context, state) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const SizedBox(width: 15),
-                              _PageIndicator(state.currentPage == 0),
-                              const SizedBox(width: 15),
-                              _PageIndicator(state.currentPage == 1),
-                              const SizedBox(width: 15),
-                              _PageIndicator(state.currentPage == 2),
-                            ],
-                          );
+        body: SizedBox(
+          child: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Spacer(),
+                BlocBuilder<WelcomeCubit, WelcomeState>(
+                  builder: (context, state) {
+                    return Expanded(
+                      flex: 5,
+                      child: PageView.builder(
+                        controller: context.read<WelcomeCubit>().pageController,
+                        itemBuilder: (BuildContext context, int index) {
+                          return pages[index % 3];
                         },
                       ),
-                      const SizedBox(height: 20),
-                      Row(
-                        children: const [
-                          Expanded(child: _LogInButton()),
-                          Expanded(child: _SignInButton()),
-                        ],
-                      )
-                    ],
-                  )
-                ],
-              ),
+                    );
+                  },
+                ),
+                const Spacer(),
+                Column(
+                  children: [
+                    BlocBuilder<WelcomeCubit, WelcomeState>(
+                      builder: (context, state) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(width: 15),
+                            _PageIndicator(state.currentPage == 0),
+                            const SizedBox(width: 15),
+                            _PageIndicator(state.currentPage == 1),
+                            const SizedBox(width: 15),
+                            _PageIndicator(state.currentPage == 2),
+                          ],
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: const [
+                        Expanded(child: _LogInButton()),
+                        Expanded(child: _SignInButton()),
+                      ],
+                    )
+                  ],
+                )
+              ],
             ),
           ),
         ),

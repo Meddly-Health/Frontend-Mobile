@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
@@ -13,30 +12,26 @@ class UserSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FadeIn(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Padding(
-                padding: defaultPadding,
-                child: PageTitle(
-                  title: 'Configuración',
-                ),
+      appBar: AppBar(
+        leading: const MeddlyBackButton(),
+        title: const Text('Configuración'),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 25),
+            Container(
+              padding: defaultPadding.copyWith(bottom: 0),
+              margin: const EdgeInsets.symmetric(horizontal: 10),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.secondary,
+                borderRadius: BorderRadius.circular(20),
               ),
-              const SizedBox(height: 16),
-              Container(
-                padding: defaultPadding.copyWith(bottom: 0),
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.secondary,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const _SettingsItems(),
-              )
-            ],
-          ),
+              child: const _SettingsItems(),
+            )
+          ],
         ),
       ),
     );

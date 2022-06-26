@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,40 +18,38 @@ class UserProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FadeIn(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                padding: defaultPadding,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Center(
-                      child: Text(
-                        'Mi perfil',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    const _ProfileNameEmail(),
-                  ],
-                ),
+      appBar: AppBar(
+        toolbarHeight: kToolbarHeight,
+        title: const Text(
+          'Mi Perfil',
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Container(
+              padding: defaultPadding.copyWith(top: 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  SizedBox(height: 16),
+                  _ProfileNameEmail(),
+                ],
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  padding: defaultPadding.copyWith(bottom: 0),
-                  margin: const EdgeInsets.symmetric(horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondary,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: const _ProfileItems(),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                padding: defaultPadding.copyWith(bottom: 0),
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.secondary,
+                  borderRadius: BorderRadius.circular(20),
                 ),
-              )
-            ],
-          ),
+                child: const _ProfileItems(),
+              ),
+            )
+          ],
         ),
       ),
     );

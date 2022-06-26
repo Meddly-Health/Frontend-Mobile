@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../helpers/constants.dart';
@@ -41,32 +40,27 @@ class _SupervisorsPageState extends State<SupervisorsPage> {
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: Scaffold(
-          body: FadeIn(
-            child: SizedBox(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Container(
-                      padding: defaultPadding,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          PageTitle(
-                            title: 'Supervisores',
-                            onPop: () {
-                              ScaffoldMessenger.of(context)
-                                  .hideCurrentSnackBar();
-                            },
-                          ),
-                          const SizedBox(height: 25),
-                          const _Supervisors(),
-                        ],
-                      ),
+          appBar: AppBar(
+            title: const Text('Supervisores'),
+            leading: const MeddlyBackButton(),
+          ),
+          body: SizedBox(
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    padding: defaultPadding,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        SizedBox(height: 25),
+                        _Supervisors(),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),

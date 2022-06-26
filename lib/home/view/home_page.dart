@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,9 +28,7 @@ class HomePage extends StatelessWidget {
         builder: (context, state) {
           return AutoTabsScaffold(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              appBarBuilder: (context, tabsRouter) => AppBar(
-                    leading: const AutoBackButton(),
-                  ),
+              appBarBuilder: (context, tabsRouter) => AppBar(toolbarHeight: 0),
               routes: const [
                 CalendarRouter(),
                 DiagnosisRoute(),
@@ -37,6 +36,14 @@ class HomePage extends StatelessWidget {
                 MedicineRoute(),
                 UserRouter(),
               ],
+              builder: (context, child, animation) {
+                return FadeThroughTransition(
+                  animation: animation,
+                  secondaryAnimation: const AlwaysStoppedAnimation(0),
+                  fillColor: Theme.of(context).scaffoldBackgroundColor,
+                  child: child,
+                );
+              },
               bottomNavigationBuilder: (context, tabsRouter) {
                 return _BottomNavBar(
                     currentIndex: tabsRouter.activeIndex,

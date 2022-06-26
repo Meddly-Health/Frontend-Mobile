@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meddly/helpers/constants.dart';
+import 'package:meddly/helpers/extensions.dart';
 import 'package:meddly/helpers/helpers.dart';
 import 'package:meddly/widgets/widgets.dart';
 import 'package:user_repository/user_repository.dart';
@@ -13,7 +14,10 @@ class UserBasicInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text('Información básica'),
+        leading: const MeddlyBackButton(),
+      ),
       body: SafeArea(
         child: Container(
           padding: defaultPadding,
@@ -43,8 +47,6 @@ class _OnSuccess extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const PageTitle(title: 'Información básica'),
-        const SizedBox(height: 35),
         Text('Nombre: ${user.firstName!} ${user.lastName}',
             style: Theme.of(context)
                 .textTheme

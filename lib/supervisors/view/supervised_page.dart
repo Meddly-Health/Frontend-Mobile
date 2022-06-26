@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,28 +39,24 @@ class _SupervisedPageState extends State<SupervisedPage> {
         });
       },
       child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Supervisados'),
+          leading: const MeddlyBackButton(),
+        ),
         body: SingleChildScrollView(
-          child: FadeIn(
-            child: Column(
-              children: [
-                Container(
-                  padding: defaultPadding,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      PageTitle(
-                        title: 'Supervisados',
-                        onPop: () {
-                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        },
-                      ),
-                      const SizedBox(height: 25),
-                      const _Supervised(),
-                    ],
-                  ),
+          child: Column(
+            children: [
+              Container(
+                padding: defaultPadding,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: const [
+                    SizedBox(height: 25),
+                    _Supervised(),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
