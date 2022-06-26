@@ -28,9 +28,11 @@ class UserProfilePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Mi perfil',
-                      style: Theme.of(context).textTheme.titleMedium,
+                    Center(
+                      child: Text(
+                        'Mi perfil',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                     ),
                     const SizedBox(height: 16),
                     const _ProfileNameEmail(),

@@ -53,7 +53,7 @@ class _GoogleLogginButton extends StatelessWidget {
             duration: const Duration(milliseconds: 200),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.secondary,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
               child: state.status.isSubmissionInProgress && state.isGoogleSignIn
@@ -106,7 +106,7 @@ class _LogginButton extends StatelessWidget {
                         state.password.value.isNotEmpty
                     ? Theme.of(context).colorScheme.primary
                     : Theme.of(context).colorScheme.secondaryContainer,
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(20),
               ),
               duration: const Duration(milliseconds: 200),
               child: Center(
@@ -162,25 +162,25 @@ class _EmailField extends StatelessWidget {
               filled: true,
               fillColor: Theme.of(context).colorScheme.secondary,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(20),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(20),
                 borderSide:
                     BorderSide(color: Theme.of(context).colorScheme.secondary),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(20),
                 borderSide:
                     BorderSide(color: Theme.of(context).colorScheme.secondary),
               ),
               errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(20),
                 borderSide:
                     BorderSide(color: Theme.of(context).colorScheme.error),
               ),
               focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(20),
                 borderSide:
                     BorderSide(color: Theme.of(context).colorScheme.error),
               ),
@@ -234,25 +234,25 @@ class _PasswordField extends StatelessWidget {
             filled: true,
             fillColor: Theme.of(context).colorScheme.secondary,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(20),
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(20),
               borderSide:
                   BorderSide(color: Theme.of(context).colorScheme.secondary),
             ),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(20),
               borderSide:
                   BorderSide(color: Theme.of(context).colorScheme.secondary),
             ),
             errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(20),
               borderSide:
                   BorderSide(color: Theme.of(context).colorScheme.error),
             ),
             focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(20),
               borderSide:
                   BorderSide(color: Theme.of(context).colorScheme.error),
             ),

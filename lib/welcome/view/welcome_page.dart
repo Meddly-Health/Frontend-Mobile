@@ -31,12 +31,11 @@ class WelcomePage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(),
+                  const Spacer(),
                   BlocBuilder<WelcomeCubit, WelcomeState>(
                     builder: (context, state) {
-                      return Container(
-                        margin: const EdgeInsets.only(top: 30),
-                        height: MediaQuery.of(context).size.height / 1.9,
+                      return Expanded(
+                        flex: 5,
                         child: PageView.builder(
                           controller:
                               context.read<WelcomeCubit>().pageController,
@@ -47,6 +46,7 @@ class WelcomePage extends StatelessWidget {
                       );
                     },
                   ),
+                  const Spacer(),
                   Column(
                     children: [
                       BlocBuilder<WelcomeCubit, WelcomeState>(
@@ -146,25 +146,26 @@ class _PageViewBody extends StatelessWidget {
     return Container(
       padding: defaultPadding,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-              height: MediaQuery.of(context).size.height / 3,
-              child: SvgPicture.asset(asset)),
+          Expanded(flex: 4, child: SvgPicture.asset(asset)),
           const SizedBox(height: 30),
-          Text(
-            title,
-            style: Theme.of(context)
-                .textTheme
-                .titleSmall!
-                .copyWith(fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            description,
-            style: Theme.of(context).textTheme.bodyMedium,
-            textAlign: TextAlign.center,
-          ),
+          Column(
+            children: [
+              Text(
+                title,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall!
+                    .copyWith(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                description,
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          )
         ],
       ),
     );
