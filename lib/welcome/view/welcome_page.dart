@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -142,6 +143,7 @@ class _PageViewBody extends StatelessWidget {
     return Container(
       padding: defaultPadding,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(flex: 4, child: SvgPicture.asset(asset)),
           const SizedBox(height: 30),
@@ -191,7 +193,7 @@ class _SignInButton extends StatelessWidget {
               border: Border.all(
                   width: 2, color: Theme.of(context).colorScheme.primary)),
           child: Center(
-              child: Text(
+              child: AutoSizeText(
             'Regístrate',
             style: Theme.of(context)
                 .textTheme
@@ -224,7 +226,7 @@ class _LogInButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
           ),
           child: Center(
-              child: Text(
+              child: AutoSizeText(
             'Inicia sesión',
             style: Theme.of(context)
                 .textTheme

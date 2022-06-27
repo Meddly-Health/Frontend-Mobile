@@ -129,11 +129,11 @@ class _LoginPageBody extends StatelessWidget {
                                 TextSpan(children: [
                                   const TextSpan(text: 'Inicia sesión para\n'),
                                   TextSpan(
-                                      text: ' comenzar.',
+                                      text: 'comenzar.',
                                       style: TextStyle(
                                           color: Theme.of(context)
                                               .colorScheme
-                                              .primary)),
+                                              .secondaryContainer)),
                                 ]),
                                 style: Theme.of(context).textTheme.titleLarge!),
                           ),

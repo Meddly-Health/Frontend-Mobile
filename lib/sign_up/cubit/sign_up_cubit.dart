@@ -150,6 +150,7 @@ class SignUpCubit extends Cubit<SignUpState> {
       );
 
       User user = User(
+        id: _authenticationRepository.currentUser.id,
         firstName: state.name.value.capitalize(),
         lastName: state.lastName.value.capitalize(),
         birth: state.birthDate.value,
