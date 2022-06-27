@@ -32,7 +32,9 @@ class SignUpPage extends StatelessWidget {
           );
         },
         child: Scaffold(
-          appBar: AppBar(),
+          appBar: AppBar(
+            leading: const MeddlyBackButton(),
+          ),
           body: GestureDetector(
               onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
               child: const _SignUpPageBody()),

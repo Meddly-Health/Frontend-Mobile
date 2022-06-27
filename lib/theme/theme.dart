@@ -20,6 +20,21 @@ class ThemeManager {
         titleTextStyle: textTheme.titleMedium,
         color: scaffoldBackgroundColorLight,
       ),
+      inputDecorationTheme: InputDecorationTheme(
+        hintStyle: textTheme.bodyMedium!.copyWith(
+          color: textTheme.bodyMedium!.color!.withOpacity(0.4),
+        ),
+        errorStyle: textTheme.bodyMedium!.copyWith(
+          color: errorLight,
+        ),
+        labelStyle: textTheme.bodyMedium,
+        errorBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: errorLight),
+        ),
+        focusedErrorBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: errorLight),
+        ),
+      ),
       dialogTheme: DialogTheme(
         backgroundColor: scaffoldBackgroundColorLight,
         shape: RoundedRectangleBorder(

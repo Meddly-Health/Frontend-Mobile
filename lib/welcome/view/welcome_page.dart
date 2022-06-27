@@ -179,8 +179,7 @@ class _SignInButton extends StatelessWidget {
       key: const Key('__sign_in_welcome__'),
       onTap: () {
         HapticFeedback.lightImpact();
-        AutoRouter.of(context)
-            .pushAndPopUntil(const SignUpRoute(), predicate: (route) => false);
+        AutoRouter.of(context).push(const SignUpRoute());
       },
       child: Container(
           height: 64,
@@ -214,8 +213,7 @@ class _LogInButton extends StatelessWidget {
       key: const Key('__log_in_welcome__'),
       onTap: () {
         HapticFeedback.lightImpact();
-        AutoRouter.of(context)
-            .pushAndPopUntil(const LoginRoute(), predicate: (route) => false);
+        AutoRouter.of(context).push(const LoginRoute());
       },
       child: Container(
           height: 64,

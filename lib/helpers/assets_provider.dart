@@ -1,4 +1,5 @@
 class AssetsProvider {
+  static const String at = 'assets/svg/at.svg';
   static const String avatarTest = 'assets/svg/avatar-test.svg';
   static const String bell = 'assets/svg/bell.svg';
   static const String calendarIcon = 'assets/svg/calendar-icon.svg';
@@ -19,6 +20,7 @@ class AssetsProvider {
   static const String invalid = 'assets/svg/invalid.svg';
   static const String linkedUsersIcon = 'assets/svg/linked-users-icon.svg';
   static const String linkIcon = 'assets/svg/link-icon.svg';
+  static const String lockIconOutline = 'assets/svg/lock.svg';
   static const String lockIcon = 'assets/svg/lock-icon.svg';
   static const String logoutIcon = 'assets/svg/logout-icon.svg';
   static const String meddlyLogo = 'assets/svg/meddly-logo.svg';

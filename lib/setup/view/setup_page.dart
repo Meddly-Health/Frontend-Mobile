@@ -45,13 +45,17 @@ class _SetupPageState extends State<SetupPage> {
       builder: (context, state) {
         return state.maybeWhen(
             orElse: () => Scaffold(
-                  appBar: AppBar(),
+                  appBar: AppBar(
+                    toolbarHeight: 0,
+                  ),
                   body: const Center(
                     child: Loading(),
                   ),
                 ),
             success: (user, _) => Scaffold(
-                  appBar: AppBar(),
+                  appBar: AppBar(
+                    toolbarHeight: 0,
+                  ),
                   body: BlocProvider(
                     create: (context) => SetupCubit(
                         RepositoryProvider.of<UserRepository>(context),

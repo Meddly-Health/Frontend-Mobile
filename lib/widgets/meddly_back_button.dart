@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:meddly/helpers/assets_provider.dart';
 import 'dart:math';
@@ -14,7 +15,10 @@ class MeddlyBackButton extends StatelessWidget {
     return Transform.rotate(
         angle: -pi,
         child: GestureDetector(
-          onTap: () => AutoRouter.of(context).pop(),
+          onTap: () {
+            HapticFeedback.lightImpact();
+            AutoRouter.of(context).pop();
+          },
           child: Container(
             height: 56,
             width: 56,
