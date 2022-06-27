@@ -115,8 +115,8 @@ class SetupCubit extends Cubit<SetupState> {
       state.copyWith(
         lastName: lastName,
         status: Formz.validate([
-          lastName,
           state.name,
+          lastName,
           state.weight,
           state.height,
           state.birthDate

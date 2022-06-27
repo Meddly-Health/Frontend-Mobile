@@ -53,61 +53,90 @@ class SignUpForm extends StatelessWidget {
   }
 }
 
-class _BirthDateField extends StatelessWidget {
+class _BirthDateField extends StatefulWidget {
   const _BirthDateField({Key? key}) : super(key: key);
 
   @override
+  State<_BirthDateField> createState() => _BirthDateFieldState();
+}
+
+class _BirthDateFieldState extends State<_BirthDateField> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    _controller = TextEditingController();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 10),
-          child: SvgPicture.asset(
-            AssetsProvider.calendarIcon,
-            height: 20,
-            width: 20,
-          ),
-        ),
-        Expanded(
-          child: GestureDetector(
-            onTap: () async {
-              var _dateTime = await DatePicker.showSimpleDatePicker(context,
-                  titleText: 'Seleccione una fecha',
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime(1900),
-                  dateFormat: 'dd-MMMM-yyyy',
-                  locale: DateTimePickerLocale.es,
-                  confirmText: 'Aceptar',
-                  cancelText: 'Cancelar',
-                  itemTextStyle: Theme.of(context).textTheme.bodyMedium);
-            },
-            child: TextFormField(
-                key: const Key('sign_up_birthDate'),
-                textInputAction: TextInputAction.next,
-                onChanged: (String? value) {
-                  context.read<SignUpCubit>().emailChanged(value!);
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      builder: (context, state) {
+        var birthDate = state.birthDate;
+
+        bool showErrorText = birthDate.value != null && birthDate.invalid;
+
+        return Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: SvgPicture.asset(
+                AssetsProvider.calendarIcon,
+                height: 20,
+                width: 20,
+              ),
+            ),
+            Expanded(
+              child: GestureDetector(
+                onTap: () async {
+                  var _dateTime = await DatePicker.showSimpleDatePicker(context,
+                      titleText: 'Seleccione una fecha',
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(1900),
+                      dateFormat: 'dd-MMMM-yyyy',
+                      locale: DateTimePickerLocale.es,
+                      confirmText: 'Aceptar',
+                      cancelText: 'Cancelar',
+                      itemTextStyle: Theme.of(context).textTheme.bodyMedium);
+
+                  if (_dateTime != null) {
+                    BlocProvider.of<SignUpCubit>(context)
+                        .birthDateChanged(_dateTime);
+                    _controller.text = formatDate(_dateTime);
+                  }
                 },
-                enabled: false,
-                keyboardType: TextInputType.emailAddress,
-                style: Theme.of(context).textTheme.bodyMedium,
-                decoration: InputDecoration(
-                  disabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .secondaryContainer
-                          .withOpacity(0.4),
-                    ),
-                  ),
-                  hintText: 'Fecha de nacimiento',
-                  errorText: null,
-                  suffixIcon: showCheckIcon(true, context),
-                  suffixIconConstraints: const BoxConstraints(
-                      maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
-                )),
-          ),
-        )
-      ],
+                child: TextFormField(
+                    key: const Key('sign_up_birthDate'),
+                    textInputAction: TextInputAction.next,
+                    controller: _controller,
+                    enabled: false,
+                    keyboardType: TextInputType.emailAddress,
+                    style: Theme.of(context).textTheme.bodyMedium,
+                    decoration: InputDecoration(
+                      disabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context)
+                              .colorScheme
+                              .secondaryContainer
+                              .withOpacity(0.4),
+                        ),
+                      ),
+                      hintText: 'Fecha de nacimiento',
+                      errorText:
+                          showErrorText ? 'Debe ser mayor de 18 años.' : null,
+                      suffixIcon: showCheckIcon(birthDate.valid, context),
+                      suffixIconConstraints: const BoxConstraints(
+                          maxHeight: 30,
+                          maxWidth: 30,
+                          minHeight: 30,
+                          minWidth: 30),
+                    )),
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 }
@@ -117,34 +146,46 @@ class _NameField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 10),
-          child: SvgPicture.asset(
-            AssetsProvider.profileIcon,
-            height: 20,
-            width: 20,
-          ),
-        ),
-        Expanded(
-          child: TextFormField(
-              key: const Key('sign_up_name'),
-              textInputAction: TextInputAction.next,
-              onChanged: (String? value) {
-                context.read<SignUpCubit>().emailChanged(value!);
-              },
-              keyboardType: TextInputType.emailAddress,
-              style: Theme.of(context).textTheme.bodyMedium,
-              decoration: InputDecoration(
-                hintText: 'Nombre',
-                errorText: null,
-                suffixIcon: showCheckIcon(true, context),
-                suffixIconConstraints: const BoxConstraints(
-                    maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
-              )),
-        )
-      ],
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      builder: (context, state) {
+        var name = state.name;
+        bool showErrorText = name.value.isNotEmpty && name.invalid;
+
+        return Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: SvgPicture.asset(
+                AssetsProvider.profileIcon,
+                height: 20,
+                width: 20,
+              ),
+            ),
+            Expanded(
+              child: TextFormField(
+                  key: const Key('sign_up_name'),
+                  textInputAction: TextInputAction.next,
+                  onChanged: (String? value) {
+                    context.read<SignUpCubit>().nameChanged(value!);
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: InputDecoration(
+                    hintText: 'Nombre',
+                    errorText: showErrorText
+                        ? 'El nombre ingresado es inválido.'
+                        : null,
+                    suffixIcon: showCheckIcon(name.valid, context),
+                    suffixIconConstraints: const BoxConstraints(
+                        maxHeight: 30,
+                        maxWidth: 30,
+                        minHeight: 30,
+                        minWidth: 30),
+                  )),
+            )
+          ],
+        );
+      },
     );
   }
 }
@@ -154,34 +195,44 @@ class _LastNameField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 10),
-          child: SvgPicture.asset(
-            AssetsProvider.profileIcon,
-            height: 20,
-            width: 20,
-          ),
-        ),
-        Expanded(
-          child: TextFormField(
-              key: const Key('sign_up_lastName'),
-              textInputAction: TextInputAction.next,
-              onChanged: (String? value) {
-                context.read<SignUpCubit>().emailChanged(value!);
-              },
-              keyboardType: TextInputType.emailAddress,
-              style: Theme.of(context).textTheme.bodyMedium,
-              decoration: InputDecoration(
-                hintText: 'Apellido',
-                errorText: null,
-                suffixIcon: showCheckIcon(true, context),
-                suffixIconConstraints: const BoxConstraints(
-                    maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
-              )),
-        )
-      ],
+    return BlocBuilder<SignUpCubit, SignUpState>(
+      builder: (context, state) {
+        var lastName = state.lastName;
+        bool showErrorText = lastName.value.isNotEmpty && lastName.invalid;
+        return Row(
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: SizedBox(
+                height: 20,
+                width: 20,
+              ),
+            ),
+            Expanded(
+              child: TextFormField(
+                  key: const Key('sign_up_lastName'),
+                  textInputAction: TextInputAction.next,
+                  onChanged: (String? value) {
+                    context.read<SignUpCubit>().lastNameChanged(value!);
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: InputDecoration(
+                    hintText: 'Apellido',
+                    errorText: showErrorText
+                        ? 'El apellido ingresado es inválido.'
+                        : null,
+                    suffixIcon: showCheckIcon(lastName.valid, context),
+                    suffixIconConstraints: const BoxConstraints(
+                        maxHeight: 30,
+                        maxWidth: 30,
+                        minHeight: 30,
+                        minWidth: 30),
+                  )),
+            )
+          ],
+        );
+      },
     );
   }
 }
@@ -279,18 +330,11 @@ class _SignUpButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
-        var email = state.email;
-        var password = state.password;
-        var confirmedPassword = state.confirmedPassword;
         var width = MediaQuery.of(context).size.width;
         bool isLoading =
             !state.isGoogleSignIn && state.status.isSubmissionInProgress;
-        bool isEnabled = email.valid &&
-            password.valid &&
-            confirmedPassword.valid &&
-            state.termsAccepted;
+        bool isEnabled = state.status.isValidated && state.termsAccepted;
 
-        password.value.isNotEmpty;
         return GestureDetector(
           key: const Key('sign_up_button'),
           onTap: () {
@@ -399,7 +443,8 @@ class _PasswordField extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.only(right: 10),
-              child: SvgPicture.asset(AssetsProvider.lockIconOutline),
+              child: SvgPicture.asset(AssetsProvider.lockIconOutline,
+                  height: 20, width: 20),
             ),
             Expanded(
               child: TextFormField(
@@ -431,11 +476,6 @@ class _PasswordField extends StatelessWidget {
                         : Theme.of(context).textTheme.bodyMedium,
                     suffixIcon: Row(
                       children: [
-                        SizedBox(
-                          height: 30,
-                          width: 30,
-                          child: showCheckIcon(state.password.valid, context),
-                        ),
                         GestureDetector(
                           onTap: () => context
                               .read<SignUpCubit>()
@@ -454,13 +494,18 @@ class _PasswordField extends StatelessWidget {
                             ),
                           ),
                         ),
+                        if (state.password.valid)
+                          SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: showCheckIcon(state.password.valid, context),
+                          ),
                       ],
                     ),
-                    suffixIconConstraints: const BoxConstraints(
-                        maxHeight: 30,
-                        maxWidth: 70,
-                        minHeight: 30,
-                        minWidth: 70),
+                    suffixIconConstraints: BoxConstraints(
+                      maxHeight: 30,
+                      maxWidth: state.password.valid ? 60 : 30,
+                    ),
                   )),
             ),
           ],
@@ -485,9 +530,9 @@ class _ConfirmedPasswordField extends StatelessWidget {
 
         return Row(
           children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: SvgPicture.asset(AssetsProvider.lockIconOutline),
+            const Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: SizedBox(height: 20, width: 20),
             ),
             Expanded(
               child: TextFormField(
@@ -513,11 +558,6 @@ class _ConfirmedPasswordField extends StatelessWidget {
                             overflow: TextOverflow.visible),
                     errorMaxLines: 1,
                     suffixIcon: Row(children: [
-                      SizedBox(
-                          height: 30,
-                          width: 30,
-                          child: showCheckIcon(
-                              state.confirmedPassword.valid, context)),
                       GestureDetector(
                         onTap: () => context
                             .read<SignUpCubit>()
@@ -535,13 +575,18 @@ class _ConfirmedPasswordField extends StatelessWidget {
                                 .secondaryContainer,
                           ),
                         ),
-                      )
+                      ),
+                      if (state.confirmedPassword.valid)
+                        SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: showCheckIcon(
+                                state.confirmedPassword.valid, context))
                     ]),
-                    suffixIconConstraints: const BoxConstraints(
-                        maxHeight: 30,
-                        maxWidth: 70,
-                        minHeight: 30,
-                        minWidth: 70),
+                    suffixIconConstraints: BoxConstraints(
+                      maxHeight: 30,
+                      maxWidth: state.confirmedPassword.valid ? 60 : 30,
+                    ),
                   )),
             ),
           ],

@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
 import 'package:meddly/helpers/constants.dart';
+import 'package:user_repository/user_repository.dart';
 import '../../helpers/assets_provider.dart';
 import '../../routes/router.dart';
 import '../../widgets/widgets.dart';
@@ -20,24 +21,13 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          SignUpCubit(RepositoryProvider.of<AuthenticationRepository>(context)),
-      child: BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) {
-          state.when(
-            unauthenticated: () {},
-            authenticated: (AuthUser user) => AutoRouter.of(context)
-                .pushAndPopUntil(const LoadingRoute(),
-                    predicate: ((route) => false)),
-          );
-        },
+      create: (context) => SignUpCubit(
+          RepositoryProvider.of<AuthenticationRepository>(context),
+          RepositoryProvider.of<UserRepository>(context)),
+      child: BlocListener<SignUpCubit, SignUpState>(
+        listener: (context, state) {},
         child: Scaffold(
           resizeToAvoidBottomInset: false,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            systemOverlayStyle: SystemUiOverlayStyle.dark,
-            leading: const MeddlyBackButton(),
-          ),
           body: GestureDetector(
               onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
               child: const _SignUpPageBody()),
@@ -77,6 +67,8 @@ class _SignUpPageBody extends StatelessWidget {
 
               if (state.status.isSubmissionSuccess) {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                AutoRouter.of(context).pushAndPopUntil(const LoadingRoute(),
+                    predicate: ((route) => false));
               }
             },
           ),
@@ -109,39 +101,50 @@ class _SignUpPageBody extends StatelessWidget {
                   ),
                 ),
               ),
-              SingleChildScrollView(
-                child: Container(
-                  padding: defaultPadding,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      FadeInLeft(
-                        duration: const Duration(milliseconds: 300),
-                        child: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text.rich(
-                              TextSpan(children: [
-                                const TextSpan(text: 'Bienvenido!\n'),
-                                TextSpan(
-                                    text: 'Crea tu cuenta para comenzar.',
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary)),
-                              ]),
-                              style: Theme.of(context).textTheme.titleLarge!),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      FadeInLeft(
+              NestedScrollView(
+                body: SingleChildScrollView(
+                  child: Container(
+                    padding: defaultPadding,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        FadeInLeft(
                           duration: const Duration(milliseconds: 300),
-                          child: const SignUpForm()),
-                      const SizedBox(height: 35),
-                      const _AlreadyHaveAnAccountText(),
-                      const SizedBox(height: 16),
-                    ],
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text.rich(
+                                TextSpan(children: [
+                                  const TextSpan(text: 'Bienvenido!\n'),
+                                  TextSpan(
+                                      text: 'Crea tu cuenta para comenzar.',
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondaryContainer)),
+                                ]),
+                                style: Theme.of(context).textTheme.titleLarge!),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        FadeInLeft(
+                            duration: const Duration(milliseconds: 300),
+                            child: const SignUpForm()),
+                        const SizedBox(height: 35),
+                        const _AlreadyHaveAnAccountText(),
+                        const SizedBox(height: 16),
+                      ],
+                    ),
                   ),
                 ),
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
+                  return [
+                    const SliverAppBar(
+                      backgroundColor: Colors.transparent,
+                      leading: MeddlyBackButton(),
+                    )
+                  ];
+                },
               ),
             ],
           ),
