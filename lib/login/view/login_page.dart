@@ -34,6 +34,8 @@ class LoginPage extends StatelessWidget {
         child: Scaffold(
           resizeToAvoidBottomInset: false,
           appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            systemOverlayStyle: SystemUiOverlayStyle.dark,
             leading: const MeddlyBackButton(),
           ),
           body: GestureDetector(
@@ -105,13 +107,13 @@ class _LoginPageBody extends StatelessWidget {
                   clipBehavior: Clip.none,
                   children: [
                     Positioned(
-                      top: 0,
-                      right: -50,
+                      top: -300,
+                      right: -300,
                       child: FadeInRight(
                         duration: const Duration(milliseconds: 300),
                         child: SvgPicture.asset(
                           AssetsProvider.meddlyLogo,
-                          height: 300,
+                          height: 600,
                         ),
                       ),
                     ),
@@ -171,8 +173,7 @@ class _DontHaveAnAccountText extends StatelessWidget {
       key: testingKey,
       onTap: () {
         HapticFeedback.lightImpact();
-        AutoRouter.of(context)
-            .pushAndPopUntil(const SignUpRoute(), predicate: (route) => false);
+        AutoRouter.of(context).popAndPush(const SignUpRoute());
       },
       child: Text.rich(TextSpan(children: [
         TextSpan(

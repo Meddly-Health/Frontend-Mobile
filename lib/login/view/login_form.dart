@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
 
@@ -10,6 +9,7 @@ import 'package:meddly/helpers/constants.dart';
 import 'package:meddly/widgets/snackbar.dart';
 
 import '../../helpers/assets_provider.dart';
+import '../../widgets/loading_button.dart';
 import '../cubit/login_cubit.dart';
 
 class LoginForm extends StatelessWidget {
@@ -42,15 +42,15 @@ class LoginForm extends StatelessWidget {
           const SizedBox(height: 16),
           const Divider(),
           const SizedBox(height: 16),
-          const _GoogleLogginButton()
+          const _GoogleLoginButton()
         ],
       ),
     );
   }
 }
 
-class _GoogleLogginButton extends StatelessWidget {
-  const _GoogleLogginButton({
+class _GoogleLoginButton extends StatelessWidget {
+  const _GoogleLoginButton({
     Key? key,
   }) : super(key: key);
 
@@ -60,7 +60,7 @@ class _GoogleLogginButton extends StatelessWidget {
       builder: (context, state) {
         bool isLoading =
             state.status.isSubmissionInProgress && state.isGoogleSignIn;
-        var width = MediaQuery.of(context).size.width;
+        double width = MediaQuery.of(context).size.width;
 
         return GestureDetector(
           key: const Key('google_login_button'),
@@ -78,7 +78,7 @@ class _GoogleLogginButton extends StatelessWidget {
             ),
             child: Center(
               child: isLoading
-                  ? const _LoadingButton()
+                  ? const LoadingButton()
                   : FittedBox(
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
@@ -95,23 +95,6 @@ class _GoogleLogginButton extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class _LoadingButton extends StatelessWidget {
-  const _LoadingButton({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: SpinKitDoubleBounce(
-        size: 30,
-        duration: const Duration(milliseconds: 1000),
-        color: Theme.of(context).colorScheme.secondary,
-      ),
     );
   }
 }
@@ -153,7 +136,7 @@ class _LoginButton extends StatelessWidget {
               duration: const Duration(milliseconds: 150),
               curve: Curves.easeIn,
               child: isLoading
-                  ? const _LoadingButton()
+                  ? const LoadingButton()
                   : Center(
                       child: FittedBox(
                         child: Text('Iniciar sesión',

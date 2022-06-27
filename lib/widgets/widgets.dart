@@ -5,3 +5,4 @@ export 'button.dart';
 export 'no_data.dart';
 export 'avatar.dart';
 export 'meddly_back_button.dart';
+export 'loading_button.dart';

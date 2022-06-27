@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
 import '../../connectivity/bloc/connectivity_bloc.dart';
 import '../../helpers/assets_provider.dart';
 
+import '../../helpers/constants.dart';
 import '../../helpers/helpers.dart';
 import '../../widgets/widgets.dart';
 import '../cubit/sign_up_cubit.dart';
@@ -17,20 +19,168 @@ class SignUpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: const [
-        _EmailField(),
-        SizedBox(height: 16),
-        _PasswordField(),
-        SizedBox(height: 16),
-        _ConfirmedPasswordField(),
-        SizedBox(height: 20),
-        _TermsAndConditions(),
-        SizedBox(height: 20),
-        _SignUpButton(),
-        SizedBox(height: 16),
-        _GoogleLogginButton()
+    return Container(
+      padding: defaultPadding,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: Theme.of(context).colorScheme.secondary),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          _NameField(),
+          SizedBox(height: 16),
+          _LastNameField(),
+          SizedBox(height: 16),
+          _BirthDateField(),
+          SizedBox(height: 16),
+          Divider(),
+          _EmailField(),
+          SizedBox(height: 16),
+          _PasswordField(),
+          SizedBox(height: 16),
+          _ConfirmedPasswordField(),
+          SizedBox(height: 16),
+          _TermsAndConditions(),
+          SizedBox(height: 20),
+          _SignUpButton(),
+          SizedBox(height: 16),
+          Divider(),
+          SizedBox(height: 16),
+          _GoogleSignupButton()
+        ],
+      ),
+    );
+  }
+}
+
+class _BirthDateField extends StatelessWidget {
+  const _BirthDateField({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 10),
+          child: SvgPicture.asset(
+            AssetsProvider.calendarIcon,
+            height: 20,
+            width: 20,
+          ),
+        ),
+        Expanded(
+          child: GestureDetector(
+            onTap: () async {
+              var _dateTime = await DatePicker.showSimpleDatePicker(context,
+                  titleText: 'Seleccione una fecha',
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(1900),
+                  dateFormat: 'dd-MMMM-yyyy',
+                  locale: DateTimePickerLocale.es,
+                  confirmText: 'Aceptar',
+                  cancelText: 'Cancelar',
+                  itemTextStyle: Theme.of(context).textTheme.bodyMedium);
+            },
+            child: TextFormField(
+                key: const Key('sign_up_birthDate'),
+                textInputAction: TextInputAction.next,
+                onChanged: (String? value) {
+                  context.read<SignUpCubit>().emailChanged(value!);
+                },
+                enabled: false,
+                keyboardType: TextInputType.emailAddress,
+                style: Theme.of(context).textTheme.bodyMedium,
+                decoration: InputDecoration(
+                  disabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .secondaryContainer
+                          .withOpacity(0.4),
+                    ),
+                  ),
+                  hintText: 'Fecha de nacimiento',
+                  errorText: null,
+                  suffixIcon: showCheckIcon(true, context),
+                  suffixIconConstraints: const BoxConstraints(
+                      maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
+                )),
+          ),
+        )
+      ],
+    );
+  }
+}
+
+class _NameField extends StatelessWidget {
+  const _NameField({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 10),
+          child: SvgPicture.asset(
+            AssetsProvider.profileIcon,
+            height: 20,
+            width: 20,
+          ),
+        ),
+        Expanded(
+          child: TextFormField(
+              key: const Key('sign_up_name'),
+              textInputAction: TextInputAction.next,
+              onChanged: (String? value) {
+                context.read<SignUpCubit>().emailChanged(value!);
+              },
+              keyboardType: TextInputType.emailAddress,
+              style: Theme.of(context).textTheme.bodyMedium,
+              decoration: InputDecoration(
+                hintText: 'Nombre',
+                errorText: null,
+                suffixIcon: showCheckIcon(true, context),
+                suffixIconConstraints: const BoxConstraints(
+                    maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
+              )),
+        )
+      ],
+    );
+  }
+}
+
+class _LastNameField extends StatelessWidget {
+  const _LastNameField({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(right: 10),
+          child: SvgPicture.asset(
+            AssetsProvider.profileIcon,
+            height: 20,
+            width: 20,
+          ),
+        ),
+        Expanded(
+          child: TextFormField(
+              key: const Key('sign_up_lastName'),
+              textInputAction: TextInputAction.next,
+              onChanged: (String? value) {
+                context.read<SignUpCubit>().emailChanged(value!);
+              },
+              keyboardType: TextInputType.emailAddress,
+              style: Theme.of(context).textTheme.bodyMedium,
+              decoration: InputDecoration(
+                hintText: 'Apellido',
+                errorText: null,
+                suffixIcon: showCheckIcon(true, context),
+                suffixIconConstraints: const BoxConstraints(
+                    maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
+              )),
+        )
       ],
     );
   }
@@ -71,8 +221,8 @@ class _TermsAndConditions extends StatelessWidget {
   }
 }
 
-class _GoogleLogginButton extends StatelessWidget {
-  const _GoogleLogginButton({
+class _GoogleSignupButton extends StatelessWidget {
+  const _GoogleSignupButton({
     Key? key,
   }) : super(key: key);
 
@@ -80,38 +230,37 @@ class _GoogleLogginButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
+        double width = MediaQuery.of(context).size.width;
+        bool isLoading =
+            state.status.isSubmissionInProgress && state.isGoogleSignIn;
         return GestureDetector(
           key: const Key('google_login_button'),
           onTap: () {
             HapticFeedback.lightImpact();
             _loginWithGoogle(context, state);
           },
-          child: Container(
-            height: 55,
+          child: AnimatedContainer(
+            height: 64,
+            width: isLoading ? 64 : width,
+            duration: const Duration(milliseconds: 200),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.secondary,
+              color: Theme.of(context).scaffoldBackgroundColor,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Center(
-              child: state.status.isSubmissionInProgress && state.isGoogleSignIn
-                  ? SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                        color: Colors.black,
-                        backgroundColor:
-                            Theme.of(context).colorScheme.secondary,
-                        strokeWidth: 2,
+              child: isLoading
+                  ? const LoadingButton()
+                  : FittedBox(
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          SvgPicture.asset(AssetsProvider.googleIcon,
+                              height: 25),
+                          const SizedBox(width: 16),
+                          Text('Iniciar sesión con Google',
+                              style: Theme.of(context).textTheme.bodyMedium),
+                        ],
                       ),
-                    )
-                  : Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        SvgPicture.asset(AssetsProvider.googleIcon),
-                        const SizedBox(width: 16),
-                        Text('Iniciar Sesión con Google',
-                            style: Theme.of(context).textTheme.bodyMedium),
-                      ],
                     ),
             ),
           ),
@@ -130,6 +279,18 @@ class _SignUpButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SignUpCubit, SignUpState>(
       builder: (context, state) {
+        var email = state.email;
+        var password = state.password;
+        var confirmedPassword = state.confirmedPassword;
+        var width = MediaQuery.of(context).size.width;
+        bool isLoading =
+            !state.isGoogleSignIn && state.status.isSubmissionInProgress;
+        bool isEnabled = email.valid &&
+            password.valid &&
+            confirmedPassword.valid &&
+            state.termsAccepted;
+
+        password.value.isNotEmpty;
         return GestureDetector(
           key: const Key('sign_up_button'),
           onTap: () {
@@ -137,26 +298,32 @@ class _SignUpButton extends StatelessWidget {
             _signInWithEmailAndPassword(context, state);
           },
           child: AnimatedContainer(
-            height: 55,
+            height: 64,
             decoration: BoxDecoration(
-              color: state.status.isValid && state.termsAccepted ||
-                      state.status.isSubmissionInProgress
+              color: isEnabled
                   ? Theme.of(context).colorScheme.primary
                   : Theme.of(context).colorScheme.secondaryContainer,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: isLoading
+                  ? BorderRadius.circular(99)
+                  : BorderRadius.circular(20),
             ),
-            duration: const Duration(milliseconds: 200),
-            child: Center(
-              child:
-                  state.status.isSubmissionInProgress && !state.isGoogleSignIn
-                      ? const SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: Loading(),
-                        )
-                      : Text('Regístrate',
-                          style: Theme.of(context).textTheme.labelMedium),
-            ),
+            onEnd: () {},
+            width: isLoading ? 64 : width,
+            duration: const Duration(milliseconds: 150),
+            curve: Curves.easeIn,
+            child: isLoading
+                ? const LoadingButton()
+                : Center(
+                    child: FittedBox(
+                      child: Text('Iniciar sesión',
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium!
+                              .copyWith(
+                                  color:
+                                      Theme.of(context).colorScheme.secondary)),
+                    ),
+                  ),
           ),
         );
       },
@@ -177,61 +344,39 @@ class _EmailField extends StatelessWidget {
             state.email.invalid &&
             !state.isGoogleSignIn;
 
-        return TextFormField(
-            key: const Key('sign_up_email'),
-            textInputAction: TextInputAction.next,
-            onChanged: (String? value) {
-              context.read<SignUpCubit>().emailChanged(value!);
-            },
-            keyboardType: TextInputType.emailAddress,
-            style: Theme.of(context).textTheme.bodyMedium,
-            decoration: InputDecoration(
-              hintText: 'Correo electrónico',
-              hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.6),
-                  ),
-              filled: true,
-              fillColor: Theme.of(context).colorScheme.secondary,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
+        return Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: SvgPicture.asset(
+                AssetsProvider.at,
+                height: 20,
+                width: 20,
+                color: Theme.of(context).colorScheme.secondaryContainer,
               ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.secondary),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.secondary),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.error),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.error),
-              ),
-              errorText: !showErrorText ? null : 'El email es inválido.',
-              errorStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-              labelStyle: state.errorMessage == null
-                  ? Theme.of(context).textTheme.bodyMedium
-                  : Theme.of(context).textTheme.bodyMedium,
-              floatingLabelStyle: state.errorMessage == null
-                  ? Theme.of(context).textTheme.bodyMedium
-                  : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon: showCheckIcon(state.email.valid, context),
-              suffixIconConstraints: const BoxConstraints(
-                  maxHeight: 30, maxWidth: 30, minHeight: 30, minWidth: 30),
-            ));
+            ),
+            Expanded(
+              child: TextFormField(
+                  key: const Key('sign_up_email'),
+                  textInputAction: TextInputAction.next,
+                  onChanged: (String? value) {
+                    context.read<SignUpCubit>().emailChanged(value!);
+                  },
+                  keyboardType: TextInputType.emailAddress,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  decoration: InputDecoration(
+                    hintText: 'Correo electrónico',
+                    errorText: !showErrorText ? null : 'El email es inválido.',
+                    suffixIcon: showCheckIcon(state.email.valid, context),
+                    suffixIconConstraints: const BoxConstraints(
+                        maxHeight: 30,
+                        maxWidth: 30,
+                        minHeight: 30,
+                        minWidth: 30),
+                  )),
+            ),
+          ],
+        );
       },
     );
   }
@@ -250,86 +395,76 @@ class _PasswordField extends StatelessWidget {
             state.password.invalid &&
             !state.isGoogleSignIn;
 
-        return TextFormField(
-            key: const Key('sign_up_password'),
-            textInputAction: TextInputAction.next,
-            onChanged: (String? value) {
-              context.read<SignUpCubit>().passwordChanged(value!);
-            },
-            keyboardType: TextInputType.text,
-            style: Theme.of(context).textTheme.bodyMedium,
-            obscureText: state.isPasswordObscure,
-            decoration: InputDecoration(
-              hintText: 'Contraseña',
-              hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.6),
-                  ),
-              filled: true,
-              fillColor: Theme.of(context).colorScheme.secondary,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.secondary),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.secondary),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.error),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.error),
-              ),
-              errorText: !showErrorText
-                  ? null
-                  : 'La contraseña debe poseer al menos 8 caracteres e incluir al menos un número y al menos un carácter especial.',
-              errorStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.error,
-                  overflow: TextOverflow.visible),
-              errorMaxLines: 3,
-              labelStyle: state.errorMessage == null
-                  ? Theme.of(context).textTheme.bodyMedium
-                  : Theme.of(context).textTheme.bodyMedium,
-              floatingLabelStyle: state.errorMessage == null
-                  ? Theme.of(context).textTheme.bodyMedium
-                  : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon: Row(
-                children: [
-                  SizedBox(
-                    height: 30,
-                    width: 30,
-                    child: showCheckIcon(state.password.valid, context),
-                  ),
-                  GestureDetector(
-                    onTap: () =>
-                        context.read<SignUpCubit>().togglePasswordVisibility(),
-                    child: Container(
-                      padding: const EdgeInsets.only(right: 10),
-                      child: SvgPicture.asset(
-                        state.isPasswordObscure
-                            ? AssetsProvider.eyeCrossed
-                            : AssetsProvider.eye,
-                        color: Theme.of(context).colorScheme.secondaryContainer,
-                      ),
+        return Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: SvgPicture.asset(AssetsProvider.lockIconOutline),
+            ),
+            Expanded(
+              child: TextFormField(
+                  key: const Key('sign_up_password'),
+                  textInputAction: TextInputAction.next,
+                  onChanged: (String? value) {
+                    context.read<SignUpCubit>().passwordChanged(value!);
+                  },
+                  keyboardType: TextInputType.text,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  obscureText: state.isPasswordObscure,
+                  decoration: InputDecoration(
+                    hintText: 'Contraseña',
+                    errorText: !showErrorText
+                        ? null
+                        : 'La contraseña debe poseer al menos 8 caracteres e incluir al menos un número y al menos un carácter especial.',
+                    errorStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(
+                            color: Theme.of(context).colorScheme.error,
+                            overflow: TextOverflow.visible),
+                    errorMaxLines: 3,
+                    labelStyle: state.errorMessage == null
+                        ? Theme.of(context).textTheme.bodyMedium
+                        : Theme.of(context).textTheme.bodyMedium,
+                    floatingLabelStyle: state.errorMessage == null
+                        ? Theme.of(context).textTheme.bodyMedium
+                        : Theme.of(context).textTheme.bodyMedium,
+                    suffixIcon: Row(
+                      children: [
+                        SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: showCheckIcon(state.password.valid, context),
+                        ),
+                        GestureDetector(
+                          onTap: () => context
+                              .read<SignUpCubit>()
+                              .togglePasswordVisibility(),
+                          child: Container(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: SvgPicture.asset(
+                              state.isPasswordObscure
+                                  ? AssetsProvider.eyeCrossed
+                                  : AssetsProvider.eye,
+                              height: 20,
+                              width: 20,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .secondaryContainer,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              suffixIconConstraints: const BoxConstraints(
-                  maxHeight: 30, maxWidth: 70, minHeight: 30, minWidth: 70),
-            ));
+                    suffixIconConstraints: const BoxConstraints(
+                        maxHeight: 30,
+                        maxWidth: 70,
+                        minHeight: 30,
+                        minWidth: 70),
+                  )),
+            ),
+          ],
+        );
       },
     );
   }
@@ -348,83 +483,69 @@ class _ConfirmedPasswordField extends StatelessWidget {
             state.confirmedPassword.invalid &&
             !state.isGoogleSignIn;
 
-        return TextFormField(
-            key: const Key('sign_up_confirmed_password'),
-            textInputAction: TextInputAction.next,
-            onChanged: (String? value) {
-              context.read<SignUpCubit>().confirmedPasswordChanged(value!);
-            },
-            keyboardType: TextInputType.text,
-            style: Theme.of(context).textTheme.bodyMedium,
-            obscureText: state.isPasswordObscure,
-            decoration: InputDecoration(
-              hintText: 'Confirmar contraseña',
-              hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.6),
-                  ),
-              filled: true,
-              fillColor: Theme.of(context).colorScheme.secondary,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.secondary),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.secondary),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.error),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.error),
-              ),
-              errorText:
-                  !showErrorText ? null : 'Las contraseñas no coinciden.',
-              errorStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.error,
-                  overflow: TextOverflow.visible),
-              errorMaxLines: 1,
-              labelStyle: state.errorMessage == null
-                  ? Theme.of(context).textTheme.bodyMedium
-                  : Theme.of(context).textTheme.bodyMedium,
-              floatingLabelStyle: state.errorMessage == null
-                  ? Theme.of(context).textTheme.bodyMedium
-                  : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon: Row(children: [
-                SizedBox(
-                    height: 30,
-                    width: 30,
-                    child:
-                        showCheckIcon(state.confirmedPassword.valid, context)),
-                GestureDetector(
-                  onTap: () =>
-                      context.read<SignUpCubit>().togglePasswordVisibility(),
-                  child: Container(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: SvgPicture.asset(
-                      state.isPasswordObscure
-                          ? AssetsProvider.eyeCrossed
-                          : AssetsProvider.eye,
-                      color: Theme.of(context).colorScheme.secondaryContainer,
-                    ),
-                  ),
-                )
-              ]),
-              suffixIconConstraints: const BoxConstraints(
-                  maxHeight: 30, maxWidth: 70, minHeight: 30, minWidth: 70),
-            ));
+        return Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: SvgPicture.asset(AssetsProvider.lockIconOutline),
+            ),
+            Expanded(
+              child: TextFormField(
+                  key: const Key('sign_up_confirmed_password'),
+                  textInputAction: TextInputAction.next,
+                  onChanged: (String? value) {
+                    context
+                        .read<SignUpCubit>()
+                        .confirmedPasswordChanged(value!);
+                  },
+                  keyboardType: TextInputType.text,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                  obscureText: state.isPasswordObscure,
+                  decoration: InputDecoration(
+                    hintText: 'Confirmar contraseña',
+                    errorText:
+                        !showErrorText ? null : 'Las contraseñas no coinciden.',
+                    errorStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(
+                            color: Theme.of(context).colorScheme.error,
+                            overflow: TextOverflow.visible),
+                    errorMaxLines: 1,
+                    suffixIcon: Row(children: [
+                      SizedBox(
+                          height: 30,
+                          width: 30,
+                          child: showCheckIcon(
+                              state.confirmedPassword.valid, context)),
+                      GestureDetector(
+                        onTap: () => context
+                            .read<SignUpCubit>()
+                            .togglePasswordVisibility(),
+                        child: Container(
+                          padding: const EdgeInsets.only(right: 10),
+                          child: SvgPicture.asset(
+                            state.isPasswordObscure
+                                ? AssetsProvider.eyeCrossed
+                                : AssetsProvider.eye,
+                            height: 20,
+                            width: 20,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondaryContainer,
+                          ),
+                        ),
+                      )
+                    ]),
+                    suffixIconConstraints: const BoxConstraints(
+                        maxHeight: 30,
+                        maxWidth: 70,
+                        minHeight: 30,
+                        minWidth: 70),
+                  )),
+            ),
+          ],
+        );
       },
     );
   }

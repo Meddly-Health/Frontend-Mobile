@@ -6,8 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
+import 'package:meddly/helpers/constants.dart';
 import '../../helpers/assets_provider.dart';
-import '../../helpers/constants.dart';
 import '../../routes/router.dart';
 import '../../widgets/widgets.dart';
 import 'sign_up_form.dart';
@@ -32,7 +32,10 @@ class SignUpPage extends StatelessWidget {
           );
         },
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            systemOverlayStyle: SystemUiOverlayStyle.dark,
             leading: const MeddlyBackButton(),
           ),
           body: GestureDetector(
@@ -91,32 +94,56 @@ class _SignUpPageBody extends StatelessWidget {
             }),
           )
         ],
-        child: Container(
-          padding: defaultPadding,
-          child: SafeArea(
-            child: SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height -
-                        MediaQuery.of(context).padding.vertical -
-                        Scaffold.of(context).appBarMaxHeight! -
-                        defaultPadding.bottom -
-                        defaultPadding.top),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Spacer(flex: 1),
-                    Hero(
-                        tag: 'logo',
-                        child: SvgPicture.asset(AssetsProvider.meddlyLogo)),
-                    const Spacer(flex: 1),
-                    FadeIn(child: const SignUpForm()),
-                    const Spacer(flex: 3),
-                    const _AlreadyHaveAnAccountText(),
-                  ],
+        child: SafeArea(
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Positioned(
+                top: -200,
+                right: -300,
+                child: FadeInRight(
+                  duration: const Duration(milliseconds: 300),
+                  child: SvgPicture.asset(
+                    AssetsProvider.meddlyLogo,
+                    height: 600,
+                  ),
                 ),
               ),
-            ),
+              SingleChildScrollView(
+                child: Container(
+                  padding: defaultPadding,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      FadeInLeft(
+                        duration: const Duration(milliseconds: 300),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text.rich(
+                              TextSpan(children: [
+                                const TextSpan(text: 'Bienvenido!\n'),
+                                TextSpan(
+                                    text: 'Crea tu cuenta para comenzar.',
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary)),
+                              ]),
+                              style: Theme.of(context).textTheme.titleLarge!),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      FadeInLeft(
+                          duration: const Duration(milliseconds: 300),
+                          child: const SignUpForm()),
+                      const SizedBox(height: 35),
+                      const _AlreadyHaveAnAccountText(),
+                      const SizedBox(height: 16),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       );
@@ -135,8 +162,7 @@ class _AlreadyHaveAnAccountText extends StatelessWidget {
       key: const Key('signUpTextButton'),
       onTap: () {
         HapticFeedback.lightImpact();
-        AutoRouter.of(context)
-            .pushAndPopUntil(const LoginRoute(), predicate: (route) => false);
+        AutoRouter.of(context).popAndPush(const LoginRoute());
       },
       child: Text.rich(TextSpan(children: [
         TextSpan(
