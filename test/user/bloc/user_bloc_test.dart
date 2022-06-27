@@ -21,7 +21,6 @@ void main() {
     late User userUpdated;
     late AuthUser authUser;
     late User supervising;
-    const User? nullSupervising = null;
 
     setUp(() {
       userRepository = MockUserRepository();

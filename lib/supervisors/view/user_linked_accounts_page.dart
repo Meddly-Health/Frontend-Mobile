@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:meddly/routes/router.dart';
-import 'package:meddly/widgets/meddly_back_button.dart';
 
 import '../../blocs.dart';
 import '../../helpers/assets_provider.dart';
@@ -44,25 +43,29 @@ class UserLinkedAccountsPage extends StatelessWidget {
         });
       },
       child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Cuentas vinculadas'),
-          leading: const MeddlyBackButton(),
-        ),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: defaultPadding,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: SvgPicture.asset(
-                    AssetsProvider.supervisorsVector,
-                    width: MediaQuery.of(context).size.height / 3,
+        body: NestedScrollView(
+          headerSliverBuilder: (context, _) => [
+            const SliverAppBar(
+              title: Text('Cuentas vinculadas'),
+              leading: MeddlyBackButton(),
+            ),
+          ],
+          body: SingleChildScrollView(
+            child: Container(
+              padding: defaultPadding,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: SvgPicture.asset(
+                      AssetsProvider.supervisorsVector,
+                      width: MediaQuery.of(context).size.height / 3,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 30),
-                const _Buttons(),
-              ],
+                  const SizedBox(height: 30),
+                  const _Buttons(),
+                ],
+              ),
             ),
           ),
         ),
@@ -85,6 +88,7 @@ class _Buttons extends StatelessWidget {
         color: Theme.of(context).colorScheme.secondary,
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           _Button(
               title: 'Supervisores',

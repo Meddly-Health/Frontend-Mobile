@@ -60,62 +60,6 @@ void main() {
       user = MockUser();
     });
 
-    group('nameChanged', () {
-      blocTest<SetupCubit, SetupState>(
-        'emits [invalid] when name is invalid',
-        build: () => SetupCubit(userRepository, authenticationRepository),
-        act: (cubit) => cubit.nameChanged(invalidNameString),
-        expect: () => const <SetupState>[
-          SetupState(name: invalidName, status: FormzStatus.invalid),
-        ],
-      );
-
-      blocTest<SetupCubit, SetupState>(
-        'emits [invalid] when name is invalid and lastName,birthDate,sex, weight, height are valid',
-        build: () => SetupCubit(userRepository, authenticationRepository),
-        act: (cubit) => cubit.nameChanged(invalidNameString),
-        seed: () => SetupState(
-          lastName: validLastName,
-          birthDate: validBirtDate,
-          sex: validSex,
-          height: validHeight,
-          weight: validWeight,
-        ),
-        expect: () => <SetupState>[
-          SetupState(
-              lastName: validLastName,
-              birthDate: validBirtDate,
-              sex: validSex,
-              name: invalidName,
-              height: validHeight,
-              weight: validWeight,
-              status: FormzStatus.invalid),
-        ],
-      );
-      blocTest<SetupCubit, SetupState>(
-        'emits [valid] when name is valid and name,birthDate,sex,weight,height are valid',
-        build: () => SetupCubit(userRepository, authenticationRepository),
-        seed: () => SetupState(
-          lastName: validLastName,
-          birthDate: validBirtDate,
-          sex: validSex,
-          height: validHeight,
-          weight: validWeight,
-        ),
-        act: (cubit) => cubit.nameChanged(validNameString),
-        expect: () => <SetupState>[
-          SetupState(
-              lastName: validLastName,
-              name: validName,
-              birthDate: validBirtDate,
-              sex: validSex,
-              height: validHeight,
-              weight: validWeight,
-              status: FormzStatus.valid)
-        ],
-      );
-    });
-
     group('lastNameChanged', () {
       blocTest<SetupCubit, SetupState>(
         'emits [invalid] when name is invalid',

@@ -359,13 +359,19 @@ class _SignUpButton extends StatelessWidget {
                 ? const LoadingButton()
                 : Center(
                     child: FittedBox(
-                      child: Text('Iniciar sesión',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium!
-                              .copyWith(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary)),
+                      child: state.status.isSubmissionSuccess
+                          ? SvgPicture.asset(
+                              AssetsProvider.success,
+                              color: Theme.of(context).colorScheme.secondary,
+                            )
+                          : Text('Iniciar sesión',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium!
+                                  .copyWith(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary)),
                     ),
                   ),
           ),
