@@ -19,7 +19,7 @@ class HomePage extends StatelessWidget {
       listener: (context, state) {
         state.when(
           unauthenticated: () => AutoRouter.of(context).pushAndPopUntil(
-              const LoginRoute(),
+              const WelcomeRoute(),
               predicate: ((route) => false)),
           authenticated: (_) {},
         );

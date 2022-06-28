@@ -80,9 +80,10 @@ class _BirthDateFieldState extends State<_BirthDateField> {
         bool showErrorText = birthDate.value != null && birthDate.invalid;
 
         return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.only(right: 10, top: 13),
               child: SvgPicture.asset(
                 AssetsProvider.calendarIcon,
                 height: 20,
@@ -154,9 +155,10 @@ class _NameField extends StatelessWidget {
         bool showErrorText = name.value.isNotEmpty && name.invalid;
 
         return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.only(right: 10, top: 13),
               child: SvgPicture.asset(
                 AssetsProvider.profileIcon,
                 height: 20,
@@ -403,9 +405,10 @@ class _EmailField extends StatelessWidget {
             !state.isGoogleSignIn;
 
         return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.only(right: 10, top: 13),
               child: SvgPicture.asset(
                 AssetsProvider.at,
                 height: 20,
@@ -454,9 +457,10 @@ class _PasswordField extends StatelessWidget {
             !state.isGoogleSignIn;
 
         return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.only(right: 10, top: 13),
               child: SvgPicture.asset(AssetsProvider.lockIconOutline,
                   height: 20, width: 20),
             ),
@@ -537,6 +541,7 @@ class _ConfirmedPasswordField extends StatelessWidget {
             !state.isGoogleSignIn;
 
         return Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const Padding(
               padding: EdgeInsets.only(right: 10),

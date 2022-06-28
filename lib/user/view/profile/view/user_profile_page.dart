@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -138,7 +139,7 @@ class _ProfileNameEmail extends StatelessWidget {
       behavior: HitTestBehavior.translucent,
       onTap: () {
         HapticFeedback.lightImpact();
-        context.router.push(SetupRouter());
+        context.router.push(const SetupRouter());
       },
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
@@ -151,32 +152,34 @@ class _ProfileNameEmail extends StatelessWidget {
               builder: (context, state) {
                 return state.maybeWhen(
                     orElse: () => Container(),
-                    success: (user, _) => Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              '${user?.firstName} ${user?.lastName}',
-                              style: Theme.of(context).textTheme.titleSmall,
-                            ),
-                            Text(
-                              '${user?.email}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall!
-                                  .copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      color: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .color!
-                                          .withOpacity(0.5)),
-                            ),
-                          ],
+                    success: (user, _) => Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              AutoSizeText(
+                                '${user?.firstName} ${user?.lastName}',
+                                style: Theme.of(context).textTheme.titleSmall,
+                                maxLines: 2,
+                              ),
+                              Text(
+                                '${user?.email}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
+                                        fontWeight: FontWeight.w500,
+                                        color: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall!
+                                            .color!
+                                            .withOpacity(0.5)),
+                              ),
+                            ],
+                          ),
                         ));
               },
             ),
-            const Spacer(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: SvgPicture.asset(

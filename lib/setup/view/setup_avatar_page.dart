@@ -129,7 +129,9 @@ class _ColorCircle extends StatelessWidget {
       onTap: onTap,
       child: CircleAvatar(
           radius: MediaQuery.of(context).size.height / 20,
-          backgroundColor: isPressed ? null : Colors.transparent,
+          backgroundColor: isPressed
+              ? Theme.of(context).colorScheme.primary
+              : Colors.transparent,
           child: CircleAvatar(
               radius: (MediaQuery.of(context).size.height / 20) * 0.9,
               backgroundColor: color)),
@@ -148,11 +150,17 @@ List<Widget> getAvatarTypes() {
             context.read<SetupCubit>().avatarType(avatarType);
           },
           child: CircleAvatar(
-              radius: MediaQuery.of(context).size.height / 15,
-              backgroundColor:
-                  state.avatar[20] == avatarType ? null : Colors.transparent,
+              radius: MediaQuery.of(context).size.height /
+                  MediaQuery.of(context).size.width *
+                  23,
+              backgroundColor: state.avatar[20] == avatarType
+                  ? Theme.of(context).colorScheme.primary
+                  : Colors.transparent,
               child: CircleAvatar(
-                  radius: (MediaQuery.of(context).size.height / 15) * 0.9,
+                  radius: (MediaQuery.of(context).size.height /
+                          MediaQuery.of(context).size.width *
+                          23) *
+                      0.9,
                   child: SvgPicture.asset(
                       'assets/avatar/avatar$avatarType-${state.avatar[22]}-${state.avatar[24]}.svg'),
                   backgroundColor: Theme.of(context).colorScheme.secondary)),

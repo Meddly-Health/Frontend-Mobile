@@ -160,31 +160,33 @@ class _InsertCodeModalBottomSheet extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: defaultPadding,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            height: 5,
-            width: 100,
-            decoration: BoxDecoration(
-              color: Theme.of(context).scaffoldBackgroundColor,
-              borderRadius: BorderRadius.circular(20),
+      child: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              height: 5,
+              width: 100,
+              decoration: BoxDecoration(
+                color: Theme.of(context).scaffoldBackgroundColor,
+                borderRadius: BorderRadius.circular(20),
+              ),
             ),
-          ),
-          const SizedBox(height: 25),
-          Text(
-            'Ingrese aquí el código de verificación que recibió por correo electrónico o mensaje de texto. Al continuar, usted acepta nuestros términos y ha leído nuestra política de privacidad.',
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .color!
-                      .withOpacity(0.4),
-                ),
-            textAlign: TextAlign.justify,
-          ),
-          const _InsertCodeField(),
-        ],
+            const SizedBox(height: 25),
+            Text(
+              'Ingrese aquí el código de verificación que recibió por correo electrónico o mensaje de texto. Al continuar, usted acepta nuestros términos y ha leído nuestra política de privacidad.',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .color!
+                        .withOpacity(0.4),
+                  ),
+              textAlign: TextAlign.justify,
+            ),
+            const _InsertCodeField(),
+          ],
+        ),
       ),
     );
   }
