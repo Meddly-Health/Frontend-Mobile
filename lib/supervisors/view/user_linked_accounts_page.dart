@@ -133,7 +133,7 @@ class _Buttons extends StatelessWidget {
           _Button(
             title: 'Obtener mi código',
             description:
-                'Comparta su seguimiento y progreso con amigos o familiares.',
+                'Comparta su código de supervisor para seguir el tratamiento de otro paciente.',
             onTap: () {
               HapticFeedback.lightImpact();
               showModalBottomSheet(
@@ -214,7 +214,7 @@ class _GetCodeModalBottomSheet extends StatelessWidget {
           ),
           const SizedBox(height: 25),
           Text(
-            'Comparta su seguimiento y progreso con amigos o familiares, copiando el siguiente código. Este código es válido para un único paciente, una vez utilizado, se creará uno nuevo.',
+            'Comparta su código de supervisor para seguir el tratamiento de otro paciente. Este código es válido para un único supervisado. Una vez utilizado, se creará uno nuevo.',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context)
                       .textTheme
