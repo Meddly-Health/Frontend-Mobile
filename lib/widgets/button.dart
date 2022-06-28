@@ -33,7 +33,7 @@ class Button extends StatelessWidget {
           height: 55,
           decoration: BoxDecoration(
             color: enabled ? enabledColor : disbaledColor,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
           ),
           duration: const Duration(milliseconds: 200),
           child: Center(

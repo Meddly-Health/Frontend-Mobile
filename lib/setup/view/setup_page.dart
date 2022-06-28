@@ -34,49 +34,54 @@ class SetupPage extends StatelessWidget {
                     ..init(),
                   child: BlocBuilder<SetupCubit, SetupState>(
                     builder: (context, state) {
-                      return AutoTabsScaffold(
-                        appBarBuilder: ((context, tabsRouter) {
-                          context.read<SetupCubit>().tabsRouter = tabsRouter;
-                          return AppBar(
-                            title: Text('${tabsRouter.activeIndex + 1}/4'),
-                            titleTextStyle: Theme.of(context)
-                                .textTheme
-                                .bodyLarge!
-                                .copyWith(fontWeight: FontWeight.bold),
-                            leading: tabsRouter.activeIndex != 0
-                                ? MeddlyBackButton(
-                                    onTap: () => tabsRouter.setActiveIndex(
-                                        tabsRouter.activeIndex - 1),
-                                  )
-                                : Container(),
-                            actions: tabsRouter.activeIndex == 3
-                                ? null
-                                : [
-                                    GestureDetector(
-                                      onTap: () {
-                                        tabsRouter.setActiveIndex(
-                                            tabsRouter.activeIndex + 1);
-                                      },
-                                      child: Container(
-                                        padding: defaultPadding,
-                                        child: Text(
-                                          'Omitir',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium,
-                                        ),
-                                      ),
-                                    )
-                                  ],
-                          );
-                        }),
-                        routes: const [
-                          SetupSexRoute(),
-                          SetupHeightWeightRoute(),
-                          SetupAvatarRoute(),
-                          SetupDoneRoute()
-                        ],
-                      );
+                      return state.setupStatus == SetupStatus.loading
+                          ? const Scaffold(body: Center(child: Loading()))
+                          : AutoTabsScaffold(
+                              appBarBuilder: ((context, tabsRouter) {
+                                context.read<SetupCubit>().tabsRouter =
+                                    tabsRouter;
+                                return AppBar(
+                                  title:
+                                      Text('${tabsRouter.activeIndex + 1}/4'),
+                                  titleTextStyle: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge!
+                                      .copyWith(fontWeight: FontWeight.bold),
+                                  leading: tabsRouter.activeIndex != 0
+                                      ? MeddlyBackButton(
+                                          onTap: () =>
+                                              tabsRouter.setActiveIndex(
+                                                  tabsRouter.activeIndex - 1),
+                                        )
+                                      : Container(),
+                                  actions: tabsRouter.activeIndex == 3
+                                      ? null
+                                      : [
+                                          GestureDetector(
+                                            onTap: () {
+                                              tabsRouter.setActiveIndex(
+                                                  tabsRouter.activeIndex + 1);
+                                            },
+                                            child: Container(
+                                              padding: defaultPadding,
+                                              child: Text(
+                                                'Omitir',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium,
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                );
+                              }),
+                              routes: const [
+                                SetupSexRoute(),
+                                SetupHeightWeightRoute(),
+                                SetupAvatarRoute(),
+                                SetupDoneRoute()
+                              ],
+                            );
                     },
                   ),
                 ));

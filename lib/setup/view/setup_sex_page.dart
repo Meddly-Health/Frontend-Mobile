@@ -20,6 +20,7 @@ class SetupSexPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? name = context.read<SetupCubit>().state.currentUser.firstName;
     return Scaffold(
       body: Container(
         padding: defaultPadding,
@@ -43,7 +44,7 @@ class SetupSexPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Hola hola, ¿eres hombre o mujer?',
+                      'Hola $name, ¿eres hombre o mujer?',
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const Padding(
@@ -110,7 +111,7 @@ class _ChooseSex extends StatelessWidget {
                     duration: const Duration(milliseconds: 100),
                     padding: defaultPadding,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(20),
                       color: isMale
                           ? Theme.of(context).colorScheme.secondaryContainer
                           : Theme.of(context).scaffoldBackgroundColor,
@@ -146,7 +147,7 @@ class _ChooseSex extends StatelessWidget {
                     duration: const Duration(milliseconds: 100),
                     padding: defaultPadding,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(20),
                       color: isFemale
                           ? Theme.of(context).colorScheme.secondaryContainer
                           : Theme.of(context).scaffoldBackgroundColor,

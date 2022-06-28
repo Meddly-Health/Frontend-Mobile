@@ -103,6 +103,7 @@ class _SignUpPageBody extends StatelessWidget {
               ),
               NestedScrollView(
                 body: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
                   child: Container(
                     padding: defaultPadding,
                     child: Column(

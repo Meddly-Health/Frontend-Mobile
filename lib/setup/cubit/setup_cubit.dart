@@ -27,6 +27,7 @@ class SetupCubit extends Cubit<SetupState> {
   TabsRouter? tabsRouter;
 
   void init() async {
+    emit(state.copyWith(setupStatus: SetupStatus.loading));
     var response =
         await _userRepository.getUser(_authenticationRepository.currentUser.id);
 
@@ -106,7 +107,7 @@ class SetupCubit extends Cubit<SetupState> {
   }
 
   Future<void> saveUserData() async {
-    emit(state.copyWith(setupStatus: SetupStatus.loading));
+    emit(state.copyWith(setupStatus: SetupStatus.saving));
 
     User _userUpdate = state.currentUser.copyWith(
         sex: state.sex,

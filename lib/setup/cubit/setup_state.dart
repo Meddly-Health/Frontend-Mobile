@@ -1,6 +1,6 @@
 part of 'setup_cubit.dart';
 
-enum SetupStatus { initial, loading, success, error }
+enum SetupStatus { initial, loading, success, error, saving }
 
 @freezed
 class SetupState with _$SetupState {

@@ -67,19 +67,19 @@ class SetupDonePage extends StatelessWidget {
                             decoration: BoxDecoration(
                               color: Theme.of(context).colorScheme.primary,
                               borderRadius: state.setupStatus ==
-                                          SetupStatus.loading ||
+                                          SetupStatus.saving ||
                                       state.setupStatus == SetupStatus.success
                                   ? BorderRadius.circular(99)
                                   : BorderRadius.circular(20),
                             ),
                             onEnd: () {},
-                            width: state.setupStatus == SetupStatus.loading ||
+                            width: state.setupStatus == SetupStatus.saving ||
                                     state.setupStatus == SetupStatus.success
                                 ? 64
                                 : width,
                             duration: const Duration(milliseconds: 150),
                             curve: Curves.easeIn,
-                            child: state.setupStatus == SetupStatus.loading
+                            child: state.setupStatus == SetupStatus.saving
                                 ? const LoadingButton()
                                 : Center(
                                     child: FittedBox(
@@ -93,7 +93,7 @@ class SetupDonePage extends StatelessWidget {
                                                     .secondary,
                                               ),
                                             )
-                                          : Text('Iniciar sesión',
+                                          : Text('Comenzar a utilizar Meddly',
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyMedium!
