@@ -26,9 +26,13 @@ class LoginPage extends StatelessWidget {
         listener: (context, state) {
           state.when(
             unauthenticated: () {},
-            authenticated: (AuthUser user) => AutoRouter.of(context)
-                .pushAndPopUntil(const LoadingRoute(),
-                    predicate: ((route) => false)),
+            authenticated: (AuthUser user) async {
+              HapticFeedback.lightImpact();
+              await Future.delayed(const Duration(seconds: 1));
+              return AutoRouter.of(context).pushAndPopUntil(
+                  const LoadingRoute(),
+                  predicate: ((route) => false));
+            },
           );
         },
         child: Scaffold(

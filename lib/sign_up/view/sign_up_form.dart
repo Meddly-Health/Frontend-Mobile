@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -338,6 +339,7 @@ class _SignUpButton extends StatelessWidget {
         bool isLoading =
             !state.isGoogleSignIn && state.status.isSubmissionInProgress;
         bool isEnabled = state.status.isValidated && state.termsAccepted;
+        bool isDone = !state.isGoogleSignIn && state.status.isSubmissionSuccess;
 
         return GestureDetector(
           key: const Key('sign_up_button'),
@@ -351,24 +353,26 @@ class _SignUpButton extends StatelessWidget {
               color: isEnabled
                   ? Theme.of(context).colorScheme.primary
                   : Theme.of(context).colorScheme.secondaryContainer,
-              borderRadius: isLoading
+              borderRadius: isLoading || isDone
                   ? BorderRadius.circular(99)
                   : BorderRadius.circular(20),
             ),
             onEnd: () {},
-            width: isLoading ? 64 : width,
+            width: isLoading || isDone ? 64 : width,
             duration: const Duration(milliseconds: 150),
             curve: Curves.easeIn,
             child: isLoading
                 ? const LoadingButton()
                 : Center(
                     child: FittedBox(
-                      child: state.status.isSubmissionSuccess
-                          ? SvgPicture.asset(
-                              AssetsProvider.success,
-                              color: Theme.of(context).colorScheme.secondary,
+                      child: isDone
+                          ? ElasticIn(
+                              child: SvgPicture.asset(
+                                AssetsProvider.success,
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
                             )
-                          : Text('Iniciar sesión',
+                          : Text('Registrarse ahora',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyMedium!
@@ -471,13 +475,7 @@ class _PasswordField extends StatelessWidget {
                     errorText: !showErrorText
                         ? null
                         : 'La contraseña debe poseer al menos 8 caracteres e incluir al menos un número y al menos un carácter especial.',
-                    errorStyle: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(
-                            color: Theme.of(context).colorScheme.error,
-                            overflow: TextOverflow.visible),
-                    errorMaxLines: 3,
+                    errorMaxLines: 5,
                     labelStyle: state.errorMessage == null
                         ? Theme.of(context).textTheme.bodyMedium
                         : Theme.of(context).textTheme.bodyMedium,

@@ -16,7 +16,6 @@ class WeightField extends StatelessWidget {
         bool showErrorText = state.weight.value == 0.0 && state.weight.invalid;
 
         return TextFormField(
-            enabled: state.enabled,
             key: const Key('user_weight'),
             textInputAction: TextInputAction.next,
             controller: context.read<SetupCubit>().weightController,
@@ -37,67 +36,33 @@ class WeightField extends StatelessWidget {
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
-                hintText: 'Ej: 80',
-                hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withOpacity(0.6),
+              hintText: 'Ej: 80',
+              errorText: !showErrorText ? null : 'El peso es inválido.',
+              suffixIcon: Row(
+                children: [
+                  if (state.weight.valid)
+                    SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: showCheckIcon(
+                          state.weight.valid && state.weight.value != null,
+                          context),
                     ),
-                filled: true,
-                fillColor: Theme.of(context).colorScheme.secondary,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                disabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.secondaryContainer,
+                  Container(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: const Text('kg'),
                   ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.secondary),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.secondary),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide:
-                      BorderSide(color: Theme.of(context).colorScheme.error),
-                ),
-                focusedErrorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide:
-                      BorderSide(color: Theme.of(context).colorScheme.error),
-                ),
-                errorText: !showErrorText ? null : 'El peso es inválido.',
-                errorStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-                labelStyle: state.errorMessage == null
-                    ? Theme.of(context).textTheme.bodyMedium
-                    : Theme.of(context).textTheme.bodyMedium,
-                floatingLabelStyle: state.errorMessage == null
-                    ? Theme.of(context).textTheme.bodyMedium
-                    : Theme.of(context).textTheme.bodyMedium,
-                suffixIcon: Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: showCheckIcon(
-                      state.weight.valid && state.weight.value != null,
-                      context),
-                ),
-                suffixText: 'kg',
-                suffixStyle: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(fontWeight: FontWeight.w500),
-                suffixIconConstraints: const BoxConstraints(
-                    maxHeight: 30, maxWidth: 38, minHeight: 30, minWidth: 38)));
+                ],
+              ),
+              suffixStyle: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(fontWeight: FontWeight.w500),
+              suffixIconConstraints: BoxConstraints(
+                maxHeight: 30,
+                maxWidth: state.weight.valid ? 60 : 30,
+              ),
+            ));
       },
     );
   }

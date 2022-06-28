@@ -24,14 +24,11 @@ class SignUpPage extends StatelessWidget {
       create: (context) => SignUpCubit(
           RepositoryProvider.of<AuthenticationRepository>(context),
           RepositoryProvider.of<UserRepository>(context)),
-      child: BlocListener<SignUpCubit, SignUpState>(
-        listener: (context, state) {},
-        child: Scaffold(
-          resizeToAvoidBottomInset: false,
-          body: GestureDetector(
-              onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-              child: const _SignUpPageBody()),
-        ),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: GestureDetector(
+            onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+            child: const _SignUpPageBody()),
       ),
     );
   }
@@ -48,7 +45,7 @@ class _SignUpPageBody extends StatelessWidget {
       return MultiBlocListener(
         listeners: [
           BlocListener<SignUpCubit, SignUpState>(
-            listener: (context, state) {
+            listener: (context, state) async {
               if (state.status.isSubmissionFailure) {
                 context.read<SignUpCubit>().termsAcceptedChanged(false);
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -67,6 +64,9 @@ class _SignUpPageBody extends StatelessWidget {
 
               if (state.status.isSubmissionSuccess) {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                HapticFeedback.lightImpact();
+                await Future.delayed(const Duration(seconds: 1));
+
                 AutoRouter.of(context).pushAndPopUntil(const LoadingRoute(),
                     predicate: ((route) => false));
               }

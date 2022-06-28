@@ -55,7 +55,6 @@ class _SupervisorsPageState extends State<SupervisorsPage> {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: const [
-                        SizedBox(height: 25),
                         _Supervisors(),
                       ],
                     ),

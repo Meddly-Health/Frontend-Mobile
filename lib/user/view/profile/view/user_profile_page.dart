@@ -32,7 +32,6 @@ class UserProfilePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
-                  SizedBox(height: 16),
                   _ProfileNameEmail(),
                 ],
               ),
@@ -139,7 +138,7 @@ class _ProfileNameEmail extends StatelessWidget {
       behavior: HitTestBehavior.translucent,
       onTap: () {
         HapticFeedback.lightImpact();
-        context.router.push(SetupRoute());
+        context.router.push(SetupRouter());
       },
       child: SizedBox(
         width: MediaQuery.of(context).size.width,

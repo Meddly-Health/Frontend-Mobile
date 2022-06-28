@@ -62,12 +62,10 @@ class _$AppRouter extends RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
-    SetupRoute.name: (routeData) {
-      final args = routeData.argsAs<SetupRouteArgs>(
-          orElse: () => const SetupRouteArgs());
+    SetupRouter.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
-          child: SetupPage(key: args.key, title: args.title),
+          child: const SetupPage(),
           transitionsBuilder: transition,
           durationInMilliseconds: 100,
           opaque: true,
@@ -207,6 +205,42 @@ class _$AppRouter extends RootStackRouter {
           durationInMilliseconds: 100,
           opaque: true,
           barrierDismissible: false);
+    },
+    SetupSexRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const SetupSexPage(),
+          transitionsBuilder: transition,
+          durationInMilliseconds: 100,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    SetupHeightWeightRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const SetupHeightWeightPage(),
+          transitionsBuilder: transition,
+          durationInMilliseconds: 100,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    SetupAvatarRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const SetupAvatarPage(),
+          transitionsBuilder: transition,
+          durationInMilliseconds: 100,
+          opaque: true,
+          barrierDismissible: false);
+    },
+    SetupDoneRoute.name: (routeData) {
+      return CustomPage<dynamic>(
+          routeData: routeData,
+          child: const SetupDonePage(),
+          transitionsBuilder: transition,
+          durationInMilliseconds: 100,
+          opaque: true,
+          barrierDismissible: false);
     }
   };
 
@@ -270,7 +304,16 @@ class _$AppRouter extends RootStackRouter {
                     path: 'user/delete', parent: UserRouter.name)
               ])
         ]),
-        RouteConfig(SetupRoute.name, path: 'setup')
+        RouteConfig(SetupRouter.name, path: 'setup', children: [
+          RouteConfig(SetupSexRoute.name,
+              path: 'setup/sex', parent: SetupRouter.name),
+          RouteConfig(SetupHeightWeightRoute.name,
+              path: 'setup/height_weight', parent: SetupRouter.name),
+          RouteConfig(SetupAvatarRoute.name,
+              path: 'setup/avatar', parent: SetupRouter.name),
+          RouteConfig(SetupDoneRoute.name,
+              path: 'setup/done', parent: SetupRouter.name)
+        ])
       ];
 }
 
@@ -317,25 +360,11 @@ class HomeRouter extends PageRouteInfo<void> {
 
 /// generated route for
 /// [SetupPage]
-class SetupRoute extends PageRouteInfo<SetupRouteArgs> {
-  SetupRoute({Key? key, String title = 'Bienvenido a Meddly!'})
-      : super(SetupRoute.name,
-            path: 'setup', args: SetupRouteArgs(key: key, title: title));
+class SetupRouter extends PageRouteInfo<void> {
+  const SetupRouter({List<PageRouteInfo>? children})
+      : super(SetupRouter.name, path: 'setup', initialChildren: children);
 
-  static const String name = 'SetupRoute';
-}
-
-class SetupRouteArgs {
-  const SetupRouteArgs({this.key, this.title = 'Bienvenido a Meddly!'});
-
-  final Key? key;
-
-  final String title;
-
-  @override
-  String toString() {
-    return 'SetupRouteArgs{key: $key, title: $title}';
-  }
+  static const String name = 'SetupRouter';
 }
 
 /// generated route for
@@ -466,4 +495,37 @@ class DeleteUserRoute extends PageRouteInfo<void> {
   const DeleteUserRoute() : super(DeleteUserRoute.name, path: 'user/delete');
 
   static const String name = 'DeleteUserRoute';
+}
+
+/// generated route for
+/// [SetupSexPage]
+class SetupSexRoute extends PageRouteInfo<void> {
+  const SetupSexRoute() : super(SetupSexRoute.name, path: 'setup/sex');
+
+  static const String name = 'SetupSexRoute';
+}
+
+/// generated route for
+/// [SetupHeightWeightPage]
+class SetupHeightWeightRoute extends PageRouteInfo<void> {
+  const SetupHeightWeightRoute()
+      : super(SetupHeightWeightRoute.name, path: 'setup/height_weight');
+
+  static const String name = 'SetupHeightWeightRoute';
+}
+
+/// generated route for
+/// [SetupAvatarPage]
+class SetupAvatarRoute extends PageRouteInfo<void> {
+  const SetupAvatarRoute() : super(SetupAvatarRoute.name, path: 'setup/avatar');
+
+  static const String name = 'SetupAvatarRoute';
+}
+
+/// generated route for
+/// [SetupDonePage]
+class SetupDoneRoute extends PageRouteInfo<void> {
+  const SetupDoneRoute() : super(SetupDoneRoute.name, path: 'setup/done');
+
+  static const String name = 'SetupDoneRoute';
 }

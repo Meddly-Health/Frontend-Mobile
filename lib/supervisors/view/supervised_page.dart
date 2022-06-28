@@ -51,7 +51,6 @@ class _SupervisedPageState extends State<SupervisedPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const [
-                    SizedBox(height: 25),
                     _Supervised(),
                   ],
                 ),

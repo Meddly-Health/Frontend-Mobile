@@ -2,12 +2,16 @@ import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:meddly/calendar/view/select_supervised_page.dart';
+import 'package:meddly/setup/view/setup_avatar_page.dart';
+import 'package:meddly/setup/view/setup_done_page.dart';
+import 'package:meddly/setup/view/setup_sex_page.dart';
 import 'package:meddly/user/view/profile/basic_info/user_basic_info_page.dart';
 import 'package:meddly/user/view/profile/personal_info/view/user_personal_info_page.dart';
 import '../calendar/view/calendar_page.dart';
 import '../diagnosis/view/diagnosis_page.dart';
 import '../measurements/view/measurements_page.dart';
 import '../medicine/view/medicine_page.dart';
+import '../setup/view/setup_height_weight_page.dart';
 import '../setup/view/setup_page.dart';
 import '../supervisors/view/supervised_page.dart';
 import '../supervisors/view/supervisors_page.dart';
@@ -46,41 +50,54 @@ const List<AutoRoute> routes = [
   AutoRoute(path: 'signup', page: SignUpPage),
   AutoRoute(path: 'welcome', page: WelcomePage),
   AutoRoute(path: 'loading', page: LoadingPage),
-  AutoRoute(
-    path: 'home',
-    name: 'HomeRouter',
-    page: HomePage,
-    children: [
-      AutoRoute(path: 'diagnosis', page: DiagnosisPage),
-      AutoRoute(path: 'measurements', page: MeasurementesPage),
-      AutoRoute(path: 'medicine', page: MedicinePage),
-      AutoRoute(
-        path: 'calendar',
-        page: EmptyRouterPage,
-        initial: true,
-        name: 'CalendarRouter',
-        children: [
-          AutoRoute(path: 'calendar', page: CalendarPage, initial: true),
-          AutoRoute(
-              path: 'calendar/select_supervised', page: SelectSupervisedPage),
-        ],
-      ),
-      AutoRoute(
-        path: 'user',
-        name: 'UserRouter',
-        page: EmptyRouterPage,
-        children: [
-          AutoRoute(path: 'user/profile', page: UserProfilePage, initial: true),
-          AutoRoute(path: 'user/basic_info', page: UserBasicInfoPage),
-          AutoRoute(path: 'user/basic_info', page: UserPersonalInfoPage),
-          AutoRoute(path: 'user/settings', page: UserSettingsPage),
-          AutoRoute(path: 'user/linked_accounts', page: UserLinkedAccountsPage),
-          AutoRoute(path: 'user/supervisors', page: SupervisorsPage),
-          AutoRoute(path: 'user/supervised', page: SupervisedPage),
-          AutoRoute(path: 'user/delete', page: DeleteUserPage),
-        ],
-      ),
-    ],
-  ),
-  AutoRoute(path: 'setup', page: SetupPage),
+  _homeRouter,
+  _setupRouter,
 ];
+
+const _homeRouter = AutoRoute(
+  path: 'home',
+  name: 'HomeRouter',
+  page: HomePage,
+  children: [
+    AutoRoute(path: 'diagnosis', page: DiagnosisPage),
+    AutoRoute(path: 'measurements', page: MeasurementesPage),
+    AutoRoute(path: 'medicine', page: MedicinePage),
+    _calendarRouter,
+    _userRouter,
+  ],
+);
+
+const _calendarRouter = AutoRoute(
+  path: 'calendar',
+  page: EmptyRouterPage,
+  initial: true,
+  name: 'CalendarRouter',
+  children: [
+    AutoRoute(path: 'calendar', page: CalendarPage, initial: true),
+    AutoRoute(path: 'calendar/select_supervised', page: SelectSupervisedPage),
+  ],
+);
+
+const _userRouter = AutoRoute(
+  path: 'user',
+  name: 'UserRouter',
+  page: EmptyRouterPage,
+  children: [
+    AutoRoute(path: 'user/profile', page: UserProfilePage, initial: true),
+    AutoRoute(path: 'user/basic_info', page: UserBasicInfoPage),
+    AutoRoute(path: 'user/basic_info', page: UserPersonalInfoPage),
+    AutoRoute(path: 'user/settings', page: UserSettingsPage),
+    AutoRoute(path: 'user/linked_accounts', page: UserLinkedAccountsPage),
+    AutoRoute(path: 'user/supervisors', page: SupervisorsPage),
+    AutoRoute(path: 'user/supervised', page: SupervisedPage),
+    AutoRoute(path: 'user/delete', page: DeleteUserPage),
+  ],
+);
+
+const _setupRouter =
+    AutoRoute(path: 'setup', name: 'SetupRouter', page: SetupPage, children: [
+  AutoRoute(path: 'setup/sex', page: SetupSexPage),
+  AutoRoute(path: 'setup/height_weight', page: SetupHeightWeightPage),
+  AutoRoute(path: 'setup/avatar', page: SetupAvatarPage),
+  AutoRoute(path: 'setup/done', page: SetupDonePage),
+]);

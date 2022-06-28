@@ -33,8 +33,8 @@ class _LoadingPageState extends State<LoadingPage> {
             state.maybeWhen(
                 orElse: () {},
                 success: (user, _) {
-                  if (user!.firstName == null) {
-                    context.router.replace(SetupRoute());
+                  if (user!.sex == null) {
+                    context.router.replace(const SetupRouter());
                   } else {
                     context.router.replace(const HomeRouter());
                   }

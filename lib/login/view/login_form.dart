@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -113,6 +114,9 @@ class _LoginButton extends StatelessWidget {
         var width = MediaQuery.of(context).size.width;
         bool isLoading =
             !state.isGoogleSignIn && state.status.isSubmissionInProgress;
+
+        bool isDone = !state.isGoogleSignIn && state.status.isSubmissionSuccess;
+
         bool isEnabled = email.value.isNotEmpty && password.value.isNotEmpty;
 
         return GestureDetector(
@@ -127,22 +131,24 @@ class _LoginButton extends StatelessWidget {
                 color: isEnabled
                     ? Theme.of(context).colorScheme.primary
                     : Theme.of(context).colorScheme.secondaryContainer,
-                borderRadius: isLoading
+                borderRadius: isLoading || isDone
                     ? BorderRadius.circular(99)
                     : BorderRadius.circular(20),
               ),
-              onEnd: () {},
-              width: isLoading ? 64 : width,
+              width: isLoading || isDone ? 64 : width,
               duration: const Duration(milliseconds: 150),
               curve: Curves.easeIn,
               child: isLoading
                   ? const LoadingButton()
                   : Center(
                       child: FittedBox(
-                        child: state.status.isSubmissionSuccess
-                            ? SvgPicture.asset(
-                                AssetsProvider.success,
-                                color: Theme.of(context).colorScheme.secondary,
+                        child: isDone
+                            ? ElasticIn(
+                                child: SvgPicture.asset(
+                                  AssetsProvider.success,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
+                                ),
                               )
                             : Text('Iniciar sesión',
                                 style: Theme.of(context)

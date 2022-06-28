@@ -16,7 +16,6 @@ class HeightField extends StatelessWidget {
         bool showErrorText = state.height.value == 0.0 && state.height.invalid;
 
         return TextFormField(
-            enabled: state.enabled,
             key: const Key('user_height'),
             textInputAction: TextInputAction.next,
             onChanged: (String? value) {
@@ -36,65 +35,29 @@ class HeightField extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyMedium,
             decoration: InputDecoration(
               hintText: 'Ej: 175',
-              hintStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onSurface
-                        .withOpacity(0.6),
-                  ),
-              filled: true,
-              fillColor: Theme.of(context).colorScheme.secondary,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-              disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.secondaryContainer,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.secondary),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.secondary),
-              ),
-              errorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.error),
-              ),
-              focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide:
-                    BorderSide(color: Theme.of(context).colorScheme.error),
-              ),
               errorText: !showErrorText ? null : 'La altura es inválida.',
-              errorStyle: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.error,
+              suffixIcon: Row(
+                children: [
+                  if (state.height.valid)
+                    SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: showCheckIcon(
+                          state.height.valid && state.height.value != null,
+                          context),
+                    ),
+                  Container(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: const Text('cm'),
                   ),
-              labelStyle: state.errorMessage == null
-                  ? Theme.of(context).textTheme.bodyMedium
-                  : Theme.of(context).textTheme.bodyMedium,
-              floatingLabelStyle: state.errorMessage == null
-                  ? Theme.of(context).textTheme.bodyMedium
-                  : Theme.of(context).textTheme.bodyMedium,
-              suffixIcon: Padding(
-                  padding: const EdgeInsets.only(left: 8),
-                  child: showCheckIcon(
-                      state.height.valid && state.height.value != null,
-                      context)),
-              suffixText: 'cm',
+                ],
+              ),
               suffixStyle: Theme.of(context)
                   .textTheme
                   .bodyMedium!
                   .copyWith(fontWeight: FontWeight.w500),
-              suffixIconConstraints: const BoxConstraints(
-                  maxHeight: 30, maxWidth: 38, minHeight: 30, minWidth: 38),
+              suffixIconConstraints: BoxConstraints(
+                  maxHeight: 30, maxWidth: state.height.valid ? 70 : 35),
             ));
       },
     );

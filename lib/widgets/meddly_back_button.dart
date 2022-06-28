@@ -8,17 +8,22 @@ import 'dart:math';
 import 'package:meddly/helpers/constants.dart';
 
 class MeddlyBackButton extends StatelessWidget {
-  const MeddlyBackButton({Key? key}) : super(key: key);
+  const MeddlyBackButton({Key? key, this.onTap}) : super(key: key);
+
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Transform.rotate(
         angle: -pi,
         child: GestureDetector(
-          onTap: () {
-            HapticFeedback.lightImpact();
-            AutoRouter.of(context).pop();
-          },
+          onTap: onTap ??
+              () {
+                HapticFeedback.lightImpact();
+                if (onTap == null) {
+                  AutoRouter.of(context).pop();
+                } else {}
+              },
           child: Container(
             height: 56,
             width: 56,
