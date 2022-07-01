@@ -19,18 +19,21 @@ class SetupHeightWeightPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: defaultPadding,
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                flex: 2,
-                child: Center(child: Lottie.asset(AssetsProvider.medic5)),
-              ),
-              const _Form(),
-            ],
+      body: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Container(
+          padding: defaultPadding,
+          child: SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Center(child: Lottie.asset(AssetsProvider.medic5)),
+                ),
+                const _Form(),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,46 +1,48 @@
-// import 'package:dartz/dartz.dart';
+import 'package:dartz/dartz.dart';
 
-// import 'api/api.dart';
-// import 'models/models.dart';
+import 'api/api.dart';
+import 'models/models.dart';
 
-// class UserRepository {
-//   final UserApi _userApi;
+class MedicineRepository {
+  final MedicineApi _medicineApi;
 
-//   UserRepository({required UserApi userApi}) : _userApi = userApi;
+  MedicineRepository({required MedicineApi medicineApi})
+      : _medicineApi = medicineApi;
 
-//   /// Get user by id
-//   ///
-//   /// returns either a [User] or a [UserException]
-//   Future<Either<UserException, User>> getUser(String id) async =>
-//       await _userApi.getUser(id);
+  /// Get a medicine by id.
+  ///
+  /// Returns a [Medicine] if the medicine was found.
+  /// Throws a [MedicineException] if the medicine could not be retrieved.
+  Future<Either<MedicineException, Medicine>> getMedicine(String id) async =>
+      await _medicineApi.getMedicine(id);
 
-//   /// Update user
-//   ///
-//   /// returns either a [User] or a [UserException]
-//   Future<Either<UserException, User>> updateUser(User user) async =>
-//       await _userApi.updateUser(user);
+  /// Update a medicine.
+  ///
+  /// Returns a [Medicine] if the medicine was updated.
+  /// Throws a [MedicineException] if the medicine could not be updated.
+  Future<Either<MedicineException, Medicine>> updateMedicine(
+          Medicine medicine) async =>
+      await _medicineApi.updateMedicine(medicine);
 
-//   /// Delete user
-//   ///
-//   /// returns either a [User] or a [UserException]
-//   Future<Either<UserException, User>> deleteUser(String id) async =>
-//       await _userApi.deleteUser(id);
+  /// Delete a medicine.
+  ///
+  /// Returns a [Nothing] if the medicine was deleted.
+  /// Throws a [MedicineException] if the medicine could not be deleted.
+  Future<Either<MedicineException, Nothing>> deleteMedicine(String id) async =>
+      await _medicineApi.deleteMedicine(id);
 
-//   /// Accepts a supervisors invitation
-//   ///
-//   /// returns either a [Nothing] or a [UserException]
-//   Future<Either<UserException, Nothing>> acceptInvitation(String code) async =>
-//       await _userApi.acceptInvitation(code);
+  /// Create a medicine.
+  ///
+  /// Returns a [Medicine] if the medicine was created.
+  /// Throws a [MedicineException] if the medicine could not be created.
+  Future<Either<MedicineException, Medicine>> createMedicine(
+          Medicine medicine) async =>
+      await _medicineApi.createMedicine(medicine);
 
-//   /// Deletes a supervised user
-//   ///
-//   /// returns either a [Nothing] or a [UserException]
-//   Future<Either<UserException, Nothing>> deleteSupervisor(String id) async =>
-//       await _userApi.deleteSupervisor(id);
-
-//   /// Deletes a supervised user
-//   ///
-//   /// returns either a [Nothing] or a [UserException]
-//   Future<Either<UserException, Nothing>> deleteSupervised(String id) async =>
-//       await _userApi.deleteSupervised(id);
-// }
+  /// Get all medicines.
+  ///
+  /// Returns a [List<Medicine>] if the medicines were found.
+  /// Throws a [MedicineException] if the medicines could not be retrieved.
+  Future<Either<MedicineException, List<Medicine>>> getMedicines() async =>
+      await _medicineApi.getMedicines();
+}
