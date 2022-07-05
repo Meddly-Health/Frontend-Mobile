@@ -89,10 +89,10 @@ class _$AppRouter extends RootStackRouter {
           opaque: true,
           barrierDismissible: false);
     },
-    MedicineRoute.name: (routeData) {
+    TreatmentRoute.name: (routeData) {
       return CustomPage<dynamic>(
           routeData: routeData,
-          child: const MedicinePage(),
+          child: const TreatmentPage(),
           transitionsBuilder: transition,
           durationInMilliseconds: 100,
           opaque: true,
@@ -260,7 +260,7 @@ class _$AppRouter extends RootStackRouter {
               path: 'diagnosis', parent: HomeRouter.name),
           RouteConfig(MeasurementesRoute.name,
               path: 'measurements', parent: HomeRouter.name),
-          RouteConfig(MedicineRoute.name,
+          RouteConfig(TreatmentRoute.name,
               path: 'medicine', parent: HomeRouter.name),
           RouteConfig(CalendarRouter.name,
               path: 'calendar',
@@ -385,11 +385,11 @@ class MeasurementesRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [MedicinePage]
-class MedicineRoute extends PageRouteInfo<void> {
-  const MedicineRoute() : super(MedicineRoute.name, path: 'medicine');
+/// [TreatmentPage]
+class TreatmentRoute extends PageRouteInfo<void> {
+  const TreatmentRoute() : super(TreatmentRoute.name, path: 'medicine');
 
-  static const String name = 'MedicineRoute';
+  static const String name = 'TreatmentRoute';
 }
 
 /// generated route for

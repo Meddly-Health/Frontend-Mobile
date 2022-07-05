@@ -5,12 +5,12 @@ import 'package:meddly/calendar/view/select_supervised_page.dart';
 import 'package:meddly/setup/view/setup_avatar_page.dart';
 import 'package:meddly/setup/view/setup_done_page.dart';
 import 'package:meddly/setup/view/setup_sex_page.dart';
+import 'package:meddly/treatment/view/treatment_page.dart';
 import 'package:meddly/user/view/profile/basic_info/user_basic_info_page.dart';
 import 'package:meddly/user/view/profile/personal_info/view/user_personal_info_page.dart';
 import '../calendar/view/calendar_page.dart';
 import '../diagnosis/view/diagnosis_page.dart';
 import '../measurements/view/measurements_page.dart';
-import '../medicine/view/medicine_page.dart';
 import '../setup/view/setup_height_weight_page.dart';
 import '../setup/view/setup_page.dart';
 import '../supervisors/view/supervised_page.dart';
@@ -61,7 +61,7 @@ const _homeRouter = AutoRoute(
   children: [
     AutoRoute(path: 'diagnosis', page: DiagnosisPage),
     AutoRoute(path: 'measurements', page: MeasurementesPage),
-    AutoRoute(path: 'medicine', page: MedicinePage),
+    AutoRoute(path: 'medicine', page: TreatmentPage),
     _calendarRouter,
     _userRouter,
   ],

@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:meddly/helpers/assets_provider.dart';
+import 'package:meddly/medicine/api/fastpi_treatment_api.dart';
+import 'package:treatment_repository/treatment_repository.dart';
 import 'blocs.dart';
 import 'user/api/fastapi_user_api.dart';
 import 'package:user_repository/user_repository.dart';
@@ -32,14 +34,19 @@ void main() async {
 
   BlocOverrides.runZoned(
     () {
+      var _dio = Dio();
       var connectivityBloc = ConnectivityBloc();
       var authenticationRepository =
           AuthenticationRepository(languageCode: LanguageCode.es);
 
       var fastApiUserApi = FastApiUserApi(
-          authenticationRepository: authenticationRepository, dio: Dio());
+          authenticationRepository: authenticationRepository, dio: _dio);
+
+      var medicineApi = FastApiTreatmentApi(
+          authenticationRepository: authenticationRepository, dio: _dio);
 
       var userRepository = UserRepository(userApi: fastApiUserApi);
+      var treatmentRepository = TreatmentRepository(medicineApi: medicineApi);
 
       var authBloc =
           AuthBloc(authenticationRepository: authenticationRepository);
@@ -55,6 +62,7 @@ void main() async {
         userRepository: userRepository,
         userBloc: userBloc,
         supervisorsBloc: supervisorsBloc,
+        treatmentRepository: treatmentRepository,
       ));
     },
     blocObserver: MyBlocObserver(),
@@ -65,6 +73,7 @@ class MyApp extends StatelessWidget {
   MyApp({
     Key? key,
     required this.authenticationRepository,
+    required this.treatmentRepository,
     required this.authBloc,
     required this.userBloc,
     required this.supervisorsBloc,
@@ -72,9 +81,10 @@ class MyApp extends StatelessWidget {
     required this.userRepository,
   }) : super(key: key);
   final AuthenticationRepository authenticationRepository;
+  final UserRepository userRepository;
+  final TreatmentRepository treatmentRepository;
   final AuthBloc authBloc;
   final ConnectivityBloc connectivityBloc;
-  final UserRepository userRepository;
   final UserBloc userBloc;
   final SupervisorsBloc supervisorsBloc;
 
@@ -87,7 +97,8 @@ class MyApp extends StatelessWidget {
         RepositoryProvider.value(
           value: authenticationRepository,
         ),
-        RepositoryProvider.value(value: userRepository)
+        RepositoryProvider.value(value: userRepository),
+        RepositoryProvider.value(value: treatmentRepository),
       ],
       child: MultiBlocProvider(
         providers: [

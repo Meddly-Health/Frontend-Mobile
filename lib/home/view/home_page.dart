@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
                 CalendarRouter(),
                 DiagnosisRoute(),
                 MeasurementesRoute(),
-                MedicineRoute(),
+                TreatmentRoute(),
                 UserRouter(),
               ],
               builder: (context, child, animation) {
