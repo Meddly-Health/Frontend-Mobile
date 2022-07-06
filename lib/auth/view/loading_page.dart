@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meddly/calendar/view/widgets/supervised_container.dart';
 import 'package:meddly/helpers/constants.dart';
 import 'package:meddly/routes/router.dart';
+import 'package:meddly/widgets/widgets.dart';
 
 import '../../blocs.dart';
 
@@ -17,8 +18,9 @@ class LoadingPage extends StatefulWidget {
 class _LoadingPageState extends State<LoadingPage> {
   @override
   void initState() {
-    context.read<UserBloc>().add(GetUser());
-    context.read<SupervisorsBloc>().add(GetSupervisors());
+    context.read<UserBloc>().add(const GetUser());
+    context.read<SupervisorsBloc>().add(const GetSupervisors());
+
     super.initState();
   }
 
@@ -28,96 +30,116 @@ class _LoadingPageState extends State<LoadingPage> {
       return Scaffold(
         body: BlocConsumer<UserBloc, UserState>(
           listener: (context, state) {
-            if (state.status == UserStatus.success) {
-              if (state.currentUser!.firstName == null) {
-                context.router.replace(SetupRoute());
-              } else {
-                context.router.replace(const HomeRouter());
-              }
-            }
+            state.maybeWhen(
+                orElse: () {},
+                success: (user, _) {
+                  if (user!.sex == null) {
+                    context.router.replace(const SetupRouter());
+                  } else {
+                    context.router.replace(const HomeRouter());
+                  }
+                },
+                error: (String errorMessage) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    getSnackBar(context, errorMessage, SnackBarType.error),
+                  );
+                });
           },
           builder: (context, state) {
-            return SingleChildScrollView(
-              child: Container(
-                padding: defaultPadding,
-                child: SafeArea(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              DefaultShimmer(
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width / 2,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: darkGrey,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(height: 16),
-                              DefaultShimmer(
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width / 3,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    color: darkGrey,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const Spacer(),
-                          const DefaultShimmer(
-                            child: CircleAvatar(
-                              radius: 96 / 2,
-                              backgroundColor: darkGrey,
-                            ),
-                          )
-                        ],
-                      ),
-                      const SizedBox(height: 25),
-                      DefaultShimmer(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width / 1.3,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: darkGrey,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      DefaultShimmer(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width / 4,
-                          height: 30,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5),
-                            color: darkGrey,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      const _LoadingContainer(),
-                      const SizedBox(height: 16),
-                      const _LoadingContainer(),
-                      const SizedBox(height: 16),
-                      const _LoadingContainer(),
-                    ],
-                  ),
-                ),
-              ),
+            return const Center(
+              child: Loading(),
             );
           },
         ),
       );
     });
+  }
+}
+
+class _LoadingView extends StatelessWidget {
+  const _LoadingView({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Container(
+        padding: defaultPadding,
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      DefaultShimmer(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width / 2,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: darkGrey,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      DefaultShimmer(
+                        child: Container(
+                          width: MediaQuery.of(context).size.width / 3,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: darkGrey,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  const DefaultShimmer(
+                    child: CircleAvatar(
+                      radius: 96 / 2,
+                      backgroundColor: darkGrey,
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 25),
+              DefaultShimmer(
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 1.3,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: darkGrey,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              DefaultShimmer(
+                child: Container(
+                  width: MediaQuery.of(context).size.width / 4,
+                  height: 30,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: darkGrey,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              const _LoadingContainer(),
+              const SizedBox(height: 16),
+              const _LoadingContainer(),
+              const SizedBox(height: 16),
+              const _LoadingContainer(),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 

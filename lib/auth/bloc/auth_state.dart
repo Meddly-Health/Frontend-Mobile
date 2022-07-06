@@ -5,18 +5,14 @@ enum AuthStatus {
   unauthenticated,
 }
 
-class AuthState extends Equatable {
-  final AuthStatus status;
-  final AuthUser user;
+@freezed
+class AuthState with _$AuthState {
+  // final AuthStatus status;
+  // final AuthUser user;
 
-  const AuthState._({required this.status, this.user = AuthUser.empty});
+  // const factory AuthState.({required this.status, this.user = AuthUser.empty});
 
-  const AuthState.authenticated(AuthUser user)
-      : this._(status: AuthStatus.authenticated, user: user);
+  const factory AuthState.authenticated(AuthUser user) = _AuthenticatedState;
 
-  const AuthState.unauthenticated()
-      : this._(status: AuthStatus.unauthenticated);
-
-  @override
-  List<Object> get props => [status, user];
+  const factory AuthState.unauthenticated() = _UnauthenticatedState;
 }

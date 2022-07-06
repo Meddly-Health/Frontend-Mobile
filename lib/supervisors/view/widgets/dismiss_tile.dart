@@ -17,7 +17,7 @@ class DismissTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Dismissible(
@@ -49,27 +49,29 @@ class DismissTile extends StatelessWidget {
               color: Theme.of(context).colorScheme.secondary,
             ),
             padding: const EdgeInsets.symmetric(vertical: 8),
-            child: ListTile(
-              leading: CircleAvatar(
-                radius: 30,
-                backgroundColor: user.avatar == null
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.secondary,
-                child: SvgPicture.asset(
-                  user.avatar ?? AssetsProvider.defaultAvatar,
+            child: FadeIn(
+              child: ListTile(
+                leading: CircleAvatar(
+                  radius: 30,
+                  backgroundColor: user.avatar == null
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.secondary,
+                  child: SvgPicture.asset(
+                    user.avatar ?? AssetsProvider.defaultAvatar,
+                  ),
                 ),
-              ),
-              title: Text(user.firstName!,
-                  style: Theme.of(context).textTheme.bodyMedium),
-              subtitle: Text(
-                user.email!,
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .color!
-                          .withOpacity(0.5),
-                    ),
+                title: Text(user.firstName!,
+                    style: Theme.of(context).textTheme.bodyMedium),
+                subtitle: Text(
+                  user.email!,
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .color!
+                            .withOpacity(0.5),
+                      ),
+                ),
               ),
             ),
           ),
@@ -90,7 +92,7 @@ class DismissTileLoading extends StatelessWidget {
             color: const Color(0xffEEEEEE),
             borderRadius: BorderRadius.circular(20)),
         width: MediaQuery.of(context).size.width,
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        margin: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
           children: [
             const DefaultShimmer(

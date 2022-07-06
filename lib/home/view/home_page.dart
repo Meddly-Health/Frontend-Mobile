@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,25 +17,33 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
-        if (state.user.isEmpty) {
-          AutoRouter.of(context).pushAndPopUntil(const LoginRoute(),
-              predicate: ((route) => false));
-        }
+        state.when(
+          unauthenticated: () => AutoRouter.of(context).pushAndPopUntil(
+              const WelcomeRoute(),
+              predicate: ((route) => false)),
+          authenticated: (_) {},
+        );
       },
       child: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
           return AutoTabsScaffold(
               backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-              appBarBuilder: (context, tabsRouter) => AppBar(
-                    leading: const AutoBackButton(),
-                  ),
+              appBarBuilder: (context, tabsRouter) => AppBar(toolbarHeight: 0),
               routes: const [
                 CalendarRouter(),
                 DiagnosisRoute(),
                 MeasurementesRoute(),
-                MedicineRoute(),
+                TreatmentRoute(),
                 UserRouter(),
               ],
+              builder: (context, child, animation) {
+                return FadeThroughTransition(
+                  animation: animation,
+                  secondaryAnimation: const AlwaysStoppedAnimation(0),
+                  fillColor: Theme.of(context).scaffoldBackgroundColor,
+                  child: child,
+                );
+              },
               bottomNavigationBuilder: (context, tabsRouter) {
                 return _BottomNavBar(
                     currentIndex: tabsRouter.activeIndex,

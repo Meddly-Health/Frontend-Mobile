@@ -1,142 +1,75 @@
-import 'package:bloc/bloc.dart';
+import 'package:authentication_repository/authentication_repository.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:form_helper/form_helper.dart';
 import 'package:formz/formz.dart';
-import 'package:equatable/equatable.dart';
-import 'package:meddly/helpers/constants.dart';
-import 'package:meddly/helpers/helpers.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:meddly/helpers/assets_provider.dart';
+import 'package:meddly/helpers/extensions.dart';
 import 'package:user_repository/user_repository.dart';
 
 part 'setup_state.dart';
+part 'setup_cubit.freezed.dart';
 
 class SetupCubit extends Cubit<SetupState> {
   SetupCubit(
     userRepository,
     authenticationRepository,
   )   : _userRepository = userRepository,
+        _authenticationRepository = authenticationRepository,
         super(const SetupState());
 
   final UserRepository _userRepository;
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
+  final AuthenticationRepository _authenticationRepository;
   final TextEditingController heightController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
-  PageController? pageController;
+  TabsRouter? tabsRouter;
 
-  void init([bool enableValue = true, User? currentUser]) async {
-    emit(state.copyWith(enabled: enableValue));
+  void init() async {
+    emit(state.copyWith(setupStatus: SetupStatus.loading));
+    var response =
+        await _userRepository.getUser(_authenticationRepository.currentUser.id);
 
-    if (currentUser == null) return;
+    response.fold(
+        (e) => emit(SetupState(
+            errorMessage: e.message,
+            setupStatus: SetupStatus.error)), (currentUser) {
+      if (currentUser.height != null) {
+        heightController.text = currentUser.height!.toInt().toString();
+      }
+      if (currentUser.weight != null) {
+        weightController.text = currentUser.weight.toString();
+      }
 
-    var name = currentUser.firstName != null
-        ? Name.dirty(currentUser.firstName!)
-        : const Name.pure();
-    var lastName = currentUser.lastName != null
-        ? LastName.dirty(currentUser.lastName!)
-        : const LastName.pure();
-
-    var birthDate = currentUser.birth != null
-        ? BirthDate.dirty(currentUser.birth!)
-        : const BirthDate.pure();
-
-    var height = currentUser.height != null
-        ? Heigth.dirty(currentUser.height?.toInt())
-        : const Heigth.pure();
-
-    var weight = currentUser.weight != null
-        ? Weight.dirty(currentUser.weight!)
-        : const Weight.pure();
-
-    nameController.text = currentUser.firstName ?? '';
-    lastNameController.text = currentUser.lastName ?? '';
-
-    if (currentUser.height != null) {
-      heightController.text = currentUser.height!.toInt().toString();
-    }
-    if (currentUser.weight != null) {
-      weightController.text = currentUser.weight.toString();
-    }
-
-    emit(
-      state.copyWith(
-        name: name,
-        lastName: lastName,
-        birthDate: birthDate,
-        height: height,
-        weight: weight,
+      emit(SetupState(
+        currentUser: currentUser,
         sex: currentUser.sex,
-      ),
-    );
-  }
-
-  void avatarType(int type) {
-    emit(state.copyWith(avatarType: type));
-  }
-
-  void nameChanged(String value) {
-    final name = Name.dirty(value);
-    emit(
-      state.copyWith(
-        name: name,
+        weight: Weight.dirty(currentUser.weight),
+        height: Heigth.dirty(currentUser.height?.toInt()),
+        avatar: currentUser.avatar!,
         status: Formz.validate([
-          name,
-          state.lastName,
-          state.weight,
-          state.height,
-          state.birthDate
+          Weight.dirty(currentUser.weight),
+          Heigth.dirty(currentUser.height?.toInt()),
         ]),
-      ),
-    );
+      ));
+    });
   }
 
-  void hairColorChanged(Color value) {
-    emit(
-      state.copyWith(
-        hairColor: value,
-      ),
-    );
-  }
-
-  void skinColorChanged(Color value) {
-    emit(
-      state.copyWith(
-        skinColor: value,
-      ),
-    );
-  }
-
-  void lastNameChanged(String value) {
-    final lastName = LastName.dirty(value);
-    emit(
-      state.copyWith(
-        lastName: lastName,
-        status: Formz.validate([
-          lastName,
-          state.name,
-          state.weight,
-          state.height,
-          state.birthDate
-        ]),
-      ),
-    );
-  }
-
-  void birthDateChanged(DateTime value) {
-    final birthDate = BirthDate.dirty(value);
+  void avatarType(String value) {
     emit(state.copyWith(
-      birthDate: birthDate,
-      status: Formz.validate([
-        birthDate,
-        state.name,
-        state.lastName,
-        state.weight,
-        state.height,
-      ]),
-    ));
+        avatar: state.avatar.replaceCharAt(state.avatar, 20, value)));
   }
 
-  void enableForm(bool value) {
-    emit(state.copyWith(enabled: value));
+  void hairColorChanged(String value) {
+    emit(state.copyWith(
+        avatar: state.avatar.replaceCharAt(state.avatar, 24, value)));
+  }
+
+  void skinColorChanged(String value) {
+    emit(state.copyWith(
+      avatar: state.avatar.replaceCharAt(state.avatar, 22, value),
+    ));
   }
 
   void weightChanged(double? value) {
@@ -146,10 +79,6 @@ class SetupCubit extends Cubit<SetupState> {
           weight: weight,
           status: Formz.validate([
             weight,
-            state.lastName,
-            state.name,
-            state.birthDate,
-            state.height
           ])));
     } else {
       emit(state.copyWith(weight: const Weight.pure()));
@@ -163,53 +92,34 @@ class SetupCubit extends Cubit<SetupState> {
           height: heigth,
           status: Formz.validate([
             heigth,
-            state.lastName,
-            state.name,
-            state.weight,
-            state.birthDate
           ])));
     } else {
       emit(state.copyWith(height: const Heigth.pure()));
     }
   }
 
+  void next() {
+    tabsRouter!.setActiveIndex(tabsRouter!.activeIndex + 1);
+  }
+
   void sexChanged(Sex? value) {
-    emit(state.copyWith(
-        sex: value,
-        status: Formz.validate([
-          state.height,
-          state.lastName,
-          state.name,
-          state.weight,
-          state.birthDate
-        ])));
+    emit(state.copyWith(sex: value));
   }
 
   Future<void> saveUserData() async {
-    emit(state.copyWith(status: FormzStatus.submissionInProgress));
-    User user = User(
-        firstName: state.name.value.capitalize(),
-        lastName: state.lastName.value.capitalize(),
-        birth: state.birthDate.value,
-        avatar: getAvatarAsset(
-            state.skinColor, state.hairColor, state.sex, state.avatarType),
-        height: state.height.value?.toDouble(),
-        weight: state.weight.value,
-        sex: state.sex);
+    emit(state.copyWith(setupStatus: SetupStatus.saving));
 
-    var response = await _userRepository.updateUser(user);
+    User _userUpdate = state.currentUser.copyWith(
+        sex: state.sex,
+        weight: state.weight.value,
+        height: state.height.value?.toDouble(),
+        avatar: state.avatar);
+
+    var response = await _userRepository.updateUser(_userUpdate);
 
     response.fold(
-        (UserException l) => emit(state.copyWith(
-            errorMessage: l.message,
-            status: FormzStatus.submissionFailure)), (User r) {
-      emit(state.copyWith(status: FormzStatus.submissionSuccess));
-      if (pageController != null && pageController!.hasClients) {
-        pageController!.nextPage(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeInOut,
-        );
-      }
-    });
+        (UserException error) => emit(state.copyWith(
+            errorMessage: error.message, setupStatus: SetupStatus.error)),
+        (User r) => emit(state.copyWith(setupStatus: SetupStatus.success)));
   }
 }

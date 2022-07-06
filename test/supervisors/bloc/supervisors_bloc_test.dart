@@ -23,7 +23,20 @@ void main() {
     const code = '123';
     const String errorMessage = 'ops!';
 
-    const user = User(id: '1', firstName: 'John', lastName: 'Doe');
+    const userEmpty = User(id: '1', firstName: 'John', lastName: 'Doe');
+
+    const supervisors = [
+      User(id: '2', firstName: 'John', lastName: 'Doe'),
+      User(id: '3', firstName: 'John', lastName: 'Doe')
+    ];
+
+    const supervised = [
+      User(id: '4', firstName: 'John', lastName: 'Doe'),
+      User(id: '5', firstName: 'John', lastName: 'Doe')
+    ];
+
+    final userFull =
+        userEmpty.copyWith(supervisors: supervisors, supervised: supervised);
 
     setUp(() {
       authUser = MockAuthUser();
@@ -37,7 +50,7 @@ void main() {
             userRepository: userRepository,
             authenticationRepository: authenticationRepository,
           ).state,
-          const SupervisorsState());
+          const SupervisorsState.initial());
     });
 
     blocTest<SupervisorsBloc, SupervisorsState>(
@@ -50,14 +63,15 @@ void main() {
           when(() => authUser.id).thenAnswer((_) => 'id');
           when(() => authenticationRepository.currentUser)
               .thenAnswer((_) => authUser);
-          registerFallbackValue(user);
+          registerFallbackValue(userFull);
           when(() => userRepository.getUser(any()))
-              .thenAnswer((_) async => const Right(user));
+              .thenAnswer((_) async => Right(userFull));
         },
-        act: (bloc) => bloc.add(GetSupervisors()),
+        act: (bloc) => bloc.add(const GetSupervisors()),
         expect: () => [
-              const SupervisorsState(status: SupervisorsStatus.loading),
-              const SupervisorsState(status: SupervisorsStatus.success),
+              const SupervisorsState.loading(),
+              const SupervisorsState.success(
+                  supervisors: supervisors, supervised: supervised),
             ]);
     blocTest<SupervisorsBloc, SupervisorsState>(
         'emit [loading, error] when supervisors are not loaded',
@@ -69,15 +83,13 @@ void main() {
           when(() => authUser.id).thenAnswer((_) => 'id');
           when(() => authenticationRepository.currentUser)
               .thenAnswer((_) => authUser);
-          registerFallbackValue(user);
           when(() => userRepository.getUser(any())).thenAnswer(
               (_) async => Left(UserException(message: errorMessage)));
         },
-        act: (bloc) => bloc.add(GetSupervisors()),
+        act: (bloc) => bloc.add(const GetSupervisors()),
         expect: () => [
-              const SupervisorsState(status: SupervisorsStatus.loading),
-              const SupervisorsState(
-                  status: SupervisorsStatus.error, errorMessage: errorMessage),
+              const SupervisorsState.loading(),
+              const SupervisorsState.error(errorMessage: errorMessage),
             ]);
 
     blocTest<SupervisorsBloc, SupervisorsState>(
@@ -90,10 +102,10 @@ void main() {
           when(() => userRepository.acceptInvitation(code))
               .thenAnswer((_) async => const Right(Nothing()));
         },
-        act: (bloc) => bloc.add(AddSupervised(code)),
+        act: (bloc) => bloc.add(const AddSupervised(code: code)),
         expect: () => [
-              const SupervisorsState(status: SupervisorsStatus.loading),
-              const SupervisorsState(status: SupervisorsStatus.added),
+              const SupervisorsState.loading(),
+              const SupervisorsState.added(),
             ]);
     blocTest<SupervisorsBloc, SupervisorsState>(
         'emit [loading, error] when a supervised is not added',
@@ -105,11 +117,10 @@ void main() {
           when(() => userRepository.acceptInvitation(code)).thenAnswer(
               (_) async => Left(UserException(message: errorMessage)));
         },
-        act: (bloc) => bloc.add(AddSupervised(code)),
+        act: (bloc) => bloc.add(const AddSupervised(code: code)),
         expect: () => [
-              const SupervisorsState(status: SupervisorsStatus.loading),
-              const SupervisorsState(
-                  status: SupervisorsStatus.error, errorMessage: errorMessage),
+              const SupervisorsState.loading(),
+              const SupervisorsState.error(errorMessage: errorMessage),
             ]);
 
     blocTest<SupervisorsBloc, SupervisorsState>(
@@ -122,10 +133,10 @@ void main() {
           when(() => userRepository.deleteSupervised('1'))
               .thenAnswer((_) async => const Right(Nothing()));
         },
-        act: (bloc) => bloc.add(DeleteSupervised('1')),
+        act: (bloc) => bloc.add(const DeleteSupervised(id: '1')),
         expect: () => [
-              const SupervisorsState(status: SupervisorsStatus.loading),
-              const SupervisorsState(status: SupervisorsStatus.deleted),
+              const SupervisorsState.loading(),
+              const SupervisorsState.deleted(),
             ]);
 
     blocTest<SupervisorsBloc, SupervisorsState>(
@@ -138,11 +149,10 @@ void main() {
           when(() => userRepository.deleteSupervised('1')).thenAnswer(
               (_) async => Left(UserException(message: errorMessage)));
         },
-        act: (bloc) => bloc.add(DeleteSupervised('1')),
+        act: (bloc) => bloc.add(const DeleteSupervised(id: '1')),
         expect: () => [
-              const SupervisorsState(status: SupervisorsStatus.loading),
-              const SupervisorsState(
-                  status: SupervisorsStatus.error, errorMessage: errorMessage),
+              const SupervisorsState.loading(),
+              const SupervisorsState.error(errorMessage: errorMessage),
             ]);
 
     blocTest<SupervisorsBloc, SupervisorsState>(
@@ -155,11 +165,10 @@ void main() {
           when(() => userRepository.deleteSupervisor('1')).thenAnswer(
               (_) async => Left(UserException(message: errorMessage)));
         },
-        act: (bloc) => bloc.add(DeleteSupervisor('1')),
+        act: (bloc) => bloc.add(const DeleteSupervisor(id: '1')),
         expect: () => [
-              const SupervisorsState(status: SupervisorsStatus.loading),
-              const SupervisorsState(
-                  status: SupervisorsStatus.error, errorMessage: errorMessage),
+              const SupervisorsState.loading(),
+              const SupervisorsState.error(errorMessage: errorMessage),
             ]);
     blocTest<SupervisorsBloc, SupervisorsState>(
         'emit [loading, deleted] when a supervisor is deleted',
@@ -171,10 +180,10 @@ void main() {
           when(() => userRepository.deleteSupervisor('1'))
               .thenAnswer((_) async => const Right(Nothing()));
         },
-        act: (bloc) => bloc.add(DeleteSupervisor('1')),
+        act: (bloc) => bloc.add(const DeleteSupervisor(id: '1')),
         expect: () => [
-              const SupervisorsState(status: SupervisorsStatus.loading),
-              const SupervisorsState(status: SupervisorsStatus.deleted),
+              const SupervisorsState.loading(),
+              const SupervisorsState.deleted(),
             ]);
   });
 }

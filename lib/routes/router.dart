@@ -1,17 +1,23 @@
+import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:meddly/calendar/view/select_supervised_page.dart';
+import 'package:meddly/setup/view/setup_avatar_page.dart';
+import 'package:meddly/setup/view/setup_done_page.dart';
+import 'package:meddly/setup/view/setup_sex_page.dart';
+import 'package:meddly/treatment/view/treatment_page.dart';
+import 'package:meddly/user/view/profile/basic_info/user_basic_info_page.dart';
+import 'package:meddly/user/view/profile/personal_info/view/user_personal_info_page.dart';
 import '../calendar/view/calendar_page.dart';
 import '../diagnosis/view/diagnosis_page.dart';
 import '../measurements/view/measurements_page.dart';
-import '../medicine/view/medicine_page.dart';
+import '../setup/view/setup_height_weight_page.dart';
 import '../setup/view/setup_page.dart';
 import '../supervisors/view/supervised_page.dart';
 import '../supervisors/view/supervisors_page.dart';
 import '../supervisors/view/user_linked_accounts_page.dart';
-import '../user/view/profile/personal_info/view/user_personal_info_page.dart';
-import '../user/view/profile/settings/view/delete/delete_user_page.dart';
-import '../user/view/profile/settings/view/user_settings_page.dart';
+import '../settings/view/delete/delete_user_page.dart';
+import '../settings/view/user_settings_page.dart';
 import '../user/view/profile/view/user_profile_page.dart';
 import '../welcome/view/welcome_page.dart';
 import '../auth/view/loading_page.dart';
@@ -25,49 +31,73 @@ part 'router.gr.dart';
 @CustomAutoRouter(
     routes: routes,
     replaceInRouteName: 'Page,Route',
-    durationInMilliseconds: 300,
-    transitionsBuilder: TransitionsBuilders.noTransition)
+    durationInMilliseconds: 100,
+    reverseDurationInMilliseconds: 100,
+    transitionsBuilder: transition)
 class AppRouter extends _$AppRouter {}
+
+Widget transition(BuildContext context, Animation<double> animation,
+    Animation<double> secondaryAnimation, Widget child) {
+  return FadeThroughTransition(
+    animation: animation,
+    secondaryAnimation: secondaryAnimation,
+    child: child,
+  );
+}
 
 const List<AutoRoute> routes = [
   AutoRoute(path: 'login', page: LoginPage),
   AutoRoute(path: 'signup', page: SignUpPage),
   AutoRoute(path: 'welcome', page: WelcomePage),
   AutoRoute(path: 'loading', page: LoadingPage),
-  AutoRoute(
-    path: 'home',
-    name: 'HomeRouter',
-    page: HomePage,
-    children: [
-      AutoRoute(path: 'diagnosis', page: DiagnosisPage),
-      AutoRoute(path: 'measurements', page: MeasurementesPage),
-      AutoRoute(path: 'medicine', page: MedicinePage),
-      AutoRoute(
-        path: 'calendar',
-        page: EmptyRouterPage,
-        initial: true,
-        name: 'CalendarRouter',
-        children: [
-          AutoRoute(path: 'calendar', page: CalendarPage, initial: true),
-          AutoRoute(
-              path: 'calendar/select_supervised', page: SelectSupervisedPage),
-        ],
-      ),
-      AutoRoute(
-        path: 'user',
-        name: 'UserRouter',
-        page: EmptyRouterPage,
-        children: [
-          AutoRoute(path: 'user/profile', page: UserProfilePage, initial: true),
-          AutoRoute(path: 'user/personal_info', page: UserPersonalInfoPage),
-          AutoRoute(path: 'user/settings', page: UserSettingsPage),
-          AutoRoute(path: 'user/linked_accounts', page: UserLinkedAccountsPage),
-          AutoRoute(path: 'user/supervisors', page: SupervisorsPage),
-          AutoRoute(path: 'user/supervised', page: SupervisedPage),
-          AutoRoute(path: 'user/delete', page: DeleteUserPage),
-        ],
-      ),
-    ],
-  ),
-  AutoRoute(path: 'setup', page: SetupPage),
+  _homeRouter,
+  _setupRouter,
 ];
+
+const _homeRouter = AutoRoute(
+  path: 'home',
+  name: 'HomeRouter',
+  page: HomePage,
+  children: [
+    AutoRoute(path: 'diagnosis', page: DiagnosisPage),
+    AutoRoute(path: 'measurements', page: MeasurementesPage),
+    AutoRoute(path: 'medicine', page: TreatmentPage),
+    _calendarRouter,
+    _userRouter,
+  ],
+);
+
+const _calendarRouter = AutoRoute(
+  path: 'calendar',
+  page: EmptyRouterPage,
+  initial: true,
+  name: 'CalendarRouter',
+  children: [
+    AutoRoute(path: 'calendar', page: CalendarPage, initial: true),
+    AutoRoute(path: 'calendar/select_supervised', page: SelectSupervisedPage),
+  ],
+);
+
+const _userRouter = AutoRoute(
+  path: 'user',
+  name: 'UserRouter',
+  page: EmptyRouterPage,
+  children: [
+    AutoRoute(path: 'user/profile', page: UserProfilePage, initial: true),
+    AutoRoute(path: 'user/basic_info', page: UserBasicInfoPage),
+    AutoRoute(path: 'user/basic_info', page: UserPersonalInfoPage),
+    AutoRoute(path: 'user/settings', page: UserSettingsPage),
+    AutoRoute(path: 'user/linked_accounts', page: UserLinkedAccountsPage),
+    AutoRoute(path: 'user/supervisors', page: SupervisorsPage),
+    AutoRoute(path: 'user/supervised', page: SupervisedPage),
+    AutoRoute(path: 'user/delete', page: DeleteUserPage),
+  ],
+);
+
+const _setupRouter =
+    AutoRoute(path: 'setup', name: 'SetupRouter', page: SetupPage, children: [
+  AutoRoute(path: 'setup/sex', page: SetupSexPage),
+  AutoRoute(path: 'setup/height_weight', page: SetupHeightWeightPage),
+  AutoRoute(path: 'setup/avatar', page: SetupAvatarPage),
+  AutoRoute(path: 'setup/done', page: SetupDonePage),
+]);

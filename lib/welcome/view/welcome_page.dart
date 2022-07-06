@@ -1,5 +1,5 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,51 +25,53 @@ class WelcomePage extends StatelessWidget {
       create: (context) => WelcomeCubit()..init(),
       child: Scaffold(
         appBar: AppBar(),
-        body: FadeIn(
-          child: SizedBox(
-            child: SafeArea(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(),
-                  BlocBuilder<WelcomeCubit, WelcomeState>(
-                    builder: (context, state) {
-                      return Container(
-                        margin: const EdgeInsets.only(top: 30),
-                        height: MediaQuery.of(context).size.height / 1.9,
-                        child: PageView.builder(
-                          controller:
-                              context.read<WelcomeCubit>().pageController,
-                          itemBuilder: (BuildContext context, int index) {
-                            return pages[index % 3];
-                          },
-                        ),
-                      );
-                    },
-                  ),
-                  Column(
-                    children: [
-                      BlocBuilder<WelcomeCubit, WelcomeState>(
-                        builder: (context, state) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const SizedBox(width: 15),
-                              _PageIndicator(state.currentPage == 0),
-                              const SizedBox(width: 15),
-                              _PageIndicator(state.currentPage == 1),
-                              const SizedBox(width: 15),
-                              _PageIndicator(state.currentPage == 2),
-                            ],
-                          );
+        body: SizedBox(
+          child: SafeArea(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Spacer(),
+                BlocBuilder<WelcomeCubit, WelcomeState>(
+                  builder: (context, state) {
+                    return Expanded(
+                      flex: 5,
+                      child: PageView.builder(
+                        controller: context.read<WelcomeCubit>().pageController,
+                        itemBuilder: (BuildContext context, int index) {
+                          return pages[index % 3];
                         },
                       ),
-                      const SizedBox(height: 20),
-                      const _WelcomeButton(),
-                    ],
-                  )
-                ],
-              ),
+                    );
+                  },
+                ),
+                const Spacer(),
+                Column(
+                  children: [
+                    BlocBuilder<WelcomeCubit, WelcomeState>(
+                      builder: (context, state) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const SizedBox(width: 15),
+                            _PageIndicator(state.currentPage == 0),
+                            const SizedBox(width: 15),
+                            _PageIndicator(state.currentPage == 1),
+                            const SizedBox(width: 15),
+                            _PageIndicator(state.currentPage == 2),
+                          ],
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: const [
+                        Expanded(child: _LogInButton()),
+                        Expanded(child: _SignInButton()),
+                      ],
+                    )
+                  ],
+                )
+              ],
             ),
           ),
         ),
@@ -91,13 +93,13 @@ class _PageIndicator extends StatelessWidget {
     return BlocBuilder<WelcomeCubit, WelcomeState>(
       builder: (context, state) {
         return AnimatedContainer(
-          width: currentPage ? 20 : 10,
+          width: currentPage ? 30 : 10,
           height: 10,
           decoration: BoxDecoration(
             color: currentPage
                 ? Theme.of(context).colorScheme.primary
                 : Colors.grey,
-            borderRadius: BorderRadius.circular(999),
+            borderRadius: BorderRadius.circular(20),
           ),
           duration: const Duration(milliseconds: 300),
         );
@@ -141,56 +143,96 @@ class _PageViewBody extends StatelessWidget {
     return Container(
       padding: defaultPadding,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SizedBox(
-              height: MediaQuery.of(context).size.height / 3,
-              child: SvgPicture.asset(asset)),
+          Expanded(flex: 4, child: SvgPicture.asset(asset)),
           const SizedBox(height: 30),
-          Text(
-            title,
-            style: Theme.of(context)
-                .textTheme
-                .titleSmall!
-                .copyWith(fontWeight: FontWeight.w600),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            description,
-            style: Theme.of(context).textTheme.bodyMedium,
-            textAlign: TextAlign.center,
-          ),
+          Column(
+            children: [
+              Text(
+                title,
+                style: Theme.of(context)
+                    .textTheme
+                    .titleSmall!
+                    .copyWith(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                description,
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          )
         ],
       ),
     );
   }
 }
 
-class _WelcomeButton extends StatelessWidget {
-  const _WelcomeButton({
+class _SignInButton extends StatelessWidget {
+  const _SignInButton({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      key: const Key('login_button'),
+      key: const Key('__sign_in_welcome__'),
       onTap: () {
         HapticFeedback.lightImpact();
-        AutoRouter.of(context)
-            .pushAndPopUntil(const LoginRoute(), predicate: (route) => false);
+        AutoRouter.of(context).push(const SignUpRoute());
       },
       child: Container(
-          height: 55,
+          height: 64,
           margin: defaultPadding,
+          padding: defaultPadding,
+          decoration: BoxDecoration(
+              color: Colors.transparent,
+              borderRadius: BorderRadius.circular(20),
+              border: Border.all(
+                  width: 2, color: Theme.of(context).colorScheme.primary)),
+          child: Center(
+              child: AutoSizeText(
+            'Regístrate',
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge!
+                .copyWith(color: Theme.of(context).colorScheme.primary),
+          ))),
+    );
+  }
+}
+
+class _LogInButton extends StatelessWidget {
+  const _LogInButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      key: const Key('__log_in_welcome__'),
+      onTap: () {
+        HapticFeedback.lightImpact();
+        AutoRouter.of(context).push(const LoginRoute());
+      },
+      child: Container(
+          height: 64,
+          margin: defaultPadding,
+          padding: defaultPadding,
           decoration: BoxDecoration(
             color: Theme.of(context).colorScheme.primary,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(20),
           ),
           child: Center(
-            child: Text('Comenzar ahora',
-                style: Theme.of(context).textTheme.labelMedium),
-          )),
+              child: AutoSizeText(
+            'Inicia sesión',
+            style: Theme.of(context)
+                .textTheme
+                .bodyLarge!
+                .copyWith(color: Theme.of(context).colorScheme.secondary),
+          ))),
     );
   }
 }

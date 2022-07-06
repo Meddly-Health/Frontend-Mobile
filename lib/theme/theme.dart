@@ -14,9 +14,26 @@ class ThemeManager {
           selectedLabelStyle: const TextStyle(
               fontSize: 14, fontWeight: FontWeight.w500, color: Colors.black)),
       appBarTheme: AppBarTheme(
-        toolbarHeight: 0,
+        toolbarHeight: kToolbarHeight,
         elevation: 0,
+        centerTitle: true,
+        titleTextStyle: textTheme.titleMedium,
         color: scaffoldBackgroundColorLight,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        hintStyle: textTheme.bodyMedium!.copyWith(
+          color: textTheme.bodyMedium!.color!.withOpacity(0.4),
+        ),
+        errorStyle: textTheme.bodyMedium!.copyWith(
+          color: errorLight,
+        ),
+        labelStyle: textTheme.bodyMedium,
+        errorBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: errorLight),
+        ),
+        focusedErrorBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: errorLight),
+        ),
       ),
       dialogTheme: DialogTheme(
         backgroundColor: scaffoldBackgroundColorLight,
@@ -34,8 +51,8 @@ class ThemeManager {
 }
 
 Color primaryLight = const Color(0xff516EB4);
-Color secondaryLight = const Color(0xffF9FEFF);
-Color scaffoldBackgroundColorLight = const Color(0xffF5F5F5);
+Color secondaryLight = const Color(0xffFFFFFF);
+Color scaffoldBackgroundColorLight = const Color(0xffF5F4F8);
 Color errorLight = const Color(0xffFF5158);
 
 extension ColorSchemeExtension on ColorScheme {

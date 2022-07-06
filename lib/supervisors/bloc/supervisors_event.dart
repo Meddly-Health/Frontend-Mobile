@@ -1,24 +1,12 @@
 part of 'supervisors_bloc.dart';
 
-@immutable
-abstract class SupervisorsEvent {}
-
-class GetSupervisors extends SupervisorsEvent {}
-
-class AddSupervised extends SupervisorsEvent {
-  final String code;
-
-  AddSupervised(this.code);
-}
-
-class DeleteSupervised extends SupervisorsEvent {
-  final String id;
-
-  DeleteSupervised(this.id);
-}
-
-class DeleteSupervisor extends SupervisorsEvent {
-  final String id;
-
-  DeleteSupervisor(this.id);
+@freezed
+class SupervisorsEvent with _$SupervisorsEvent {
+  const factory SupervisorsEvent.getSupervisors() = GetSupervisors;
+  const factory SupervisorsEvent.addSupervised({required String code}) =
+      AddSupervised;
+  const factory SupervisorsEvent.deleteSupervised({required String id}) =
+      DeleteSupervised;
+  const factory SupervisorsEvent.deleteSupervisor({required String id}) =
+      DeleteSupervisor;
 }

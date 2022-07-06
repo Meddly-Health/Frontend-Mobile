@@ -6,8 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:formz/formz.dart';
+import 'package:meddly/helpers/constants.dart';
+import 'package:user_repository/user_repository.dart';
 import '../../helpers/assets_provider.dart';
-import '../../helpers/constants.dart';
 import '../../routes/router.dart';
 import '../../widgets/widgets.dart';
 import 'sign_up_form.dart';
@@ -20,21 +21,14 @@ class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          SignUpCubit(RepositoryProvider.of<AuthenticationRepository>(context)),
-      child: BlocListener<AuthBloc, AuthState>(
-        listener: (context, state) {
-          if (state.user.isNotEmpty) {
-            AutoRouter.of(context)
-                .pushAndPopUntil(SetupRoute(), predicate: ((route) => false));
-          }
-        },
-        child: Scaffold(
-          appBar: AppBar(),
-          body: GestureDetector(
-              onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
-              child: const _SignUpPageBody()),
-        ),
+      create: (context) => SignUpCubit(
+          RepositoryProvider.of<AuthenticationRepository>(context),
+          RepositoryProvider.of<UserRepository>(context)),
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: GestureDetector(
+            onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+            child: const _SignUpPageBody()),
       ),
     );
   }
@@ -51,7 +45,7 @@ class _SignUpPageBody extends StatelessWidget {
       return MultiBlocListener(
         listeners: [
           BlocListener<SignUpCubit, SignUpState>(
-            listener: (context, state) {
+            listener: (context, state) async {
               if (state.status.isSubmissionFailure) {
                 context.read<SignUpCubit>().termsAcceptedChanged(false);
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -70,6 +64,11 @@ class _SignUpPageBody extends StatelessWidget {
 
               if (state.status.isSubmissionSuccess) {
                 ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                HapticFeedback.lightImpact();
+                await Future.delayed(const Duration(seconds: 1));
+
+                AutoRouter.of(context).pushAndPopUntil(const LoadingRoute(),
+                    predicate: ((route) => false));
               }
             },
           ),
@@ -87,32 +86,68 @@ class _SignUpPageBody extends StatelessWidget {
             }),
           )
         ],
-        child: Container(
-          padding: defaultPadding,
-          child: SafeArea(
-            child: SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height -
-                        MediaQuery.of(context).padding.vertical -
-                        Scaffold.of(context).appBarMaxHeight! -
-                        defaultPadding.bottom -
-                        defaultPadding.top),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const Spacer(flex: 1),
-                    Hero(
-                        tag: 'logo',
-                        child: SvgPicture.asset(AssetsProvider.meddlyLogo)),
-                    const Spacer(flex: 1),
-                    FadeIn(child: const SignUpForm()),
-                    const Spacer(flex: 3),
-                    const _AlreadyHaveAnAccountText(),
-                  ],
+        child: SafeArea(
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Positioned(
+                top: -200,
+                right: -300,
+                child: FadeInRight(
+                  duration: const Duration(milliseconds: 300),
+                  child: SvgPicture.asset(
+                    AssetsProvider.meddlyLogo,
+                    height: 600,
+                  ),
                 ),
               ),
-            ),
+              NestedScrollView(
+                body: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Container(
+                    padding: defaultPadding,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        FadeInLeft(
+                          duration: const Duration(milliseconds: 300),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text.rich(
+                                TextSpan(children: [
+                                  const TextSpan(text: 'Bienvenido!\n'),
+                                  TextSpan(
+                                      text: 'Crea tu cuenta para comenzar.',
+                                      style: TextStyle(
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .secondaryContainer)),
+                                ]),
+                                style: Theme.of(context).textTheme.titleLarge!),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        FadeInLeft(
+                            duration: const Duration(milliseconds: 300),
+                            child: const SignUpForm()),
+                        const SizedBox(height: 35),
+                        const _AlreadyHaveAnAccountText(),
+                        const SizedBox(height: 16),
+                      ],
+                    ),
+                  ),
+                ),
+                headerSliverBuilder:
+                    (BuildContext context, bool innerBoxIsScrolled) {
+                  return [
+                    const SliverAppBar(
+                      backgroundColor: Colors.transparent,
+                      leading: MeddlyBackButton(),
+                    )
+                  ];
+                },
+              ),
+            ],
           ),
         ),
       );
@@ -131,8 +166,7 @@ class _AlreadyHaveAnAccountText extends StatelessWidget {
       key: const Key('signUpTextButton'),
       onTap: () {
         HapticFeedback.lightImpact();
-        AutoRouter.of(context)
-            .pushAndPopUntil(const LoginRoute(), predicate: (route) => false);
+        AutoRouter.of(context).popAndPush(const LoginRoute());
       },
       child: Text.rich(TextSpan(children: [
         TextSpan(

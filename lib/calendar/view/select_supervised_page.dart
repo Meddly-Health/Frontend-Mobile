@@ -1,4 +1,3 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meddly/calendar/view/widgets/supervised_container.dart';
@@ -17,61 +16,63 @@ class SelectSupervisedPage extends StatefulWidget {
 class _SelectSupervisedPageState extends State<SelectSupervisedPage> {
   @override
   void initState() {
-    context.read<SupervisorsBloc>().add(GetSupervisors());
+    context.read<SupervisorsBloc>().add(const GetSupervisors());
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Seleccionar supervisado'),
+        leading: const MeddlyBackButton(),
+      ),
       body: SingleChildScrollView(
-        child: FadeIn(
-          child: Container(
-            padding: defaultPadding,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const PageTitle(title: 'Elegir supervisado'),
-                const SizedBox(height: 16),
-                BlocBuilder<SupervisorsBloc, SupervisorsState>(
-                  builder: (context, state) {
-                    var supervised = state.supervised;
-                    if (state.status == SupervisorsStatus.loading) {
-                      return const _LoadingSupervised();
-                    }
-
-                    if (state.supervised!.isEmpty) {
-                      return const Center(
-                        child:
-                            NoData(message: 'No hay supervisados disponibles'),
-                      );
-                    }
-
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ...supervised!
-                            .map((supervised) => GestureDetector(
-                                  onTap: () {
-                                    context.read<UserBloc>().add(
-                                        UserChangedSupervisor(
-                                            user: supervised));
-                                  },
-                                  child: Padding(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 5),
-                                    child: SupervisedContainer(
-                                        supervised: supervised),
-                                  ),
-                                ))
-                            .toList()
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
+        child: Container(
+          padding: defaultPadding,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              BlocBuilder<SupervisorsBloc, SupervisorsState>(
+                builder: (context, state) {
+                  return state.maybeWhen(
+                      orElse: () => const Center(
+                            child: NoData(
+                                message: 'No hay supervisados disponibles'),
+                          ),
+                      loading: () => const _LoadingSupervised(),
+                      success: (_, supervised) {
+                        if (supervised!.isEmpty) {
+                          return const Center(
+                            child: NoData(
+                                message: 'No hay supervisados disponibles'),
+                          );
+                        }
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ...supervised
+                                .map((supervised) => GestureDetector(
+                                      onTap: () {
+                                        context.read<UserBloc>().add(
+                                            UserEvent.changeSupervisor(
+                                                supervised));
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 5),
+                                        child: SupervisedContainer(
+                                            supervised: supervised),
+                                      ),
+                                    ))
+                                .toList()
+                          ],
+                        );
+                      });
+                },
+              ),
+            ],
           ),
         ),
       ),

@@ -3,92 +3,78 @@ import 'dart:async';
 import 'package:authentication_repository/authentication_repository.dart'
     as auth;
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:user_repository/user_repository.dart';
 
 part 'user_event.dart';
 part 'user_state.dart';
+part 'user_bloc.freezed.dart';
 
 class UserBloc extends Bloc<UserEvent, UserState> {
   final UserRepository userRepository;
   final auth.AuthenticationRepository authenticationRepository;
 
   UserBloc(this.userRepository, this.authenticationRepository)
-      : super(const UserState()) {
+      : super(const UserState.initial()) {
     on<GetUser>(_onGetUser);
 
     on<DeleteUser>(_onUserDelete);
 
-    on<UserUpdate>(_onUserUpdate);
+    on<UpdateUser>(_onUserUpdate);
 
-    on<UserChangedSupervisor>(_onUserChangedSupervisor);
+    on<ChangeSupervisor>(_onUserChangedSupervisor);
 
     on<Logout>(_onLogout);
   }
 
   FutureOr<void> _onLogout(Logout event, Emitter<UserState> emit) async {
-    emit(state.copyWith(status: UserStatus.loading));
+    emit(const UserState.loading());
     await authenticationRepository.logOut();
-    emit(state.copyWith(
-        status: UserStatus.success, currentUser: const User(id: '')));
+    emit(const UserState.success(currentUser: null));
   }
 
   FutureOr<void> _onUserUpdate(
-      UserUpdate event, Emitter<UserState> emit) async {
-    if (state.currentUser == null) {
-      return;
-    }
-
-    emit(state.copyWith(status: UserStatus.loading));
+      UpdateUser event, Emitter<UserState> emit) async {
+    emit(const UserState.loading());
 
     var response = await userRepository.updateUser(event.user);
 
     response.fold(
-      (error) => emit(state.copyWith(
-          status: UserStatus.error, errorMessage: error.message)),
-      (user) =>
-          emit(state.copyWith(status: UserStatus.success, currentUser: user)),
+      (e) => emit(UserState.error(e.message)),
+      (user) => emit(UserState.success(currentUser: user)),
     );
   }
 
   FutureOr<void> _onUserDelete(
       DeleteUser event, Emitter<UserState> emit) async {
-    emit(state.copyWith(status: UserStatus.loading));
+    emit(const UserState.loading());
 
     var response = await userRepository
         .deleteUser(authenticationRepository.currentUser.id);
 
     response.fold(
-      (UserException l) => emit(
-          state.copyWith(status: UserStatus.error, errorMessage: l.message)),
-      (User r) => emit(state.copyWith(status: UserStatus.success)),
+      (UserException e) => emit(UserState.error(e.message)),
+      (User user) => emit(UserState.success(currentUser: user)),
     );
   }
 
   FutureOr<void> _onGetUser(GetUser event, Emitter<UserState> emit) async {
     if (authenticationRepository.currentUser.id != '') {
-      emit(state.copyWith(status: UserStatus.loading));
+      emit(const UserState.loading());
       var response =
           await userRepository.getUser(authenticationRepository.currentUser.id);
 
       response.fold(
-        (UserException l) => emit(
-            state.copyWith(status: UserStatus.error, errorMessage: l.message)),
-        (User r) =>
-            emit(state.copyWith(status: UserStatus.success, currentUser: r)),
+        (UserException e) => emit(UserState.error(e.message)),
+        (User user) => emit(UserState.success(currentUser: user)),
       );
     }
   }
 
   FutureOr<void> _onUserChangedSupervisor(
-      UserChangedSupervisor event, Emitter<UserState> emit) async {
-    emit(state.copyWith(status: UserStatus.loading));
-
-    try {
-      emit(state.copyWith(status: UserStatus.success, supervising: event.user));
-    } catch (e) {
-      emit(state.copyWith(status: UserStatus.error));
-    }
+      ChangeSupervisor event, Emitter<UserState> emit) async {
+    state.maybeMap(
+        orElse: () {},
+        success: (state) => emit(state.copyWith(supervising: event.user)));
   }
 }

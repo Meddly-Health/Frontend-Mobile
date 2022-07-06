@@ -20,47 +20,45 @@ void main() {
     late User user;
     late User userUpdated;
     late AuthUser authUser;
+    late User supervising;
 
     setUp(() {
       userRepository = MockUserRepository();
       authenticationRepository = MockAuthenticationRepository();
-      user = const User(firstName: 'Lorenzo', lastName: 'Perez');
-      userUpdated = const User(firstName: 'Lorenzo', lastName: 'Sala');
+      user = const User(id: '1', firstName: 'Lorenzo', lastName: 'Perez');
+      userUpdated = const User(id: '2', firstName: 'Lorenzo', lastName: 'Sala');
       authUser = MockAuthUser();
+      supervising = const User(id: '2', firstName: 'Ignacio');
     });
     group('update', () {
       blocTest<UserBloc, UserState>(
         'emits [loading, success] when user is updated',
         build: () => UserBloc(userRepository, authenticationRepository),
-        seed: () => UserState(currentUser: user),
+        seed: () => UserState.success(currentUser: user),
         setUp: () {
           registerFallbackValue(user);
           when(() => userRepository.updateUser(any()))
               .thenAnswer((_) async => Right(userUpdated));
         },
-        act: (bloc) => bloc.add(UserUpdate(user: userUpdated)),
+        act: (bloc) => bloc.add(UserEvent.updateUser(userUpdated)),
         expect: () => <UserState>[
-          UserState(status: UserStatus.loading, currentUser: user),
-          UserState(status: UserStatus.success, currentUser: userUpdated),
+          const UserState.loading(),
+          UserState.success(currentUser: userUpdated),
         ],
       );
 
       blocTest<UserBloc, UserState>(
-        'emits [loagin, error] when user is not updated',
+        'emits [loading, error] when user is not updated',
         build: () => UserBloc(userRepository, authenticationRepository),
-        seed: () => UserState(currentUser: user),
         setUp: () {
           registerFallbackValue(user);
           when(() => userRepository.updateUser(any()))
               .thenAnswer((_) async => Left(UserException(message: 'ops!')));
         },
-        act: (bloc) => bloc.add(UserUpdate(user: userUpdated)),
+        act: (bloc) => bloc.add(UserEvent.updateUser(userUpdated)),
         expect: () => <UserState>[
-          UserState(status: UserStatus.loading, currentUser: user),
-          UserState(
-              status: UserStatus.error,
-              currentUser: user,
-              errorMessage: 'ops!'),
+          const UserState.loading(),
+          const UserState.error('ops!'),
         ],
       );
     });
@@ -69,7 +67,7 @@ void main() {
       blocTest<UserBloc, UserState>(
           'emits [loading, success] when user is deleted',
           build: () => UserBloc(userRepository, authenticationRepository),
-          seed: () => UserState(currentUser: user),
+          seed: () => UserState.success(currentUser: user),
           setUp: () {
             when(() => authUser.id).thenAnswer((_) => 'id');
             when(() => authenticationRepository.currentUser)
@@ -82,16 +80,16 @@ void main() {
             when(() => userRepository.deleteUser(any<String>()))
                 .thenAnswer((_) async => Right(user));
           },
-          act: (bloc) => bloc.add(DeleteUser()),
+          act: (bloc) => bloc.add(const DeleteUser()),
           expect: () => <UserState>[
-                UserState(status: UserStatus.loading, currentUser: user),
-                UserState(status: UserStatus.success, currentUser: user),
+                const UserState.loading(),
+                UserState.success(currentUser: user),
               ]);
 
       blocTest<UserBloc, UserState>(
           'emits [loading, error] when user is deleted',
           build: () => UserBloc(userRepository, authenticationRepository),
-          seed: () => UserState(currentUser: user),
+          seed: () => UserState.success(currentUser: user),
           setUp: () {
             when(() => authUser.id).thenAnswer((_) => 'id');
             when(() => authenticationRepository.currentUser)
@@ -102,13 +100,10 @@ void main() {
             when(() => authenticationRepository.currentUser)
                 .thenAnswer((_) => authUser);
           },
-          act: (bloc) => bloc.add(DeleteUser()),
+          act: (bloc) => bloc.add(const DeleteUser()),
           expect: () => <UserState>[
-                UserState(status: UserStatus.loading, currentUser: user),
-                UserState(
-                    status: UserStatus.error,
-                    currentUser: user,
-                    errorMessage: 'ops!'),
+                const UserState.loading(),
+                const UserState.error('ops!'),
               ]);
     });
 
@@ -124,10 +119,10 @@ void main() {
           when(() => userRepository.getUser(any()))
               .thenAnswer((_) async => Right(user));
         },
-        act: (bloc) => bloc.add(GetUser()),
+        act: (bloc) => bloc.add(const GetUser()),
         expect: () => <UserState>[
-          const UserState(status: UserStatus.loading),
-          UserState(status: UserStatus.success, currentUser: user),
+          const UserState.loading(),
+          UserState.success(currentUser: user),
         ],
       );
 
@@ -142,12 +137,29 @@ void main() {
           when(() => userRepository.getUser(any()))
               .thenAnswer((_) async => Left(UserException(message: 'ops!')));
         },
-        act: (bloc) => bloc.add(GetUser()),
+        act: (bloc) => bloc.add(const GetUser()),
         expect: () => <UserState>[
-          const UserState(status: UserStatus.loading),
-          const UserState(status: UserStatus.error, errorMessage: 'ops!'),
+          const UserState.loading(),
+          const UserState.error('ops!'),
         ],
       );
+
+      blocTest<UserBloc, UserState>(
+          'emits [loading,success] when supervising is changed and is not null',
+          build: () => UserBloc(userRepository, authenticationRepository),
+          seed: () => UserState.success(currentUser: user),
+          act: (bloc) => bloc.add(ChangeSupervisor(supervising)),
+          expect: () => <UserState>[
+                UserState.success(currentUser: user, supervising: supervising)
+              ]);
+
+      blocTest<UserBloc, UserState>(
+          'emits [loading,success] when supervising is changed and is null',
+          build: () => UserBloc(userRepository, authenticationRepository),
+          seed: () =>
+              UserState.success(currentUser: user, supervising: supervising),
+          act: (bloc) => bloc.add(const ChangeSupervisor(null)),
+          expect: () => <UserState>[UserState.success(currentUser: user)]);
     });
   });
 }
