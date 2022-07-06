@@ -39,7 +39,8 @@ mixin _$ConsumptionRule {
   TResult when<TResult extends Object?>({
     required TResult Function(String? name, DateTime start, DateTime? end)
         needIt,
-    required TResult Function(String? name, DateTime start, DateTime? end)
+    required TResult Function(
+            String? name, DateTime start, List<DateTime> times, DateTime? end)
         everyDay,
     required TResult Function(
             String name, DateTime start, DateTime? end, int days)
@@ -52,7 +53,9 @@ mixin _$ConsumptionRule {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String? name, DateTime start, DateTime? end)? needIt,
-    TResult Function(String? name, DateTime start, DateTime? end)? everyDay,
+    TResult Function(
+            String? name, DateTime start, List<DateTime> times, DateTime? end)?
+        everyDay,
     TResult Function(String name, DateTime start, DateTime? end, int days)?
         everyXDays,
     TResult Function(
@@ -63,7 +66,9 @@ mixin _$ConsumptionRule {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String? name, DateTime start, DateTime? end)? needIt,
-    TResult Function(String? name, DateTime start, DateTime? end)? everyDay,
+    TResult Function(
+            String? name, DateTime start, List<DateTime> times, DateTime? end)?
+        everyDay,
     TResult Function(String name, DateTime start, DateTime? end, int days)?
         everyXDays,
     TResult Function(
@@ -181,13 +186,14 @@ class __$$_NeedItCopyWithImpl<$Res> extends _$ConsumptionRuleCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_NeedIt implements _NeedIt {
+class _$_NeedIt extends _NeedIt {
   const _$_NeedIt(
       {this.name = 'need_it',
       required this.start,
       this.end,
       final String? $type})
-      : $type = $type ?? 'needIt';
+      : $type = $type ?? 'needIt',
+        super._();
 
   factory _$_NeedIt.fromJson(Map<String, dynamic> json) =>
       _$$_NeedItFromJson(json);
@@ -236,7 +242,8 @@ class _$_NeedIt implements _NeedIt {
   TResult when<TResult extends Object?>({
     required TResult Function(String? name, DateTime start, DateTime? end)
         needIt,
-    required TResult Function(String? name, DateTime start, DateTime? end)
+    required TResult Function(
+            String? name, DateTime start, List<DateTime> times, DateTime? end)
         everyDay,
     required TResult Function(
             String name, DateTime start, DateTime? end, int days)
@@ -252,7 +259,9 @@ class _$_NeedIt implements _NeedIt {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String? name, DateTime start, DateTime? end)? needIt,
-    TResult Function(String? name, DateTime start, DateTime? end)? everyDay,
+    TResult Function(
+            String? name, DateTime start, List<DateTime> times, DateTime? end)?
+        everyDay,
     TResult Function(String name, DateTime start, DateTime? end, int days)?
         everyXDays,
     TResult Function(
@@ -266,7 +275,9 @@ class _$_NeedIt implements _NeedIt {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String? name, DateTime start, DateTime? end)? needIt,
-    TResult Function(String? name, DateTime start, DateTime? end)? everyDay,
+    TResult Function(
+            String? name, DateTime start, List<DateTime> times, DateTime? end)?
+        everyDay,
     TResult Function(String name, DateTime start, DateTime? end, int days)?
         everyXDays,
     TResult Function(
@@ -323,11 +334,12 @@ class _$_NeedIt implements _NeedIt {
   }
 }
 
-abstract class _NeedIt implements ConsumptionRule {
+abstract class _NeedIt extends ConsumptionRule {
   const factory _NeedIt(
       {final String? name,
       required final DateTime start,
       final DateTime? end}) = _$_NeedIt;
+  const _NeedIt._() : super._();
 
   factory _NeedIt.fromJson(Map<String, dynamic> json) = _$_NeedIt.fromJson;
 
@@ -349,7 +361,8 @@ abstract class _$$_EveryDayCopyWith<$Res>
           _$_EveryDay value, $Res Function(_$_EveryDay) then) =
       __$$_EveryDayCopyWithImpl<$Res>;
   @override
-  $Res call({String? name, DateTime start, DateTime? end});
+  $Res call(
+      {String? name, DateTime start, List<DateTime> times, DateTime? end});
 }
 
 /// @nodoc
@@ -367,6 +380,7 @@ class __$$_EveryDayCopyWithImpl<$Res>
   $Res call({
     Object? name = freezed,
     Object? start = freezed,
+    Object? times = freezed,
     Object? end = freezed,
   }) {
     return _then(_$_EveryDay(
@@ -378,6 +392,10 @@ class __$$_EveryDayCopyWithImpl<$Res>
           ? _value.start
           : start // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      times: times == freezed
+          ? _value._times
+          : times // ignore: cast_nullable_to_non_nullable
+              as List<DateTime>,
       end: end == freezed
           ? _value.end
           : end // ignore: cast_nullable_to_non_nullable
@@ -388,13 +406,16 @@ class __$$_EveryDayCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_EveryDay implements _EveryDay {
+class _$_EveryDay extends _EveryDay {
   const _$_EveryDay(
       {this.name = 'every_day',
       required this.start,
+      required final List<DateTime> times,
       this.end,
       final String? $type})
-      : $type = $type ?? 'everyDay';
+      : _times = times,
+        $type = $type ?? 'everyDay',
+        super._();
 
   factory _$_EveryDay.fromJson(Map<String, dynamic> json) =>
       _$$_EveryDayFromJson(json);
@@ -404,6 +425,13 @@ class _$_EveryDay implements _EveryDay {
   final String? name;
   @override
   final DateTime start;
+  final List<DateTime> _times;
+  @override
+  List<DateTime> get times {
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_times);
+  }
+
   @override
   final DateTime? end;
 
@@ -412,7 +440,7 @@ class _$_EveryDay implements _EveryDay {
 
   @override
   String toString() {
-    return 'ConsumptionRule.everyDay(name: $name, start: $start, end: $end)';
+    return 'ConsumptionRule.everyDay(name: $name, start: $start, times: $times, end: $end)';
   }
 
   @override
@@ -422,6 +450,7 @@ class _$_EveryDay implements _EveryDay {
             other is _$_EveryDay &&
             const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.start, start) &&
+            const DeepCollectionEquality().equals(other._times, _times) &&
             const DeepCollectionEquality().equals(other.end, end));
   }
 
@@ -431,6 +460,7 @@ class _$_EveryDay implements _EveryDay {
       runtimeType,
       const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(start),
+      const DeepCollectionEquality().hash(_times),
       const DeepCollectionEquality().hash(end));
 
   @JsonKey(ignore: true)
@@ -443,7 +473,8 @@ class _$_EveryDay implements _EveryDay {
   TResult when<TResult extends Object?>({
     required TResult Function(String? name, DateTime start, DateTime? end)
         needIt,
-    required TResult Function(String? name, DateTime start, DateTime? end)
+    required TResult Function(
+            String? name, DateTime start, List<DateTime> times, DateTime? end)
         everyDay,
     required TResult Function(
             String name, DateTime start, DateTime? end, int days)
@@ -452,28 +483,32 @@ class _$_EveryDay implements _EveryDay {
             String? name, DateTime start, DateTime? end, List<String> days)
         specificDays,
   }) {
-    return everyDay(name, start, end);
+    return everyDay(name, start, times, end);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String? name, DateTime start, DateTime? end)? needIt,
-    TResult Function(String? name, DateTime start, DateTime? end)? everyDay,
+    TResult Function(
+            String? name, DateTime start, List<DateTime> times, DateTime? end)?
+        everyDay,
     TResult Function(String name, DateTime start, DateTime? end, int days)?
         everyXDays,
     TResult Function(
             String? name, DateTime start, DateTime? end, List<String> days)?
         specificDays,
   }) {
-    return everyDay?.call(name, start, end);
+    return everyDay?.call(name, start, times, end);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String? name, DateTime start, DateTime? end)? needIt,
-    TResult Function(String? name, DateTime start, DateTime? end)? everyDay,
+    TResult Function(
+            String? name, DateTime start, List<DateTime> times, DateTime? end)?
+        everyDay,
     TResult Function(String name, DateTime start, DateTime? end, int days)?
         everyXDays,
     TResult Function(
@@ -482,7 +517,7 @@ class _$_EveryDay implements _EveryDay {
     required TResult orElse(),
   }) {
     if (everyDay != null) {
-      return everyDay(name, start, end);
+      return everyDay(name, start, times, end);
     }
     return orElse();
   }
@@ -530,17 +565,20 @@ class _$_EveryDay implements _EveryDay {
   }
 }
 
-abstract class _EveryDay implements ConsumptionRule {
+abstract class _EveryDay extends ConsumptionRule {
   const factory _EveryDay(
       {final String? name,
       required final DateTime start,
+      required final List<DateTime> times,
       final DateTime? end}) = _$_EveryDay;
+  const _EveryDay._() : super._();
 
   factory _EveryDay.fromJson(Map<String, dynamic> json) = _$_EveryDay.fromJson;
 
   String? get name => throw _privateConstructorUsedError;
   @override
   DateTime get start => throw _privateConstructorUsedError;
+  List<DateTime> get times => throw _privateConstructorUsedError;
   @override
   DateTime? get end => throw _privateConstructorUsedError;
   @override
@@ -600,14 +638,15 @@ class __$$_EveryXDaysCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_EveryXDays implements _EveryXDays {
+class _$_EveryXDays extends _EveryXDays {
   const _$_EveryXDays(
       {this.name = 'every_x_days',
       required this.start,
       this.end,
       required this.days,
       final String? $type})
-      : $type = $type ?? 'everyXDays';
+      : $type = $type ?? 'everyXDays',
+        super._();
 
   factory _$_EveryXDays.fromJson(Map<String, dynamic> json) =>
       _$$_EveryXDaysFromJson(json);
@@ -660,7 +699,8 @@ class _$_EveryXDays implements _EveryXDays {
   TResult when<TResult extends Object?>({
     required TResult Function(String? name, DateTime start, DateTime? end)
         needIt,
-    required TResult Function(String? name, DateTime start, DateTime? end)
+    required TResult Function(
+            String? name, DateTime start, List<DateTime> times, DateTime? end)
         everyDay,
     required TResult Function(
             String name, DateTime start, DateTime? end, int days)
@@ -676,7 +716,9 @@ class _$_EveryXDays implements _EveryXDays {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String? name, DateTime start, DateTime? end)? needIt,
-    TResult Function(String? name, DateTime start, DateTime? end)? everyDay,
+    TResult Function(
+            String? name, DateTime start, List<DateTime> times, DateTime? end)?
+        everyDay,
     TResult Function(String name, DateTime start, DateTime? end, int days)?
         everyXDays,
     TResult Function(
@@ -690,7 +732,9 @@ class _$_EveryXDays implements _EveryXDays {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String? name, DateTime start, DateTime? end)? needIt,
-    TResult Function(String? name, DateTime start, DateTime? end)? everyDay,
+    TResult Function(
+            String? name, DateTime start, List<DateTime> times, DateTime? end)?
+        everyDay,
     TResult Function(String name, DateTime start, DateTime? end, int days)?
         everyXDays,
     TResult Function(
@@ -747,12 +791,13 @@ class _$_EveryXDays implements _EveryXDays {
   }
 }
 
-abstract class _EveryXDays implements ConsumptionRule {
+abstract class _EveryXDays extends ConsumptionRule {
   const factory _EveryXDays(
       {final String name,
       required final DateTime start,
       final DateTime? end,
       required final int days}) = _$_EveryXDays;
+  const _EveryXDays._() : super._();
 
   factory _EveryXDays.fromJson(Map<String, dynamic> json) =
       _$_EveryXDays.fromJson;
@@ -820,7 +865,7 @@ class __$$_SpecificDaysCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SpecificDays implements _SpecificDays {
+class _$_SpecificDays extends _SpecificDays {
   const _$_SpecificDays(
       {this.name = 'specific_days',
       required this.start,
@@ -828,7 +873,8 @@ class _$_SpecificDays implements _SpecificDays {
       required final List<String> days,
       final String? $type})
       : _days = days,
-        $type = $type ?? 'specificDays';
+        $type = $type ?? 'specificDays',
+        super._();
 
   factory _$_SpecificDays.fromJson(Map<String, dynamic> json) =>
       _$$_SpecificDaysFromJson(json);
@@ -885,7 +931,8 @@ class _$_SpecificDays implements _SpecificDays {
   TResult when<TResult extends Object?>({
     required TResult Function(String? name, DateTime start, DateTime? end)
         needIt,
-    required TResult Function(String? name, DateTime start, DateTime? end)
+    required TResult Function(
+            String? name, DateTime start, List<DateTime> times, DateTime? end)
         everyDay,
     required TResult Function(
             String name, DateTime start, DateTime? end, int days)
@@ -901,7 +948,9 @@ class _$_SpecificDays implements _SpecificDays {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function(String? name, DateTime start, DateTime? end)? needIt,
-    TResult Function(String? name, DateTime start, DateTime? end)? everyDay,
+    TResult Function(
+            String? name, DateTime start, List<DateTime> times, DateTime? end)?
+        everyDay,
     TResult Function(String name, DateTime start, DateTime? end, int days)?
         everyXDays,
     TResult Function(
@@ -915,7 +964,9 @@ class _$_SpecificDays implements _SpecificDays {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String? name, DateTime start, DateTime? end)? needIt,
-    TResult Function(String? name, DateTime start, DateTime? end)? everyDay,
+    TResult Function(
+            String? name, DateTime start, List<DateTime> times, DateTime? end)?
+        everyDay,
     TResult Function(String name, DateTime start, DateTime? end, int days)?
         everyXDays,
     TResult Function(
@@ -972,12 +1023,13 @@ class _$_SpecificDays implements _SpecificDays {
   }
 }
 
-abstract class _SpecificDays implements ConsumptionRule {
+abstract class _SpecificDays extends ConsumptionRule {
   const factory _SpecificDays(
       {final String? name,
       required final DateTime start,
       final DateTime? end,
       required final List<String> days}) = _$_SpecificDays;
+  const _SpecificDays._() : super._();
 
   factory _SpecificDays.fromJson(Map<String, dynamic> json) =
       _$_SpecificDays.fromJson;

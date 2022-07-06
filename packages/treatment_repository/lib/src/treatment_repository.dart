@@ -22,8 +22,8 @@ class TreatmentRepository {
   /// Returns a [Nothing] if the medicine was deleted.
   /// Throws a [TreatmentException] if the medicine could not be deleted.
   Future<Either<TreatmentException, Nothing>> deleteTreatment(
-          String id) async =>
-      await _treatmentApi.deleteTreatment(id);
+          Treatment treatment) async =>
+      await _treatmentApi.deleteTreatment(treatment);
 
   /// Create a medicine.
   ///
@@ -40,7 +40,19 @@ class TreatmentRepository {
   Future<Either<TreatmentException, List<Treatment>>> getTreatments() async =>
       await _treatmentApi.getTreatments();
 
+  /// Add a consumption to a medicine.
+  ///
+  /// Returns a [Nothing] if the consumption was added.
+  /// Throws a [TreatmentException] if the consumption could not be added.
   Future<Either<TreatmentException, Nothing>> addConsumption(
-          String id, DateTime dateTime) async =>
-      await _treatmentApi.addConsumption(id, dateTime);
+          String id, DateTime consumptionDate) async =>
+      await _treatmentApi.addConsumption(id, consumptionDate);
+
+  /// Delete a consumption from a medicine.
+  ///
+  /// Returns a [Nothing] if the consumption was deleted.
+  /// Throws a [TreatmentException] if the consumption could not be deleted.
+  Future<Either<TreatmentException, Nothing>> deleteConsumption(
+          String id, DateTime consumptionDate) async =>
+      await _treatmentApi.deleteConsumption(id, consumptionDate);
 }

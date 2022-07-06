@@ -23,6 +23,9 @@ Map<String, dynamic> _$$_NeedItToJson(_$_NeedIt instance) => <String, dynamic>{
 _$_EveryDay _$$_EveryDayFromJson(Map<String, dynamic> json) => _$_EveryDay(
       name: json['name'] as String? ?? 'every_day',
       start: DateTime.parse(json['start'] as String),
+      times: (json['times'] as List<dynamic>)
+          .map((e) => DateTime.parse(e as String))
+          .toList(),
       end: json['end'] == null ? null : DateTime.parse(json['end'] as String),
       $type: json['runtimeType'] as String?,
     );
@@ -31,6 +34,7 @@ Map<String, dynamic> _$$_EveryDayToJson(_$_EveryDay instance) =>
     <String, dynamic>{
       'name': instance.name,
       'start': instance.start.toIso8601String(),
+      'times': instance.times.map((e) => e.toIso8601String()).toList(),
       'end': instance.end?.toIso8601String(),
       'runtimeType': instance.$type,
     };

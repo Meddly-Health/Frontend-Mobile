@@ -43,15 +43,15 @@ class TreatmentCubit extends Cubit<TreatmentState> {
     );
   }
 
-  void addConsumption(Treatment treatment, DateTime dateTime) async {
+  void addConsumption(String id, DateTime consumptionDate) async {
     emit(const TreatmentState.loading());
 
     var response =
-        await _treatmentRepository.addConsumption(treatment.id, dateTime);
+        await _treatmentRepository.addConsumption(id, consumptionDate);
 
     response.fold(
       (error) => emit(TreatmentState.error(error.message)),
-      (consumption) => emit(const TreatmentState.consumptionAdded()),
+      (_) => emit(const TreatmentState.consumptionAdded()),
     );
   }
 
@@ -77,12 +77,22 @@ class TreatmentCubit extends Cubit<TreatmentState> {
     );
   }
 
-  void deleletConsumption() {}
+  void deleteConsumption(String id, DateTime consumptionDate) async {
+    emit(const TreatmentState.loading());
+
+    var response =
+        await _treatmentRepository.deleteConsumption(id, consumptionDate);
+
+    response.fold(
+      (error) => emit(TreatmentState.error(error.message)),
+      (_) => emit(const TreatmentState.consumptionDeleted()),
+    );
+  }
 
   void deleteTreatment(Treatment treatment) async {
     emit(const TreatmentState.loading());
 
-    var response = await _treatmentRepository.deleteTreatment(treatment.id);
+    var response = await _treatmentRepository.deleteTreatment(treatment);
 
     response.fold(
       (error) => emit(TreatmentState.error(error.message)),

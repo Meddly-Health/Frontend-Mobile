@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:meddly/helpers/assets_provider.dart';
-import 'package:meddly/medicine/api/fastpi_treatment_api.dart';
+import 'package:meddly/treatment/api/fastpi_treatment_api.dart';
 import 'package:treatment_repository/treatment_repository.dart';
 import 'blocs.dart';
 import 'user/api/fastapi_user_api.dart';

@@ -49,13 +49,6 @@ class FastApiTreatmentApi extends TreatmentApi {
   }
 
   @override
-  Future<Either<TreatmentException, Nothing>> deleteTreatment(String id) async {
-    // String token = await _authenticationRepository.getAuthToken();
-
-    throw UnimplementedError();
-  }
-
-  @override
   Future<Either<TreatmentException, List<Treatment>>> getTreatments() async {
     String token = await _authenticationRepository.getAuthToken();
 
@@ -95,14 +88,14 @@ class FastApiTreatmentApi extends TreatmentApi {
 
   @override
   Future<Either<TreatmentException, Nothing>> addConsumption(
-      String id, DateTime dateTime) async {
+      String id, DateTime consumptionDate) async {
     String token = await _authenticationRepository.getAuthToken();
 
     try {
       var response = await _dio.post(
         _path + id + '/consumption',
         // TODO: Será así??
-        data: {'consumption_date': dateTime.toIso8601String()},
+        data: {'consumption_date': consumptionDate},
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -124,8 +117,16 @@ class FastApiTreatmentApi extends TreatmentApi {
   }
 
   @override
-  Future<Either<TreatmentException, Nothing>> deleteConsumption(String id) {
+  Future<Either<TreatmentException, Nothing>> deleteConsumption(
+      String id, DateTime consumptionDate) {
     // TODO: implement deleteConsumption
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<TreatmentException, Nothing>> deleteTreatment(
+      Treatment treatment) {
+    // TODO: implement deleteTreatment
     throw UnimplementedError();
   }
 }

@@ -82,13 +82,15 @@ class TreatmentPage extends StatelessWidget {
                         onPressed: () {
                           context
                               .read<TreatmentCubit>()
-                              .addConsumption(treatment, DateTime.now());
+                              .addConsumption(treatment.id, DateTime.now());
                         },
                         child: const Text('add consumption'),
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          context.read<TreatmentCubit>().deleletConsumption();
+                          context
+                              .read<TreatmentCubit>()
+                              .deleteConsumption(treatment.id, DateTime.now());
                         },
                         child: const Text('delete consumption'),
                       ),

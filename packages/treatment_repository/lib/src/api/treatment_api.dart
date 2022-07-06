@@ -12,12 +12,14 @@ abstract class TreatmentApi {
   Future<Either<TreatmentException, Treatment>> updateTreatment(
       Treatment treatment);
 
-  Future<Either<TreatmentException, Nothing>> deleteTreatment(String id);
+  Future<Either<TreatmentException, Nothing>> deleteTreatment(
+      Treatment treatment);
 
   Future<Either<TreatmentException, Nothing>> addConsumption(
-      String id, DateTime dateTime);
+      String id, DateTime consumptionDate);
 
-  Future<Either<TreatmentException, Nothing>> deleteConsumption(String id);
+  Future<Either<TreatmentException, Nothing>> deleteConsumption(
+      String id, DateTime consumptionDate);
 }
 
 class TreatmentException implements Exception {
